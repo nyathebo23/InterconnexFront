@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <div class="card-signup">
+        <h2 class="form-title">{{'AUTHFORMS.SIGNUP.title' | translate }}</h2>
+        <form [formGroup]="signUpForm">
+            <div class="form-group mb-4">
+                <input type="text" formControlName="username" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.username.invalid && signUpForm.controls.username.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.username' | translate }}" />
+                <app-control-messages [control]="signUpForm.controls.username"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="email" formControlName="email" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.email.invalid && signUpForm.controls.email.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.email' | translate }}" />
+                <app-control-messages [control]="signUpForm.controls.email"></app-control-messages>
+            </div>
+            <div class="row mb-2">
+                <div class="form-group col-sm-6">
+                    <input type="text" formControlName="firstname" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.firstname.invalid && signUpForm.controls.firstname.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.firstname' | translate }}" />
+                    <app-control-messages [control]="signUpForm.controls.firstname"></app-control-messages>
+                </div>
+                <div class="form-group col-sm-6">
+                    <input type="text" formControlName="lastname" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.lastname.invalid && signUpForm.controls.lastname.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.lastname' | translate }}" />
+                    <app-control-messages [control]="signUpForm.controls.lastname"></app-control-messages>
+                </div>
+            </div>
+            <div class="form-group mb-4">
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.password.invalid && signUpForm.controls.password.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.password' | translate }}"
+                />
+                <i [ngClass]="showPassword ? 'fa fa-eye field-icon' : 'fa fa-eye-slash field-icon'" (click)="togglePasswordVisibility()"></i>
+                <app-control-messages [control]="signUpForm.controls.password"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <select formControlName="structure" class="form-control">
+                    <option selected disabled value="">Sélectionnez la structure à laquelle appartient l'utilisateur</option>
+                    <option value="Aerodrome">Aérodrome</option>
+                    <option value="Informateur Local">Informateur local</option>
+                    <option value="Informateur National">Informateur national</option>
+                </select>
+            </div>
+            <div class="form-group mb-4">
+                <select formControlName="function" class="form-control">
+                    <option selected disabled value="">{{'AUTHFORMS.SIGNUP.function' | translate }}</option>
+                    <option value=""></option>
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="form-group mb-4">
+                <select formControlName="quality" class="form-control">
+                    <option selected disabled value="">{{'AUTHFORMS.SIGNUP.quality' | translate }}</option>
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="form-group mb-4">
+                <select formControlName="role" class="form-control">
+                    <option selected disabled value="">{{'AUTHFORMS.SIGNUP.role' | translate }}</option>
+                    <option value="Agent Source">Agent Source</option>
+                    <option value="Verificateur source">Verificateur source</option>
+                    <option value="Structure source">Structure source</option>
+                    <option value="Informateur Local">Informateur Local</option>
+                    <option value="Verificateur Local">Verificateur Local</option>
+                    <option value="Informateur National">Informateur National</option>
+                </select>
+            </div>
+
+            <button [disabled]="signUpForm.invalid" class="custom-btn m-auto" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                {{'AUTHFORMS.SIGNUP.submitBtn' | translate }}                    
+            </button>
+        </form>
+    </div>
+
+</div>

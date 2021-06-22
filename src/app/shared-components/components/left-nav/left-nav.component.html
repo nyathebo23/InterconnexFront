@@ -1,0 +1,18 @@
+<div class="container-left-box">
+    <div class="profile-box d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mb-2">
+        <div class="overflow oneline text-center mb-1">Agent Source</div>
+        <div class="overflow oneline text-center mb-1">Mr ABBA Jules indonero</div>
+    </div>
+    <div class="box-blue-left d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
+        <a *ngFor="let navLink of navLinks;" (click)="changeNavLink(navLink)">
+            <div class="d-flex align-items-center nav-item" [ngClass]="{'active' :activeNavLink.name == navLink.name}">
+                <div class="mr-3"><i [class]="navLink.iconClass"></i></div>
+                <div class="overflow">{{navLink.name}}</div>
+            </div>
+            <!-- <i class="fa fa-list" aria-hidden="true"></i>
+            <i class="fa fa-bar-chart"></i>
+            <i class="fa fa-wpforms"></i>
+            <i class="fas fa-inbox"></i> -->
+        </a>
+    </div>
+</div>

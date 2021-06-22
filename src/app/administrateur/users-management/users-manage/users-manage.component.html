@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <div class="whitebg">
+        <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
+            <div>
+                <div class="d-flex flex-row">
+                    <button class="large-btn" routerLink="/admin/manageusers/userscreate" routerLinkActive="active">{{'ADMINISTRATEUR.usermanage.create' | translate }}</button>
+                    <button class="large-btn" routerLink="/admin/manageusers/userslist" routerLinkActive="active">{{'ADMINISTRATEUR.usermanage.list' | translate }}</button>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
+                <div style="padding: 20px;">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

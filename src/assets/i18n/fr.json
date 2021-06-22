@@ -1,0 +1,185 @@
+{
+    "AUTHFORMS": {
+        "errors": {
+            "noemptyfield": "Ce champ ne doit pas être vide",
+            "invalidmail": "Adresse mail invalide",
+            "passwordconstruct": "Le mot de passe doit contenir au moins 8 caractères et au plus 100, doit contenir au moins un chiffre et au moins un caractère spécial",
+            "mustmatchpassword": "La valeur de ce champ doit être la même que celle du champ ci-dessus"
+        },
+        "welcome": "Bienvenue dans l'application Interconnex !",
+        "LOGIN": {
+            "title": "CONNEXION",
+            "emailorusername": "Adresse mail ou Nom d'utilisateur",
+            "password": "Mot de passe",
+            "passwordForgottenLink": "Mot de passe oublié ?",
+            "submitBtn": "Connexion"
+        },
+        "PASSWORDRESET1": {
+            "title": "REINITIALISATION DE MOT DE PASSE",
+            "textHelper": "Vous avez oublié votre mot de passe? Entrez votre adresse mail et nous vous enverrons un code que vous renseignerez pour en choisir un nouveau.",
+            "email": "Adresse mail",
+            "submitBtn": "Finaliser réinitialisation"
+        },
+        "PASSWORDRESET2": {
+            "title": "REINITIALISATION DE MOT DE PASSE",
+            "newpassword": "Nouveau mot de passe",
+            "code": "Code",
+            "submitBtn": "Soumettre"
+        },
+        "PASSWORDCHANGE": {
+            "title": "CHANGEMENT DE MOT DE PASSE",
+            "oldpassword": "Ancien mot de passe",
+            "newpassword": "Nouveau mot de passe",
+            "confirmnewpassword": "Confirmation du Nouveau mot de passe",
+            "submitBtn": "Soumettre"
+        },
+        "SIGNUP": {
+            "title": "ENREGISTREMENT D' UTILISATEURS",
+            "username": "Nom d'utilisateur",
+            "email": "Adresse mail",
+            "firstname": "Prénom",
+            "lastname": "Nom",
+            "password": "Mot de passe",
+            "function": "Fonction",
+            "quality": "Qualité",
+            "role": "Rôle",
+            "submitBtn": "Enregistrer",
+            "editBtn": "Modifier",
+            "deleteBtn": "Supprimer"
+        }
+    },
+    "DDIAFORMS": {
+        "buttons": {
+            "reinit": "Réinitialiser",
+            "save": "Enregistrer",
+            "plusonefile": "Ajouter autre fichier"
+        },
+        "sourceunit": {
+            "title": "Informations sur l' unité source de l'information aéronautique",
+            "locationInd": "Indicateur d'emplacement de l'aérodrome",
+            "name": "Nom",
+            "adress": "Adresse",
+            "fax": "Fax",
+            "phone": "Telephone",
+            "email": "Adresse mail",
+            "rsfta": "RSFTA",
+            "initiatorInfos": "Nom, qualité et fonction du dépositaire",
+            "addfile": "Veuillez choisir un fichier",
+            "removeFile": "Retirer"
+        },
+        "aic": {
+            "title": "FORMULAIRE DE DEMANDE DE DIFFUSION D' AIC",
+            "subject": {
+                "label": "Sujet auquel se rapporte l'AIC",
+                "admin": "Administratif",
+                "atc": "ATC",
+                "security": "Sécurité",
+                "zone": "Zone à statut particulier",
+                "maps": "Cartes"
+            },
+
+            "object": "Objet",
+            "text": "Texte de l'AIC",
+            "files": "Fichiers joints"
+        },
+        "suppaip": {
+            "title": "FORMULAIRE DE DEMANDE DE DIFFUSION DE SUPP AIP",
+            "type": "Type de SUPP AIP",
+            "notamRcode": "Code du NOTAM remplacé",
+            "object": "Objet",
+            "targetSection": "Section visée",
+            "valPeriod": "Période de validité",
+            "periodType": "Type de période",
+            "plannedPeriod": "Prévue",
+            "estimatedPeriod": "Estimée",
+            "text": "Texte du SUPP AIP",
+            "files": "Fichiers joints"
+        },
+        "notam": {
+            "title": "FORMULAIRE DE DEMANDE DE DIFFUSION DE NOTAM",
+            "notamTargetCode": "Code du NOTAM ciblé",
+            "valPeriod": "Période de validité",
+            "periodType": "Type de période",
+            "plannedPeriod": "Prévue",
+            "estimatedPeriod": "Estimée",
+            "notamType": "Type NOTAM",
+            "text": "Texte du NOTAM",
+            "coords": "Coordonnées géographiques de la zone concernée",
+            "rangeAction": "Rayon d'action de la zone concernée",
+            "dailyFreq": "Fréquence journalière",
+            "vertLimits": "Limites verticales en altitude ou FL",
+            "lowerLim": "Limite inférieure",
+            "upperLim": "Limite supérieure",
+            "files": "Fichiers joints"
+        }
+    },
+    "DDIAstates": {
+        "brouillon": "brouillon",
+        "attenteVerif": "en attente de vérification",
+        "attenteAdmission": "en attente d'admission",
+        "attenteValidation": "en attente de validation",
+        "attenteApprobation": "en attente d'approbation"
+    },
+    "DDIAerroneousstates": {
+        "nonconforme": "non conforme",
+        "nonadmis": "non admis",
+        "nonvalide": "non validé",
+        "nonapprouve": "non approuvé"
+    },
+    "navbar": {
+        "logout": "Déconnexion"
+    },
+    "AGENTSOURCE": {
+        "initDDIA": {
+            "forms": "Formulaire",
+            "dupliqDDIA": "Dupliquer DDIA"
+        },
+        "ddiaListUnitLabel": "Liste des DDIA initiées par l'unité"
+
+    },
+    "ADMINISTRATEUR": {
+        "usermanage": {
+            "create": "Création",
+            "list": "Liste d'utilisateurs"
+        }
+    },
+    "ddialist": {
+        "filterstitle": "Filters",
+        "state": "Etat",
+        "type": "Type",
+        "date": "Date",
+        "reference": "Reférence",
+        "ddiaitem": {
+            "init": "Initié par unité {{unitname}} (Aéroport de {{airportname}})",
+            "rejectby": "Auteur du rejet",
+            "date": "le {{date}} à {{time}}",
+            "sendon": "Envoyé",
+            "approved": "Approuvé",
+            "admitted": "Admis",
+            "validated": "Validé"
+        }
+    },
+    "STRUCTURESSOURCES": {
+        "saving": "ENREGISTREMENTS",
+        "list": "LISTES",
+        "title": "ENREGISTREMENT D' AERODROMES",
+        "name": "Nom",
+        "code": "Code",
+        "locationInd": "Indicateur d'emplacement",
+        "inflocal": "Informateur Local",
+        "submitBtn": "Enregistrer",
+        "addunitBtn": "Ajouter Unité source"
+
+    },
+    "SOURCEUNIT": {
+        "title": "ENREGISTREMENT D' UNITES D'AERODROMES",
+        "name": "Nom",
+        "phone": "Telephone",
+        "fax": "Fax",
+        "email": "Adresse mail",
+        "adress": "Adresse",
+        "rsfta": "RSFTA",
+        "structuresource": "Aérodrome ou autre structure source",
+        "submitBtn": "Enregistrer"
+    }
+}

@@ -1,0 +1,45 @@
+<div class="d-flex flex-column">
+    <div class="mt-2 mb-4 text-center">Sélectionnez la DDIA que vous souhaitez dupliquer</div>
+    <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+            <div class="filters-box container">
+                <h2>Filtres</h2>
+                <div class="form-group mt-4 mb-4">
+                    <label class="custom-label" for="state">Etat</label>
+                    <select class="form-control" id="state">
+                        <option value="En attente de validation">En attente de validation</option>
+                        <option value="En attente d'approbation">En attente d'approbation</option>
+                        <option value="En attente d'admission">En attente d'admission</option>
+                        <option value="En attente de vérification">En attente de vérification</option>
+                        <option value="Erroné">Erroné</option>
+                    </select>
+                </div>
+                <div class="form-group mb-4">
+                    <label class="custom-label" for="type">Type</label>
+                    <select class="form-control" id="type">
+                        <option value="notam">NOTAM</option>
+                        <option value="suppaip">SUPP AIP</option>
+                        <option value="aic">AIC</option>
+                    </select>
+                </div>
+                <div class="form-group mb-4">
+                    <label class="custom-label" for="date">Date</label>
+                    <input type="text" placeholder="Datepicker" class="form-control" id="date" bsDatepicker>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
+            <div class="d-flex flex-column vertical-overflow mt-4">
+                <app-aic-item></app-aic-item>
+                <app-notam-item></app-notam-item>
+                <app-suppaip-item></app-suppaip-item>
+                <app-aic-item></app-aic-item>
+                <app-notam-item></app-notam-item>
+                <app-suppaip-item></app-suppaip-item>
+                <app-aic-item></app-aic-item>
+                <app-notam-item></app-notam-item>
+                <app-suppaip-item></app-suppaip-item>
+            </div>
+        </div>
+    </div>
+</div>

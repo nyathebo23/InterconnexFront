@@ -1,0 +1,203 @@
+.card-form {
+    width: 450px;
+    min-height: 400px;
+    padding: 10px 30px 40px;
+    box-shadow: 10px 10px 10px #15073498;
+    margin: auto;
+    background-color: white;
+    border-radius: 20px;
+    border: 0.5px #0099CC solid;
+}
+
+@media(max-width: 420px) {
+    .card-form {
+        width: 300px;
+        padding: 10px;
+        box-shadow: 5px 5px 5px #15073498;
+    }
+}
+
+.card-signup {
+    width: 600px;
+    min-height: 400px;
+    padding: 10px 30px 40px;
+    box-shadow: 10px 10px 10px #15073498;
+    margin: auto;
+    background-color: white;
+    border-radius: 20px;
+    border: 0.5px #0099CC solid;
+    margin: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media(max-width: 1000px) {
+    .card-signup {
+        width: 80%;
+        box-shadow: 3px 3px 3px #15073498;
+        padding: 10px 20px 20px;
+    }
+}
+
+.error-label {
+    padding-left: 10px;
+    color: rgb(231, 58, 58);
+    font-size: 12px;
+    font-family: 'Comic sans MS';
+}
+
+.red-border {
+    border: 1px rgb(231, 58, 58) solid;
+    box-shadow: 2px 2px 2px #ef5350;
+}
+
+.background-form {
+    background-image: url('/assets/images/form/avion.png'), radial-gradient(#150734, #4B9FE1, #0F2557, #0099CC, #F3F1F6, #7ED5EA, #F3F1F6, #F3F1F6);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h2.form-title {
+    font-size: 30px;
+    text-align: center;
+    color: #150734;
+    margin-bottom: 50px;
+    font-weight: bold;
+}
+
+h1.ddia-title {
+    font-size: 26px;
+    text-align: center;
+    color: #150734;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.cust-input {
+    border-radius: 5px;
+    box-shadow: 2px 1px 2px 1px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+}
+
+.btn-blue {
+    background-color: #150734;
+    color: white;
+    border-radius: 40px;
+    // text-transform: uppercase;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.btn-blue:hover {
+    color: white;
+    background-color: #0d0520;
+}
+
+.btn-blue:focus {
+    background-color: #0d0520;
+}
+
+.red-border {
+    border: 1px rgb(231, 58, 58) solid;
+    box-shadow: 2px 2px 2px #ef5350;
+}
+
+.welcome-label {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 40px;
+    background-color: #F3F1F6;
+}
+
+.field-icon {
+    float: right;
+    margin-right: 5px;
+    margin-top: -29px;
+    position: relative;
+    z-index: 2;
+}
+
+.ddia-form {
+    width: 600px;
+    min-width: 150px;
+    min-height: 400px;
+    padding: 20px 30px;
+    box-shadow: 10px 10px 10px #15073498;
+    margin: auto;
+    background-color: white;
+    border-radius: 20px;
+    // border: 0.5px #0099CC solid;
+    border: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    height: inherit;
+    margin-bottom: 20px;
+}
+
+.custom-label {
+    font-size: 14px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-left: 2px;
+}
+
+.circular {
+    border: none;
+    color: white;
+    border-radius: 50%;
+    background-color: #150734;
+}
+
+.file-input {
+    display: none;
+}
+
+.add-button {
+    background-color: #4B9FE1;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    min-height: 40px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.uploader-file-btn {
+    background-color: white;
+    color: #150734;
+    border-radius: 20px;
+    border: solid;
+    border-color: #150734;
+    height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-shadow: 2px 2px 2px 1px #1507343f;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.remove-button {
+    background-color: #150734;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    height: 35px;
+    float: right;
+}
+
+.uploader-file-btn :hover,
+.uploader-file-btn :focus {
+    outline: none;
+}
+
+.custom-btn {
+    border-radius: 30px;
+    font-weight: bold;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

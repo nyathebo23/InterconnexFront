@@ -1,0 +1,112 @@
+<div class="d-flex flex-wrap justify-content-between">
+    <div class="card-form mb-5">
+        <h2 class="titleform">{{'STRUCTURESSOURCES.title' | translate }}</h2>
+        <form [formGroup]="structsourceForm">
+            <div class="form-group mb-4">
+                <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : structsourceForm.controls.name.invalid && structsourceForm.controls.name.dirty}" placeholder="{{'STRUCTURESSOURCES.name' | translate }}" />
+                <app-control-messages [control]="structsourceForm.controls.name"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="code" class="form-control" [ngClass]="{'red-border' : structsourceForm.controls.code.invalid && structsourceForm.controls.code.dirty}" placeholder="{{'STRUCTURESSOURCES.code' | translate }}" />
+                <app-control-messages [control]="structsourceForm.controls.code"></app-control-messages>
+            </div>
+
+            <div class="form-group mb-4">
+                <input type="text" formControlName="locationInd" class="form-control" [ngClass]="{'red-border' : structsourceForm.controls.locationInd.invalid && structsourceForm.controls.locationInd.dirty}" placeholder="{{'STRUCTURESSOURCES.locationInd' | translate }}"
+                />
+                <app-control-messages [control]="structsourceForm.controls.locationInd"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <select formControlName="inflocal" class="form-control">
+                    <option selected disabled value="">Sélectionnez l' informateur local lié à l'aérodrome</option>
+                </select>
+            </div>
+            <div formArrayName="units">
+                <div *ngFor="let formUnit of unitsForms.controls;">
+                    <hr class="mt-5 mb-3">
+                    <div [formGroup]="formUnit">
+                        <div class="form-group mb-4">
+                            <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : formUnit.controls.name.invalid && formUnit.controls.name.dirty}" placeholder="{{'SOURCEUNIT.name' | translate }}" />
+                            <app-control-messages [control]="formUnit.controls.name"></app-control-messages>
+                        </div>
+                        <div class="form-group mb-4">
+                            <input type="text" formControlName="telephone" class="form-control" [ngClass]="{'red-border' : formUnit.controls.telephone.invalid && formUnit.controls.telephone.dirty}" placeholder="{{'SOURCEUNIT.phone' | translate }}" />
+                            <app-control-messages [control]="formUnit.controls.telephone"></app-control-messages>
+                        </div>
+                        <div class="form-group mb-4">
+                            <input type="email" formControlName="email" class="form-control" [ngClass]="{'red-border' : formUnit.controls.email.invalid && formUnit.controls.email.dirty}" placeholder="{{'SOURCEUNIT.email' | translate }}" />
+                            <app-control-messages [control]="formUnit.controls.email"></app-control-messages>
+                        </div>
+                        <div class="form-group mb-4">
+                            <input type="text" formControlName="fax" class="form-control" [ngClass]="{'red-border' : formUnit.controls.fax.invalid && formUnit.controls.fax.dirty}" placeholder="{{'SOURCEUNIT.fax' | translate }}" />
+                            <app-control-messages [control]="formUnit.controls.fax"></app-control-messages>
+                        </div>
+                        <div class="form-group mb-4">
+                            <input type="text" formControlName="address" class="form-control" [ngClass]="{'red-border' : formUnit.controls.address.invalid && formUnit.controls.address.dirty}" placeholder="{{'SOURCEUNIT.adress' | translate }}" />
+                            <app-control-messages [control]="formUnit.controls.address"></app-control-messages>
+                        </div>
+                        <div class="form-group mb-4">
+                            <input type="text" formControlName="rsfta" class="form-control" [ngClass]="{'red-border' : formUnit.controls.rsfta.invalid && formUnit.controls.rsfta.dirty}" placeholder="{{'SOURCEUNIT.rsfta' | translate }}" />
+                            <app-control-messages [control]="formUnit.controls.address"></app-control-messages>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between">
+                <button *ngIf="unitsForms.controls.length > 0" (click)="removeUnitForm()" outline="true" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                    <i class="fas fa-minus"></i>                   
+                </button>
+                <button (click)="addUnitForm()" outline="true" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                    <i class="fas fa-plus"></i>&nbsp; {{'STRUCTURESSOURCES.addunitBtn' | translate }}                    
+                </button>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button [disabled]="structsourceForm.invalid" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                    <span *ngIf="loadingss" class="spinner-border spinner-border-sm mr-1"></span>
+                    {{'STRUCTURESSOURCES.submitBtn' | translate }}                    
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="card-form">
+        <h2 class="titleform">{{'SOURCEUNIT.title' | translate }}</h2>
+        <form [formGroup]="sourceUnitForm">
+            <div class="form-group mb-4">
+                <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.name.invalid && sourceUnitForm.controls.name.dirty}" placeholder="{{'SOURCEUNIT.name' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.name"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="telephone" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.telephone.invalid && sourceUnitForm.controls.telephone.dirty}" placeholder="{{'SOURCEUNIT.phone' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.telephone"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="email" formControlName="email" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.email.invalid && sourceUnitForm.controls.email.dirty}" placeholder="{{'SOURCEUNIT.email' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.email"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="fax" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.fax.invalid && sourceUnitForm.controls.fax.dirty}" placeholder="{{'SOURCEUNIT.fax' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.fax"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="address" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.address.invalid && sourceUnitForm.controls.address.dirty}" placeholder="{{'SOURCEUNIT.adress' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="rsfta" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.rsfta.invalid && sourceUnitForm.controls.rsfta.dirty}" placeholder="{{'SOURCEUNIT.rsfta' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <select formControlName="structsource" class="form-control">
+                    <option selected disabled value="">Sélectionnez l' aéroport  auquel appartient l'unité</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button [disabled]="sourceUnitForm.invalid" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                        <span *ngIf="loadingsu" class="spinner-border spinner-border-sm mr-1"></span>
+                        {{'SOURCEUNIT.submitBtn' | translate }}                    
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

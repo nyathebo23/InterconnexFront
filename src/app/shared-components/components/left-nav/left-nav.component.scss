@@ -1,0 +1,37 @@
+.box-blue-left {
+    background-color: #150734;
+    color: #F3F1F6;
+    // max-width: 400px;
+    bottom: 0;
+}
+
+.profile-box {
+    background-color: #150734;
+    color: #F3F1F6;
+    padding: 20px;
+}
+
+.nav-item {
+    border: 1px solid #F3F1F6;
+    height: 100px;
+    padding-left: 40px;
+    padding-right: 20px;
+}
+
+.nav-item.active {
+    background-color: #4B9FE1;
+}
+
+.overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.container-left-box {
+    min-width: 200px;
+    // position: fixed;
+}
+
+.oneline {
+    white-space: nowrap;
+}

@@ -1,0 +1,104 @@
+.blue {
+    color: #4B9FE1;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+// 
+.roundedbtn {
+    border-radius: 30px;
+    font-weight: bold;
+    min-width: 140px;
+    height: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mybadge {
+    font-size: 12px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(247, 10, 10);
+    position: absolute;
+    top: -1px;
+    right: 1px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.profile-box {
+    background-color: #150734;
+    color: #F3F1F6;
+    padding: 20px;
+    border-bottom: 5px solid #F3F1F6;
+}
+
+.left-nav-item {
+    border-bottom: 0.5px solid #F3F1F6;
+    height: 80px;
+    padding-left: 40px;
+    padding-right: 20px;
+    color: #F3F1F6;
+}
+
+.left-nav-item.active {
+    background-color: #4B9FE1;
+}
+
+.overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.container-left-box {
+    top: 70px;
+    font-family: 'Century Gothic';
+    min-width: 200px;
+    height: 100%;
+    background-color: #150734;
+    font-size: 14px;
+}
+
+@media (min-width: 1000px) {
+    .container-left-box {
+        width: 290px;
+        position: fixed;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container-left-box {
+        width: 360px;
+        position: fixed;
+    }
+}
+
+.oneline {
+    white-space: nowrap;
+}
+
+.margin-x {
+    margin-left: 18px;
+    margin-right: 18px;
+}
+
+.role-agent {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.name-agent {
+    font-size: 16px;
+    font-weight: bold;
+    font-style: italic;
+}

@@ -1,0 +1,49 @@
+<header>
+    <nav class="navbar navbar-light bg-white fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <div class="d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row align-items-center">
+                    <img src="/assets/images/ccaa.png" height="30" alt="CCAA">
+                    <h2 class="blue">CCAA</h2>
+                </div>
+            </a>
+            <ul class="navbar-nav d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row align-items-center">
+                <!-- Notification dropdown -->
+                <li class="nav-item mr-5">
+                    <a class="nav-link" aria-expanded="false" style="position: relative;">
+                        <img src="/assets/images/notif.png" height="30" alt="CCAA">
+                        <span class="mybadge">2</span>
+                    </a>
+                </li>
+                <li class="ml-3 mr-2">
+                    <button mdbBtn class="roundedbtn" type="button" color="deep-purple" mdbWavesEffect>{{'navbar.logout' | translate }}</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="container-fluid" style="margin-top: 65px;">
+    <div class="row">
+        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-4 col-12">
+            <div class="container-left-box">
+                <div class="profile-box d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
+                    <div class="m-auto">
+                        <img src="/assets/images/user.png" style="border-radius: 50%;" height="100" alt="profile">
+                    </div>
+                    <div class="overflow oneline text-center role-agent mb-1">Agent Source</div>
+                    <div class="overflow oneline text-center name-agent mb-1">Mr ABBA Jules indonero</div>
+                </div>
+                <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
+                    <a *ngFor="let navLink of navLinks;" class="d-flex align-items-center left-nav-item" [routerLink]="[navLink.url]" routerLinkActive="active">
+                        <div class="mr-3"><i [class]="navLink.iconClass"></i></div>
+                        <div class="overflow">{{navLink.name}}</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-md-9 col-lg-9 col-sm-8 col-12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <table mdbTable>
+        <thead class="black white-text">
+            <tr>
+                <th *ngFor="let head of headUsersElements" scope="col">{{head}} </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr mdbTableCol *ngFor="let user of users">
+                <th scope="row">{{user.username}}</th>
+                <td>{{user.email}}</td>
+                <td>{{user.firstname}}</td>
+                <td>{{user.lastname}}</td>
+                <td>{{user.role}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

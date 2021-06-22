@@ -1,0 +1,16 @@
+<div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
+    <div class="d-flex flex-wrap justify-content-around mt-2">
+        <button (click)="setActiveDDIA('notam')" [ngClass]="{'active': activeDDIA == 'notam'}" class="rounded-pretty-btn">NOTAM</button>
+        <button (click)="setActiveDDIA('suppaip')" [ngClass]="{'active': activeDDIA == 'suppaip'}" class="rounded-pretty-btn">SUPP AIP</button>
+        <button (click)="setActiveDDIA('aic')" [ngClass]="{'active': activeDDIA == 'aic'}" class="rounded-pretty-btn">AIC</button>
+    </div>
+    <div *ngIf="activeDDIA == 'notam'">
+        <app-notam></app-notam>
+    </div>
+    <div *ngIf="activeDDIA == 'aic'">
+        <app-aic></app-aic>
+    </div>
+    <div *ngIf="activeDDIA == 'suppaip'">
+        <app-supp-aip></app-supp-aip>
+    </div>
+</div>

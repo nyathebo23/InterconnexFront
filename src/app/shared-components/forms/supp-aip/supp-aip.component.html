@@ -1,0 +1,102 @@
+<div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="suppaipForm">
+    <div>
+        <h1 class="ddia-title"> {{'DDIAFORMS.suppaip.title' | translate}} </h1>
+        <mdb-carousel [isControls]="true" [interval]="'0'" [animation]="'slide'">
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <input type="text" placeholder="Datepicker" class="form-control" [bsConfig]="bsConfig" bsDatepicker formControlName="depositDate">
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <timepicker [showMeridian]="false" formControlName="depositTime" [showSpinners]="false" [disabled]="true"></timepicker>
+                            </div>
+                        </div>
+                        <app-source-unit-form></app-source-unit-form>
+                        <div>
+                            <div class="form-group">
+                                <label for="typeSUPPAIP" class="custom-label">{{'DDIAFORMS.suppaip.type' | translate}}:</label>
+                                <div class="d-flex flex-wrap justify-content-between">
+                                    <div class="custom-control custom-radio">
+                                        <input id="suppaipN" type="radio" class="custom-control-input" value="SUPPAIP N" formControlName="typeSUPPAIP">
+                                        <label for="suppaipN" class="custom-control-label">SUPPAIP N</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="suppaipR" type="radio" class="custom-control-input" value="SUPPAIP R" formControlName="typeSUPPAIP">
+                                        <label for="suppaipR" class="custom-control-label">SUPPAIP R</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-1">
+                                <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.suppaip.notamRcode' | translate }}</label>
+                                <select disabled class="form-control" id="targetNOTAM">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-1">
+                                <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }}</label>
+                                <input type="text" id="object" formControlName="object" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="targetSection" class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }}</label>
+                                <input type="text" id="targetSection" class="form-control" formControlName="targetSection">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label class="custom-label">{{'DDIAFORMS.suppaip.valPeriod' | translate }}</label>
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker formControlName="startValidityPeriod">
+                                <span>à</span>
+                                <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker formControlName="endValidityPeriod">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
+                            <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
+                        </div>
+
+                        <div formArrayName="filesForm" class="form-group">
+                            <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }}</label>
+                            <div *ngFor="let fileForm of files.controls;let index=index;">
+                                <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start mb-4">
+                                    <div>
+                                        <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
+                                        <button class="uploader-file-btn">                        
+                                            <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <input type="text" formControlName="filename" [disabled]="true" class="form-control" style="height: 35px;">
+                                    </div>
+                                    <div>
+                                        <button class="remove-button" (click)="removeFileForm()">
+                                            <i class="fas fa-minus"></i>&nbsp; 
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-5">
+                            <button class="add-button mt-3" (click)="addFileForm()">
+                                <i class="fas fa-plus"></i>&nbsp; {{'DDIAFORMS.buttons.plusonefile' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+        </mdb-carousel>
+    </div>
+    <div class="d-flex flex-wrap justify-content-around mt-4">
+        <button mdbBtn type="button" color="primary" outline="true" mdbWavesEffect>{{'DDIAFORMS.buttons.reinit' | translate }}</button>
+        <button type="button" mdbBtn color="primary" mdbWavesEffect>{{'DDIAFORMS.buttons.save' | translate }}</button>
+    </div>
+</div>

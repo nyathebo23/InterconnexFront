@@ -1,0 +1,24 @@
+<div class="ddia-item-round">
+    <div class="d-flex flex-column p-l-20">
+        <div class="idents-label mb-3">
+            {{type}} [{{state | translate }}]
+        </div>
+        <div class="text-one-line mb-2">
+            {{ 'ddialist.reference' | translate }}: {{id}}
+        </div>
+        <div class="text-one-line mb-2" translate [translateParams]="{unitname: unitname, airportname: airportname }">
+            ddialist.ddiaitem.init
+        </div>
+        <div class="text-one-line mb-2">
+            {{'DDIAFORMS.suppaip.object' | translate }}: {{object}}
+        </div>
+        <div class="text-one-line mb-2">
+            {{'DDIAFORMS.suppaip.text' | translate }}: {{text}}
+        </div>
+        <div class="d-flex justify-content-end">
+            <div class="date">
+                Admis le 28/5/2019 à 20:12
+            </div>
+        </div>
+    </div>
+</div>

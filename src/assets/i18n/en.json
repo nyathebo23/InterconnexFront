@@ -1,0 +1,185 @@
+{
+    "AUTHFORMS": {
+        "errors": {
+            "noemptyfield": "This field must not be empty",
+            "invalidmail": "Invalid adress mail",
+            "passwordconstruct": "The password must contain at least 8 characters and at most 100, must contain at least one number and at least one special character",
+            "mustmatchpassword": "The value of this field must be the same as the one above"
+        },
+        "welcome": "Welcome to INTERCONNEX APP !",
+        "LOGIN": {
+            "title": "LOGIN",
+            "emailorusername": "Email or Username",
+            "password": "Password",
+            "passwordForgottenLink": "Password forgotten ?",
+            "submitBtn": "Login"
+        },
+        "PASSWORDRESET1": {
+            "title": "PASSWORD RESET",
+            "textHelper": "Forgot your password? Enter your email address and we'll send you a code that you can use to choose a new one.",
+            "email": "Email",
+            "submitBtn": "Go to finalize reset"
+        },
+        "PASSWORDRESET2": {
+            "title": "PASSWORD RESET",
+            "newpassword": "New password",
+            "confirmnewpassword": "Confirm new password",
+            "code": "Code",
+            "submitBtn": "Submit"
+        },
+        "PASSWORDCHANGE": {
+            "title": "PASSWORD CHANGE",
+            "oldpassword": "Old password",
+            "newpassword": "New password",
+            "confirmnewpassword": "Confirm new password",
+            "submitBtn": "Submit"
+        },
+        "SIGNUP": {
+            "title": "USER REGISTRATION",
+            "username": "Username",
+            "email": "Email",
+            "firstname": "Firstname",
+            "lastname": "Lastname",
+            "password": "Password",
+            "function": "Function",
+            "quality": "Quality",
+            "role": "Role",
+            "submitBtn": "Save",
+            "editBtn": "Edit",
+            "deleteBtn": "Delete"
+        }
+    },
+    "DDIAFORMS": {
+        "buttons": {
+            "reinit": "Reset form",
+            "save": "Save",
+            "plusonefile": "Add another file"
+        },
+        "sourceunit": {
+            "title": "Informations about aeronotical information source unit",
+            "locationInd": "Aerodrome location indicator",
+            "name": "Name",
+            "adress": "Address",
+            "fax": "Fax",
+            "phone": "Telephone",
+            "email": "Email",
+            "rsfta": "RSFTA",
+            "initiatorInfos": "Name, title and function of the depositary",
+            "addfile": "Please choose a file",
+            "removeFile": "Remove"
+        },
+        "aic": {
+            "title": "AIC REQUEST DISSEMINATION FORM",
+            "subject": {
+                "label": "Topic to which the AIC relates",
+                "admin": "Administrative",
+                "atc": "ATC",
+                "security": "Security",
+                "zone": "Special status area",
+                "maps": "Map"
+            },
+            "object": "Object",
+            "text": "AIC text",
+            "files": "Attached files"
+        },
+        "suppaip": {
+            "title": "SUPP AIP REQUEST DISSEMINATION FORM",
+            "type": "SUPP AIP Type",
+            "notamRcode": "Replaced NOTAM code",
+            "object": "Object",
+            "targetSection": "Target Section",
+            "valPeriod": "Validity period",
+            "periodType": "Period type",
+            "plannedPeriod": "Planned",
+            "estimatedPeriod": "Estimated",
+            "text": "SUPP AIP Text",
+            "files": "Attached files"
+        },
+        "notam": {
+            "title": "NOTAM REQUEST DISSEMINATION FORM",
+            "notamTargetCode": "Targeted NOTAM code",
+            "valPeriod": "Validity period",
+            "periodType": "Period type",
+            "plannedPeriod": "Planned",
+            "estimatedPeriod": "Estimated",
+            "notamType": "NOTAM type",
+            "text": "NOTAM text",
+            "coords": "Geographical coordinates of the area concerned",
+            "rangeAction": "Radius of action of the area concerned",
+            "dailyFreq": "Daily frequency",
+            "vertLimits": "Vertical limits in altitude",
+            "lowerLim": "Lower limit",
+            "upperLim": "Upper limit",
+            "files": "Attached files"
+        }
+    },
+    "DDIAstates": {
+        "brouillon": "draft",
+        "attenteVerif": "pending verification",
+        "attenteAdmission": "pending admission",
+        "attenteValidation": "pending validation",
+        "attenteApprobation": "pending approval"
+    },
+    "DDIAerroneousstates": {
+        "nonconforme": "not compliant",
+        "nonadmis": "not admitted",
+        "nonvalide": "not validated",
+        "nonapprouve": "not approved"
+    },
+
+    "navbar": {
+        "logout": "Logout"
+    },
+    "AGENTSOURCE": {
+        "initDDIA": {
+            "forms": "Forms",
+            "dupliqDDIA": "Duplicate DDIA"
+        },
+        "ddiaListUnitLabel": "DDIA list initiated by unit"
+    },
+    "ADMINISTRATEUR": {
+        "usermanage": {
+            "create": "Create",
+            "list": "User list"
+        }
+    },
+    "ddialist": {
+        "filterstitle": "Filters",
+        "state": "State",
+        "type": "Type",
+        "reference": "Reference",
+        "date": "Date",
+        "ddiaitem": {
+            "init": "Initiated by {{unitname}} unit ({{airportname}} airport)",
+            "rejectby": "Rejector",
+            "date": "on {{date}} at {{time}}",
+            "sendon": "Send",
+            "approved": "Approved",
+            "admitted": "Admitted",
+            "validated": "Validated"
+        }
+    },
+
+    "STRUCTURESSOURCES": {
+        "saving": "SAVE",
+        "list": "LISTS",
+        "title": "AERODROME REGISTRATION",
+        "locationInd": "Location Indicator",
+        "name": "Name",
+        "code": "Code",
+        "inflocal": "Informateur Local",
+        "submitBtn": "Save",
+        "addunitBtn": "Add Source unit"
+    },
+    "SOURCEUNIT": {
+        "title": "AERODROME UNITS REGISTRATION",
+        "name": "Name",
+        "phone": "Phone number",
+        "fax": "Fax",
+        "email": "Email",
+        "adress": "Address",
+        "rsfta": "RSFTA",
+        "structuresource": "Aerodrome or other source structure",
+        "submitBtn": "Save"
+    }
+}

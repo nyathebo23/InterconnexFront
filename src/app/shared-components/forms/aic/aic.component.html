@@ -1,0 +1,78 @@
+<div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="aicForm">
+    <div>
+        <h1 class="ddia-title"> {{'DDIAFORMS.aic.title' | translate}} </h1>
+        <mdb-carousel [isControls]="true" [interval]="'0'" [animation]="'slide'">
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker [bsConfig]="bsConfig" formControlName="depositDate">
+                            </div>
+                            <div class="col-sm-6">
+                                <timepicker [showMeridian]="false" formControlName="depositTime" [showSpinners]="false" [disabled]="true"></timepicker>
+                            </div>
+                        </div>
+                        <app-source-unit-form></app-source-unit-form>
+                        <div>
+                            <label for="subject" class="custom-label">{{'DDIAFORMS.aic.subject.label' | translate}}:</label>
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <div class="custom-control custom-radio" *ngFor="let choice of subjectChoices; let index=index;">
+                                    <input [id]="'subjectchoice'+index" class="custom-control-input" type="radio" [value]="subjectList[index]" formControlName="subject">
+                                    <label [for]="'subjectchoice'+index" class="custom-control-label">{{ choice | translate }}</label>
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="object" class="custom-label">{{'DDIAFORMS.aic.object' | translate }}</label>
+                                <input type="text" id="object" formControlName="object" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="descText" class="custom-label">{{'DDIAFORMS.aic.text' | translate }}</label>
+                            <textarea class="form-control" formControlName="text" id="descText" cols="30" rows="5"></textarea>
+                        </div>
+
+                        <div formArrayName="filesForm" class="form-group">
+                            <label class="custom-label">{{'DDIAFORMS.aic.files' | translate }}</label>
+                            <div *ngFor="let fileForm of files.controls;let index=index;">
+                                <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start mb-2">
+                                    <div>
+                                        <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
+                                        <button class="uploader-file-btn">                        
+                                            <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <input type="text" formControlName="filename" class="form-control" style="height: 35px;">
+                                    </div>
+                                    <div>
+                                        <button class="remove-button" (click)="removeFileForm()">
+                                            <i class="fas fa-minus"></i>&nbsp; 
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-5">
+                            <button class="add-button mt-3" (click)="addFileForm()">
+                                <i class="fas fa-plus"></i>&nbsp; {{'DDIAFORMS.buttons.plusonefile' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+        </mdb-carousel>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around mt-4">
+        <button mdbBtn type="button" color="primary" outline="true" mdbWavesEffect>{{'DDIAFORMS.buttons.reinit' | translate }}</button>
+        <button type="button" mdbBtn color="primary" mdbWavesEffect>{{'DDIAFORMS.buttons.save' | translate }}</button>
+    </div>
+</div>

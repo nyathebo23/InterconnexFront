@@ -1,0 +1,19 @@
+.small-link {
+    color: #2b297c;
+    font-size: 12px;
+    float: right;
+}
+
+.small-link:hover {
+    color: #3336cc;
+}
+
+.custom-btn {
+    border-radius: 30px;
+    font-weight: bold;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

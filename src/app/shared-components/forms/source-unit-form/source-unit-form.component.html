@@ -1,0 +1,51 @@
+<div>
+    <div [formGroup]="sourceUnitForm">
+        <div class="form-group mb-3">
+            <label for="airportLocationIndicator" class="custom-label">{{'DDIAFORMS.sourceunit.locationInd' | translate }}</label>
+            <input type="text" formControlName="airportLocationIndicator" class="form-control" id="airportLocationIndicator" />
+        </div>
+        <div class="md-form">
+            <h5 class="text-center">{{'DDIAFORMS.sourceunit.title' | translate }}</h5>
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group mb-1">
+                        <label for="name" class="custom-label">{{'DDIAFORMS.sourceunit.name' | translate }}</label>
+                        <input type="text" id="name" formControlName="name" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group mb-1">
+                        <label for="adress" class="custom-label">{{'DDIAFORMS.sourceunit.adress' | translate }}</label>
+                        <input type="text" id="adress" formControlName="adress" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group mb-1">
+                        <label for="fax" class="custom-label">{{'DDIAFORMS.sourceunit.fax' | translate }}</label>
+                        <input type="text" id="fax" formControlName="fax" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group mb-1">
+                        <label for="telephone" class="custom-label">{{'DDIAFORMS.sourceunit.phone' | translate }}</label>
+                        <input type="text" id="telephone" formControlName="telephone" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-1">
+                <label for="email" class="custom-label">{{'DDIAFORMS.sourceunit.email' | translate }}</label>
+                <input type="text" id="email" formControlName="email" class="form-control" />
+            </div>
+            <div class="form-group mb-1">
+                <label for="rsfta" class="custom-label">{{'DDIAFORMS.sourceunit.rsfta' | translate }}</label>
+                <input type="text" id="rsfta" formControlName="rsfta" class="form-control" />
+            </div>
+            <div class="form-group mb-1">
+                <label for="initiatorInfos" class="custom-label">{{'DDIAFORMS.sourceunit.initiatorInfos' | translate }}</label>
+                <input type="text" id="initiatorInfos" formControlName="initiatorInfos" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
