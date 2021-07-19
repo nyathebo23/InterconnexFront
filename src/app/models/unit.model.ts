@@ -1,11 +1,25 @@
-class Unit {
+import { UnitI } from '../interfaces/unit.interface';
+
+export class Unit {
+    // tslint:disable-next-line:variable-name
     private _id: string;
+    // tslint:disable-next-line:variable-name
     private _email: string;
+    // tslint:disable-next-line:variable-name
     private _name: string;
-    private _telephone: string;
+    // tslint:disable-next-line:variable-name
+    private _phonenumber: string;
+    // tslint:disable-next-line:variable-name
     private _fax: string;
-    private _adress: string;
+    // tslint:disable-next-line:variable-name
+    private _address: string;
+    // tslint:disable-next-line:variable-name
     private _rsfta: string;
+    // tslint:disable-next-line:variable-name
+    private _aerodromeId: string;
+    // tslint:disable-next-line:variable-name
+    private _aerodromeName: string;
+
 
     constructor(
         id: string,
@@ -13,15 +27,19 @@ class Unit {
         name: string,
         telephone: string,
         fax: string,
-        adress: string,
-        rsfta: string,
+        address: string,
+        aerodromeId: string,
+        aerodromeName: string,
+        rsfta?: string,
     ){
         this._id = id;
         this._email = email;
         this._name = name;
-        this._telephone = telephone;
+        this._phonenumber = telephone;
         this._fax = fax;
-        this._adress = adress;
+        this._address = address;
+        this._aerodromeId = aerodromeId;
+        this._aerodromeName = aerodromeName;
         this._rsfta = rsfta;
     }
 
@@ -37,30 +55,40 @@ class Unit {
         return this._name;
     }
 
-    get telephone(): string{
-        return this._telephone;
+    get phonenumber(): string{
+        return this._phonenumber;
     }
 
     get fax(): string{
         return this._fax;
     }
 
-    get adress(): string{
-        return this._adress;
+    get address(): string{
+        return this._address;
     }
 
     get rsfta(): string{
         return this._rsfta;
     }
 
-    public static fromJSON(data: {[key: string]: any}): Unit{
+    get aerodromeId(): string{
+        return this._aerodromeId;
+    }
+
+    get aerodromeName(): string{
+        return this._aerodromeName;
+    }
+
+    public static fromJSON(data: UnitI): Unit{
         return new Unit(
             data.id,
             data.email,
             data.name,
-            data.telephone,
+            data.phone_number,
             data.fax,
-            data.adress,
+            data.address,
+            data.aerodrome,
+            data.aerodrome_name,
             data.rsfta,
         );
     }

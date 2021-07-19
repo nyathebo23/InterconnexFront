@@ -5,13 +5,9 @@
             <mdb-carousel-item>
                 <div class="ddia-form">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6 form-group">
-                                <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker [bsConfig]="bsConfig" formControlName="depositDate">
-                            </div>
-                            <div class="col-sm-6">
-                                <timepicker [showMeridian]="false" formControlName="depositTime" [showSpinners]="false" [disabled]="true"></timepicker>
-                            </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
+                            <owl-date-time #dt1></owl-date-time>
                         </div>
                         <app-source-unit-form></app-source-unit-form>
                         <div>

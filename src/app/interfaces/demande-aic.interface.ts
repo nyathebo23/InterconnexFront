@@ -1,15 +1,18 @@
 import { AttachmentI } from './attachement.interface';
-import { UnitExtendI } from './unit-extend.interface';
+import { DDIAHistoryI } from './ddia-history';
+import { UnitI } from './unit.interface';
 
-export class DemandeAICI{
+export interface DemandeAICI{
     id: string;
     ident_ddia: string;
     deposit_datetime: Date;
-    source_unit: UnitExtendI;
+    unit: UnitI;
+    location_indicator: string;
     state: string;
-    publication_code;
+    publication_code: string;
     subject: string;
     object: string;
-    text: string;
+    descriptive_text: string;
     attachments: AttachmentI[];
+    history: DDIAHistoryI[];
 }

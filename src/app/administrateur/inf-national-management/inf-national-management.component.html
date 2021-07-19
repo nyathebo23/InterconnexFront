@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="d-flex flex-column">
+        <div class="card-form-small mb-5">
+            <h2 class="form-title">{{'InformateurNational.title' | translate}}</h2>
+            <div [formGroup]="infNationalForm">
+                <div class="form-group mb-4">
+                    <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : infNationalForm.controls.name.invalid && infNationalForm.controls.name.dirty}" placeholder="{{'InformateurNational.name' | translate }}" />
+                    <app-control-messages [control]="infNationalForm.controls.name"></app-control-messages>
+                </div>
+                <div>
+                    <button mdbBtn type="button" class="roundedbtn m-auto" (click)="submit()" color="deep-purple" mdbWavesEffect>Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table mdbTable>
+                <thead class="pretty-head">
+                    <tr>
+                        <th *ngFor="let head of headsInfNational" scope="col">{{ head | translate }} </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr mdbTableCol *ngFor="let elt of infnationaux">
+                        <th scope="row">{{elt.id}}</th>
+                        <td>{{elt.name}}</td>
+                        <td><button mdbBtn type="button" class="roundedbtn" (click)="edit(elt)" color="amber" mdbWavesEffect>{{'UpdateDelete.editBtn' | translate}}</button></td>
+                        <td><button mdbBtn type="button" class="roundedbtn" (click)="delete(elt)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

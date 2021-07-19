@@ -1,20 +1,22 @@
 import { AttachmentI } from './attachement.interface';
-import { UnitExtendI } from './unit-extend.interface';
+import { DDIAHistoryI } from './ddia-history';
+import { UnitI } from './unit.interface';
 
-export class DemandeSUPPAIPI{
+export interface DemandeSUPPAIPI{
     id: string;
     ident_ddia: string;
     deposit_datetime: Date;
-    source_unit: UnitExtendI;
+    unit: UnitI;
+    location_indicator: string;
     state: string;
-    replaced_notam_code: string;
-    publication_code;
+    code_ddia_replaced: string;
+    publication_code: string;
     type_suppaip: string;
     object: string;
-    target_section: string;
+    aip_target_sections: string;
     start_validity_period: Date;
     end_validity_period: Date;
-    description_text: string;
+    descriptive_text: string;
     attachments: AttachmentI[];
-
+    history: DDIAHistoryI[];
 }

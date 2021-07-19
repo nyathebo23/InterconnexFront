@@ -43,10 +43,31 @@
             "password": "Password",
             "function": "Function",
             "quality": "Quality",
+            "sex": "Sex",
             "role": "Role",
-            "submitBtn": "Save",
-            "editBtn": "Edit",
-            "deleteBtn": "Delete"
+            "submitBtn": "Save"
+        },
+        "SIGNUPVERIF": {
+            "title": "VERIFICATION OF THE USER'S EMAIL ADDRESS",
+            "textHelper": "A code has been sent to the email address you entered earlier. Enter this code in the field below and validate.",
+            "submitBtn": "Submit"
+        },
+        "EMAILCHANGE": {
+            "title": "EMAIL ADDRESS CHANGE",
+            "textHelper": "Fill in the field below with your new email address. A code will be sent to this address and you will mention it in the form that will appear right after you validate it.",
+            "email": "Email",
+            "submitBtn": "Submit"
+        },
+        "EMAILCHANGECONFIRM": {
+            "title": "EMAIL ADDRESS CHANGE CONFIRMATION",
+            "textHelper": "A code has been sent to the email address you entered earlier. Enter this code in the field below and validate.",
+            "submitBtn": "Submit"
+        },
+        "CODERESEND": {
+            "title": "VERIFICATION CODE RESEND",
+            "textHelper": "If you did not receive a code or if it is no longer valid, enter your email address and validate so that a new one is sent to you",
+            "email": "Email",
+            "submitBtn": "Submit"
         }
     },
     "DDIAFORMS": {
@@ -87,7 +108,7 @@
             "type": "SUPP AIP Type",
             "notamRcode": "Replaced NOTAM code",
             "object": "Object",
-            "targetSection": "Target Section",
+            "targetSection": "AIP Target Section(s)",
             "valPeriod": "Validity period",
             "periodType": "Period type",
             "plannedPeriod": "Planned",
@@ -111,7 +132,15 @@
             "lowerLim": "Lower limit",
             "upperLim": "Upper limit",
             "files": "Attached files"
-        }
+        },
+        "errors": {
+            "invalidDate": "Enter valid dates",
+            "invalidFrom": "The start date must be no earlier than the current date",
+            "invalidTo": "The start date must be earlier than the end date"
+        },
+        "descText": "Descriptive text",
+        "object": "Object",
+        "valPeriod": "Validity period"
     },
     "DDIAstates": {
         "brouillon": "draft",
@@ -149,6 +178,8 @@
         "type": "Type",
         "reference": "Reference",
         "date": "Date",
+        "dateOldToNew": "From oldest to newest",
+        "dateNewToOld": "From newest to oldest",
         "ddiaitem": {
             "init": "Initiated by {{unitname}} unit ({{airportname}} airport)",
             "rejectby": "Rejector",
@@ -162,17 +193,20 @@
 
     "STRUCTURESSOURCES": {
         "saving": "SAVE",
+        "designation": "Aerodromes",
         "list": "LISTS",
         "title": "AERODROME REGISTRATION",
         "locationInd": "Location Indicator",
         "name": "Name",
         "code": "Code",
-        "inflocal": "Informateur Local",
+        "inflocal": "Local informer",
+        "labelLocalInf": "Select the local informant related to the aerodrome",
         "submitBtn": "Save",
         "addunitBtn": "Add Source unit"
     },
     "SOURCEUNIT": {
         "title": "AERODROME UNITS REGISTRATION",
+        "designation": "Source Units",
         "name": "Name",
         "phone": "Phone number",
         "fax": "Fax",
@@ -180,6 +214,19 @@
         "adress": "Address",
         "rsfta": "RSFTA",
         "structuresource": "Aerodrome or other source structure",
+        "labelAerodrome": "Select the airport to which the unit belongs",
         "submitBtn": "Save"
+    },
+    "InformateurLocal": {
+        "title": "Local informer",
+        "name": "Name"
+    },
+    "InformateurNational": {
+        "title": "National informer",
+        "name": "Name"
+    },
+    "UpdateDelete": {
+        "editBtn": "Edit",
+        "deleteBtn": "Delete"
     }
 }

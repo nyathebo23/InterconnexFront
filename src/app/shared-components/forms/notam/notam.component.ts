@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-notam',
@@ -18,27 +17,23 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 export class NotamComponent  {
 
   notamForm: FormGroup;
-  bsConfig: Partial<BsDatepickerConfig>;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.notamForm = this.formBuilder.group({
-      depositDate: [{value: new Date(), disabled: true}],
-      depositTime: [{value: new Date(), disabled: true}],
+      depositDateTime: [{value: new Date(), disabled: true}],
       rangeAction: [''],
       typeNOTAM: ['NOTAM N'],
       text: [''],
       notamTargetCode: [''],
       coords: [''],
       periodType: ['planned'],
-      startValidityPeriod: [''],
-      endValidityPeriod: [''],
+      validityPeriod: [[new Date(), new Date()], [ValidationService.DateValidator]],
       dailyFreqStart: [''],
       dailyFreqEnd: [''],
       infLimit: [''],
       supLimit: [''],
       filesForm: new FormArray([])
     });
-    this.bsConfig = Object.assign({}, { containerClass: 'theme-dark-blue' });
 
   }
   get form(): {[key: string]: AbstractControl}{
@@ -66,9 +61,13 @@ export class NotamComponent  {
 
     fileForm.patchValue({
       file: event.target.files[0],
-      filename: event.target.files[0].name
+      // filename: event.target.files[0].name
     });
 
+  }
+
+  save(): void {
+    console.log(this.notamForm.get('validityPeriod').value);
   }
 
 

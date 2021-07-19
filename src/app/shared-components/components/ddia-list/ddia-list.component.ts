@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-ddia-list',
@@ -8,9 +7,9 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 })
 export class DDIAListComponent implements OnInit {
 
-  bsConfig: Partial<BsDatepickerConfig>;
+
+  @Input() labelTitle: string;
   constructor() {
-    this.bsConfig = Object.assign({}, { containerClass: 'theme-dark-blue' });
   }
 
   ngOnInit(): void {

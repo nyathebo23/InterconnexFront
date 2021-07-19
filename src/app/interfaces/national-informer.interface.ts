@@ -1,4 +1,4 @@
-export class NationalInformerI{
+export interface NationalInformerI{
     id: string;
     name: string;
 }

@@ -9,11 +9,13 @@ export class SUPPAIPItemComponent  {
 
   id: string;
   type: string;
+  state: string;
   unitname: string;
   airportname: string;
   object: string;
   text: string;
-  state: string;
+  validityPeriodStart: string;
+  validityPeriodEnd: string;
   action: string;
   actionDate: string;
 

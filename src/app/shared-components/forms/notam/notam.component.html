@@ -5,13 +5,9 @@
             <mdb-carousel-item>
                 <div class="ddia-form">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6 form-group">
-                                <input type="text" placeholder="Datepicker" class="form-control" [bsConfig]="bsConfig" bsDatepicker formControlName="depositDate">
-                            </div>
-                            <div class="col-sm-6 form-group">
-                                <timepicker [showMeridian]="false" formControlName="depositTime" [showSpinners]="false"></timepicker>
-                            </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
+                            <owl-date-time #dt1></owl-date-time>
                         </div>
                         <app-source-unit-form></app-source-unit-form>
                         <div>
@@ -55,16 +51,10 @@
                     <div class="container-fluid">
                         <div class="form-group">
                             <label class="custom-label">{{'DDIAFORMS.notam.valPeriod' | translate }}</label>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker formControlName="startValidityPeriod">
-                                </div>
-                                <div class="text-center">
-                                    -
-                                </div>
-                                <div class="col">
-                                    <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker formControlName="endValidityPeriod">
-                                </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Validity period" class="form-control" [owlDateTimeTrigger]="dtPicker" [owlDateTime]="dtPicker" formControlName="validityPeriod" [selectMode]="'range'">
+                                <owl-date-time #dtPicker></owl-date-time>
+                                <app-control-messages [control]="notamForm.controls.validityPeriod"></app-control-messages>
                             </div>
                         </div>
                         <div class="form-group">
@@ -83,6 +73,8 @@
                         <div class="form-group">
                             <label class="custom-label">{{'DDIAFORMS.notam.dailyFreq' | translate }}</label>
                             <div class="d-flex flex-wrap justify-content-between">
+                                <!-- <input type="time" id="input" class="form-control" formControlName="dailyFreqStart" mdbInput />
+                              <input type="time" id="input"  class="form-control" value="13:00"  mdbInput /> -->
                                 <timepicker [showMeridian]="false" formControlName="dailyFreqStart" [showSpinners]="false" [disabled]="true"></timepicker>
                                 <span>à</span>
                                 <timepicker [showMeridian]="false" formControlName="dailyFreqEnd" [showSpinners]="false" [disabled]="true"></timepicker>
@@ -139,6 +131,6 @@
 
     <div class="d-flex flex-wrap justify-content-around mt-4">
         <button mdbBtn type="button" color="primary" outline="true" mdbWavesEffect>{{'DDIAFORMS.buttons.reinit' | translate }}</button>
-        <button type="button" mdbBtn color="primary" mdbWavesEffect>{{'DDIAFORMS.buttons.save' | translate }}</button>
+        <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="save()">{{'DDIAFORMS.buttons.save' | translate }}</button>
     </div>
 </div>

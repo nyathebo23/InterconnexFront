@@ -7,6 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DDIAItemComponent implements OnInit {
 
+  id: string;
+  typeDDIA: string;
+  type: string;
+  state: string;
+  unitname: string;
+  airportname: string;
+  object: string;
+  text: string;
+  periodType: string;
+  validityPeriodStart: string;
+  validityPeriodEnd: string;
+  action: string;
+  actionDate: string;
+
   constructor() { }
 
   ngOnInit(): void {

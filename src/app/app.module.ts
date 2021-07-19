@@ -5,7 +5,6 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,13 +13,12 @@ import { PasswordReset1Component } from './auth-components/password-reset1/passw
 import { PasswordReset2Component } from './auth-components/password-reset2/password-reset2.component';
 import { ControlMessagesComponent } from './auth-components/control-messages/control-messages.component';
 import { ValidationService } from './services/auth-services/validation.service';
-import { PasswordChangeComponent } from './auth-components/password-change/password-change.component';
+// import { PasswordChangeComponent } from './auth-components/password-change/password-change.component';
 import { NotamComponent } from './shared-components/forms/notam/notam.component';
 import { SUPPAIPComponent } from './shared-components/forms/supp-aip/supp-aip.component';
 import { AICComponent } from './shared-components/forms/aic/aic.component';
 import { SourceUnitFormComponent } from './shared-components/forms/source-unit-form/source-unit-form.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-
 import {  ButtonsModule, WavesModule, CollapseModule, CarouselModule, TableModule } from 'angular-bootstrap-md';
 import { LeftNavComponent } from './shared-components/components/left-nav/left-nav.component';
 import { DDIAItemComponent } from './shared-components/components/ddia-item/ddia-item.component';
@@ -43,6 +41,21 @@ import { StructSourceManageComponent } from './administrateur/structure-source-m
 import { InfLocauxNationauxManageComponent } from './administrateur/inf-locaux-nationaux-manage/inf-locaux-nationaux-manage.component';
 import { SourceEltsCreateComponent } from './administrateur/structure-source-management/source-elts-create/source-elts-create.component';
 import { SourceEltsListComponent } from './administrateur/structure-source-management/source-elts-list/source-elts-list.component';
+import { ListAerodromesComponent } from './administrateur/structure-source-management/list-aerodromes/list-aerodromes.component';
+import { ListUnitsComponent } from './administrateur/structure-source-management/list-units/list-units.component';
+import { InfLocalManagementComponent } from './administrateur/inf-local-management/inf-local-management.component';
+import { InfNationalManagementComponent } from './administrateur/inf-national-management/inf-national-management.component';
+import { ListDDIAReceivedComponent } from './verificateursource/list-ddia-received/list-ddia-received.component';
+import { ListDDIAProcessedComponent } from './verificateursource/list-ddia-processed/list-ddia-processed.component';
+import { BaseVerifsourceComponent } from './verificateursource/base-verifsource/base-verifsource.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import * as URLS from './commons/urls-backend';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { SignupVerifComponent } from './auth-components/signup-verif/signup-verif.component';
+import { ChangeEmailComponent } from './auth-components/change-email/change-email.component';
+import { ConfirmChangeEmailComponent } from './auth-components/confirm-change-email/confirm-change-email.component';
+import { CodeResendComponent } from './auth-components/code-resend/code-resend.component';
+
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   return new TranslateHttpLoader(http);
@@ -55,7 +68,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
     PasswordReset1Component,
     PasswordReset2Component,
     ControlMessagesComponent,
-    PasswordChangeComponent,
+    // PasswordChangeComponent,
     NotamComponent,
     SUPPAIPComponent,
     AICComponent,
@@ -80,19 +93,31 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
     StructSourceManageComponent,
     InfLocauxNationauxManageComponent,
     SourceEltsCreateComponent,
-    SourceEltsListComponent
+    SourceEltsListComponent,
+    ListAerodromesComponent,
+    ListUnitsComponent,
+    InfLocalManagementComponent,
+    InfNationalManagementComponent,
+    ListDDIAReceivedComponent,
+    ListDDIAProcessedComponent,
+    BaseVerifsourceComponent,
+    SignupVerifComponent,
+    ChangeEmailComponent,
+    ConfirmChangeEmailComponent,
+    CodeResendComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    BsDatepickerModule.forRoot(),
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     TimepickerModule.forRoot(),
     CarouselModule.forRoot(),
     WavesModule.forRoot(),
-    TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     CollapseModule.forRoot(),
     TableModule,
@@ -102,7 +127,19 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
         useFactory: HttpLoaderFactory ,
         deps: [HttpClient]
       }
-    })
+    }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('access_token'),
+        allowedDomains: [URLS.HOST_URL.replace('http://', '')],
+        disallowedRoutes: [
+          URLS.LOGIN,
+          URLS.REFRESH_TOKEN_URL,
+        ],
+        authScheme: 'Bearer ', // Default value,
+        skipWhenExpired: true,
+      },
+    }),
   ],
   providers: [ValidationService],
   bootstrap: [AppComponent]

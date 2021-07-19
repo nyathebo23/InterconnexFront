@@ -1,9 +1,15 @@
+import { DDIAHistoryI } from '../interfaces/ddia-history';
+import { DemandeAICI } from '../interfaces/demande-aic.interface';
+import { DDIAHistory } from './ddia-history.model';
 import { DDIA } from './ddia.model';
-import { SourceUnit } from './source-unit.model';
+import { Unit } from './unit.model';
 
-class DemandeAIC extends DDIA {
+export class DemandeAIC extends DDIA {
+    // tslint:disable-next-line:variable-name
     private _subject: string;
+    // tslint:disable-next-line:variable-name
     private _object: string;
+    // tslint:disable-next-line:variable-name
     private _text: string;
 
     constructor(
@@ -15,9 +21,10 @@ class DemandeAIC extends DDIA {
         object: string,
         text: string,
         state: string,
-        unit: SourceUnit,
+        unit: Unit,
+        histor: DDIAHistory[]
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, unit);
+        super(id, identDDIA, depositDatetime, locationInd, state, unit, histor);
         this._subject = subject;
         this._object = object;
         this._text = text;
@@ -34,17 +41,23 @@ class DemandeAIC extends DDIA {
     get text(): string{
         return this._text;
     }
-    public static fromJSON(data: {[key: string]: any}): DemandeAIC{
+
+    public static fromJSON(data: DemandeAICI): DemandeAIC{
+        const historiesData = new Array<DDIAHistory>();
+        data.history.forEach((elt: DDIAHistoryI) => {
+            historiesData.push(DDIAHistory.fromJSON(elt));
+        });
         return new DemandeAIC(
             data.id,
             data.ident_ddia,
             data.deposit_datetime,
-            data.location_ind,
-            data.object,
+            data.location_indicator,
             data.subject,
-            data.text,
+            data.object,
+            data.descriptive_text,
             data.state,
-            SourceUnit.fromJSON(data.unit)
+            Unit.fromJSON(data.unit),
+            historiesData
         );
     }
 }

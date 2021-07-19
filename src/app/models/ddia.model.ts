@@ -1,21 +1,40 @@
-import { SourceUnit } from './source-unit.model';
+import { DDIAHistory } from './ddia-history.model';
+import { Unit } from './unit.model';
 
 export class DDIA {
+    // tslint:disable-next-line:variable-name
     private _id: string;
+    // tslint:disable-next-line:variable-name
     private _identDDIA: string;
+    // tslint:disable-next-line:variable-name
     private _depositDatetime: Date;
+    // tslint:disable-next-line:variable-name
     private _locationIndicator: string;
+    // tslint:disable-next-line:variable-name
     private _state: string;
+    // tslint:disable-next-line:variable-name
     private _publicationCode;
-    private _sourceUnit: SourceUnit;
+    // tslint:disable-next-line:variable-name
+    private _sourceUnit: Unit;
+    // tslint:disable-next-line:variable-name
+    private _history: DDIAHistory[];
 
-    constructor(id: string, identDDIA: string, depositDatetime: Date, locationInd: string, state: string, sourceUnit: SourceUnit){
+    constructor(
+        id: string,
+        identDDIA: string,
+        depositDatetime: Date,
+        locationInd: string,
+        state: string,
+        sourceUnit: Unit,
+        history: DDIAHistory[]
+    ){
         this._id = id;
         this._identDDIA = identDDIA;
         this._depositDatetime = depositDatetime;
         this._locationIndicator = locationInd;
         this._state = state;
         this._sourceUnit = sourceUnit;
+        this._history = history;
     }
 
     get id(): string{
@@ -50,7 +69,11 @@ export class DDIA {
         return this._publicationCode;
     }
 
-    get sourceUnit(): SourceUnit{
+    get sourceUnit(): Unit{
         return this._sourceUnit;
+    }
+
+    get history(): DDIAHistory[] {
+        return this._history;
     }
 }

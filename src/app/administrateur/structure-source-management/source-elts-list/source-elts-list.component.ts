@@ -1,23 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '../../../models/user.model';
+import { Unit } from 'src/app/models/unit.model';
+import { Component, OnInit, ViewChild, HostListener, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { MdbTablePaginationComponent, MdbTableDirective } from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-source-elts-list',
   templateUrl: './source-elts-list.component.html',
-  styleUrls: ['./source-elts-list.component.scss']
+  styleUrls: ['./source-elts-list.component.scss', '../../../../assets/css/tables.scss']
 })
-export class SourceEltsListComponent  {
+export class SourceEltsListComponent {
 
-  pref = 'AUTHFORMS.SIGNUP.';
-  headUsersElements = ['username', 'email', 'firstname', 'lastname', 'role', 'editBtn', 'deleteBtn'];
-  users: User[];
+  activeElt = 'units';
   constructor() {
-    this.headUsersElements.map((elt) => this.pref + elt);
-    this.users = [
-      new User('0', 'Nyat', 'franckhebo@gmail.com', 'Nyatchou', 'Franck', 'Agent Source'),
-      new User('0', 'Lomta', 'talompatrick@gmail.com', 'Talom', 'Patrick', 'Strcture Source'),
-      new User('0', 'ABBA', 'abbarapaya@ccaa.caero', 'ABBA', 'SOULEYMANOU', 'Informateur Local'),
-    ];
+
   }
 
+  setActive(element: string): void{
+    this.activeElt = element;
+  }
 }

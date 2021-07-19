@@ -26,46 +26,61 @@
                 <i [ngClass]="showPassword ? 'fa fa-eye field-icon' : 'fa fa-eye-slash field-icon'" (click)="togglePasswordVisibility()"></i>
                 <app-control-messages [control]="signUpForm.controls.password"></app-control-messages>
             </div>
-            <div class="form-group mb-4">
+            <!-- <div class="form-group mb-4">
                 <select formControlName="structure" class="form-control">
                     <option selected disabled value="">Sélectionnez la structure à laquelle appartient l'utilisateur</option>
                     <option value="Aerodrome">Aérodrome</option>
-                    <option value="Informateur Local">Informateur local</option>
+                    <option value="Informateur Local">Informateur local Externe</option>
                     <option value="Informateur National">Informateur national</option>
                 </select>
+            </div> -->
+            <div class="form-group mb-4">
+                <input type="text" formControlName="function" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.function.invalid && signUpForm.controls.function.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.function' | translate }}" />
+                <app-control-messages [control]="signUpForm.controls.function"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <select formControlName="function" class="form-control">
-                    <option selected disabled value="">{{'AUTHFORMS.SIGNUP.function' | translate }}</option>
-                    <option value=""></option>
-                    <option value=""></option>
-                    <option value=""></option>
-                </select>
+                <input type="text" formControlName="quality" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.quality.invalid && signUpForm.controls.quality.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.quality' | translate }}" />
+                <app-control-messages [control]="signUpForm.controls.quality"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <select formControlName="quality" class="form-control">
-                    <option selected disabled value="">{{'AUTHFORMS.SIGNUP.quality' | translate }}</option>
-                    <option value=""></option>
-                    <option value=""></option>
-                </select>
-            </div>
-            <div class="form-group mb-4">
-                <select formControlName="role" class="form-control">
+                <select formControlName="role" class="form-control" (change)="changeRole($event)">
                     <option selected disabled value="">{{'AUTHFORMS.SIGNUP.role' | translate }}</option>
-                    <option value="Agent Source">Agent Source</option>
-                    <option value="Verificateur source">Verificateur source</option>
-                    <option value="Structure source">Structure source</option>
-                    <option value="Informateur Local">Informateur Local</option>
-                    <option value="Verificateur Local">Verificateur Local</option>
-                    <option value="Informateur National">Informateur National</option>
+                    <option [value]="userRoles.SOURCE_AGENT">Agent Source</option>
+                    <option [value]="userRoles.SOURCE_VERIFIER">Verificateur Source</option>
+                    <option [value]="userRoles.SOURCE_STRUCTURE">Structure Source</option>
+                    <option [value]="userRoles.LOCAL_INFORMER">Informateur Local</option>
+                    <option [value]="userRoles.LOCAL_VERIFIER">Verificateur Local</option>
+                    <option [value]="userRoles.NATIONAL_INFORMER">Informateur National</option>
                 </select>
             </div>
-
-            <button [disabled]="signUpForm.invalid" class="custom-btn m-auto" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
-                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                {{'AUTHFORMS.SIGNUP.submitBtn' | translate }}                    
-            </button>
         </form>
+        <div class="form-group mb-4" *ngIf="aerodromeList.length > 0">
+            <select class="form-control" [(ngModel)]="aerodrome" (change)="changeAerodrome($event)">
+                <option selected disabled [value]="undefined">Aerodromes</option>
+                <option *ngFor="let aerodrome of aerodromeList" [value]="aerodrome.id">{{aerodrome.name}}</option>
+            </select>
+        </div>
+        <div class="form-group mb-4" *ngIf="aerodrome">
+            <select class="form-control" [(ngModel)]="unit">
+                <option selected disabled [value]="undefined">Unités source de l'aérodrome</option>
+                <option *ngFor="let unitsource of unitList" [value]="unitsource.id" >{{unitsource.name}}</option>
+            </select>
+        </div>
+        <div class="form-group mb-4" *ngIf="localInfExternsList.length > 0">
+            <select class="form-control" [(ngModel)]="localInf">
+                <option selected disabled [value]="undefined">Informateurs Locaux Externes</option>
+                <option *ngFor="let localinf of localInfExternsList" [value]="localinf.id"> {{localinf.name}}</option>
+            </select>
+        </div>
+        <div class="form-group mb-4" *ngIf="nationalInfList.length > 0">
+            <select class="form-control" [(ngModel)]="nationalInf">
+                <option selected disabled [value]="undefined">Informateurs nationaux</option>
+                <option *ngFor="let nationalInf of nationalInfList" [value]="nationalInf.id">{{nationalInf.name}}</option>
+            </select>
+        </div>
+        <button [disabled]="signUpForm.invalid" class="custom-btn m-auto" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            {{'AUTHFORMS.SIGNUP.submitBtn' | translate }}                    
+        </button>
     </div>
-
 </div>

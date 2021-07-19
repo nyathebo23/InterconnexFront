@@ -5,13 +5,9 @@
             <mdb-carousel-item>
                 <div class="ddia-form">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6 form-group">
-                                <input type="text" placeholder="Datepicker" class="form-control" [bsConfig]="bsConfig" bsDatepicker formControlName="depositDate">
-                            </div>
-                            <div class="col-sm-6 form-group">
-                                <timepicker [showMeridian]="false" formControlName="depositTime" [showSpinners]="false" [disabled]="true"></timepicker>
-                            </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
+                            <owl-date-time #dt1></owl-date-time>
                         </div>
                         <app-source-unit-form></app-source-unit-form>
                         <div>
@@ -40,7 +36,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="targetSection" class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }}</label>
-                                <input type="text" id="targetSection" class="form-control" formControlName="targetSection">
+                                <textarea type="text" id="targetSection" class="form-control" formControlName="aipTargetSections"></textarea>
                             </div>
                         </div>
                     </div>
@@ -51,44 +47,43 @@
                     <div class="container-fluid">
                         <div class="form-group">
                             <label class="custom-label">{{'DDIAFORMS.suppaip.valPeriod' | translate }}</label>
-                            <div class="d-flex flex-wrap justify-content-between">
-                                <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker formControlName="startValidityPeriod">
-                                <span>à</span>
-                                <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker formControlName="endValidityPeriod">
+                            <div class="form-group">
+                                <input type="text" placeholder="Validity period" class="form-control" [owlDateTimeTrigger]="dtPicker" [owlDateTime]="dtPicker" formControlName="validityPeriod" [selectMode]="'range'">
+                                <owl-date-time #dtPicker></owl-date-time>
+                                <app-control-messages [control]="suppaipForm.controls.validityPeriod"></app-control-messages>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
-                            <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
-                        </div>
-
-                        <div formArrayName="filesForm" class="form-group">
-                            <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }}</label>
-                            <div *ngFor="let fileForm of files.controls;let index=index;">
-                                <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start mb-4">
-                                    <div>
-                                        <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
-                                        <button class="uploader-file-btn">                        
+                            <div class="form-group">
+                                <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
+                                <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
+                            </div>
+                            <div formArrayName="filesForm" class="form-group">
+                                <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }}</label>
+                                <div *ngFor="let fileForm of files.controls;let index=index;">
+                                    <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start mb-4">
+                                        <div>
+                                            <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
+                                            <button class="uploader-file-btn">                        
                                             <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
                                         </button>
-                                    </div>
-                                    <div>
-                                        <input type="text" formControlName="filename" [disabled]="true" class="form-control" style="height: 35px;">
-                                    </div>
-                                    <div>
-                                        <button class="remove-button" (click)="removeFileForm()">
+                                        </div>
+                                        <div>
+                                            <input type="text" formControlName="filename" [disabled]="true" class="form-control" style="height: 35px;">
+                                        </div>
+                                        <div>
+                                            <button class="remove-button" (click)="removeFileForm()">
                                             <i class="fas fa-minus"></i>&nbsp; 
                                         </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group mb-5">
-                            <button class="add-button mt-3" (click)="addFileForm()">
+                            <div class="form-group mb-5">
+                                <button class="add-button mt-3" (click)="addFileForm()">
                                 <i class="fas fa-plus"></i>&nbsp; {{'DDIAFORMS.buttons.plusonefile' | translate }}
                             </button>
+                            </div>
                         </div>
                     </div>
                 </div>

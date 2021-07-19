@@ -1,44 +1,56 @@
-<div class="row">
-    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
-        <div class="d-flex flex-column filters-box justify-content-center">
-            <h3>{{'ddialist.filterstitle' | translate}}</h3>
-            <div class="form-group mt-4 mb-4">
-                <label class="custom-label" for="state">{{'ddialist.state' | translate}}</label>
-                <select class="form-control" id="state">
-                    <option value="Brouillon">{{'DDIAstates.brouillon' | translate }}</option>
-                    <option value="En attente de vérification">{{'DDIAstates.attenteVerif' | translate }}</option>
-                    <option value="En attente d'admission">{{'DDIAstates.attenteAdmission' | translate }}</option>
-                    <option value="En attente de validation">{{'DDIAstates.attenteValidation' | translate }}</option>
-                    <option value="En attente d'approbation">{{'DDIAstates.attenteApprobation' | translate }}</option>
-                    <option value="Erroné">Erroné</option>
-                </select>
-            </div>
-            <div class="form-group mb-4">
-                <label class="custom-label" for="type">{{'ddialist.type' | translate}}</label>
-                <select class="form-control" id="type">
-                    <option value="notam">NOTAM</option>
-                    <option value="suppaip">SUPP AIP</option>
-                    <option value="aic">AIC</option>
-                </select>
-            </div>
-            <div class="form-group mb-4">
-                <label class="custom-label" for="date">{{'ddialist.date' | translate}}</label>
-                <input type="text" placeholder="Datepicker" [bsConfig]="bsConfig" class="form-control" id="date" bsDatepicker>
-            </div>
+<div class="container-fluid">
+    <div class="d-flex flex-column">
+        <div class="label-title mb-4">
+            {{ labelTitle }}
         </div>
-    </div>
-    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
-        <div class="container-items">
-            <div class="d-flex flex-column vertical-overflow">
-                <app-aic-item></app-aic-item>
-                <app-notam-item></app-notam-item>
-                <app-suppaip-item></app-suppaip-item>
-                <app-aic-item></app-aic-item>
-                <app-notam-item></app-notam-item>
-                <app-suppaip-item></app-suppaip-item>
-                <app-aic-item></app-aic-item>
-                <app-notam-item></app-notam-item>
-                <app-suppaip-item></app-suppaip-item>
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                <div class="d-flex flex-column filters-box justify-content-center">
+                    <h3>{{'ddialist.filterstitle' | translate}}</h3>
+                    <div class="form-group mt-4 mb-4">
+                        <label class="custom-label" for="state">{{'ddialist.state' | translate}}</label>
+                        <select class="form-control" id="state">
+                        <option value="all" selected>all</option>
+                        <option value="brouillon">{{'DDIAstates.brouillon' | translate }}</option>
+                        <option value="en attente de vérification">{{'DDIAstates.attenteVerif' | translate }}</option>
+                        <option value="en attente d'admission">{{'DDIAstates.attenteAdmission' | translate }}</option>
+                        <option value="en attente de validation">{{'DDIAstates.attenteValidation' | translate }}</option>
+                        <option value="en attente d'approbation">{{'DDIAstates.attenteApprobation' | translate }}</option>
+                        <option value="erroné">erroné</option>
+                    </select>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="custom-label" for="type">{{'ddialist.type' | translate}}</label>
+                        <select class="form-control" id="type">
+                        <option value="all" selected>All</option>
+                        <option value="notam">NOTAM</option>
+                        <option value="suppaip">SUPP AIP</option>
+                        <option value="aic">AIC</option>
+                    </select>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="custom-label" for="date">{{'ddialist.date' | translate}}</label>
+                        <select class="form-control" id="date">
+                        <option value="ascendingDate" selected>{{'ddialist.dateOldToNew' | translate}}</option>
+                        <option value="descendingDate">{{'ddialist.dateNewToOld' | translate}}</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                <div class="container-items">
+                    <div class="d-flex flex-column vertical-overflow">
+                        <app-aic-item></app-aic-item>
+                        <app-notam-item></app-notam-item>
+                        <app-suppaip-item></app-suppaip-item>
+                        <app-aic-item></app-aic-item>
+                        <app-notam-item></app-notam-item>
+                        <app-suppaip-item></app-suppaip-item>
+                        <app-aic-item></app-aic-item>
+                        <app-notam-item></app-notam-item>
+                        <app-suppaip-item></app-suppaip-item>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

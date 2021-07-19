@@ -42,10 +42,31 @@
             "password": "Mot de passe",
             "function": "Fonction",
             "quality": "Qualité",
+            "sex": "Sexe",
             "role": "Rôle",
-            "submitBtn": "Enregistrer",
-            "editBtn": "Modifier",
-            "deleteBtn": "Supprimer"
+            "submitBtn": "Enregistrer"
+        },
+        "SIGNUPVERIF": {
+            "title": "VERIFICATION DE L' ADRESSE MAIL DE L' UTILISATEUR",
+            "textHelper": "Un code a été envoyé à l'adresse mail renseignée précédemment. Renseignez ce code dans la champ ci-dessous puis validez.",
+            "submitBtn": "Soumettre"
+        },
+        "EMAILCHANGE": {
+            "title": "CHANGEMENT D' ADRESSE MAIL",
+            "textHelper": "Remplissez le champ ci-desssous avec votre nouvel adresse mail. Un code vous sera envoyé à cette adresse et vous le mentionnerez dans le formulaire qui s'affichera juste après que vous ayez validé celui-ci.",
+            "email": "Adresse mail",
+            "submitBtn": "Soumettre"
+        },
+        "EMAILCHANGECONFIRM": {
+            "title": "CONFIRMATION DE CHANGEMENT D' ADRESSE MAIL",
+            "textHelper": "Un code a été envoyé à l'adresse mail renseignée précédemment. Renseignez ce code dans la champ ci-dessous puis validez.",
+            "submitBtn": "Soumettre"
+        },
+        "CODERESEND": {
+            "title": "RENVOI DU CODE DE VÉRIFICATION",
+            "textHelper": "Si vous n'avez pas reçu de code ou bien si ce dernier n'est plus valide, renseignez votre adresse mail et validez pour qu'un nouveau vous soit envoyé",
+            "email": "Adresse mail",
+            "submitBtn": "Soumettre"
         }
     },
     "DDIAFORMS": {
@@ -87,7 +108,7 @@
             "type": "Type de SUPP AIP",
             "notamRcode": "Code du NOTAM remplacé",
             "object": "Objet",
-            "targetSection": "Section visée",
+            "targetSection": "Section(s) visée(s) de l'AIP",
             "valPeriod": "Période de validité",
             "periodType": "Type de période",
             "plannedPeriod": "Prévue",
@@ -111,7 +132,15 @@
             "lowerLim": "Limite inférieure",
             "upperLim": "Limite supérieure",
             "files": "Fichiers joints"
-        }
+        },
+        "errors": {
+            "invalidDate": "Entrez des dates valides",
+            "invalidFrom": "La date de début doit ne doit pas être antérieure à la date actuelle",
+            "invalidTo": "La date de début doit être antérieure à la date de fin"
+        },
+        "descText": "Texte descriptif",
+        "object": "Objet",
+        "valPeriod": "Période de validité"
     },
     "DDIAstates": {
         "brouillon": "brouillon",
@@ -148,6 +177,8 @@
         "state": "Etat",
         "type": "Type",
         "date": "Date",
+        "dateOldToNew": "Du plus ancien au plus récent",
+        "dateNewToOld": "Du plus récent au plus ancien",
         "reference": "Reférence",
         "ddiaitem": {
             "init": "Initié par unité {{unitname}} (Aéroport de {{airportname}})",
@@ -161,18 +192,21 @@
     },
     "STRUCTURESSOURCES": {
         "saving": "ENREGISTREMENTS",
+        "designation": "Aerodromes",
         "list": "LISTES",
         "title": "ENREGISTREMENT D' AERODROMES",
         "name": "Nom",
         "code": "Code",
         "locationInd": "Indicateur d'emplacement",
         "inflocal": "Informateur Local",
+        "labelLocalInf": "Sélectionnez l' informateur local lié à l'aérodrome",
         "submitBtn": "Enregistrer",
         "addunitBtn": "Ajouter Unité source"
 
     },
     "SOURCEUNIT": {
         "title": "ENREGISTREMENT D' UNITES D'AERODROMES",
+        "designation": "Unité source",
         "name": "Nom",
         "phone": "Telephone",
         "fax": "Fax",
@@ -180,6 +214,19 @@
         "adress": "Adresse",
         "rsfta": "RSFTA",
         "structuresource": "Aérodrome ou autre structure source",
+        "labelAerodrome": "Sélectionnez l' aérodrome  auquel appartient l'unité",
         "submitBtn": "Enregistrer"
+    },
+    "InformateurLocal": {
+        "title": "Informateur local",
+        "name": "Nom"
+    },
+    "InformateurNational": {
+        "title": "Informateur national",
+        "name": "Nom"
+    },
+    "UpdateDelete": {
+        "editBtn": "Modifier",
+        "deleteBtn": "Supprimer"
     }
 }

@@ -17,6 +17,24 @@
     }
 }
 
+.card-form-small {
+    width: 450px;
+    padding: 10px 30px 40px;
+    box-shadow: 10px 10px 10px #15073498;
+    margin: auto;
+    background-color: white;
+    border-radius: 20px;
+    border: 0.5px #0099CC solid;
+}
+
+@media(max-width: 420px) {
+    .card-form-small {
+        width: 300px;
+        padding: 10px;
+        box-shadow: 5px 5px 5px #15073498;
+    }
+}
+
 .card-signup {
     width: 600px;
     min-height: 400px;
@@ -80,6 +98,7 @@ h1.ddia-title {
     border-radius: 5px;
     box-shadow: 2px 1px 2px 1px rgba(0, 0, 0, 0.2);
     font-size: 14px;
+    height: 42px;
 }
 
 .btn-blue {

@@ -1,12 +1,24 @@
+import { UserI } from '../interfaces/user.interface';
+
 export class User{
+    // tslint:disable-next-line:variable-name
     private _id: string;
+    // tslint:disable-next-line:variable-name
     private _username: string;
+    // tslint:disable-next-line:variable-name
     private _email: string;
+    // tslint:disable-next-line:variable-name
     private _firstname: string;
+    // tslint:disable-next-line:variable-name
     private _lastname: string;
+    // tslint:disable-next-line:variable-name
     private _functionn: string;
+    // tslint:disable-next-line:variable-name
     private _quality: string;
+    // tslint:disable-next-line:variable-name
     private _role: string;
+    // tslint:disable-next-line:variable-name
+    private _sex: string;
 
     constructor(
         id: string,
@@ -14,6 +26,7 @@ export class User{
         email: string,
         firstname: string,
         lastname: string,
+        sex: string,
         rol: string,
         funct?: string,
         quality?: string,
@@ -26,17 +39,16 @@ export class User{
         this._role = rol;
         this._functionn = funct;
         this._quality = quality;
+        this._sex = sex;
     }
 
     public get id(): string {
         return this._id;
     }
 
-
     public get username(): string {
         return this._username;
     }
-
 
     public get email(): string {
         return this._email;
@@ -51,7 +63,7 @@ export class User{
     }
 
 
-    public get functionn(): string {
+    public get function(): string {
         return this._functionn;
     }
 
@@ -65,13 +77,18 @@ export class User{
         return this._role;
     }
 
-    public static fromJSON(data: {[key: string]: string}): User{
+    public get sex(): string {
+        return this._sex;
+    }
+
+    public static fromJSON(data: UserI): User{
         return new User(
             data.id,
             data.username,
             data.email,
             data.firstname,
             data.lastname,
+            data.sex,
             data.role,
             data.function,
             data.quality,

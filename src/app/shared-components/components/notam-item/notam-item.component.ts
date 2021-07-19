@@ -13,6 +13,9 @@ export class NOTAMItemComponent  {
   airportname: string;
   state: string;
   text: string;
+  periodType: string;
+  validityPeriodStart: string;
+  validityPeriodEnd: string;
   action: string;
   actionDate: string;
 

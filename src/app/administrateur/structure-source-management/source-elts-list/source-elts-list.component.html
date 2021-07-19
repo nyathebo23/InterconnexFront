@@ -1,20 +1,12 @@
 <div class="container-fluid">
-    <table mdbTable>
-        <thead class="black white-text">
-            <tr>
-                <th *ngFor="let head of headUsersElements" scope="col">{{head}} </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr mdbTableCol *ngFor="let user of users">
-                <th scope="row">{{user.username}}</th>
-                <td>{{user.email}}</td>
-                <td>{{user.firstname}}</td>
-                <td>{{user.lastname}}</td>
-                <td>{{user.role}}</td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="d-flex flex-wrap justify-content-around mb-4">
+        <button (click)="setActive('units')" [ngClass]="{'active': activeElt == 'units'}" class="rounded-pretty-btn">{{'SOURCEUNIT.designation' | translate }}</button>
+        <button (click)="setActive('aerodromes')" [ngClass]="{'active': activeElt == 'aerodromes'}" class="rounded-pretty-btn">{{'STRUCTURESSOURCES.designation' | translate }}</button>
+    </div>
+    <div *ngIf="activeElt == 'aerodromes'">
+        <app-list-aerodromes></app-list-aerodromes>
+    </div>
+    <div *ngIf="activeElt == 'units'">
+        <app-list-units></app-list-units>
+    </div>
 </div>

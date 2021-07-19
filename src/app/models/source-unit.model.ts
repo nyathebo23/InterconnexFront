@@ -1,14 +1,22 @@
-import { StructureSource } from './structure-source.model';
+import { Aerodrome } from './aerodrome.model';
 
 export class SourceUnit{
+    // tslint:disable-next-line:variable-name
     private _id: string;
+    // tslint:disable-next-line:variable-name
     private _email: string;
+    // tslint:disable-next-line:variable-name
     private _name: string;
+    // tslint:disable-next-line:variable-name
     private _telephone: string;
+    // tslint:disable-next-line:variable-name
     private _fax: string;
+    // tslint:disable-next-line:variable-name
     private _adress: string;
+    // tslint:disable-next-line:variable-name
     private _rsfta: string;
-    private _structureSource: StructureSource;
+    // tslint:disable-next-line:variable-name
+    private _aerodrome: Aerodrome;
 
     constructor(
         id: string,
@@ -18,7 +26,7 @@ export class SourceUnit{
         fax: string,
         adress: string,
         rsfta: string,
-        structureSource: StructureSource
+        aerodrome: Aerodrome
     ){
         this._id = id;
         this._email = email;
@@ -27,7 +35,7 @@ export class SourceUnit{
         this._fax = fax;
         this._adress = adress;
         this._rsfta = rsfta;
-        this._structureSource = structureSource;
+        this._aerodrome = Aerodrome;
     }
 
     get id(): string{
@@ -58,21 +66,21 @@ export class SourceUnit{
         return this._rsfta;
     }
 
-    get structureSource(): StructureSource {
-        return this._structureSource;
+    get aerodrome(): Aerodrome {
+        return this._aerodrome;
     }
 
-    public static fromJSON(data: {[key: string]: any}): SourceUnit{
-        const structureSource = StructureSource.fromJSON(data.structure_source);
-        return new SourceUnit(
-            data.id,
-            data.email,
-            data.name,
-            data.telephone,
-            data.fax,
-            data.adress,
-            data.rsfta,
-            structureSource
-        );
-    }
+    // public static fromJSON(data: {[key: string]: any}): SourceUnit{
+    //     const Aerodrome = Aerodrome.fromJSON(data.structure_source);
+    //     return new SourceUnit(
+    //         data.id,
+    //         data.email,
+    //         data.name,
+    //         data.telephone,
+    //         data.fax,
+    //         data.adress,
+    //         data.rsfta,
+    //         Aerodrome
+    //     );
+    // }
 }

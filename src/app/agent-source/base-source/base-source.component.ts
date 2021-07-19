@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './base-source.component.html',
   styleUrls: ['./base-source.component.scss']
 })
-export class BaseSourceComponent implements OnInit {
+export class BaseSourceComponent  {
 
   navLinks: {name: string, iconClass: string, url: string}[];
 
@@ -15,9 +15,6 @@ export class BaseSourceComponent implements OnInit {
       {name: 'DDIA de l\'unité',  iconClass: 'fas fa-list',  url: '/source/unitsddia/'},
       {name: 'Statistiques DDIA', iconClass: 'fas fa-chart-bar',  url: '/source/stats/'},
     ];
-  }
-
-  ngOnInit(): void {
   }
 
 }

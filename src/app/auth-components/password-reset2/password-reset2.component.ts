@@ -34,6 +34,6 @@ export class PasswordReset2Component  {
     this.showConfNewPassword = !this.showConfNewPassword;
   }
   submit(): void{
-     
+
   }
 }

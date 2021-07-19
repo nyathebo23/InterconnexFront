@@ -8,14 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class AICItemComponent  {
 
   id: string;
-  type: string;
   unitname: string;
   airportname: string;
   state: string;
   object: string;
   subject: string;
+  text: string;
   action: string;
   actionDate: string;
+
 
   constructor() { }
 

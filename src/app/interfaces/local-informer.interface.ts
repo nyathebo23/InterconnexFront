@@ -1,7 +1,10 @@
-import { NationalInformerI } from './national-informer.interface';
+// import { NationalInformerI } from './national-informer.interface';
 
-export class LocalInformerI{
+export interface LocalInformerI{
     id: string;
     name: string;
-    informateur_nat: NationalInformerI;
+    unit?: string;
+    aerodrome?: string;
+    // unit?: UnitI;
+    // informateur_nat: NationalInformerI;
 }

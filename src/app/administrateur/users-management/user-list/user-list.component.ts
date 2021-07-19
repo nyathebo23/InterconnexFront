@@ -11,20 +11,21 @@ import { TranslateService } from '@ngx-translate/core';
 export class UserListComponent implements OnInit, AfterViewInit {
 
   pref = 'AUTHFORMS.SIGNUP.';
-  headUsersElements = ['username', 'email', 'firstname', 'lastname', 'role', 'editBtn', 'deleteBtn'];
+  headUsersElements = ['username', 'email', 'firstname', 'lastname', 'sex', 'role'];
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   users: User[];
   prevUsers: User[];
   constructor(private cdRef: ChangeDetectorRef) {
     this.headUsersElements = this.headUsersElements.map((elt) => this.pref + elt);
+    this.headUsersElements.push('UpdateDelete.editBtn');
+    this.headUsersElements.push('UpdateDelete.deleteBtn');
   }
-
   ngOnInit(): void {
     this.users = [
-      new User('0', 'Nyat', 'franckhebo@gmail.com', 'Nyatchou', 'Franck', 'Agent Source'),
-      new User('0', 'Lomta', 'talompatrick@gmail.com', 'Talom', 'Patrick', 'Strcture Source'),
-      new User('0', 'ABBA', 'abbarapaya@ccaa.caero', 'ABBA', 'SOULEYMANOU', 'Informateur Local'),
+      new User('0', 'Nyat', 'franckhebo@gmail.com', 'Nyatchou', 'Franck', 'Male', 'Agent Source'),
+      new User('0', 'Lomta', 'talompatrick@gmail.com', 'Talom', 'Patrick', 'Male', 'Strcture Source'),
+      new User('0', 'ABBA', 'abbarapaya@ccaa.caero', 'ABBA', 'SOULEYMANOU', 'Male', 'Informateur Local'),
     ];
     this.mdbTable.setDataSource(this.users);
     this.users = this.mdbTable.getDataSource();
@@ -32,7 +33,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.mdbTablePagination.setMaxVisibleItemsNumberTo(1);
+    this.mdbTablePagination.setMaxVisibleItemsNumberTo(15);
     this.mdbTablePagination.calculateFirstItemIndex();
     this.mdbTablePagination.calculateLastItemIndex();
     this.cdRef.detectChanges();

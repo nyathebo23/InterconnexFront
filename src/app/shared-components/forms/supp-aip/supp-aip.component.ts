@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-supp-aip',
@@ -18,22 +17,18 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 export class SUPPAIPComponent  {
 
   suppaipForm: FormGroup;
-  bsConfig: Partial<BsDatepickerConfig>;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.suppaipForm = this.formBuilder.group({
-      depositDate: [new Date()],
-      depositTime: [''],
+      depositDateTime: [{value: new Date(), disabled: true}],
       typeSUPPAIP: ['SUPPAIP N'],
       text: [''],
       object: [''],
-      targetSection: [''],
-      startValidityPeriod: [''],
-      endValidityPeriod: [''],
+      aipTargetSections: [''],
+      validityPeriod: [[new Date(), new Date()], [ValidationService.DateValidator]],
       descriptionText: [''],
       filesForm: new FormArray([])
     });
-    this.bsConfig = Object.assign({}, { containerClass: 'theme-dark-blue' });
   }
 
   get form(): {[key: string]: AbstractControl}{

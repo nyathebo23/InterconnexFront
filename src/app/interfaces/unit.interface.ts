@@ -1,9 +1,11 @@
-export class UnitI{
+export interface UnitI{
     id: string;
     email: string;
     name: string;
-    telephone: string;
+    phone_number: string;
     fax: string;
-    adress: string;
+    address: string;
     rsfta: string;
+    aerodrome: string;
+    aerodrome_name: string;
 }

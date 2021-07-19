@@ -1,16 +1,22 @@
+import { Aerodrome } from './aerodrome.model';
+import { Unit } from './unit.model';
 import { User } from './user.model';
-import { SourceUnit } from './source-unit.model';
 
 export class Agent {
+    // tslint:disable-next-line:variable-name
     private _id: string;
+    // tslint:disable-next-line:variable-name
     private _user: User;
-    private _unit: SourceUnit;
+    // tslint:disable-next-line:variable-name
+    private _unit: Unit;
+    // tslint:disable-next-line:variable-name
+    private _aerodrome: Aerodrome;
 
-
-    constructor(id: string, user: User, unit: SourceUnit){
+    constructor(id: string, user: User, unit: Unit, aerodrome: Aerodrome){
         this._id = id;
         this._user = user;
         this._unit = unit;
+        this._aerodrome = aerodrome;
     }
 
     public get id(): string {
@@ -21,14 +27,18 @@ export class Agent {
         return this._user;
     }
 
-    public get unit(): SourceUnit {
+    public get unit(): Unit {
         return this._unit;
     }
 
-
-    public static fromJSON(data: {[key: string]: any}): Agent{
-        const user = User.fromJSON(data.user);
-        const unit = SourceUnit.fromJSON(data.unit);
-        return new Agent(data.id, user, unit);
+    public get aerodrome(): Aerodrome {
+        return this._aerodrome;
     }
+
+
+    // public static fromJSON(data: {[key: string]: any}): Agent{
+    //     const user = User.fromJSON(data.user);
+    //     const unit = SourceUnit.fromJSON(data.unit);
+    //     return new Agent(data.id, user, unit);
+    // }
 }

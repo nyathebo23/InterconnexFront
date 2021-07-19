@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-aic',
@@ -20,12 +19,10 @@ export class AICComponent  {
   aicForm: FormGroup;
   subjectChoices: Array<string> = new Array();
   subjectList: Array<string>;
-  bsConfig: Partial<BsDatepickerConfig>;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.aicForm = this.formBuilder.group({
-      depositDate: [new Date()],
-      depositTime: [new Date()],
+      depositDateTime: [{value: new Date(), disabled: true}],
       subject: ['admin'],
       object: [''],
       text: [''],
@@ -42,7 +39,6 @@ export class AICComponent  {
     this.subjectChoices.push('DDIAFORMS.aic.subject.security');
     this.subjectChoices.push('DDIAFORMS.aic.subject.zone');
     this.subjectChoices.push('DDIAFORMS.aic.subject.maps');
-    this.bsConfig = Object.assign({}, { containerClass: 'theme-dark-blue' });
 
   }
 

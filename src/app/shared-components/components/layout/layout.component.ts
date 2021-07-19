@@ -10,6 +10,12 @@ export class LayoutComponent  {
   @Input()
   navLinks: {name: string, iconClass: string, url: string}[];
 
+  @Input()
+  role: string;
+
+  @Input()
+  agentName: string;
+
   constructor() {
 
   }

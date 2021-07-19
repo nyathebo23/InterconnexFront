@@ -1,6 +1,6 @@
-import { SourceStructureI } from './source-structure.interface';
+import { AerodromeI } from './aerodrome.interface';
 
-export class UnitExtendI{
+export interface UnitExtendI{
     id: string;
     email: string;
     name: string;
@@ -8,5 +8,5 @@ export class UnitExtendI{
     fax: string;
     adress: string;
     rsfta: string;
-    source_structure: SourceStructureI;
+    aerodrome: AerodromeI;
 }

@@ -12,9 +12,9 @@ export class ControlMessagesComponent  {
   @Input() control!: AbstractControl;
   constructor() {}
 
-  get errorMessage() {
-    if (this.control)
-      for (let propertyName in this.control.errors) {
+  get errorMessage(): string {
+    if (this.control){
+      for (const propertyName in this.control.errors) {
         if (
           this.control.errors.hasOwnProperty(propertyName) &&
           this.control.dirty
@@ -24,8 +24,8 @@ export class ControlMessagesComponent  {
             this.control.errors[propertyName]
           );
         }
+      }
     }
-
     return null;
   }
 }
