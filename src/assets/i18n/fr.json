@@ -43,6 +43,8 @@
             "function": "Fonction",
             "quality": "Qualité",
             "sex": "Sexe",
+            "sexmale": "Masculin",
+            "sexfemale": "Feminin",
             "role": "Rôle",
             "submitBtn": "Enregistrer"
         },

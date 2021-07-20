@@ -1,20 +1,19 @@
 <div class="d-flex flex-wrap justify-content-between">
     <div class="card-form mb-5">
         <h2 class="titleform">{{'STRUCTURESSOURCES.title' | translate }}</h2>
-        <form [formGroup]="structsourceForm">
+        <form [formGroup]="aerodromeForm">
             <div class="form-group mb-4">
-                <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : structsourceForm.controls.name.invalid && structsourceForm.controls.name.dirty}" placeholder="{{'STRUCTURESSOURCES.name' | translate }}" />
-                <app-control-messages [control]="structsourceForm.controls.name"></app-control-messages>
+                <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.name.invalid && aerodromeForm.controls.name.dirty}" placeholder="{{'STRUCTURESSOURCES.name' | translate }}" />
+                <app-control-messages [control]="aerodromeForm.controls.name"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <input type="text" formControlName="code" class="form-control" [ngClass]="{'red-border' : structsourceForm.controls.code.invalid && structsourceForm.controls.code.dirty}" placeholder="{{'STRUCTURESSOURCES.code' | translate }}" />
-                <app-control-messages [control]="structsourceForm.controls.code"></app-control-messages>
+                <input type="text" formControlName="code" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.code.invalid && aerodromeForm.controls.code.dirty}" placeholder="{{'STRUCTURESSOURCES.code' | translate }}" />
+                <app-control-messages [control]="aerodromeForm.controls.code"></app-control-messages>
             </div>
 
             <div class="form-group mb-4">
-                <input type="text" formControlName="locationInd" class="form-control" [ngClass]="{'red-border' : structsourceForm.controls.locationInd.invalid && structsourceForm.controls.locationInd.dirty}" placeholder="{{'STRUCTURESSOURCES.locationInd' | translate }}"
-                />
-                <app-control-messages [control]="structsourceForm.controls.locationInd"></app-control-messages>
+                <input type="text" formControlName="locationInd" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.locationInd.invalid && aerodromeForm.controls.locationInd.dirty}" placeholder="{{'STRUCTURESSOURCES.locationInd' | translate }}" />
+                <app-control-messages [control]="aerodromeForm.controls.locationInd"></app-control-messages>
             </div>
             <!-- <div class="form-group mb-4">
                 <select formControlName="inflocal" class="form-control">
@@ -61,7 +60,7 @@
                 </button>
             </div>
             <div class="d-flex justify-content-center">
-                <button [disabled]="structsourceForm.invalid" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                <button [disabled]="aerodromeForm.invalid" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
                     <span *ngIf="loadingss" class="spinner-border spinner-border-sm mr-1"></span>
                     {{'STRUCTURESSOURCES.submitBtn' | translate }}                    
                 </button>
@@ -96,7 +95,7 @@
                 <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <select formControlName="structsource" class="form-control">
+                <select formControlName="aerodrome" class="form-control">
                     <option selected disabled value=""> {{ 'SOURCEUNIT.labelAerodrome' | translate }} </option>
                 </select>
             </div>

@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 
 @Component({
@@ -18,18 +19,15 @@ export class SourceEltsCreateComponent implements OnInit {
   loadingss: boolean;
   loadingsu: boolean;
   sourceUnitForm: FormGroup;
-  structsourceForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) {
-
+  aerodromeForm: FormGroup;
+  constructor(private formBuilder: FormBuilder, private adminService: AdminService) {
 
   }
 
   ngOnInit(): void {
-    this.structsourceForm = this.formBuilder.group({
+    this.aerodromeForm = this.formBuilder.group({
       name: ['', [Validators.required, ValidationService.requiredValidator]],
-      code: ['', [Validators.required, ValidationService.requiredValidator]],
       locationInd: ['', [Validators.required, ValidationService.requiredValidator]],
-      inflocal: ['', [Validators.required]],
       units: new FormArray([])
     });
 
@@ -40,16 +38,16 @@ export class SourceEltsCreateComponent implements OnInit {
       email: ['', [Validators.required, ValidationService.requiredValidator, ValidationService.emailValidator]],
       rsfta: [''],
       address: ['', [Validators.required, ValidationService.requiredValidator]],
-      structsource: ['', [Validators.required]]
+      aerodrome: ['', [Validators.required]]
     });
   }
 
-  get aerodromeForm(): {[key: string]: any}{
-    return this.structsourceForm.controls;
+  get aerodromForm(): {[key: string]: any}{
+    return this.aerodromeForm.controls;
   }
 
   get unitsForms(): FormArray {
-    return this.aerodromeForm.units as FormArray;
+    return this.aerodromForm.units as FormArray;
   }
 
   removeUnitForm(): void{
@@ -57,7 +55,7 @@ export class SourceEltsCreateComponent implements OnInit {
   }
 
   addUnitForm(): void{
-    this.aerodromeForm.units.push(
+    this.aerodromForm.units.push(
       this.formBuilder.group({
         name: ['', [Validators.required, ValidationService.requiredValidator]],
         telephone: ['', [Validators.required, ValidationService.requiredValidator]],
@@ -67,5 +65,39 @@ export class SourceEltsCreateComponent implements OnInit {
         address: ['', [Validators.required, ValidationService.requiredValidator]],
       })
     );
+  }
+
+  submitUnit(): void {
+    const formData = new FormData();
+    formData.append('name', this.sourceUnitForm.controls.name.value);
+    formData.append('fax', this.sourceUnitForm.controls.fax.value);
+    formData.append('email', this.sourceUnitForm.controls.email.value);
+    formData.append('rsfta', this.sourceUnitForm.controls.rsfta.value);
+    formData.append('phone_number', this.sourceUnitForm.controls.telephone.value);
+    formData.append('address', this.sourceUnitForm.controls.address.value);
+    formData.append('aerodrome', this.sourceUnitForm.controls.aerodrome.value);
+
+    this.adminService.createUnit(formData)
+    .then(() => {
+
+    })
+    .catch((err) => {
+
+    });
+  }
+
+  submitAerodrome(): void {
+    if (this.unitsForms.length === 0){
+      const formData = new FormData();
+      formData.append('name', this.aerodromeForm.controls.name.value);
+      formData.append('location_ind', this.aerodromeForm.controls.locationInd.value);
+      this.adminService.createAerodrome(formData)
+      .then(() => {
+
+      })
+      .catch((err) => {
+
+      });
+    }
   }
 }

@@ -44,6 +44,8 @@
             "function": "Function",
             "quality": "Quality",
             "sex": "Sex",
+            "sexmale": "Male",
+            "sexfemale": "Female",
             "role": "Role",
             "submitBtn": "Save"
         },

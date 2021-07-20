@@ -9,6 +9,7 @@ import { Aerodrome } from 'src/app/models/aerodrome.model';
 import { SourceUnit } from 'src/app/models/source-unit.model';
 import { LocalInformer } from 'src/app/models/local-informer.model';
 import { NationalInformer } from 'src/app/models/national-informer.model';
+import { LocalInformerExtend } from 'src/app/models/local-informer-extend.model';
 
 
 interface ResponseMessage  {
@@ -24,7 +25,7 @@ export class AuthManagerService {
   user: User;
   unit: SourceUnit;
   aerodrome: Aerodrome;
-  localinformer: LocalInformer;
+  localinformer: LocalInformerExtend;
   nationalinformer: NationalInformer;
   helper = new JwtHelperService();
   constructor(private http: HttpClient) {}

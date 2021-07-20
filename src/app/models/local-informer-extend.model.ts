@@ -1,21 +1,20 @@
 import { AerodromeI } from '../interfaces/aerodrome.interface';
 import { LocalInformerExtendI } from '../interfaces/local-informer-extend.interface';
-import { LocalInformerI } from '../interfaces/local-informer.interface';
 import { UnitSourceI } from '../interfaces/unit-source.interface';
 import { Aerodrome } from './aerodrome.model';
 import { UnitSource } from './unit-source.model';
 
-export class LocalInformer {
+export class LocalInformerExtend {
     // tslint:disable-next-line:variable-name
     private _id: string;
     // tslint:disable-next-line:variable-name
     private _name: string;
     // tslint:disable-next-line:variable-name
-    private _unit: string;
+    private _unit: UnitSource;
     // tslint:disable-next-line:variable-name
-    private _aerodrome: string;
+    private _aerodrome: Aerodrome;
 
-    constructor(id: string, name: string, unit?: string, aerodrome?: string) {
+    constructor(id: string, name: string, unit?: UnitSource, aerodrome?: Aerodrome) {
         this._id = id;
         this._name = name;
         this._unit = unit;
@@ -31,27 +30,27 @@ export class LocalInformer {
     }
 
 
-    public get aerodrome(): string {
+    public get aerodrome(): Aerodrome {
         return this._aerodrome;
     }
 
-    public set aerodrome(value: string){
+    public set aerodrome(value: Aerodrome){
         this._aerodrome = value;
     }
 
-    public get unit(): string {
+    public get unit(): UnitSource {
         return this._unit;
     }
 
-    public set unit(value: string){
+    public set unit(value: UnitSource){
         this._unit = value;
     }
 
-    public static fromJSON(data: LocalInformerI): LocalInformer{
-        const localinf =  new LocalInformer(data.id, data.name);
+    public static fromJSON(data: LocalInformerExtendI): LocalInformerExtend{
+        const localinf =  new LocalInformerExtend(data.id, data.name);
         if (data.unit && data.aerodrome){
-            localinf.unit =  data.unit;
-            localinf.aerodrome = data.aerodrome;
+            localinf.unit =  UnitSource.fromJSON(data.unit);
+            localinf.aerodrome = Aerodrome.fromJSON(data.aerodrome);
         }
         return localinf;
     }

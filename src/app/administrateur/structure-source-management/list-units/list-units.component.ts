@@ -2,6 +2,7 @@ import { Unit } from 'src/app/models/unit.model';
 import { Aerodrome } from 'src/app/models/aerodrome.model';
 import { Component, OnInit, ViewChild, HostListener, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { MdbTablePaginationComponent, MdbTableDirective } from 'angular-bootstrap-md';
+import { AdminService } from 'src/app/services/agent-services/admin.service';
 
 @Component({
   selector: 'app-list-units',
@@ -17,23 +18,19 @@ export class ListUnitsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
-  constructor(private cdUnitsRef: ChangeDetectorRef) {
+  constructor(private cdUnitsRef: ChangeDetectorRef, private adminService: AdminService) {
     this.headUnitsElements = this.headUnitsElements.map((elt) => this.pref + elt);
     this.headUnitsElements.push('UpdateDelete.editBtn');
     this.headUnitsElements.push('UpdateDelete.deleteBtn');
+    this.adminService.getUnitsList().subscribe((units: Unit[]) => {
+        this.units = units;
+    });
   }
 
   ngOnInit(): void{
-    this.units = [
-      new Unit('0', 'franckhebo@gmail.com', 'Unité MIRE', '+ 237 225 282 565', '2350545415', 'djkdjzdzjke', '1', 'Aeroport de Douala'),
-      new Unit('1', 'talompatrick@gmail.com', 'Unité METAR', '+ 237 225 282 565', '2350545415', 'djkdjzdzjke', '1', 'Aeroport de Douala'),
-      new Unit('2', 'abbarapaya@ccaa.caero', 'Unité MIS', '+ 237 225 282 565', '6 635 054 545', 'AEETDTGHFG', '1', 'Aeroport de Douala'),
-    ];
-
     this.mdbTable.setDataSource(this.units);
     this.units = this.mdbTable.getDataSource();
     this.prevUnits = this.mdbTable.getDataSource();
-
   }
 
   ngAfterViewInit(): void{

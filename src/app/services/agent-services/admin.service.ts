@@ -11,6 +11,7 @@ import { Unit } from 'src/app/models/unit.model';
 import { NationalInformer } from 'src/app/models/national-informer.model';
 import { LocalInformer } from 'src/app/models/local-informer.model';
 import { LocalInformerExtendI } from 'src/app/interfaces/local-informer-extend.interface';
+import { AerodromeExtendI } from 'src/app/interfaces/aerodrome-extend.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,65 +32,64 @@ export class AdminService {
       }));
   }
 
-  getAerodromesList(): Observable<any[]>{
+  getAerodromesList(extend?: string): Observable<any[]>{
+    if (extend){
+      return this.http.get<AerodromeExtendI[]>(URLS.AERODROME_CRU, {
+        params: {extend: 'True'}
+      });
+    }
     return this.http.get<AerodromeI[]>(URLS.AERODROME_CRU);
   }
 
-  getLocalInformersList(): Observable<LocalInformer[]>{
-    return this.http.get<LocalInformerExtendI[]>(URLS.LOCAL_INFORMER_CRU).pipe(
-      catchError(this.handleError),
-      map((resDatas: LocalInformerExtendI[]) => {
-        const localInformers = new Array<LocalInformer>();
-        resDatas.forEach((data) => {
-            localInformers.push(LocalInformer.fromJSON(data));
-          });
-        return localInformers;
-      }));
+  getLocalInformersList(extern?: string): Observable<any[]>{
+    if (extern){
+      return this.http.get<LocalInformerI[]>(URLS.LOCAL_INFORMER_CRU, {
+        params: {extern: 'True'}
+      });
+    }
+    return this.http.get<LocalInformerI[]>(URLS.LOCAL_INFORMER_CRU);
   }
 
   getNationalInformersList(): Observable<any[]>{
-    return this.http.get<NationalInformerI[]>(URLS.LOCAL_INFORMER_CRU).pipe(
-      catchError(this.handleError),
-      map((resDatas: NationalInformerI[]) => {
-        const nationalInformers = new Array<NationalInformer>();
-        resDatas.forEach((data) => {
-            nationalInformers.push(NationalInformer.fromJSON(data));
-          });
-        return nationalInformers;
-      }));
+    return this.http.get<NationalInformerI[]>(URLS.LOCAL_INFORMER_CRU);
   }
 
-  createUnit(formData: FormData): Observable<any> {
-    return this.http.post(URLS.UNIT_CRU, formData);
+  createUnit(formData: FormData): Promise<any> {
+    return this.http.post(URLS.UNIT_CRU, formData).toPromise();
   }
 
-  createAerodrome(formData: FormData): Observable<any> {
-    return this.http.post(URLS.AERODROME_CRU, formData);
+  createAerodrome(formData: FormData): Promise<any> {
+    return this.http.post(URLS.AERODROME_CRU, formData).toPromise();
   }
 
-  createNationalInformer(formData: FormData): Observable<any>  {
-    return this.http.post(URLS.NATIONAL_INFORMER_CRU, formData);
+  createNationalInformer(formData: FormData): Promise<any>  {
+    return this.http.post(URLS.NATIONAL_INFORMER_CRU, formData).toPromise();
   }
 
-  createLocalInformer(formData: FormData): Observable<any> {
-    return this.http.post(URLS.LOCAL_INFORMER_CRU, formData);
+  createLocalInformer(formData: FormData): Promise<any> {
+    return this.http.post(URLS.LOCAL_INFORMER_CRU, formData).toPromise();
   }
 
-  updateUnit(id: string, formData: FormData): Observable<any> {
-    return this.http.post(URLS.UNIT_CRU + id, formData);
+  updateUnit(id: string, formData: FormData): Promise<any> {
+    return this.http.post(URLS.UNIT_CRU + id, formData).toPromise();
   }
 
-  updateAerodrome(id: string, formData: FormData): Observable<any> {
-    return this.http.post(URLS.AERODROME_CRU + id, formData);
+  updateAerodrome(id: string, formData: FormData): Promise<any> {
+    return this.http.post(URLS.AERODROME_CRU + id, formData).toPromise();
   }
 
-  updateNationalInformer(id: string, formData: FormData): Observable<any>  {
-    return this.http.post(URLS.NATIONAL_INFORMER_CRU + id, formData);
+  updateNationalInformer(id: string, formData: FormData): Promise<any>  {
+    return this.http.post(URLS.NATIONAL_INFORMER_CRU + id, formData).toPromise();
   }
 
-  updateLocalInformer(id: string, formData: FormData): Observable<any> {
-    return this.http.post(URLS.LOCAL_INFORMER_CRU + id, formData);
+  updateLocalInformer(id: string, formData: FormData): Promise<any> {
+    return this.http.post(URLS.LOCAL_INFORMER_CRU + id, formData).toPromise();
   }
+
+  signUpUser(formData: FormData): Promise<any> {
+    return this.http.post(URLS.SIGNUP, formData).toPromise();
+  }
+
 
   createLocalAgent(formData: FormData): Observable<any> {
     return this.http.post(URLS.LOCAL_AGENT_CRU, formData);
