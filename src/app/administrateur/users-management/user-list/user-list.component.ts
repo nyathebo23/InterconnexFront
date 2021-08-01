@@ -23,9 +23,9 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     this.users = [
-      new User('0', 'Nyat', 'franckhebo@gmail.com', 'Nyatchou', 'Franck', 'Male', 'Agent Source'),
-      new User('0', 'Lomta', 'talompatrick@gmail.com', 'Talom', 'Patrick', 'Male', 'Strcture Source'),
-      new User('0', 'ABBA', 'abbarapaya@ccaa.caero', 'ABBA', 'SOULEYMANOU', 'Male', 'Informateur Local'),
+      new User('0', 'Nyat', 'franckhebo@gmail.com', 'Nyatchou', 'Franck', 'Male', 'Agent Source', false),
+      new User('0', 'Lomta', 'talompatrick@gmail.com', 'Talom', 'Patrick', 'Male', 'Strcture Source', false),
+      new User('0', 'ABBA', 'abbarapaya@ccaa.caero', 'ABBA', 'SOULEYMANOU', 'Male', 'Informateur Local', false),
     ];
     this.mdbTable.setDataSource(this.users);
     this.users = this.mdbTable.getDataSource();

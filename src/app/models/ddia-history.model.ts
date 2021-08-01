@@ -1,12 +1,13 @@
 import { DDIAHistoryI } from '../interfaces/ddia-history';
 import { DDIAModifHistoryI } from '../interfaces/ddia-modif-history.interface';
+import { AgentObject } from './agent-object.model';
 import { DDIAModifHistory } from './ddia-modif-history.model';
 import { UserInfos } from './user-infos.model';
 import { User } from './user.model';
 
 export class DDIAHistory {
     // tslint:disable-next-line: variable-name
-    private _user: UserInfos;
+    private _agentObject: AgentObject;
     // tslint:disable-next-line: variable-name
     private _typeAction: string;
     // tslint:disable-next-line: variable-name
@@ -14,15 +15,15 @@ export class DDIAHistory {
     // tslint:disable-next-line: variable-name
     private _datetime: Date;
 
-    constructor(user: UserInfos, typeAction: string, modifsHistory: DDIAModifHistory[], datetime: Date){
-        this._user = user,
+    constructor(agent: AgentObject, typeAction: string, modifsHistory: DDIAModifHistory[], datetime: Date){
+        this._agentObject = agent,
         this._typeAction = typeAction;
         this._modifsHistory = modifsHistory;
         this._datetime = datetime;
     }
 
-    get user(): UserInfos {
-        return this._user;
+    get agentObject(): AgentObject {
+        return this._agentObject;
     }
 
     get typeAction(): string {
@@ -38,12 +39,13 @@ export class DDIAHistory {
     }
 
     public static fromJSON(data: DDIAHistoryI): DDIAHistory{
+        console.log(data);
         const modifsHistory = Array<DDIAModifHistory>();
         data.modifshistory.forEach((elt: DDIAModifHistoryI) => {
             modifsHistory.push(DDIAModifHistory.fromJSON(elt));
         });
         return new DDIAHistory(
-            UserInfos.fromJSON(data.user),
+            AgentObject.fromJSON(data.agent_object),
             data.type_action,
             modifsHistory,
             new Date(data.date_time)

@@ -1,0 +1,9 @@
+export const SOURCE_AGENT = 'Agent source';
+export const SOURCE_VERIFIER = 'Verificateur source';
+export const SOURCE_STRUCTURE = 'Structure source';
+export const LOCAL_INFORMER = 'Informateur local';
+export const NATIONAL_INFORMER = 'Informateur national';
+export const LOCAL_VERIFIER = 'Verificateur local';
+export const aerodromeRoles = [SOURCE_AGENT, SOURCE_STRUCTURE, SOURCE_VERIFIER];
+export const localInformerRoles = [LOCAL_INFORMER, LOCAL_VERIFIER];
+export const nationalInformerRoles = [NATIONAL_INFORMER];

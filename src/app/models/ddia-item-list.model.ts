@@ -20,13 +20,13 @@ export class DDIAItemList {
     }
 
     public static isNOTAM(ddia): boolean{
-        return 'type_notam' in ddia;
+        return ddia.type_ddia === 'NOTAM';
     }
     public static isSUPPAIP(ddia): boolean{
-        return 'type_suppaip' in ddia;
+        return ddia.type_ddia === 'SUPP AIP';
     }
     public static isAIC(ddia): boolean{
-        return 'object' in ddia && 'subject' in ddia;
+        return ddia.type_ddia === 'AIC';
     }
 
 }

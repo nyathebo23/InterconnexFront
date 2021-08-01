@@ -13,24 +13,28 @@ export class ListAerodromesComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line:max-line-length
   headAerodromeElements = ['STRUCTURESSOURCES.name',  'STRUCTURESSOURCES.locationInd', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
-  aerodromes: Aerodrome[];
-  prevAerodromes: Aerodrome[];
+  aerodromes: Aerodrome[] = [];
+  prevAerodromes: Aerodrome[] = [];
+  loadingDatas = false;
+
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   constructor(private cdAerodRef: ChangeDetectorRef, private adminService: AdminService) {
-    this.adminService.getAerodromesList().subscribe((aerodromesList) => {
-      this.aerodromes = aerodromesList;
-    });
+    this.loadingDatas = true;
   }
 
   ngOnInit(): void{
-    this.mdbTable.setDataSource(this.aerodromes);
-    this.aerodromes = this.mdbTable.getDataSource();
-    this.prevAerodromes = this.mdbTable.getDataSource();
+    this.adminService.getAerodromesList().subscribe((aerodromesList) => {
+      this.aerodromes = aerodromesList;
+      this.mdbTable.setDataSource(this.aerodromes);
+      this.aerodromes = this.mdbTable.getDataSource();
+      this.prevAerodromes = this.mdbTable.getDataSource();
+      this.loadingDatas = false;
+    });
   }
 
   ngAfterViewInit(): void{
-    this.mdbTablePagination.setMaxVisibleItemsNumberTo(2);
+    this.mdbTablePagination.setMaxVisibleItemsNumberTo(10);
     this.mdbTablePagination.calculateFirstItemIndex();
     this.mdbTablePagination.calculateLastItemIndex();
     this.cdAerodRef.detectChanges();

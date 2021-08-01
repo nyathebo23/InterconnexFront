@@ -4,7 +4,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 
 @Component({
@@ -18,7 +19,13 @@ export class PasswordReset2Component  {
   loading = false;
   showNewPassword = false;
   showConfNewPassword = false;
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  errors: string[] = [];
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthManagerService
+  ) {
     this.passwordResetForm = this.formBuilder.group({
       code: ['', [ValidationService.requiredValidator]],
       newPassword: ['', [ValidationService.requiredValidator, ValidationService.passwordValidator]],
@@ -34,6 +41,19 @@ export class PasswordReset2Component  {
     this.showConfNewPassword = !this.showConfNewPassword;
   }
   submit(): void{
-
+    this.loading = true;
+    const userId = this.authService.user.id;
+    const code = this.passwordResetForm.controls.code.value;
+    const password  = this.passwordResetForm.controls.newPassword.value;
+    this.authService.resetPassword(userId, code, password)
+    .then((resp) => {
+      this.loading = false;
+      this.router.navigate(['passwordreset']);
+    })
+    .catch((err) => {
+      this.errors = this.authService.displayErrors(err);
+      this.loading = false;
+      setTimeout(() => this.errors = [], 10000);
+    });
   }
 }

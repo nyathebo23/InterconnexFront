@@ -19,6 +19,8 @@ export class User{
     private _role: string;
     // tslint:disable-next-line:variable-name
     private _sex: string;
+    // tslint:disable-next-line:variable-name
+    private _isStaff: boolean;
 
     constructor(
         id: string,
@@ -28,6 +30,7 @@ export class User{
         lastname: string,
         sex: string,
         rol: string,
+        isStaff: boolean,
         funct?: string,
         quality?: string,
     ){
@@ -40,6 +43,7 @@ export class User{
         this._functionn = funct;
         this._quality = quality;
         this._sex = sex;
+        this._isStaff = isStaff;
     }
 
     public get id(): string {
@@ -81,17 +85,26 @@ export class User{
         return this._sex;
     }
 
+    public get isStaff(): boolean {
+        return this._isStaff;
+    }
+
     public static fromJSON(data: UserI): User{
         return new User(
             data.id,
             data.username,
             data.email,
-            data.firstname,
-            data.lastname,
+            data.first_name,
+            data.last_name,
             data.sex,
             data.role,
+            data.is_staff,
             data.function,
             data.quality,
         );
+    }
+
+    public getAllName(): string {
+        return this.lastname + ' ' + this.firstname;
     }
 }

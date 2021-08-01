@@ -76,7 +76,17 @@
         "buttons": {
             "reinit": "Reset form",
             "save": "Save",
-            "plusonefile": "Add another file"
+            "plusonefile": "Add another file",
+            "sourcesubmitddia": "Submit to verif",
+            "cancelddia": "Cancel",
+            "verifokddia": "Verification OK",
+            "admitokddia": "Admission OK",
+            "validateokddia": "Validation OK",
+            "approveokddia": "Approbation Ok",
+            "rejectverifddia": "Reject",
+            "rejectadmitddia": "Reject",
+            "rejectvalidateddia": "Reject",
+            "rejectapproveddia": "Reject"
         },
         "sourceunit": {
             "title": "Informations about aeronotical information source unit",
@@ -103,7 +113,8 @@
             },
             "object": "Object",
             "text": "AIC text",
-            "files": "Attached files"
+            "files": "Attached files",
+            "createsuccess": "AIC request dissemination successfully created"
         },
         "suppaip": {
             "title": "SUPP AIP REQUEST DISSEMINATION FORM",
@@ -116,7 +127,9 @@
             "plannedPeriod": "Planned",
             "estimatedPeriod": "Estimated",
             "text": "SUPP AIP Text",
-            "files": "Attached files"
+            "files": "Attached files",
+            "createsuccess": "SUPP AIP request dissemination successfully created"
+
         },
         "notam": {
             "title": "NOTAM REQUEST DISSEMINATION FORM",
@@ -133,7 +146,8 @@
             "vertLimits": "Vertical limits in altitude",
             "lowerLim": "Lower limit",
             "upperLim": "Upper limit",
-            "files": "Attached files"
+            "files": "Attached files",
+            "createsuccess": "NOTAM request dissemination successfully created"
         },
         "errors": {
             "invalidDate": "Enter valid dates",
@@ -183,9 +197,10 @@
         "dateOldToNew": "From oldest to newest",
         "dateNewToOld": "From newest to oldest",
         "ddiaitem": {
-            "init": "Initiated by {{unitname}} unit ({{airportname}} airport)",
+            "init": "Initiated by {{unitname}} ({{airportname}})",
             "rejectby": "Rejector",
             "date": "on {{date}} at {{time}}",
+            "initiated": "Initiated on",
             "sendon": "Send",
             "approved": "Approved",
             "admitted": "Admitted",
@@ -201,10 +216,12 @@
         "locationInd": "Location Indicator",
         "name": "Name",
         "code": "Code",
+        "isconceded": "Is a conceded airport",
         "inflocal": "Local informer",
         "labelLocalInf": "Select the local informant related to the aerodrome",
         "submitBtn": "Save",
-        "addunitBtn": "Add Source unit"
+        "addunitBtn": "Add Source unit",
+        "createsuccess": "Aerodrome successfully created"
     },
     "SOURCEUNIT": {
         "title": "AERODROME UNITS REGISTRATION",
@@ -217,18 +234,47 @@
         "rsfta": "RSFTA",
         "structuresource": "Aerodrome or other source structure",
         "labelAerodrome": "Select the airport to which the unit belongs",
-        "submitBtn": "Save"
+        "submitBtn": "Save",
+        "createsuccess": "Source unit successfully created"
     },
     "InformateurLocal": {
         "title": "Local informer",
-        "name": "Name"
+        "name": "Name",
+        "submitBtn": "Save",
+        "createsuccess": "Local informer successfully created"
     },
     "InformateurNational": {
         "title": "National informer",
-        "name": "Name"
+        "name": "Name",
+        "isauthority": "Belongs to the aeronautical authority",
+        "submitBtn": "Save",
+        "createsuccess": "National informer successfully created"
     },
     "UpdateDelete": {
         "editBtn": "Edit",
         "deleteBtn": "Delete"
+    },
+    "Errors": {
+        "serverconnection": "Server connection failure",
+        "servererror": "An error occurred in the server"
+    },
+    "MODAL": {
+        "submitToVerify": {
+            "helperText": "Do you really want to submit this request for the dissemination of {{typeDDIA}} for verification ?"
+        },
+        "verifyok": {
+            "helperText": "Do you confirm that this request for the dissemination of {{typeDDIA}} is compliant ? If yes, it will be sent to the aerodrome supervisors for validation of the content."
+        },
+        "admitok": {
+            "helperText": "Do you confirm that this request for the dissemination of {{typeDDIA}} is compliant ?"
+        },
+        "validateok": {
+            "helperText": "Do you confirm that this request for the dissemination of {{typeDDIA}} is compliant ? If yes, it will be sent to users in the National Informant Office for approval."
+        },
+        "approveok": {
+            "helperText": ""
+        },
+        "ok": "Yes",
+        "cancel": "Cancel"
     }
 }

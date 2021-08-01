@@ -1,34 +1,44 @@
 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="suppaipForm">
-    <div>
+    <div class="d-flex flex-column align-items-center justify-content-center" style="height: 300px;" *ngIf="loadingDatas">
+        <span class="spinner-border" role="status" aria-hidden="true"></span>
+    </div>
+    <div class="d-flex flex-column" *ngIf="!loadingDatas">
         <h1 class="ddia-title"> {{'DDIAFORMS.suppaip.title' | translate}} </h1>
         <mdb-carousel [isControls]="true" [interval]="'0'" [animation]="'slide'">
             <mdb-carousel-item>
                 <div class="ddia-form">
                     <div class="container-fluid">
+                        <div class="alert alert-danger" role="alert" *ngFor="let err of errors">
+                            {{err | translate}}
+                        </div>
+                        <div class="alert alert-success" role="alert" *ngIf="createSuccess">
+                            {{'DDIAFORMS.suppaip.createsuccess' | translate }}
+                        </div>
                         <div class="form-group">
                             <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
                             <owl-date-time #dt1></owl-date-time>
                         </div>
-                        <app-source-unit-form></app-source-unit-form>
+                        <app-source-unit-form [locationInd]="locationInd" [initiatorInfos]="initiatorInfos" [unit]="unit"></app-source-unit-form>
                         <div>
                             <div class="form-group">
                                 <label for="typeSUPPAIP" class="custom-label">{{'DDIAFORMS.suppaip.type' | translate}}:</label>
                                 <div class="d-flex flex-wrap justify-content-between">
                                     <div class="custom-control custom-radio">
-                                        <input id="suppaipN" type="radio" class="custom-control-input" value="SUPPAIP N" formControlName="typeSUPPAIP">
-                                        <label for="suppaipN" class="custom-control-label">SUPPAIP N</label>
+                                        <input id="suppaipN" type="radio" class="custom-control-input" value="SUPP AIP N" formControlName="typeSUPPAIP">
+                                        <label for="suppaipN" class="custom-control-label">SUPP AIP N</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input id="suppaipR" type="radio" class="custom-control-input" value="SUPPAIP R" formControlName="typeSUPPAIP">
-                                        <label for="suppaipR" class="custom-control-label">SUPPAIP R</label>
+                                        <input id="suppaipR" type="radio" class="custom-control-input" value="SUPP AIP R" formControlName="typeSUPPAIP">
+                                        <label for="suppaipR" class="custom-control-label">SUPP AIP R</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group mb-1">
                                 <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.suppaip.notamRcode' | translate }}</label>
-                                <select disabled class="form-control" id="targetNOTAM">
+                                <input type="text" [disabled]="!isReplaceSUPPAIP()" id="targetNOTAM" formControlName="codeDDIAToReplace" class="form-control" />
+                                <!-- <select [disabled]="!isReplaceSUPPAIP()" class="form-control" id="targetNOTAM" formControlName="codeDDIAToReplace">
                                     <option value=""></option>
-                                </select>
+                                </select> -->
                             </div>
                             <div class="form-group mb-1">
                                 <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }}</label>
@@ -64,8 +74,8 @@
                                         <div>
                                             <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
                                             <button class="uploader-file-btn">                        
-                                            <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
-                                        </button>
+                                                <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
+                                            </button>
                                         </div>
                                         <div>
                                             <input type="text" formControlName="filename" [disabled]="true" class="form-control" style="height: 35px;">
@@ -92,6 +102,6 @@
     </div>
     <div class="d-flex flex-wrap justify-content-around mt-4">
         <button mdbBtn type="button" color="primary" outline="true" mdbWavesEffect>{{'DDIAFORMS.buttons.reinit' | translate }}</button>
-        <button type="button" mdbBtn color="primary" mdbWavesEffect>{{'DDIAFORMS.buttons.save' | translate }}</button>
+        <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="save()">{{'DDIAFORMS.buttons.save' | translate }}</button>
     </div>
 </div>

@@ -2,8 +2,9 @@ export interface UserI{
     id: string;
     username: string;
     email: string;
-    firstname: string;
-    lastname: string;
+    first_name: string;
+    last_name: string;
+    is_staff: boolean;
     function: string;
     quality: string;
     role: string;

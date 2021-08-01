@@ -1,4 +1,5 @@
 export interface DemandeNOTAMItemListI {
+    id: string;
     unit_name: string;
     airport_name: string;
     url: string;

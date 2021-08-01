@@ -1,32 +1,34 @@
-<div class="container-fluid">
-    <div class="card-signup">
-        <h2 class="form-title">{{'AUTHFORMS.SIGNUP.title' | translate }}</h2>
-        <form [formGroup]="signUpForm">
-            <div class="form-group mb-4">
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.username.invalid && signUpForm.controls.username.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.username' | translate }}" />
-                <app-control-messages [control]="signUpForm.controls.username"></app-control-messages>
+<div class="card-signup">
+    <h2 class="form-title">{{'AUTHFORMS.SIGNUP.title' | translate }}</h2>
+    <div class="alert alert-danger" role="alert" *ngFor="let err of errors">
+        {{err | translate}}
+    </div>
+    <form [formGroup]="signUpForm">
+        <div class="form-group mb-4">
+            <input type="text" formControlName="username" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.username.invalid && signUpForm.controls.username.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.username' | translate }}" />
+            <app-control-messages [control]="signUpForm.controls.username"></app-control-messages>
+        </div>
+        <div class="form-group mb-4">
+            <input type="email" formControlName="email" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.email.invalid && signUpForm.controls.email.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.email' | translate }}" />
+            <app-control-messages [control]="signUpForm.controls.email"></app-control-messages>
+        </div>
+        <div class="row mb-2">
+            <div class="form-group col-sm-6">
+                <input type="text" formControlName="firstname" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.firstname.invalid && signUpForm.controls.firstname.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.firstname' | translate }}" />
+                <app-control-messages [control]="signUpForm.controls.firstname"></app-control-messages>
             </div>
-            <div class="form-group mb-4">
-                <input type="email" formControlName="email" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.email.invalid && signUpForm.controls.email.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.email' | translate }}" />
-                <app-control-messages [control]="signUpForm.controls.email"></app-control-messages>
+            <div class="form-group col-sm-6">
+                <input type="text" formControlName="lastname" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.lastname.invalid && signUpForm.controls.lastname.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.lastname' | translate }}" />
+                <app-control-messages [control]="signUpForm.controls.lastname"></app-control-messages>
             </div>
-            <div class="row mb-2">
-                <div class="form-group col-sm-6">
-                    <input type="text" formControlName="firstname" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.firstname.invalid && signUpForm.controls.firstname.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.firstname' | translate }}" />
-                    <app-control-messages [control]="signUpForm.controls.firstname"></app-control-messages>
-                </div>
-                <div class="form-group col-sm-6">
-                    <input type="text" formControlName="lastname" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.lastname.invalid && signUpForm.controls.lastname.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.lastname' | translate }}" />
-                    <app-control-messages [control]="signUpForm.controls.lastname"></app-control-messages>
-                </div>
-            </div>
-            <div class="form-group mb-4">
-                <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.password.invalid && signUpForm.controls.password.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.password' | translate }}"
-                />
-                <i [ngClass]="showPassword ? 'fa fa-eye field-icon' : 'fa fa-eye-slash field-icon'" (click)="togglePasswordVisibility()"></i>
-                <app-control-messages [control]="signUpForm.controls.password"></app-control-messages>
-            </div>
-            <!-- <div class="form-group mb-4">
+        </div>
+        <div class="form-group mb-4">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.password.invalid && signUpForm.controls.password.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.password' | translate }}"
+            />
+            <i [ngClass]="showPassword ? 'fa fa-eye field-icon' : 'fa fa-eye-slash field-icon'" (click)="togglePasswordVisibility()"></i>
+            <app-control-messages [control]="signUpForm.controls.password"></app-control-messages>
+        </div>
+        <!-- <div class="form-group mb-4">
                 <select formControlName="structure" class="form-control">
                     <option selected disabled value="">Sélectionnez la structure à laquelle appartient l'utilisateur</option>
                     <option value="Aerodrome">Aérodrome</option>
@@ -34,60 +36,59 @@
                     <option value="Informateur National">Informateur national</option>
                 </select>
             </div> -->
-            <div class="form-group mb-4">
-                <input type="text" formControlName="function" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.function.invalid && signUpForm.controls.function.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.function' | translate }}" />
-                <app-control-messages [control]="signUpForm.controls.function"></app-control-messages>
-            </div>
-            <div class="form-group mb-4">
-                <input type="text" formControlName="quality" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.quality.invalid && signUpForm.controls.quality.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.quality' | translate }}" />
-                <app-control-messages [control]="signUpForm.controls.quality"></app-control-messages>
-            </div>
-            <div class="form-group mb-4">
-                <select formControlName="role" class="form-control">
-                    <option selected disabled value="">{{'AUTHFORMS.SIGNUP.role' | translate }}</option>
-                    <option [value]="userRoles.SOURCE_AGENT">Agent Source</option>
-                    <option [value]="userRoles.SOURCE_VERIFIER">Verificateur Source</option>
-                    <option [value]="userRoles.SOURCE_STRUCTURE">Structure Source</option>
-                    <option [value]="userRoles.LOCAL_INFORMER">Informateur Local</option>
-                    <option [value]="userRoles.LOCAL_VERIFIER">Verificateur Local</option>
-                    <option [value]="userRoles.NATIONAL_INFORMER">Informateur National</option>
-                </select>
-            </div>
-            <div class="form-group mb-4">
-                <select formControlName="sex" class="form-control">
-                    <option selected disabled value="">{{'AUTHFORMS.SIGNUP.sex' | translate }}</option>
-                    <option [value]="male">{{'AUTHFORMS.SIGNUP.sexmale' | translate }}</option>
-                    <option [value]="female">{{'AUTHFORMS.SIGNUP.sexfemale' | translate }}</option>
-                </select>
-            </div>
-        </form>
-        <div class="form-group mb-4" *ngIf="isAerodromeAgent() > 0">
-            <select class="form-control" [(ngModel)]="aerodrome" (change)="changeAerodrome($event)">
-                <option selected disabled [value]="undefined">Aerodromes</option>
-                <option *ngFor="let aerodrome of aerodromeList" [value]="aerodrome.id">{{aerodrome.name}}</option>
+        <div class="form-group mb-4">
+            <input type="text" formControlName="function" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.function.invalid && signUpForm.controls.function.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.function' | translate }}" />
+            <app-control-messages [control]="signUpForm.controls.function"></app-control-messages>
+        </div>
+        <div class="form-group mb-4">
+            <input type="text" formControlName="quality" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.quality.invalid && signUpForm.controls.quality.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.quality' | translate }}" />
+            <app-control-messages [control]="signUpForm.controls.quality"></app-control-messages>
+        </div>
+        <div class="form-group mb-4">
+            <select formControlName="role" class="form-control">
+                <option selected disabled value="">{{'AUTHFORMS.SIGNUP.role' | translate }}</option>
+                <option [value]="userRoles.SOURCE_AGENT">Agent Source</option>
+                <option [value]="userRoles.SOURCE_VERIFIER">Verificateur Source</option>
+                <option [value]="userRoles.SOURCE_STRUCTURE">Structure Source</option>
+                <option [value]="userRoles.LOCAL_INFORMER">Informateur Local</option>
+                <option [value]="userRoles.LOCAL_VERIFIER">Verificateur Local</option>
+                <option [value]="userRoles.NATIONAL_INFORMER">Informateur National</option>
             </select>
         </div>
-        <div class="form-group mb-4" *ngIf="aerodrome">
-            <select class="form-control" [(ngModel)]="unit">
-                <option selected disabled [value]="undefined">Unités source de l'aérodrome</option>
-                <option *ngFor="let unitsource of unitList" [value]="unitsource.id" >{{unitsource.name}}</option>
+        <div class="form-group mb-4">
+            <select formControlName="sex" class="form-control">
+                <option selected disabled value="">{{'AUTHFORMS.SIGNUP.sex' | translate }}</option>
+                <option value="male">{{'AUTHFORMS.SIGNUP.sexmale' | translate }}</option>
+                <option value="female">{{'AUTHFORMS.SIGNUP.sexfemale' | translate }}</option>
             </select>
         </div>
-        <div class="form-group mb-4" *ngIf="isLocalInfAgent()">
-            <select class="form-control" [(ngModel)]="localInf">
-                <option selected disabled [value]="undefined">Informateurs Locaux Externes</option>
-                <option *ngFor="let localinf of localInfExternsList" [value]="localinf.id"> {{localinf.name}}</option>
-            </select>
-        </div>
-        <div class="form-group mb-4" *ngIf="isNationalInfAgent()">
-            <select class="form-control" [(ngModel)]="nationalInf">
-                <option selected disabled [value]="undefined">Informateurs nationaux</option>
-                <option *ngFor="let nationalInf of nationalInfList" [value]="nationalInf.id">{{nationalInf.name}}</option>
-            </select>
-        </div>
-        <button [disabled]="signUpForm.invalid" class="custom-btn m-auto" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+    </form>
+    <div class="form-group mb-4" *ngIf="isAerodromeAgent()">
+        <select class="form-control" [(ngModel)]="aerodromeId" (change)="changeAerodrome($event)">
+            <option selected disabled [value]="undefined">Aerodromes</option>
+            <option *ngFor="let aerodrom of aerodromeList" [value]="aerodrom.id">{{aerodrom.name}}</option>
+        </select>
+    </div>
+    <div class="form-group mb-4" *ngIf="aerodrome">
+        <select class="form-control" [(ngModel)]="unitId">
+            <option selected disabled [value]="undefined">Unités source de l'aérodrome</option>
+            <option *ngFor="let unitsource of unitList" [value]="unitsource.id" >{{unitsource.name}}</option>
+        </select>
+    </div>
+    <div class="form-group mb-4" *ngIf="isExtLocalInfAgent()">
+        <select class="form-control" [(ngModel)]="localInfId">
+            <option selected disabled [value]="undefined">Informateurs Locaux Externes</option>
+            <option *ngFor="let localinf of localInfExternsList" [value]="localinf.id"> {{localinf.name}}</option>
+        </select>
+    </div>
+    <div class="form-group mb-4" *ngIf="isNationalInfAgent()">
+        <select class="form-control" [(ngModel)]="nationalInfId">
+            <option selected disabled [value]="undefined">Informateurs nationaux</option>
+            <option *ngFor="let nationalInf of nationalInfList" [value]="nationalInf.id">{{nationalInf.name}}</option>
+        </select>
+    </div>
+    <button [disabled]="signUpForm.invalid" class="custom-btn m-auto" (click)="submitUserCreate()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             {{'AUTHFORMS.SIGNUP.submitBtn' | translate }}                    
-        </button>
-    </div>
+    </button>
 </div>

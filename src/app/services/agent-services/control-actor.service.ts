@@ -8,36 +8,174 @@ import { DemandeSUPPAIPI } from 'src/app/interfaces/demande-supp.interface';
 import { DemandeAICI } from 'src/app/interfaces/demande-aic.interface';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { ActionOnDDIAI } from 'src/app/interfaces/action-on-ddia.interface';
+import { AuthManagerService } from '../auth-services/auth-manager.service';
+import { DemandeNOTAM } from 'src/app/models/demande-notam.model';
+import { DemandeSUPPAIP } from 'src/app/models/demande-suppaip.model';
+import { DemandeAIC } from 'src/app/models/demande-aic.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ControlActorService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthManagerService) {}
 
-  getNOTAMDetailsByUrl(url: string): Observable<DemandeNOTAMI> {
-    return this.http.get<DemandeNOTAMI>(url);
+  getDDIAListInWaitingForNationalInf(typeDDIA: string): Observable<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_IN_WAITING + typeDDIA).pipe(
+      catchError(this.handleError),
+      map((resDatas: ActionOnDDIAI[]) => {
+        const validations = new Array<ActionOnDDIA>();
+        resDatas.forEach((data) => {
+            validations.push(ActionOnDDIA.fromJSON(data));
+          });
+        return validations;
+      }));
   }
 
-  getSUPPAIPDetailsByUrl(url: string): Observable<DemandeSUPPAIPI> {
-    return this.http.get<DemandeSUPPAIPI>(url);
+  getDDIAListProcessedForNationalInf(typeDDIA: string): Observable<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_PROCESSED + typeDDIA).pipe(
+      catchError(this.handleError),
+      map((resDatas: ActionOnDDIAI[]) => {
+        const approbations = new Array<ActionOnDDIA>();
+        resDatas.forEach((data) => {
+            approbations.push(ActionOnDDIA.fromJSON(data));
+          });
+        return approbations;
+      }));
   }
 
-  getAICDetailsByUrl(url: string): Observable<DemandeAICI> {
-    return this.http.get<DemandeAICI>(url);
+  approveDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
+    return this.http.post(URLS.APPROVE_DDIA + classNameDDIA + '/' + id, data).toPromise();
   }
 
-  getNOTAMDetailsById(id: string): Observable<DemandeNOTAMI> {
-    return this.http.get<DemandeNOTAMI>(URLS.DEMANDE_NOTAM_DETAIL + id);
+  getDDIAListInWaitingForExtLocalInf(typeDDIA: string): Observable<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.LOCALINFORMER_DDIA_IN_WAITING + typeDDIA).pipe(
+      catchError(this.handleError),
+      map((resDatas: ActionOnDDIAI[]) => {
+        const actionsAgent = new Array<ActionOnDDIA>();
+        resDatas.forEach((data) => {
+            actionsAgent.push(ActionOnDDIA.fromJSON(data));
+          });
+        return actionsAgent;
+      }));
   }
 
-  getSUPPAIPDetailsById(id: string): Observable<DemandeSUPPAIPI> {
-    return this.http.get<DemandeSUPPAIPI>(URLS.DEMANDE_SUPPAIP_DETAIL + id);
+  getDDIAListProcessedForExtLocalInf(typeDDIA: string): Observable<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.LOCALINFORMER_DDIA_PROCESSED + typeDDIA).pipe(
+      catchError(this.handleError),
+      map((resDatas: ActionOnDDIAI[]) => {
+        const validations = new Array<ActionOnDDIA>();
+        resDatas.forEach((data) => {
+            validations.push(ActionOnDDIA.fromJSON(data));
+          });
+        return validations;
+      }));
   }
 
-  getAICDetailsById(id: string): Observable<DemandeAICI> {
-    return this.http.get<DemandeAICI>(URLS.DEMANDE_AIC_DETAIL + id);
+  validateDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
+    return this.http.post(URLS.VALIDATE_DDIA + classNameDDIA + '/' + id, data).toPromise();
+  }
+
+getDDIAListInWaitingForSourceStructure(typeDDIA: string, fromLocalInf: string): Observable<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCESTRUCTURE_DDIA_IN_WAITING + typeDDIA).pipe(
+      catchError(this.handleError),
+      map((resDatas: ActionOnDDIAI[]) => {
+        const actionsAgent = new Array<ActionOnDDIA>();
+        resDatas.forEach((data) => {
+            actionsAgent.push(ActionOnDDIA.fromJSON(data));
+          });
+        return actionsAgent;
+      }));
+  }
+
+  getDDIAListProcessedForSourceStructure(typeDDIA: string, fromLocalInf: string): Observable<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCESTRUCTURE_DDIA_PROCESSED + typeDDIA).pipe(
+      catchError(this.handleError),
+      map((resDatas: ActionOnDDIAI[]) => {
+        const validations = new Array<ActionOnDDIA>();
+        resDatas.forEach((data) => {
+            validations.push(ActionOnDDIA.fromJSON(data));
+          });
+        return validations;
+      }));
+  }
+
+  admitDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
+    return this.http.post(URLS.ADMIT_DDIA + classNameDDIA + '/' + id, data).toPromise();
+  }
+
+  getDDIAListInWaitingForSourceVerifier(typeDDIA: string, isLocalInf: string): Observable<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCEVERIFIER_DDIA_IN_WAITING + typeDDIA, {
+      params: {is_localinf: isLocalInf}
+    }).pipe(
+      catchError(this.handleError),
+      map((resDatas: ActionOnDDIAI[]) => {
+        const actionsAgent = new Array<ActionOnDDIA>();
+        resDatas.forEach((data) => {
+            actionsAgent.push(ActionOnDDIA.fromJSON(data));
+          });
+        return actionsAgent;
+      }));
+  }
+
+  getDDIAListProcessedForSourceVerifier(typeDDIA: string, isLocalInf: string): Observable<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCEVERIFIER_DDIA_PROCESSED + typeDDIA, {
+      params: {is_localinf: isLocalInf}
+    }).pipe(
+      catchError(this.handleError),
+      map((resDatas: ActionOnDDIAI[]) => {
+        const actionsAgent = new Array<ActionOnDDIA>();
+        resDatas.forEach((data) => {
+            actionsAgent.push(ActionOnDDIA.fromJSON(data));
+          });
+        return actionsAgent;
+      }));
+  }
+
+  verifyDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
+    return this.http.post(URLS.VERIFY_DDIA + classNameDDIA + '/' + id, data).toPromise();
+  }
+
+  getNOTAMDetailsByUrl(url: string): Observable<DemandeNOTAM> {
+    return this.http.get<DemandeNOTAMI>(url).pipe(
+      catchError(this.handleError),
+      map((data: DemandeNOTAMI) => DemandeNOTAM.fromJSON(data))
+    );
+  }
+
+  getSUPPAIPDetailsByUrl(url: string): Observable<DemandeSUPPAIP> {
+    return this.http.get<DemandeSUPPAIPI>(url).pipe(
+      catchError(this.handleError),
+      map((data: DemandeSUPPAIPI) => DemandeSUPPAIP.fromJSON(data))
+    );
+  }
+
+  getAICDetailsByUrl(url: string): Observable<DemandeAIC> {
+    return this.http.get<DemandeAICI>(url).pipe(
+      catchError(this.handleError),
+      map((data: DemandeAICI) => DemandeAIC.fromJSON(data))
+    );
+  }
+
+  getNOTAMDetailsById(id: string): Observable<DemandeNOTAM> {
+    return this.http.get<DemandeNOTAMI>(URLS.DEMANDE_NOTAM_DETAIL + id).pipe(
+      catchError(this.handleError),
+      map((data: DemandeNOTAMI) => DemandeNOTAM.fromJSON(data))
+    );
+  }
+
+  getSUPPAIPDetailsById(id: string): Observable<DemandeSUPPAIP> {
+    return this.http.get<DemandeSUPPAIPI>(URLS.DEMANDE_SUPPAIP_DETAIL + id).pipe(
+      catchError(this.handleError),
+      map((data: DemandeSUPPAIPI) => DemandeSUPPAIP.fromJSON(data))
+    );
+  }
+
+  getAICDetailsById(id: string): Observable<DemandeAIC> {
+    return this.http.get<DemandeAICI>(URLS.DEMANDE_AIC_DETAIL + id).pipe(
+      catchError(this.handleError),
+      map((data: DemandeAICI) => DemandeAIC.fromJSON(data))
+    );
   }
 
   handleError(error: HttpErrorResponse): Observable<never> {

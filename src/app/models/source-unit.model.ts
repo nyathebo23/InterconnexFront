@@ -35,7 +35,7 @@ export class SourceUnit{
         this._fax = fax;
         this._adress = adress;
         this._rsfta = rsfta;
-        this._aerodrome = Aerodrome;
+        this._aerodrome = aerodrome;
     }
 
     get id(): string{

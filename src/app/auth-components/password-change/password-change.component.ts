@@ -19,6 +19,7 @@ export class PasswordChangeComponent  {
   showOldPassword = false;
   showNewPassword = false;
   showConfNewPassword = false;
+  error: string;
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.passwordChangeForm = this.formBuilder.group({
       oldPassword: ['', [ValidationService.requiredValidator]],
@@ -38,6 +39,6 @@ export class PasswordChangeComponent  {
     this.showConfNewPassword = !this.showConfNewPassword;
   }
   submit(): void{
-     
+
   }
 }

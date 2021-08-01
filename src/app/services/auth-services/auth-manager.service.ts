@@ -6,14 +6,25 @@ import * as URLS from '../../commons/urls-backend';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from 'src/app/models/user.model';
 import { Aerodrome } from 'src/app/models/aerodrome.model';
-import { SourceUnit } from 'src/app/models/source-unit.model';
 import { LocalInformer } from 'src/app/models/local-informer.model';
 import { NationalInformer } from 'src/app/models/national-informer.model';
 import { LocalInformerExtend } from 'src/app/models/local-informer-extend.model';
-
+import {TranslateService} from '@ngx-translate/core';
+import { UserI } from 'src/app/interfaces/user.interface';
+import * as ROLES from '../../commons/constants-roles';
+import { Unit } from 'src/app/models/unit.model';
+import { UnitSource } from 'src/app/models/unit-source.model';
+import { Router } from '@angular/router';
 
 interface ResponseMessage  {
   message: string;
+}
+
+export interface UserResponse{
+  access: string;
+  refresh: string;
+  message?: string;
+  user: UserI;
 }
 
 @Injectable({
@@ -23,12 +34,116 @@ interface ResponseMessage  {
 export class AuthManagerService {
 
   user: User;
-  unit: SourceUnit;
+  unit: UnitSource;
   aerodrome: Aerodrome;
   localinformer: LocalInformerExtend;
   nationalinformer: NationalInformer;
   helper = new JwtHelperService();
-  constructor(private http: HttpClient) {}
+  serverConnectError: string;
+  internalServerError: string;
+
+  constructor(
+    private http: HttpClient,
+    private translate: TranslateService,
+    private router: Router
+  ) {
+     this.serverConnectError = this.translate.instant('Errors.serverconnection');
+     this.internalServerError = this.translate.instant('Errors.servererror');
+  }
+
+  getUser(): User | null {
+    if (!this.user){
+      const jsonUser = localStorage.getItem('user');
+      // console.log(jsonUser);
+      if (!jsonUser){
+        return null;
+      }
+      const user = User.fromJSON(JSON.parse(jsonUser));
+      this.user = user;
+    }
+    return this.user;
+  }
+
+  setUserInStorage(userJSON: UserI): void{
+    localStorage.setItem('user', JSON.stringify(userJSON));
+  }
+
+  async getNewAccessTokenByRefresh(): Promise<{access: string}> {
+    const refreshToken = localStorage.getItem('refresh_token');
+    return this.http.post<{access: string}>(URLS.REFRESH_TOKEN_URL, {refresh: refreshToken}).toPromise();
+  }
+
+  setUserAndOther(res: UserResponse): void {
+    this.setUserInStorage(res.user);
+    this.user = User.fromJSON(res.user);
+    this.setTokens(res.access, res.refresh);
+    if (ROLES.aerodromeRoles.includes(this.user.role)){
+      this.getAgentInfos()
+      .then((data) => {
+        if (data.localinformer){
+          this.localinformer = LocalInformerExtend.fromJSON(data.localinformer);
+          this.unit = this.localinformer.unit;
+          this.aerodrome = this.localinformer.aerodrome;
+        }
+        else{
+          this.unit = UnitSource.fromJSON(data.unit);
+          this.aerodrome = Aerodrome.fromJSON(data.aerodrome);
+        }
+        this.navigateToPage(this.user.role, this.user.isStaff);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+    else if (ROLES.localInformerRoles.includes(this.user.role)) {
+      this.getLocalAgentInfos()
+      .then((data) => {
+        this.localinformer = LocalInformerExtend.fromJSON(data.localinformer);
+        console.log(data);
+        this.navigateToPage(this.user.role, this.user.isStaff);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+    else if (ROLES.nationalInformerRoles.includes(this.user.role)) {
+      this.getNationalAgentInfos()
+      .then((data) => {
+        this.nationalinformer = NationalInformer.fromJSON(data.nationalinformer);
+        console.log(data);
+        this.navigateToPage(this.user.role, this.user.isStaff);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+
+  }
+
+  navigateToPage(role: string, isStaff: boolean): void {
+    if (isStaff){
+      this.router.navigate(['admin']);
+    }
+    else if (role === ROLES.SOURCE_AGENT){
+      this.router.navigate(['source']);
+    }
+    else {
+      this.router.navigate(['controlagent', role]);
+    }
+  }
+
+  getAgentInfos(): Promise<any> {
+    return this.http.get<any>(URLS.AGENT_INFOS).toPromise();
+  }
+
+  getLocalAgentInfos(): Promise<any> {
+    return this.http.get<any>(URLS.LOCAL_AGENT_INFOS).toPromise();
+  }
+
+  getNationalAgentInfos(): Promise<any> {
+    return this.http.get<any>(URLS.NATIONAL_AGENT_INFOS).toPromise();
+
+  }
 
   signIn(formData: FormData): Promise<any> {
     return this.http.post(URLS.LOGIN, formData).toPromise();
@@ -50,62 +165,74 @@ export class AuthManagerService {
     return this.http.post(URLS.NATIONAL_AGENT_CRU, formData).toPromise();
   }
 
-  signUpActivateUser(userId: string, code: string): Observable<any> {
+  signUpActivateUser(userId: string, code: string): Promise<any> {
     return this.http.get(URLS.SIGNUP_ACTIVATE, {
       params: {
         user_id: userId,
         code
       }
-    });
+    }).toPromise();
   }
 
-  signUpResendCode(email: string): Observable<any> {
+  signUpResendCode(email: string): Promise<any> {
     return this.http.get(URLS.SIGNUP_RESEND, {
       params: {email}
-    });
+    }).toPromise();
   }
 
-  requestResetPassword(email: string): Observable<ResponseMessage> {
+  requestResetPassword(email: string): Promise<ResponseMessage> {
     return this.http.get<ResponseMessage>(URLS.PASSWORD_RESET_REQUEST, {
       params: {email}
-    });
+    }).toPromise();
   }
 
-  resetPassword(formData: FormData): Observable<ResponseMessage> {
-    return this.http.put<ResponseMessage>(URLS.PASSWORD_RESET, formData);
+  resetPassword(userId: string, code: string, password: string): Promise<ResponseMessage> {
+    return this.http.put<ResponseMessage>(URLS.PASSWORD_RESET, '', {
+      params: {
+        user_id: userId,
+        code,
+        password
+      }
+    }).toPromise();
   }
 
-  resendCodeResetPassword(email: string): Observable<ResponseMessage> {
+  resendCodeResetPassword(email: string): Promise<ResponseMessage> {
     return this.http.get<ResponseMessage>(URLS.PASSWORD_RESET_RESEND, {
       params: {email}
-    });
+    }).toPromise();
   }
 
-  requestEmailChange(userId: string, newEmail: string): Observable<ResponseMessage> {
+  requestEmailChange(userId: string, newEmail: string): Promise<ResponseMessage> {
     return this.http.get<ResponseMessage>(URLS.CHANGE_EMAIL_REQUEST, {
       params: {
         user_id: userId,
         new_email: newEmail
       }
-    });
+    }).toPromise();
   }
 
-  confirmChangeEmail(userId: string, code: string): Observable<ResponseMessage> {
+  confirmChangeEmail(userId: string, code: string): Promise<ResponseMessage> {
     return this.http.get<ResponseMessage>(URLS.CHANGE_EMAIL_CONFIRM, {
       params: {
         user_id: userId,
         code
       }
-    });
+    }).toPromise();
   }
 
-  resendCodeChangeEmail(email: string, userId: string): Observable<ResponseMessage> {
+  resendCodeChangeEmail(email: string, userId: string): Promise<ResponseMessage> {
     return this.http.get<ResponseMessage>(URLS.CHANGE_EMAIL_CONFIRM, {
       params: {
         new_email: email,
         user_id: userId
       }
-    });
+    }).toPromise();
+  }
+
+  logout(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('access_token');
+    this.router.navigate(['/auth/signin']);
   }
 
   setTokens(access: string, refresh: string): void {
@@ -126,4 +253,36 @@ export class AuthManagerService {
     }
     return this.helper.isTokenExpired(token);
   }
+
+  displayErrors(errorResp: HttpErrorResponse): string[]{
+    const errors: string[] = [];
+    const error = errorResp.error;
+    if (error instanceof ErrorEvent) {
+      return ['An error occurred: ' + error.message];
+    }
+    else if (errorResp.status === 500){
+      return [this.internalServerError];
+    }
+    else if (errorResp.status === 0){
+      return [this.serverConnectError];
+    }
+    else if (typeof error === 'string'){
+      return [error];
+    }
+    for (const key of Object.keys(error)) {
+      const value = error[key];
+      if (Array.isArray(value)){
+        for (const elt of value){
+          errors.push(key + ' - ' + elt );
+        }
+      }
+      else{
+        errors.push(key === 'message' ? value : key + ' - ' + value );
+      }
+    }
+    return errors;
+  }
+
 }
+
+

@@ -75,7 +75,17 @@
         "buttons": {
             "reinit": "Réinitialiser",
             "save": "Enregistrer",
-            "plusonefile": "Ajouter autre fichier"
+            "plusonefile": "Ajouter autre fichier",
+            "sourcesubmitddia": "Soumettre pour verif",
+            "cancelddia": "Annuler",
+            "verifokddia": "Verification OK",
+            "admitokddia": "Admission OK",
+            "validateokddia": "Validation OK",
+            "approveokddia": "Approbation Ok",
+            "rejectverifddia": "Rejeter",
+            "rejectadmitddia": "Rejeter",
+            "rejectvalidateddia": "Rejeter",
+            "rejectapproveddia": "Rejeter"
         },
         "sourceunit": {
             "title": "Informations sur l' unité source de l'information aéronautique",
@@ -103,7 +113,8 @@
 
             "object": "Objet",
             "text": "Texte de l'AIC",
-            "files": "Fichiers joints"
+            "files": "Fichiers joints",
+            "createsuccess": "Demande de diffusion d' AIC créée avec succès"
         },
         "suppaip": {
             "title": "FORMULAIRE DE DEMANDE DE DIFFUSION DE SUPP AIP",
@@ -116,7 +127,8 @@
             "plannedPeriod": "Prévue",
             "estimatedPeriod": "Estimée",
             "text": "Texte du SUPP AIP",
-            "files": "Fichiers joints"
+            "files": "Fichiers joints",
+            "createsuccess": "Demande de diffusion de SUPP AIP créée avec succès"
         },
         "notam": {
             "title": "FORMULAIRE DE DEMANDE DE DIFFUSION DE NOTAM",
@@ -133,7 +145,8 @@
             "vertLimits": "Limites verticales en altitude ou FL",
             "lowerLim": "Limite inférieure",
             "upperLim": "Limite supérieure",
-            "files": "Fichiers joints"
+            "files": "Fichiers joints",
+            "createsuccess": "Demande de diffusion de NOTAM créée avec succès"
         },
         "errors": {
             "invalidDate": "Entrez des dates valides",
@@ -183,9 +196,10 @@
         "dateNewToOld": "Du plus récent au plus ancien",
         "reference": "Reférence",
         "ddiaitem": {
-            "init": "Initié par unité {{unitname}} (Aéroport de {{airportname}})",
+            "init": "Initié par {{unitname}} ({{airportname}})",
             "rejectby": "Auteur du rejet",
             "date": "le {{date}} à {{time}}",
+            "initiated": "Initié le",
             "sendon": "Envoyé",
             "approved": "Approuvé",
             "admitted": "Admis",
@@ -200,10 +214,12 @@
         "name": "Nom",
         "code": "Code",
         "locationInd": "Indicateur d'emplacement",
+        "isconceded": "Est un aéroport concédé",
         "inflocal": "Informateur Local",
         "labelLocalInf": "Sélectionnez l' informateur local lié à l'aérodrome",
         "submitBtn": "Enregistrer",
-        "addunitBtn": "Ajouter Unité source"
+        "addunitBtn": "Ajouter Unité source",
+        "createsuccess": "Aerodrome créée avec succès"
 
     },
     "SOURCEUNIT": {
@@ -217,18 +233,48 @@
         "rsfta": "RSFTA",
         "structuresource": "Aérodrome ou autre structure source",
         "labelAerodrome": "Sélectionnez l' aérodrome  auquel appartient l'unité",
-        "submitBtn": "Enregistrer"
+        "submitBtn": "Enregistrer",
+        "createsuccess": "Unité source créée avec succès"
     },
     "InformateurLocal": {
         "title": "Informateur local",
-        "name": "Nom"
+        "name": "Nom",
+        "submitBtn": "Enregistrer",
+        "createsuccess": "Informateur local créé avec succès"
     },
     "InformateurNational": {
         "title": "Informateur national",
-        "name": "Nom"
+        "name": "Nom",
+        "isauthority": "Appartient à l'autorité aéronautique",
+        "submitBtn": "Enregistrer",
+        "createsuccess": "Informateur national créé avec succès"
+
     },
     "UpdateDelete": {
         "editBtn": "Modifier",
         "deleteBtn": "Supprimer"
+    },
+    "Errors": {
+        "serverconnection": "Echec de connexion au serveur",
+        "servererror": "Une erreure s'est produite dans le serveur"
+    },
+    "MODAL": {
+        "submitToVerify": {
+            "helperText": "Voulez vous vraiment soumettre cette demande de diffusion {{typeDDIA}} pour vérification ?"
+        },
+        "verifyok": {
+            "helperText": "Confirmez-vous bien que cette demande de diffusion de {{typeDDIA}} est conforme ? Si oui, elle sera envoyée aux supérieurs hiérarchiques de l'aérodrome pour validation du contenu."
+        },
+        "admitok": {
+            "helperText": "Confirmez-vous bien que cette demande de diffusion de {{typeDDIA}} est conforme ? Si oui, elle sera envoyée dans un service approprié externe à "
+        },
+        "validateok": {
+            "helperText": "Confirmez-vous bien que cette demande de diffusion de {{typeDDIA}} est conforme ? Si oui, elle sera envoyée à des utilisateurs du bureau d' informateur national pour approbation."
+        },
+        "approveok": {
+            "helperText": ""
+        },
+        "ok": "Oui",
+        "cancel": "Annuler"
     }
 }

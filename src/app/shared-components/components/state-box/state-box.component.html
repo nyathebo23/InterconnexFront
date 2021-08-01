@@ -1,0 +1,29 @@
+<svg width="180" height="50" style="margin: 5;">
+    <path *ngIf="active" d="M  0  0
+                L  20 25
+                L  0 50
+                L  160 50
+                L  180 25
+                L  160 0
+                L  0 0
+                Z"
+            fill="#4B9FE1"/>
+    <path *ngIf="!active" d="M  0  0
+                L  20 25
+                L  0 50
+                L  160 50
+                L  180 25
+                L  160 0
+                L  0 0
+                Z"
+        fill="#150734"/>
+    <text y="25" x="0"
+            transform="translate(100)"
+            fill="#FFFFFF"
+            style="text-transform: uppercase;"
+            text-anchor="middle"
+            font-size="10"
+            alignment-baseline="middle">
+        {{ state | translate }}
+    </text>
+</svg>

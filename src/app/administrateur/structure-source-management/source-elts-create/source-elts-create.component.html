@@ -1,26 +1,29 @@
 <div class="d-flex flex-wrap justify-content-between">
     <div class="card-form mb-5">
         <h2 class="titleform">{{'STRUCTURESSOURCES.title' | translate }}</h2>
+        <div class="alert alert-danger" role="alert" *ngFor="let err of unitErrors">
+            {{err}}
+        </div>
+        <div class="alert alert-success" role="alert" *ngIf="createAerodromeSuccess">
+            {{'STRUCTURESSOURCES.createsuccess' | translate }}
+        </div>
         <form [formGroup]="aerodromeForm">
-            <div class="form-group mb-4">
+            <div class="form-group mt-5 mb-4">
                 <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.name.invalid && aerodromeForm.controls.name.dirty}" placeholder="{{'STRUCTURESSOURCES.name' | translate }}" />
                 <app-control-messages [control]="aerodromeForm.controls.name"></app-control-messages>
             </div>
-            <div class="form-group mb-4">
+            <!-- <div class="form-group mb-4">
                 <input type="text" formControlName="code" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.code.invalid && aerodromeForm.controls.code.dirty}" placeholder="{{'STRUCTURESSOURCES.code' | translate }}" />
                 <app-control-messages [control]="aerodromeForm.controls.code"></app-control-messages>
-            </div>
-
+            </div> -->
             <div class="form-group mb-4">
                 <input type="text" formControlName="locationInd" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.locationInd.invalid && aerodromeForm.controls.locationInd.dirty}" placeholder="{{'STRUCTURESSOURCES.locationInd' | translate }}" />
                 <app-control-messages [control]="aerodromeForm.controls.locationInd"></app-control-messages>
             </div>
-            <!-- <div class="form-group mb-4">
-                <select formControlName="inflocal" class="form-control">
-                    <option selected disabled value="">{{'STRUCTURESSOURCES.labelLocalInf' | translate }}</option>
-                </select>
-            </div> -->
-            <div formArrayName="units">
+            <div class="form-group mb-4" style="margin-left: 20px; position: relative;">
+                <mdb-checkbox formControlName="isConceded"><span style="bottom: 2px;position: absolute; font-weight: bold; color: gray;">{{'STRUCTURESSOURCES.isconceded' | translate }}</span> </mdb-checkbox>
+            </div>
+            <!-- <div formArrayName="units">
                 <div *ngFor="let formUnit of unitsForms.controls;">
                     <hr class="mt-5 mb-3">
                     <div [formGroup]="formUnit">
@@ -58,9 +61,9 @@
                 <button (click)="addUnitForm()" outline="true" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
                     <i class="fas fa-plus"></i>&nbsp; {{'STRUCTURESSOURCES.addunitBtn' | translate }}                    
                 </button>
-            </div>
+            </div> -->
             <div class="d-flex justify-content-center">
-                <button [disabled]="aerodromeForm.invalid" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                <button [disabled]="aerodromeForm.invalid" (click)="submitAerodrome()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
                     <span *ngIf="loadingss" class="spinner-border spinner-border-sm mr-1"></span>
                     {{'STRUCTURESSOURCES.submitBtn' | translate }}                    
                 </button>
@@ -69,8 +72,14 @@
     </div>
     <div class="card-form">
         <h2 class="titleform">{{'SOURCEUNIT.title' | translate }}</h2>
+        <div class="alert alert-danger" role="alert" *ngFor="let err of aerodromeErrors">
+            {{err}}
+        </div>
+        <div class="alert alert-success" role="alert" *ngIf="createUnitSuccess">
+            {{'SOURCEUNIT.createsuccess' | translate }}
+        </div>
         <form [formGroup]="sourceUnitForm">
-            <div class="form-group mb-4">
+            <div class="form-group mt-5 mb-4">
                 <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.name.invalid && sourceUnitForm.controls.name.dirty}" placeholder="{{'SOURCEUNIT.name' | translate }}" />
                 <app-control-messages [control]="sourceUnitForm.controls.name"></app-control-messages>
             </div>
@@ -92,16 +101,17 @@
             </div>
             <div class="form-group mb-4">
                 <input type="text" formControlName="rsfta" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.rsfta.invalid && sourceUnitForm.controls.rsfta.dirty}" placeholder="{{'SOURCEUNIT.rsfta' | translate }}" />
-                <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages>
+                <!-- <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages> -->
             </div>
             <div class="form-group mb-4">
                 <select formControlName="aerodrome" class="form-control">
                     <option selected disabled value=""> {{ 'SOURCEUNIT.labelAerodrome' | translate }} </option>
+                    <option *ngFor="let aerodrome of aerodromes" [value]="aerodrome.id">{{aerodrome.name}}</option>
                 </select>
             </div>
 
             <div class="d-flex justify-content-center">
-                <button [disabled]="sourceUnitForm.invalid" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                <button [disabled]="sourceUnitForm.invalid" (click)="submitUnit()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
                         <span *ngIf="loadingsu" class="spinner-border spinner-border-sm mr-1"></span>
                         {{'SOURCEUNIT.submitBtn' | translate }}                    
                 </button>

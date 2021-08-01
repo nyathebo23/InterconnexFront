@@ -16,7 +16,7 @@
                     </a>
                 </li>
                 <li class="ml-3 mr-2">
-                    <button mdbBtn class="roundedbtn" type="button" color="deep-purple" mdbWavesEffect>{{'navbar.logout' | translate }}</button>
+                    <button mdbBtn class="roundedbtn" type="button" color="deep-purple" mdbWavesEffect (click)="logout()">{{'navbar.logout' | translate }}</button>
                 </li>
             </ul>
         </div>
@@ -31,8 +31,8 @@
                     <div class="m-auto">
                         <img src="/assets/images/user.png" style="border-radius: 50%;" height="100" alt="profile">
                     </div>
-                    <div class="overflow oneline text-center role-agent mb-1">{{role}}</div>
-                    <div class="overflow oneline text-center name-agent mb-1">{{agentName}}</div>
+                    <div class="overflow oneline text-center role-agent mb-1">{{user.role}} <span *ngIf="user.isStaff"> / Admin</span> </div>
+                    <div class="overflow oneline text-center name-agent mb-1">{{user.getAllName()}}</div>
                 </div>
                 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
                     <a *ngFor="let navLink of navLinks;" class="d-flex align-items-center left-nav-item" [routerLink]="[navLink.url]" routerLinkActive="active">

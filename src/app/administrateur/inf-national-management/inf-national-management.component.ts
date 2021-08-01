@@ -21,47 +21,56 @@ export class InfNationalManagementComponent implements OnInit  {
   infNationalForm: FormGroup;
   infnationaux: NationalInformer[];
   headsInfNational = ['ID', 'InformateurNational.name', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
-
+  errors: string[] = [];
+  createSuccess: boolean;
+  loading = false;
   constructor(private formBuilder: FormBuilder, private adminService: AdminService) {
     this.infNationalForm = this.formBuilder.group({
-      name: ['', [Validators.required, ValidationService.requiredValidator]]
+      name: ['', [Validators.required, ValidationService.requiredValidator]],
+      isAuthority: [false, [Validators.required]]
     });
-    this.adminService.getNationalInformersList().pipe(
-      catchError(this.adminService.handleError),
-      map((localinfs: NationalInformerI[]) => {
-        const localinformers = new Array<NationalInformer>();
-        localinfs.forEach((localinf) => {
-          localinformers.push(NationalInformer.fromJSON(localinf));
-        });
-        return localinformers;
-      })
-    ).subscribe((localinfs: NationalInformer[]) => {
-      this.infnationaux = localinfs;
-    });
-
   }
 
   ngOnInit(): void{
-
+    this.adminService.getNationalInformersList().pipe(
+      catchError(this.adminService.handleError),
+      map((localinfs: NationalInformerI[]) => {
+        const nationalinformers = new Array<NationalInformer>();
+        localinfs.forEach((nationalinf) => {
+          nationalinformers.push(NationalInformer.fromJSON(nationalinf));
+        });
+        return nationalinformers;
+      })
+    ).subscribe((nationalinfs: NationalInformer[]) => {
+      this.infnationaux = nationalinfs;
+    });
   }
 
   submit(): void{
+    this.loading = true;
     const formData = new FormData();
     formData.append('name', this.infNationalForm.controls.name.value);
     this.adminService.createNationalInformer(formData)
-    .then(() => {
-
+    .then((resp) => {
+      console.log(resp);
+      this.loading = false;
+      this.adminService.reloadCurrentRoute();
     })
     .catch((err) => {
-
+      this.loading = false;
     });
   }
 
   edit(infnational: NationalInformer): void{
-
   }
 
-  delete(infnational: NationalInformer): void{
+  delete(id: string): void{
+    this.adminService.deleteNationalInformer(id)
+    .then(() => {
+      this.adminService.reloadCurrentRoute();
+    })
+    .catch((err) => {
 
+    });
   }
 }

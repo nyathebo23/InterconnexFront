@@ -1,0 +1,5 @@
+<div class="d-flex flex-wrap justify-content-center">
+    <div *ngFor="let state of states">
+        <app-state-box [state]="state.stateLabel" [active]="state.stateValue === currentState"></app-state-box>
+    </div>
+</div>

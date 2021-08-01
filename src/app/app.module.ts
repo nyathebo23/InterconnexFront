@@ -13,13 +13,11 @@ import { PasswordReset1Component } from './auth-components/password-reset1/passw
 import { PasswordReset2Component } from './auth-components/password-reset2/password-reset2.component';
 import { ControlMessagesComponent } from './auth-components/control-messages/control-messages.component';
 import { ValidationService } from './services/auth-services/validation.service';
-// import { PasswordChangeComponent } from './auth-components/password-change/password-change.component';
 import { NotamComponent } from './shared-components/forms/notam/notam.component';
 import { SUPPAIPComponent } from './shared-components/forms/supp-aip/supp-aip.component';
 import { AICComponent } from './shared-components/forms/aic/aic.component';
 import { SourceUnitFormComponent } from './shared-components/forms/source-unit-form/source-unit-form.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import {  ButtonsModule, WavesModule, CollapseModule, CarouselModule, TableModule } from 'angular-bootstrap-md';
+import { ButtonsModule, WavesModule, CollapseModule, CarouselModule, TableModule, CheckboxModule, ModalModule } from 'angular-bootstrap-md';
 import { LeftNavComponent } from './shared-components/components/left-nav/left-nav.component';
 import { DDIAItemComponent } from './shared-components/components/ddia-item/ddia-item.component';
 import { LayoutComponent } from './shared-components/components/layout/layout.component';
@@ -45,9 +43,6 @@ import { ListAerodromesComponent } from './administrateur/structure-source-manag
 import { ListUnitsComponent } from './administrateur/structure-source-management/list-units/list-units.component';
 import { InfLocalManagementComponent } from './administrateur/inf-local-management/inf-local-management.component';
 import { InfNationalManagementComponent } from './administrateur/inf-national-management/inf-national-management.component';
-import { ListDDIAReceivedComponent } from './verificateursource/list-ddia-received/list-ddia-received.component';
-import { ListDDIAProcessedComponent } from './verificateursource/list-ddia-processed/list-ddia-processed.component';
-import { BaseVerifsourceComponent } from './verificateursource/base-verifsource/base-verifsource.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import * as URLS from './commons/urls-backend';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
@@ -55,9 +50,45 @@ import { SignupVerifComponent } from './auth-components/signup-verif/signup-veri
 import { ChangeEmailComponent } from './auth-components/change-email/change-email.component';
 import { ConfirmChangeEmailComponent } from './auth-components/confirm-change-email/confirm-change-email.component';
 import { CodeResendComponent } from './auth-components/code-resend/code-resend.component';
-
+import { ListDDIAProcessedComponent } from './agent-controller/list-ddia-processed/list-ddia-processed.component';
+import { ListDDIAReceivedComponent } from './agent-controller/list-ddia-received/list-ddia-received.component';
+import { BaseControlViewComponent } from './agent-controller/base-control-view/base-control-view.component';
+import { PageNotFoundComponent } from './shared-components/components/page-not-found/page-not-found.component';
+import { AuthManagerService } from './services/auth-services/auth-manager.service';
+import { AdminService } from './services/agent-services/admin.service';
+import { AuthGuardService } from './helpers/auth-guard.service';
+import { CanActivateAdmin } from './helpers/can-activate-admin';
+import { CanActivateSourceAgent } from './helpers/can-activate-sourceagent';
+import { StateBoxComponent } from './shared-components/components/state-box/state-box.component';
+import { ListStatesBoxComponent } from './shared-components/components/list-states-box/list-states-box.component';
+import { AICWithDataComponent } from './shared-components/components/aic-with-data/aic-with-data.component';
+import { SUPPAIPWithDataComponent } from './shared-components/components/suppaip-with-data/suppaip-with-data.component';
+import { NOTAMWithDataComponent } from './shared-components/components/notam-with-data/notam-with-data.component';
+import { DDIAPresentComponent } from './agent-source/ddia-present/ddia-present.component';
+import { DDIAReceivedContainerComponent } from './agent-controller/ddia-received-container/ddia-received-container.component';
+// tslint:disable-next-line:max-line-length
+import { DDIAProcessedContainerComponent } from './agent-controller/ddia-processed-container/ddia-processed-container.component';
+import { CanActivateControlAgent } from './helpers/can-activate-controlagent';
+import { CanActivateAuth } from './helpers/can-activate-auth';
+import { ControlActorService } from './services/agent-services/control-actor.service';
+import { UnitsDDIAListComponent } from './agent-source/units-ddia-list/units-ddia-list.component';
+import { ControlDDIAConfirmModalcontentComponent } from './shared-components/components/control-ddia-confirm-modalcontent/control-ddia-confirm-modalcontent.component';
+import { ModalControlDDIAConfirmComponent } from './shared-components/components/modal-control-ddia-confirm/modal-control-ddia-confirm.component';
+import { BaseVerifSourceComponent } from './verif-source/base-verif-source/base-verif-source.component';
+import { VerifSourceListDDIAReceivedComponent } from './verif-source/verif-source-list-ddia-received/verif-source-list-ddia-received.component';
+import { VerifSourceListDDIAProcessedComponent } from './verif-source/verif-source-list-ddia-processed/verif-source-list-ddia-processed.component';
+import { SourceStructureListDDIAReceivedComponent } from './source-structure/source-structure-list-ddia-received/source-structure-list-ddia-received.component';
+import { SourceStructureListDDIAProcessedComponent } from './source-structure/source-structure-list-ddia-processed/source-structure-list-ddia-processed.component';
+import { BaseSourceStructureComponent } from './source-structure/base-source-structure/base-source-structure.component';
+import { BaseLocalInformerComponent } from './local-informer-extern/base-local-informer/base-local-informer.component';
+import { LocalinfListDDIAReceivedComponent } from './local-informer-extern/localinf-list-ddia-received/localinf-list-ddia-received.component';
+import { LocalinfListDDIAProcessedComponent } from './local-informer-extern/localinf-list-ddia-processed/localinf-list-ddia-processed.component';
+import { BaseNationalInformerComponent } from './national-informer/base-national-informer/base-national-informer.component';
+import { NationalinfListDDIAReceivedComponent } from './national-informer/nationalinf-list-ddia-received/nationalinf-list-ddia-received.component';
+import { NationalinfListDDIAProcessedComponent } from './national-informer/nationalinf-list-ddia-processed/nationalinf-list-ddia-processed.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
+  // console.log(localStorage.getItem('access_token'));
   return new TranslateHttpLoader(http);
 }
 
@@ -100,11 +131,35 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
     InfNationalManagementComponent,
     ListDDIAReceivedComponent,
     ListDDIAProcessedComponent,
-    BaseVerifsourceComponent,
     SignupVerifComponent,
     ChangeEmailComponent,
     ConfirmChangeEmailComponent,
-    CodeResendComponent
+    CodeResendComponent,
+    BaseControlViewComponent,
+    PageNotFoundComponent,
+    StateBoxComponent,
+    ListStatesBoxComponent,
+    AICWithDataComponent,
+    SUPPAIPWithDataComponent,
+    NOTAMWithDataComponent,
+    DDIAPresentComponent,
+    DDIAReceivedContainerComponent,
+    DDIAProcessedContainerComponent,
+    UnitsDDIAListComponent,
+    ControlDDIAConfirmModalcontentComponent,
+    ModalControlDDIAConfirmComponent,
+    BaseVerifSourceComponent,
+    VerifSourceListDDIAReceivedComponent,
+    VerifSourceListDDIAProcessedComponent,
+    SourceStructureListDDIAReceivedComponent,
+    SourceStructureListDDIAProcessedComponent,
+    BaseSourceStructureComponent,
+    BaseLocalInformerComponent,
+    LocalinfListDDIAReceivedComponent,
+    LocalinfListDDIAProcessedComponent,
+    BaseNationalInformerComponent,
+    NationalinfListDDIAReceivedComponent,
+    NationalinfListDDIAProcessedComponent
   ],
   imports: [
     BrowserModule,
@@ -118,7 +173,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
     TimepickerModule.forRoot(),
     CarouselModule.forRoot(),
     WavesModule.forRoot(),
+    CheckboxModule,
     ButtonsModule.forRoot(),
+    ModalModule.forRoot(),
     CollapseModule.forRoot(),
     TableModule,
     TranslateModule.forRoot({
@@ -141,7 +198,15 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
       },
     }),
   ],
-  providers: [ValidationService],
+  providers: [
+    ValidationService,
+    AuthManagerService,
+    ControlActorService,
+    CanActivateAuth,
+    CanActivateAdmin,
+    CanActivateSourceAgent,
+    CanActivateControlAgent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

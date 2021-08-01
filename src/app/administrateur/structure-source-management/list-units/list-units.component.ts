@@ -13,28 +13,30 @@ export class ListUnitsComponent implements OnInit, AfterViewInit {
 
   pref = 'SOURCEUNIT.';
   headUnitsElements = ['name', 'email', 'adress', 'fax', 'phone', 'rsfta', 'structuresource'];
-  units: Unit[];
-  prevUnits: Unit[];
-
+  units: Unit[] = [];
+  prevUnits: Unit[] = [];
+  loadingDatas: boolean;
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   constructor(private cdUnitsRef: ChangeDetectorRef, private adminService: AdminService) {
+    this.loadingDatas = true;
     this.headUnitsElements = this.headUnitsElements.map((elt) => this.pref + elt);
     this.headUnitsElements.push('UpdateDelete.editBtn');
     this.headUnitsElements.push('UpdateDelete.deleteBtn');
+
+  }
+  ngOnInit(): void{
     this.adminService.getUnitsList().subscribe((units: Unit[]) => {
-        this.units = units;
+      this.units = units;
+      this.mdbTable.setDataSource(this.units);
+      this.units = this.mdbTable.getDataSource();
+      this.prevUnits = this.mdbTable.getDataSource();
+      this.loadingDatas = false;
     });
   }
 
-  ngOnInit(): void{
-    this.mdbTable.setDataSource(this.units);
-    this.units = this.mdbTable.getDataSource();
-    this.prevUnits = this.mdbTable.getDataSource();
-  }
-
   ngAfterViewInit(): void{
-    this.mdbTablePagination.setMaxVisibleItemsNumberTo(2);
+    this.mdbTablePagination.setMaxVisibleItemsNumberTo(10);
     this.mdbTablePagination.calculateFirstItemIndex();
     this.mdbTablePagination.calculateLastItemIndex();
     this.cdUnitsRef.detectChanges();

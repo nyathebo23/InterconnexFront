@@ -11,10 +11,11 @@ import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 })
 export class VerifSourceService {
 
-  isLocalInf = 'no';
+  isLocalInf = 'yes';
+  errors: string[] = [];
   constructor(private http: HttpClient) { }
 
-  getDDIAListInWaiting(): Observable<any[]> {
+  getDDIAListInWaiting(): Observable<ActionOnDDIA[]> {
     return this.http.get<ActionOnDDIAI[]>(URLS.SOURCEVERIFIER_DDIA_IN_WAITING).pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
@@ -26,7 +27,7 @@ export class VerifSourceService {
       }));
   }
 
-  getDDIAListProcessed(): Observable<any[]> {
+  getDDIAListProcessed(): Observable<ActionOnDDIA[]> {
     return this.http.get<ActionOnDDIAI[]>(URLS.SOURCEVERIFIER_DDIA_PROCESSED, {
       params: {is_localinf: this.isLocalInf}
     }).pipe(
@@ -48,11 +49,12 @@ export class VerifSourceService {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
+      this.errors = ['An error occurred: ' + error.error.message];
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.status === 0){
-        // this.error = 'Echec de connexion au serveur distant';
+        this.errors = ['Echec de connexion au serveur distant'];
       }
       console.error(
         `Backend returned code ${error.status}, ` +

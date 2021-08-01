@@ -12,6 +12,7 @@ import { ActionOnDDIAI } from 'src/app/interfaces/action-on-ddia.interface';
 })
 export class InformateurNationalService {
 
+  errors: string[] = [];
   constructor(private http: HttpClient) { }
 
   getDDIAListInWaiting(): Observable<any[]> {
@@ -47,11 +48,12 @@ export class InformateurNationalService {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
+      this.errors = ['An error occurred:' + error.error.message];
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.status === 0){
-        // this.error = 'Echec de connexion au serveur distant';
+        this.errors = ['Echec de connexion au serveur distant'];
       }
       console.error(
         `Backend returned code ${error.status}, ` +

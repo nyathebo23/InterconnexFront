@@ -1,31 +1,33 @@
-<div class="ddia-item-round">
-    <div class="d-flex flex-column p-l-20">
-        <div class="idents-label mb-3">
-            {{typeDDIA}}<span *ngIf="type">({{type}})</span>[{{state}}]
-        </div>
-        <div class="text-one-line mb-2">
-            {{ 'ddialist.reference' | translate }}: {{id}}
-        </div>
-        <div class="text-one-line mb-2" translate [translateParams]="{unitname: unitname, airportname: airportname }">
-            ddialist.ddiaitem.init
-        </div>
-        <div class="text-one-line mb-2">
-            {{'DDIAFORMS.object' | translate }}: {{object}}
-        </div>
-        <div class="text-one-line mb-2">
-            {{'DDIAFORMS.descText' | translate }}: {{text}}
-        </div>
-        <div class="d-flex flex-column mb-2" *ngIf="validityPeriodStart && validityPeriodEnd">
-            <div>{{'DDIAFORMS.valPeriod' | translate }} <span *ngIf="periodType">({{periodType}})</span></div>
-            <div class="d-flex flex-wrap justify-content-between">
-                <div class="text-one-line">{{validityPeriodStart}}</div>
-                <div class="text-one-line">{{validityPeriodEnd}}</div>
+<a style="text-decoration: none;" [routerLink]="['/'+pathToExtend, id]">
+    <div class="ddia-item-round">
+        <div class="d-flex flex-column p-l-20">
+            <div class="idents-label mb-3">
+                {{typeDDIA}}<span *ngIf="type">({{type}})</span>&nbsp;[{{state}}]
             </div>
-        </div>
-        <div class="d-flex justify-content-end">
-            <div class="date">
-                Admis le 28/5/2019 à 20:12
+            <div class="text-one-line mb-2">
+                {{ 'ddialist.reference' | translate }}: {{reference}}
+            </div>
+            <div class="text-one-line mb-2" translate [translateParams]="{unitname: unitname, airportname: airportname }">
+                ddialist.ddiaitem.init
+            </div>
+            <div class="text-one-line mb-2" *ngIf="object">
+                {{'DDIAFORMS.object' | translate }}: {{object}}
+            </div>
+            <div class="text-one-line mb-2">
+                {{'DDIAFORMS.descText' | translate }}: {{text}}
+            </div>
+            <div class="d-flex flex-column mb-2" *ngIf="validityPeriodStart && validityPeriodEnd">
+                <div>{{'DDIAFORMS.valPeriod' | translate }} <span *ngIf="periodType">({{periodType}})</span></div>
+                <div class="d-flex flex-wrap justify-content-between">
+                    <div class="text-one-line">{{validityPeriodStart}}</div>
+                    <div class="text-one-line">{{validityPeriodEnd}}</div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="date">
+                    {{action | translate }} &nbsp; {{actionDate}}
+                </div>
             </div>
         </div>
     </div>
-</div>
+</a>

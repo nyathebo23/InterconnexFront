@@ -38,7 +38,6 @@ export class UserInfos{
         return this._lastname;
     }
 
-
     public get function(): string {
         return this._function;
     }

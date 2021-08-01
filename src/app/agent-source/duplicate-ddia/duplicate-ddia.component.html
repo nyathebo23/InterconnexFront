@@ -1,1 +1,3 @@
-<app-ddia-list [labelTitle]="'Liste des DDIA à dupliquer'"></app-ddia-list>
+<app-ddia-list [labelTitle]="'Liste des DDIA à dupliquer'" (ddiaStateChange)="onDDIAStateChange($event)" (ddiaTypeChange)="onDDIATypeChange($event)" (dateOrderChange)="onDateOrderChange($event)" [ddiaList]="ddiaList">
+
+</app-ddia-list>

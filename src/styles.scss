@@ -10,10 +10,10 @@ body {
 .ddia-item-round {
     border-radius: 10px;
     box-shadow: 4px 3px 3px 2px rgba(0, 0, 0, 0.404);
-    background-color: white;
-    min-width: 500px;
+    background-color: #f3f1f6;
+    min-width: 450px;
     min-height: 200px;
-    font-family: 'Century Gothic';
+    font-family: 'Lucida Sans';
     border: none;
     padding: 20px;
     margin-bottom: 30px;
@@ -25,6 +25,7 @@ body {
 
 .idents-label {
     font-weight: bold;
+    font-family: 'Lucida Sans';
     font-size: 16px;
 }
 
@@ -44,7 +45,8 @@ body {
 .large-btn {
     width: 100%;
     min-height: 40px;
-    background-color: #0F2557;
+    // background-color: #0F2557;
+    background-image: conic-gradient( #150734, #0F2557);
     // border-radius: 10px;
     border: none;
     text-align: center;
@@ -53,6 +55,8 @@ body {
     text-overflow: ellipsis;
     padding-left: 20px;
     padding-right: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .large-btn:focus {
@@ -60,7 +64,8 @@ body {
 }
 
 .large-btn.active {
-    background-color: #0099CC;
+    // background-color: #0099CC;
+    background-image: conic-gradient( #4B9FE1, #0099CC);
 }
 
 .whitebg {
@@ -79,8 +84,24 @@ body {
 }
 
 .label-title {
-    font-size: 25px;
+    font-size: 30px;
     text-align: center;
-    font-weight: bold;
+    // font-weight: bold;
+    color: #0099CC;
     text-transform: uppercase;
+    font-family: 'Showcard Gothic';
+}
+
+.pt-5 {
+    padding-top: 15px;
+}
+
+.pb-5 {
+    padding-bottom: 15px;
+}
+
+.background-gradient {
+    background-image: url('/assets/images/form/avion.png'), conic-gradient( #F3F1F6, #4B9FE1, #F3F1F6, #150734ab);
+    background-repeat: no-repeat;
+    background-position: center;
 }

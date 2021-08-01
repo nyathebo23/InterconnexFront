@@ -8,11 +8,13 @@ export class Aerodrome{
     // tslint:disable-next-line:variable-name
     private _locationInd: string;
     // tslint:disable-next-line:variable-name
+    private _isConceded: boolean;
 
-    constructor(id: string,  name: string,  locationInd: string){
+    constructor(id: string,  name: string,  locationInd: string, isConceded: boolean){
         this._id = id;
         this._name = name;
         this._locationInd = locationInd;
+        this._isConceded = isConceded;
     }
 
     get id(): string{
@@ -29,6 +31,6 @@ export class Aerodrome{
 
 
     public static fromJSON(data: AerodromeI): Aerodrome{
-        return new Aerodrome(data.id, data.name,  data.location_ind);
+        return new Aerodrome(data.id, data.name,  data.location_ind, data.is_conceded);
     }
 }

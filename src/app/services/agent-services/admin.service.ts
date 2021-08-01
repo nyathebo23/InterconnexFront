@@ -12,13 +12,16 @@ import { NationalInformer } from 'src/app/models/national-informer.model';
 import { LocalInformer } from 'src/app/models/local-informer.model';
 import { LocalInformerExtendI } from 'src/app/interfaces/local-informer-extend.interface';
 import { AerodromeExtendI } from 'src/app/interfaces/aerodrome-extend.interface';
+import { Aerodrome } from 'src/app/models/aerodrome.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  constructor(private http: HttpClient) { }
+  errors: string[] = [];
+  constructor(private http: HttpClient, private router: Router) { }
 
   getUnitsList(): Observable<Unit[]>{
     return this.http.get<UnitI[]>(URLS.UNIT_CRU).pipe(
@@ -38,7 +41,15 @@ export class AdminService {
         params: {extend: 'True'}
       });
     }
-    return this.http.get<AerodromeI[]>(URLS.AERODROME_CRU);
+    return this.http.get<AerodromeI[]>(URLS.AERODROME_CRU).pipe(
+      catchError(this.handleError),
+      map((resDatas: AerodromeI[]) => {
+        const aerodromes = new Array<Aerodrome>();
+        resDatas.forEach((data) => {
+            aerodromes.push(Aerodrome.fromJSON(data));
+          });
+        return aerodromes;
+      }));
   }
 
   getLocalInformersList(extern?: string): Observable<any[]>{
@@ -51,7 +62,7 @@ export class AdminService {
   }
 
   getNationalInformersList(): Observable<any[]>{
-    return this.http.get<NationalInformerI[]>(URLS.LOCAL_INFORMER_CRU);
+    return this.http.get<NationalInformerI[]>(URLS.NATIONAL_INFORMER_CRU);
   }
 
   createUnit(formData: FormData): Promise<any> {
@@ -86,10 +97,29 @@ export class AdminService {
     return this.http.post(URLS.LOCAL_INFORMER_CRU + id, formData).toPromise();
   }
 
+  deleteUnit(id: string): Promise<any> {
+    return this.http.delete(URLS.UNIT_CRU + id).toPromise();
+  }
+
+  deleteAerodrome(id: string): Promise<any> {
+    return this.http.delete(URLS.AERODROME_CRU + id).toPromise();
+  }
+
+  deleteNationalInformer(id: string): Promise<any>  {
+    return this.http.delete(URLS.NATIONAL_INFORMER_CRU + id).toPromise();
+  }
+
+  deleteLocalInformer(id: string): Promise<any> {
+    return this.http.delete(URLS.LOCAL_INFORMER_CRU + id).toPromise();
+  }
+
   signUpUser(formData: FormData): Promise<any> {
     return this.http.post(URLS.SIGNUP, formData).toPromise();
   }
 
+  deleteUser(id: string): Promise<any> {
+    return this.http.delete(URLS.DELETE_USER + id).toPromise();
+  }
 
   createLocalAgent(formData: FormData): Observable<any> {
     return this.http.post(URLS.LOCAL_AGENT_CRU, formData);
@@ -103,15 +133,23 @@ export class AdminService {
     return this.http.post(URLS.AGENT_CRU, formData);
   }
 
+  reloadCurrentRoute(): void {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
+
   handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
+      this.errors = ['An error occurred:' + error.error.message];
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.status === 0){
-        // this.error = 'Echec de connexion au serveur distant';
+        this.errors = ['Echec de connexion au serveur distant'];
       }
       console.error(
         `Backend returned code ${error.status}, ` +

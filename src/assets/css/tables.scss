@@ -9,7 +9,12 @@
     min-width: 140px;
     height: 35px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+}
+
+.table-responsive {
+    border: 2px solid #1507341f;
+    background-color: #F1F3F6;
 }

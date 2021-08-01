@@ -1,0 +1,98 @@
+<div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="suppaipForm" *ngIf="dataLoaded">
+    <div class="d-flex flex-column">
+        <h1 class="ddia-title"> {{'DDIAFORMS.suppaip.title' | translate}} </h1>
+        <div class="container mb-3">
+            <app-list-states-box [currentState]="demandeSUPP.state"></app-list-states-box>
+        </div>
+        <mdb-carousel [isControls]="true" [interval]="'0'" [animation]="'slide'">
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <input type="text" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
+                            <owl-date-time #dt1></owl-date-time>
+                        </div>
+                        <app-source-unit-form [locationInd]="demandeSUPP.locationIndicator" [initiatorInfos]="''" [unit]="demandeSUPP.sourceUnit"></app-source-unit-form>
+                        <div class="form-group">
+                            <label for="typeSUPPAIP" class="custom-label">{{'DDIAFORMS.suppaip.type' | translate}}:</label>
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <div class="custom-control custom-radio">
+                                    <input id="suppaipN" type="radio" class="custom-control-input" value="SUPP AIP N" formControlName="typeSUPPAIP">
+                                    <label for="suppaipN" class="custom-control-label">SUPP AIP N</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="suppaipR" type="radio" class="custom-control-input" value="SUPP AIP R" formControlName="typeSUPPAIP">
+                                    <label for="suppaipR" class="custom-control-label">SUPP AIP R</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-1">
+                            <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.suppaip.notamRcode' | translate }}</label>
+                            <input type="text" id="targetNOTAM" formControlName="codeDDIAToReplace" class="form-control" />
+                            <!-- <select [disabled]="!isReplaceSUPPAIP()" class="form-control" id="targetNOTAM" formControlName="codeDDIAToReplace">
+                                    <option value=""></option>
+                                </select> -->
+                        </div>
+                        <div class="form-group mb-1">
+                            <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }}</label>
+                            <input type="text" id="object" formControlName="object" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="targetSection" class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }}</label>
+                            <textarea type="text" id="targetSection" class="form-control" formControlName="aipTargetSections"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label class="custom-label">{{'DDIAFORMS.suppaip.valPeriod' | translate }}</label>
+                            <div class="form-group">
+                                <input type="text" placeholder="Validity period" class="form-control" [owlDateTimeTrigger]="dtPicker" [owlDateTime]="dtPicker" formControlName="validityPeriod" [selectMode]="'range'">
+                                <owl-date-time #dtPicker></owl-date-time>
+                                <app-control-messages [control]="suppaipForm.controls.validityPeriod"></app-control-messages>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
+                                <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+        </mdb-carousel>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'submittoverify'">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.cancelddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.sourcesubmitddia' | translate }}</button>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'verification'">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectverifddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.verifokddia' | translate }}</button>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'admission'">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectadmitddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.admitokddia' | translate }}</button>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'validation'">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectvalidateddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.validateokddia' | translate }}</button>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'approbation'">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectapproveddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.approveokddia' | translate }}</button>
+    </div>
+    <div mdbModal #frame="mdbModal" class="modal fade right modal-scrolling" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: true}">
+        <app-control-ddia-confirm-modalcontent [mdbModalDir]="frame" [action]="toDoAction" [ddiaClassName]="className" [ddiaId]="demandeSUPP.id" [ddiaType]="'SUPP AIP'">
+        </app-control-ddia-confirm-modalcontent>
+    </div>
+</div>

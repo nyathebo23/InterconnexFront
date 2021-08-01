@@ -7,6 +7,7 @@ import { LocalInformer } from 'src/app/models/local-informer.model';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 import { map, catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inf-local-management',
@@ -18,16 +19,21 @@ export class InfLocalManagementComponent implements OnInit {
   infLocalForm: FormGroup;
   inflocaux: LocalInformer[];
   headsInfLocal = ['ID', 'InformateurLocal.name', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
-  aerodromesList: AerodromeExtendI[];
-  unitsList: UnitLite;
-  constructor(private formBuider: FormBuilder, private adminService: AdminService) {
+  aerodromesList: AerodromeExtendI[] = [];
+  unitsList: UnitLite[];
+  errors: string[] = [];
+  loading = false;
+  createSuccess: boolean;
+  aerodromesSubscription;
+  constructor(
+    private formBuider: FormBuilder,
+    private adminService: AdminService,
+    private router: Router
+  ) {
     this.infLocalForm = this.formBuider.group({
       name: ['', [Validators.required, ValidationService.requiredValidator]],
       aerodrome: [''],
       unit: ['']
-    });
-    const aerodromesSubscription = this.adminService.getAerodromesList('True').subscribe((aerodromes: AerodromeExtendI[]) => {
-      this.aerodromesList = aerodromes;
     });
     const localInfsSubscription = this.adminService.getLocalInformersList().pipe(
       catchError(this.adminService.handleError),
@@ -45,25 +51,43 @@ export class InfLocalManagementComponent implements OnInit {
 
   isAerodromeLocalInf(): boolean {
     const value = this.infLocalForm.controls.aerodrome.value;
-    return value !== null && value !== undefined;
+    return value !== null && value !== undefined && value !== '';
   }
 
   ngOnInit(): void{
+    this.aerodromesSubscription = this.adminService.getAerodromesList('True').subscribe((aerodromes: AerodromeExtendI[]) => {
+      this.aerodromesList = aerodromes;
+    });
+    this.infLocalForm.controls.aerodrome.valueChanges.subscribe((value) => {
+      const aerodrome = this.aerodromesList.find((elt: AerodromeExtendI) => {
+        return elt.id.toString() === value;
+      });
+      if (aerodrome){
+        this.unitsList = aerodrome.units;
+      }
+    });
   }
 
   submit(): void{
+    this.loading = true;
     const formData = new FormData();
     formData.append('name', this.infLocalForm.controls.name.value);
-    const unitValue = this.infLocalForm.controls.name.value;
+    console.log(this.infLocalForm.controls.name.value);
+    const unitValue = this.infLocalForm.controls.unit.value;
     if (unitValue ){
       formData.append('unit', this.infLocalForm.controls.unit.value);
+      // formData.append('aerodrome', this.infLocalForm.controls.aerodrome.value);
     }
     this.adminService.createLocalInformer(formData)
-    .then(() => {
-
+    .then((resp) => {
+      setTimeout(() => {
+        this.loading = false;
+      }, 10000);
+      this.adminService.reloadCurrentRoute();
     })
     .catch((err) => {
-
+      setTimeout(() => this.loading = false, 10000);
+      // this.loading = false;
     });
   }
 
@@ -71,7 +95,14 @@ export class InfLocalManagementComponent implements OnInit {
     console.log(inflocal);
   }
 
-  delete(inflocal: LocalInformer): void{
+  delete(id: string): void{
+    this.adminService.deleteLocalInformer(id)
+    .then(() => {
+      this.adminService.reloadCurrentRoute();
+    })
+    .catch((err) => {
 
+    });
   }
+
 }

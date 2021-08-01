@@ -16,6 +16,7 @@ export class CodeResendComponent {
 
   emailForm: FormGroup;
   loading = false;
+  errors: string[];
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.emailForm = this.formBuilder.group({
