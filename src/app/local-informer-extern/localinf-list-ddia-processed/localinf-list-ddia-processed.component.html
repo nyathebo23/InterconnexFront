@@ -1,1 +1,7 @@
-<p>localinf-list-ddia-processed works!</p>
+<div class="container-fluid">
+    <div class="pretty-background background-gradient">
+        <app-ddia-list [statesList]="states" [labelTitle]="'CCAALOCALINFORMER.ddiaprocessedLabel'" (ddiaStateChange)="onDDIAStateChange($event)" (ddiaTypeChange)="onDDIATypeChange($event)" (dateOrderChange)="onDateOrderChange($event)" [ddiaActionsList]="ddiaActionsList">
+
+        </app-ddia-list>
+    </div>
+</div>

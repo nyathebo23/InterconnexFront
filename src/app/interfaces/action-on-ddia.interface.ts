@@ -7,4 +7,5 @@ export interface ActionOnDDIAI{
     prev_state: string;
     date_time: string;
     new_state: string;
+    nationalinf_dest?: string;
 }

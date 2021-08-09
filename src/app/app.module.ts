@@ -17,7 +17,7 @@ import { NotamComponent } from './shared-components/forms/notam/notam.component'
 import { SUPPAIPComponent } from './shared-components/forms/supp-aip/supp-aip.component';
 import { AICComponent } from './shared-components/forms/aic/aic.component';
 import { SourceUnitFormComponent } from './shared-components/forms/source-unit-form/source-unit-form.component';
-import { ButtonsModule, WavesModule, CollapseModule, CarouselModule, TableModule, CheckboxModule, ModalModule } from 'angular-bootstrap-md';
+import { ButtonsModule, WavesModule, CollapseModule, CarouselModule, TableModule, CheckboxModule, ModalModule, IconsModule } from 'angular-bootstrap-md';
 import { LeftNavComponent } from './shared-components/components/left-nav/left-nav.component';
 import { DDIAItemComponent } from './shared-components/components/ddia-item/ddia-item.component';
 import { LayoutComponent } from './shared-components/components/layout/layout.component';
@@ -56,7 +56,9 @@ import { BaseControlViewComponent } from './agent-controller/base-control-view/b
 import { PageNotFoundComponent } from './shared-components/components/page-not-found/page-not-found.component';
 import { AuthManagerService } from './services/auth-services/auth-manager.service';
 import { AdminService } from './services/agent-services/admin.service';
-import { AuthGuardService } from './helpers/auth-guard.service';
+import { DDIAReceivedContainerComponent } from './shared-components/components/ddia-received-container/ddia-received-container.component';
+// tslint:disable-next-line:max-line-length
+import { DDIAProcessedContainerComponent } from './shared-components/components/ddia-processed-container/ddia-processed-container.component';
 import { CanActivateAdmin } from './helpers/can-activate-admin';
 import { CanActivateSourceAgent } from './helpers/can-activate-sourceagent';
 import { StateBoxComponent } from './shared-components/components/state-box/state-box.component';
@@ -65,9 +67,6 @@ import { AICWithDataComponent } from './shared-components/components/aic-with-da
 import { SUPPAIPWithDataComponent } from './shared-components/components/suppaip-with-data/suppaip-with-data.component';
 import { NOTAMWithDataComponent } from './shared-components/components/notam-with-data/notam-with-data.component';
 import { DDIAPresentComponent } from './agent-source/ddia-present/ddia-present.component';
-import { DDIAReceivedContainerComponent } from './agent-controller/ddia-received-container/ddia-received-container.component';
-// tslint:disable-next-line:max-line-length
-import { DDIAProcessedContainerComponent } from './agent-controller/ddia-processed-container/ddia-processed-container.component';
 import { CanActivateControlAgent } from './helpers/can-activate-controlagent';
 import { CanActivateAuth } from './helpers/can-activate-auth';
 import { ControlActorService } from './services/agent-services/control-actor.service';
@@ -86,11 +85,51 @@ import { LocalinfListDDIAProcessedComponent } from './local-informer-extern/loca
 import { BaseNationalInformerComponent } from './national-informer/base-national-informer/base-national-informer.component';
 import { NationalinfListDDIAReceivedComponent } from './national-informer/nationalinf-list-ddia-received/nationalinf-list-ddia-received.component';
 import { NationalinfListDDIAProcessedComponent } from './national-informer/nationalinf-list-ddia-processed/nationalinf-list-ddia-processed.component';
+import { DDIAReceivedBaseContainerComponent } from './shared-components/components/ddia-received-base-container/ddia-received-base-container.component';
+import { DDIAProcessedBaseContainerComponent } from './shared-components/components/ddia-processed-base-container/ddia-processed-base-container.component';
+import { AccessControlDirective } from './directives/access-control.directive';
+import { NgxUiLoaderConfig, NgxUiLoaderModule } from 'ngx-ui-loader';
+import { LoaderComponent } from './shared-components/components/loader/loader.component';
+import { EmptyDDIAListComponent } from './shared-components/components/empty-ddia-list/empty-ddia-list.component';
+import { LoadDataErrorComponent } from './shared-components/components/load-data-error/load-data-error.component';
+import { HistoryBoxComponent } from './shared-components/components/history-box/history-box.component';
+import { ItemHistoryBoxComponent } from './shared-components/components/item-history-box/item-history-box.component';
+import { ModalConnectionErrorComponent } from './shared-components/components/modal-connection-error/modal-connection-error.component';
+// tslint:disable-next-line:max-line-length
+import { ModalChoiceNationalinfComponent } from './shared-components/components/modal-choice-nationalinf/modal-choice-nationalinf.component';
+import { ModalDisplayService } from './services/shared/modal-display.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   // console.log(localStorage.getItem('access_token'));
   return new TranslateHttpLoader(http);
 }
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  bgsColor: '#150734',
+  // bgsOpacity: 0.5,
+  // bgsPosition: POSITION.bottomLeft,
+  // bgsSize: 60,
+  // bgsType: SPINNER.chasingDots,
+  // blur: 5,
+  // delay: 0,
+  fastFadeOut: true,
+  fgsColor: '#150734',
+  // fgsPosition: POSITION.centerCenter,
+  // fgsSize: 60,
+  // fgsType: SPINNER.chasingDots,
+  // gap: 24,
+  // overlayBorderRadius: '0',
+  // overlayColor: 'rgba(40, 40, 40, 0.8)',
+  pbColor: '#150734',
+  // pbDirection: PB_DIRECTION.leftToRight,
+  // pbThickness: 5,
+  hasProgressBar: false,
+  // text: 'Welcome to ngx-ui-loader',
+  // textColor: '#FFFFFF',
+  // textPosition: POSITION.centerCenter,
+  // maxTime: -1,
+  // minTime: 500
+};
 
 @NgModule({
   declarations: [
@@ -159,7 +198,17 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
     LocalinfListDDIAProcessedComponent,
     BaseNationalInformerComponent,
     NationalinfListDDIAReceivedComponent,
-    NationalinfListDDIAProcessedComponent
+    NationalinfListDDIAProcessedComponent,
+    DDIAReceivedBaseContainerComponent,
+    DDIAProcessedBaseContainerComponent,
+    AccessControlDirective,
+    LoaderComponent,
+    EmptyDDIAListComponent,
+    LoadDataErrorComponent,
+    HistoryBoxComponent,
+    ItemHistoryBoxComponent,
+    ModalConnectionErrorComponent,
+    ModalChoiceNationalinfComponent
   ],
   imports: [
     BrowserModule,
@@ -173,10 +222,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
     TimepickerModule.forRoot(),
     CarouselModule.forRoot(),
     WavesModule.forRoot(),
+    IconsModule,
     CheckboxModule,
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     TableModule,
     TranslateModule.forRoot({
       loader: {
@@ -205,7 +256,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
     CanActivateAuth,
     CanActivateAdmin,
     CanActivateSourceAgent,
-    CanActivateControlAgent
+    CanActivateControlAgent,
+    ModalDisplayService
   ],
   bootstrap: [AppComponent]
 })

@@ -31,6 +31,7 @@ export class PasswordReset1Component {
     this.authService.requestResetPassword(email)
     .then(() => {
       this.loading = false;
+      this.router.navigate(['/auth/passwordreset']);
     })
     .catch((err) => {
       this.errors = this.authService.displayErrors(err);

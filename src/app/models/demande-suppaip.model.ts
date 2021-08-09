@@ -1,9 +1,11 @@
+import { AttachmentI } from '../interfaces/attachement.interface';
 import { DDIAHistoryI } from '../interfaces/ddia-history';
 import { DemandeSUPPAIPI } from '../interfaces/demande-supp.interface';
 import { DDIAHistory } from './ddia-history.model';
 import { DDIA } from './ddia.model';
 import { SourceUnit } from './source-unit.model';
 import { Unit } from './unit.model';
+import { UserInfos } from './user-infos.model';
 
 export class DemandeSUPPAIP extends DDIA{
     // tslint:disable-next-line:variable-name
@@ -34,10 +36,12 @@ export class DemandeSUPPAIP extends DDIA{
         descriptionText: string,
         state: string,
         unit: Unit,
+        initiator: UserInfos,
         histor: DDIAHistory[],
+        attachments: AttachmentI[],
         replaceDDIACode?: string
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, unit, histor);
+        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments);
         this._typeSUPPAIP = typeSUPPAIP;
         this._object = object;
         this._targetSection = targetSection;
@@ -93,7 +97,9 @@ export class DemandeSUPPAIP extends DDIA{
             data.descriptive_text,
             data.state,
             Unit.fromJSON(data.unit),
+            historiesData[0].agentObject.user,
             historiesData,
+            data.attachments,
             data.code_ddia_replaced
         );
     }

@@ -4,7 +4,6 @@
     font-weight: bold;
 }
 
-// 
 .roundedbtn {
     border-radius: 30px;
     font-weight: bold;
@@ -18,7 +17,7 @@
 
 .mybadge {
     font-size: 12px;
-    width: 17px;
+    min-width: 17px;
     height: 17px;
     border-radius: 50%;
     color: white;
@@ -26,7 +25,7 @@
     background-color: rgb(247, 10, 10);
     position: absolute;
     top: -1px;
-    right: 1px;
+    right: 23px;
     display: inline-block;
     text-align: center;
     vertical-align: middle;

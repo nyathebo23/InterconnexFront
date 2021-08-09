@@ -1,9 +1,10 @@
-<div [formGroup]="sourceUnitForm">
+<ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
+<div [formGroup]="sourceUnitForm" *ngIf="!loadingDatas">
     <div class="form-group mb-3">
         <label for="airportLocationIndicator" class="custom-label">{{'DDIAFORMS.sourceunit.locationInd' | translate }}</label>
         <input type="text" formControlName="airportLocationIndicator" class="form-control" id="airportLocationIndicator" />
     </div>
-    <div class="md-form">
+    <div class="container-fluid">
         <h5 class="text-center">{{'DDIAFORMS.sourceunit.title' | translate }}</h5>
         <div class="row">
             <div class="col-sm-6 col-md-6">

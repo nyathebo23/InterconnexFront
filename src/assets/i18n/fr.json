@@ -110,7 +110,6 @@
                 "zone": "Zone à statut particulier",
                 "maps": "Cartes"
             },
-
             "object": "Objet",
             "text": "Texte de l'AIC",
             "files": "Fichiers joints",
@@ -157,18 +156,66 @@
         "object": "Objet",
         "valPeriod": "Période de validité"
     },
+    "SOURCEAGENT": {
+        "initddia": "Initiation DDIA",
+        "unitsddia": "DDIA initiés dans l'unité",
+        "stats": "Statistiques DDIA",
+        "unitsPageLabel": "List des DDIA de l'unité"
+    },
+    "SOURCEVERIFIER": {
+        "receivedddia": "DDIA reçues à traiter",
+        "processedddia": "DDIA traitées",
+        "ddiareceivedLabel": "Demandes de diffusion d'informations aéronautiques reçues à vérifier",
+        "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
+        "stats": "Statistiques DDIA"
+    },
+    "SOURCESTRUCTURE": {
+        "receivedddia": "DDIA reçues à traiter",
+        "processedddia": "DDIA traitées",
+        "ddiareceivedLabel": "Demandes de diffusion d'informations aéronautiques reçues",
+        "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
+        "stats": "Statistiques DDIA"
+    },
+    "CCAALOCALINFORMER": {
+        "receivedddia": "DDIA reçues à traiter",
+        "processedddia": "DDIA traitées",
+        "ddiareceivedLabel": "Demandes de diffusion d'informations aéronautiques reçues pour validation",
+        "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
+        "stats": "Statistiques DDIA"
+    },
+    "NATIONALINFORMER": {
+        "receivedddia": "DDIA reçues à traiter",
+        "processedddia": "DDIA traitées",
+        "ddiareceivedLabel": "Demandes de diffusion d'informations aéronautiques reçues pour approbation",
+        "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
+        "stats": "Statistiques DDIA"
+    },
+    "DDIAHistoryActions": {
+        "init": "INITIATION",
+        "submit": "SOUMISSION",
+        "verif": "VERIFICATION",
+        "admit": "ADMISSION",
+        "valid": "VALIDATION à la SEGC",
+        "approve": "APPROBATION",
+        "modif": "MODIFICATION",
+        "reject": "Rejeté par",
+        "ok": "OK par"
+    },
     "DDIAstates": {
         "brouillon": "brouillon",
         "attenteVerif": "en attente de vérification",
         "attenteAdmission": "en attente d'admission",
         "attenteValidation": "en attente de validation",
-        "attenteApprobation": "en attente d'approbation"
+        "attenteApprobation": "en attente d'approbation",
+        "attentePublication": "en attente de publication",
+        "publie": "publié"
     },
     "DDIAerroneousstates": {
         "nonconforme": "non conforme",
         "nonadmis": "non admis",
         "nonvalide": "non validé",
-        "nonapprouve": "non approuvé"
+        "nonapprouve": "non approuvé",
+        "errone": "rejeté"
     },
     "navbar": {
         "logout": "Déconnexion"
@@ -188,6 +235,7 @@
         }
     },
     "ddialist": {
+        "emptylist": "Aucune demande de diffusion d'information aéronautique ne corresond à vos critères de recherche !",
         "filterstitle": "Filters",
         "state": "Etat",
         "type": "Type",
@@ -256,11 +304,15 @@
     },
     "Errors": {
         "serverconnection": "Echec de connexion au serveur",
-        "servererror": "Une erreure s'est produite dans le serveur"
+        "servererror": "Une erreure s'est produite dans le serveur",
+        "error": "Une erreur s'est produite et la requête n'a pas pu aboutir"
     },
     "MODAL": {
         "submitToVerify": {
-            "helperText": "Voulez vous vraiment soumettre cette demande de diffusion {{typeDDIA}} pour vérification ?"
+            "helperText": "Voulez vous vraiment soumettre cette demande de diffusion de {{typeDDIA}} pour vérification ?"
+        },
+        "submitByLocalinf": {
+            "helperText": "Voulez vous vraiment soumettre cette demande de diffusion de {{typeDDIA}} ? Si oui après validation par les supérieurs hiérarchique elle sera envoyée à l'informateur national que vous choisirez ci-après."
         },
         "verifyok": {
             "helperText": "Confirmez-vous bien que cette demande de diffusion de {{typeDDIA}} est conforme ? Si oui, elle sera envoyée aux supérieurs hiérarchiques de l'aérodrome pour validation du contenu."

@@ -8,6 +8,7 @@ import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-inf-local-management',
@@ -25,9 +26,11 @@ export class InfLocalManagementComponent implements OnInit {
   loading = false;
   createSuccess: boolean;
   aerodromesSubscription;
+  loaderId = 'loc-inf';
   constructor(
     private formBuider: FormBuilder,
     private adminService: AdminService,
+    private ngxUiLoaderService: NgxUiLoaderService,
     private router: Router
   ) {
     this.infLocalForm = this.formBuider.group({
@@ -35,6 +38,7 @@ export class InfLocalManagementComponent implements OnInit {
       aerodrome: [''],
       unit: ['']
     });
+    this.ngxUiLoaderService.startLoader(this.loaderId);
     const localInfsSubscription = this.adminService.getLocalInformersList().pipe(
       catchError(this.adminService.handleError),
       map((localinfs: LocalInformerI[]) => {
@@ -46,6 +50,7 @@ export class InfLocalManagementComponent implements OnInit {
       })
     ).subscribe((localinfs: LocalInformer[]) => {
       this.inflocaux = localinfs;
+      this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
   }
 
@@ -80,15 +85,22 @@ export class InfLocalManagementComponent implements OnInit {
     }
     this.adminService.createLocalInformer(formData)
     .then((resp) => {
-      setTimeout(() => {
-        this.loading = false;
-      }, 10000);
       this.adminService.reloadCurrentRoute();
     })
     .catch((err) => {
-      setTimeout(() => this.loading = false, 10000);
-      // this.loading = false;
-    });
+
+    })
+    .finally(() => this.loading = false);
+  }
+
+  isFormValid(): boolean {
+    const aerodrome = this.infLocalForm.controls.aerodrome.value;
+    const unit = this.infLocalForm.controls.unit.value;
+    console.log(unit);
+    if (aerodrome){
+      return unit !== '';
+    }
+    return true;
   }
 
   edit(inflocal: LocalInformer): void{

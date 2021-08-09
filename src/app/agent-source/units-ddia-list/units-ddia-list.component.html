@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="pretty-background background-gradient">
-        <app-ddia-list [labelTitle]="'Liste des DDIA de l\' unité'" (ddiaStateChange)="onDDIAStateChange($event)" (ddiaTypeChange)="onDDIATypeChange($event)" (dateOrderChange)="onDateOrderChange($event)" [ddiaList]="ddiaList">
+        <app-ddia-list [statesList]="states" [labelTitle]="'SOURCEAGENT.unitsPageLabel'" (ddiaStateChange)="onDDIAStateChange($event)" (ddiaTypeChange)="onDDIATypeChange($event)" (dateOrderChange)="onDateOrderChange($event)" [ddiaList]="ddiaList">
 
         </app-ddia-list>
     </div>

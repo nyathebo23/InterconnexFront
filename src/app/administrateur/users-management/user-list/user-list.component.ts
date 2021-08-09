@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, HostListener, AfterViewInit, ChangeDetect
 import { MdbTablePaginationComponent, MdbTableDirective } from 'angular-bootstrap-md';
 import { User } from 'src/app/models/user.model';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-user-list',
@@ -16,7 +17,8 @@ export class UserListComponent implements OnInit, AfterViewInit {
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   users: User[];
   prevUsers: User[];
-  constructor(private cdRef: ChangeDetectorRef) {
+  loaderId = 'users-list';
+  constructor(private cdRef: ChangeDetectorRef, private ngxUiLoaderService: NgxUiLoaderService) {
     this.headUsersElements = this.headUsersElements.map((elt) => this.pref + elt);
     this.headUsersElements.push('UpdateDelete.editBtn');
     this.headUsersElements.push('UpdateDelete.deleteBtn');

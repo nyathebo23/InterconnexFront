@@ -1,17 +1,19 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  FormArray,
-  Validators,
-  AbstractControl,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { MDBModalRef, MDBModalService, ModalDirective, ModalOptions } from 'angular-bootstrap-md';
+import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AIC_CLASS_NAME, AIC_TYPE } from 'src/app/commons/constants';
+import { SOURCE_VERIFIER } from 'src/app/commons/constants-roles';
 import { DemandeAIC } from 'src/app/models/demande-aic.model';
-import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
+import { User } from 'src/app/models/user.model';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
+import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalChoiceNationalinfComponent } from '../modal-choice-nationalinf/modal-choice-nationalinf.component';
 import { ModalControlDDIAConfirmComponent } from '../modal-control-ddia-confirm/modal-control-ddia-confirm.component';
 
 @Component({
@@ -28,27 +30,34 @@ export class AICWithDataComponent implements OnInit {
   initiatorInfos: string;
   dataLoaded = false;
   toDoAction: string;
-  modalOptions: any;
-
-
+  modalDatas: any;
+  user: User;
   modalRef: MDBModalRef;
+  loaderId = 'ddia-loader';
+  isAerodromeLocalInf: boolean;
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private modalService: MDBModalService,
     private controlActorService: ControlActorService,
+    private modalDisplayService: ModalDisplayService,
+    private authService: AuthManagerService,
     private activatedRoute: ActivatedRoute,
+    private ngxUiLoaderService: NgxUiLoaderService
   ) {
-    this.toDoAction = route.snapshot.data.toDoAction;
-    console.log(this.toDoAction);
+    this.toDoAction = activatedRoute.snapshot.data.toDoAction;
+    this.user = this.authService.getUser();
+    this.isAerodromeLocalInf = this.user.role === SOURCE_VERIFIER && this.authService.getLocalInf() != null;
   }
 
   ngOnInit(): void {
     // this.initiatorInfos = this.demandeAIC.c
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.ngxUiLoaderService.startLoader(this.loaderId);
     this.controlActorService.getAICDetailsById(id).subscribe(
       (demandeaic) => {
         this.demandeAIC = demandeaic;
+        const user = demandeaic.initiator;
+        this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
         this.aicForm = this.formBuilder.group({
           depositDateTime: [{value: this.demandeAIC.depositDatetime, disabled: true}],
           subject: [{value: this.demandeAIC.subject, disabled: true}],
@@ -56,22 +65,13 @@ export class AICWithDataComponent implements OnInit {
           text: [{value: this.demandeAIC.text, disabled: true}],
         });
         this.dataLoaded = true;
+        this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
-    this.modalOptions = {
-      backdrop: true,
-      keyboard: true,
-      focus: true,
-      show: false,
-      ignoreBackdropClick: true,
-      class: '',
-      containerClass: '',
-      animated: true,
-      data: {
-          ddiaClassName: AIC_CLASS_NAME,
-          ddiaType: AIC_TYPE,
-          ddiaId: id,
-          action: this.toDoAction
-      }
+    this.modalDatas = {
+      ddiaClassName: AIC_CLASS_NAME,
+      ddiaType: AIC_TYPE,
+      ddiaId: id,
+      action: this.toDoAction
     };
     this.subjectList = ['Administratif', 'ATC', 'Sécurité', 'Zone à statut particulier', 'Carte'];
     this.subjectChoices.push('DDIAFORMS.aic.subject.admin');
@@ -82,7 +82,15 @@ export class AICWithDataComponent implements OnInit {
   }
 
   openModal(): void {
-    this.modalRef = this.modalService.show(ModalControlDDIAConfirmComponent, this.modalOptions);
+    if (this.isAerodromeLocalInf){
+      this.modalDatas.action = this.toDoAction;
+      this.modalRef = this.modalService.show(ModalChoiceNationalinfComponent,
+        this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
+    }
+    else{
+      this.modalRef = this.modalService.show(ModalControlDDIAConfirmComponent,
+        this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
+    }
   }
 
   closeModal(): void {

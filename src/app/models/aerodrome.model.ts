@@ -29,6 +29,9 @@ export class Aerodrome{
         return this._locationInd;
     }
 
+    get isConceded(): boolean {
+        return this._isConceded;
+    }
 
     public static fromJSON(data: AerodromeI): Aerodrome{
         return new Aerodrome(data.id, data.name,  data.location_ind, data.is_conceded);

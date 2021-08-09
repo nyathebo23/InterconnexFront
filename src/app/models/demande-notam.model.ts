@@ -1,8 +1,10 @@
+import { AttachmentI } from '../interfaces/attachement.interface';
 import { DDIAHistoryI } from '../interfaces/ddia-history';
 import { DemandeNOTAMI } from '../interfaces/demande-notam.interface';
 import { DDIAHistory } from './ddia-history.model';
 import { DDIA } from './ddia.model';
 import { Unit } from './unit.model';
+import { UserInfos } from './user-infos.model';
 
 export class DemandeNOTAM extends DDIA{
 
@@ -49,10 +51,12 @@ export class DemandeNOTAM extends DDIA{
         upperVerticalLimit: string,
         unit: Unit,
         text: string,
+        initiator: UserInfos,
         histor: DDIAHistory[],
+        attachments: AttachmentI[],
         replaceorcancelNOTAMCode?: string
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, unit, histor);
+        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments);
         this._rangeAction = rangeAction;
         this._typeNOTAM = typeNOTAM;
         this._coords = coords;
@@ -138,7 +142,9 @@ export class DemandeNOTAM extends DDIA{
             data.upper_vertical_limit,
             Unit.fromJSON(data.unit),
             data.descriptive_text,
+            historiesData[0].agentObject.user,
             historiesData,
+            data.attachments,
             data.code_notam_replaceorcancel
         );
     }

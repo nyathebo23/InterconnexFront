@@ -3,6 +3,7 @@ import { Aerodrome } from 'src/app/models/aerodrome.model';
 import { Component, OnInit, ViewChild, HostListener, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { MdbTablePaginationComponent, MdbTableDirective } from 'angular-bootstrap-md';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-list-aerodromes',
@@ -16,20 +17,26 @@ export class ListAerodromesComponent implements OnInit, AfterViewInit {
   aerodromes: Aerodrome[] = [];
   prevAerodromes: Aerodrome[] = [];
   loadingDatas = false;
-
+  loaderId = 'list-aeros';
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
-  constructor(private cdAerodRef: ChangeDetectorRef, private adminService: AdminService) {
+  constructor(
+    private cdAerodRef: ChangeDetectorRef,
+    private adminService: AdminService,
+    private ngxUiLoaderService: NgxUiLoaderService,
+  ) {
     this.loadingDatas = true;
   }
 
   ngOnInit(): void{
+    this.ngxUiLoaderService.startLoader(this.loaderId);
     this.adminService.getAerodromesList().subscribe((aerodromesList) => {
       this.aerodromes = aerodromesList;
       this.mdbTable.setDataSource(this.aerodromes);
       this.aerodromes = this.mdbTable.getDataSource();
       this.prevAerodromes = this.mdbTable.getDataSource();
       this.loadingDatas = false;
+      this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
   }
 

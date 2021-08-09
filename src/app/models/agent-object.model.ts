@@ -12,6 +12,14 @@ export class AgentObject {
         this._user = user;
     }
 
+    get id(): string {
+        return this._id;
+    }
+
+    get user(): UserInfos {
+        return this._user;
+    }
+
     public static fromJSON(data: any): AgentObject{
         return new AgentObject(data.id, UserInfos.fromJSON(data.user));
     }

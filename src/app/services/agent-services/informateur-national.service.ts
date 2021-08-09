@@ -15,8 +15,12 @@ export class InformateurNationalService {
   errors: string[] = [];
   constructor(private http: HttpClient) { }
 
-  getDDIAListInWaiting(): Observable<any[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_IN_WAITING).pipe(
+  getDDIAListInWaiting(typeDDIA: string, dateOrder: string): Promise<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_IN_WAITING + typeDDIA, {
+      params: {
+        date_order: dateOrder
+      }
+    }).pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
         const validations = new Array<ActionOnDDIA>();
@@ -24,11 +28,16 @@ export class InformateurNationalService {
             validations.push(ActionOnDDIA.fromJSON(data));
           });
         return validations;
-      }));
+      })).toPromise();
   }
 
-  getDDIAListProcessed(): Observable<any[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_PROCESSED).pipe(
+  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string): Promise<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_PROCESSED + typeDDIA, {
+      params: {
+        state,
+        date_order: dateOrder
+      }
+    }).pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
         const approbations = new Array<ActionOnDDIA>();
@@ -36,7 +45,7 @@ export class InformateurNationalService {
             approbations.push(ActionOnDDIA.fromJSON(data));
           });
         return approbations;
-      }));
+      })).toPromise();
 
   }
 

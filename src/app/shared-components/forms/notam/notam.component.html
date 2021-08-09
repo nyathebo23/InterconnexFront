@@ -1,8 +1,5 @@
 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="notamForm">
-    <div class="d-flex flex-column align-items-center justify-content-center" style="height: 300px;" *ngIf="loadingDatas">
-        <span class="spinner-border" role="status" aria-hidden="true"></span>
-    </div>
-    <div class="d-flex flex-column" *ngIf="!loadingDatas">
+    <div class="d-flex flex-column">
         <h1 class="ddia-title"> {{'DDIAFORMS.notam.title' | translate}} </h1>
         <mdb-carousel [isControls]="true" [interval]="'0'" [animation]="'slide'">
             <mdb-carousel-item>
@@ -18,7 +15,7 @@
                             <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
                             <owl-date-time #dt1></owl-date-time>
                         </div>
-                        <app-source-unit-form [locationInd]="locationInd" [initiatorInfos]="initiatorInfos" [unit]="unit"></app-source-unit-form>
+                        <app-source-unit-form [isInCreateForm]="true"></app-source-unit-form>
                         <div>
                             <div class="form-group">
                                 <label for="typeNOTAM" class="custom-label">{{'DDIAFORMS.notam.notamType' | translate}}:</label>

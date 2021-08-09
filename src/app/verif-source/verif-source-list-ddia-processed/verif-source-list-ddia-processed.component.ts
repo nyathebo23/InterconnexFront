@@ -1,4 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { PENDING_ADMISSION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE,
+   PENDING_VALIDATION_STATE, PUBLISHED_STATE } from 'src/app/commons/constants';
+import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
+import { VerifSourceService } from 'src/app/services/agent-services/verif-source.service';
+import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 
 @Component({
   selector: 'app-verif-source-list-ddia-processed',
@@ -7,9 +13,53 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerifSourceListDDIAProcessedComponent implements OnInit {
 
-  constructor() { }
+  ddiaState = 'all';
+  dateOrder = 'ascendingDate';
+  ddiaType = 'all';
+  ddiaActionsList: ActionOnDDIA[];
+  states = [
+    {stateLabel: 'all', stateValue: 'all'} ,
+    // {stateLabel: 'DDIAstates.attenteVerif', stateValue: PENDING_VERIFICATION_STATE} ,
+    {stateLabel: 'DDIAstates.attenteAdmission', stateValue: PENDING_ADMISSION_STATE} ,
+    {stateLabel: 'DDIAstates.attenteValidation', stateValue: PENDING_VALIDATION_STATE} ,
+    {stateLabel: 'DDIAstates.attenteApprobation', stateValue: PENDING_APPROVAL_STATE} ,
+    {stateLabel: 'DDIAstates.attentePublication', stateValue: PENDING_PUBLICATION_STATE} ,
+    {stateLabel: 'DDIAstates.publie', stateValue: PUBLISHED_STATE} ,
+    {stateLabel: 'erroné', stateValue: 'erroné'} ,
+  ];
+  constructor(
+    private authService: AuthManagerService,
+    private verifSourceService: VerifSourceService
+  ) {
+  }
 
   ngOnInit(): void {
+    this.reloadDDIAItems();
+  }
+
+  onDDIAStateChange(state: string): void {
+    this.ddiaState = state;
+    this.reloadDDIAItems();
+  }
+
+  onDDIATypeChange(typeDDIA: string): void {
+    this.ddiaType = typeDDIA;
+    this.reloadDDIAItems();
+  }
+
+  onDateOrderChange(dateOrder: string): void {
+    this.dateOrder = dateOrder;
+    this.reloadDDIAItems();
+  }
+
+  reloadDDIAItems(): void {
+    this.verifSourceService.getDDIAListProcessed(this.ddiaType, this.ddiaState, this.dateOrder)
+    .then((ddiaActions) => {
+      this.ddiaActionsList = ddiaActions;
+    })
+    .catch((err: HttpErrorResponse) => {
+
+    });
   }
 
 }

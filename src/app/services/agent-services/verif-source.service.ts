@@ -1,22 +1,37 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient,  HttpErrorResponse } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { Observable , throwError } from 'rxjs';
+import { Observable , Subject, throwError } from 'rxjs';
 import * as URLS from '../../commons/urls-backend';
 import { ActionOnDDIAI } from 'src/app/interfaces/action-on-ddia.interface';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
+import { AuthManagerService } from '../auth-services/auth-manager.service';
+import { NationalInformer } from 'src/app/models/national-informer.model';
+import { NationalInformerI } from 'src/app/interfaces/national-informer.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VerifSourceService {
 
-  isLocalInf = 'yes';
+  isLocalInf: string;
+  errorsSubject: Subject<string> = new Subject<string>();
   errors: string[] = [];
-  constructor(private http: HttpClient) { }
+  urlToDDIAProcessed: string;
+  constructor(private http: HttpClient, private authService: AuthManagerService) {
+    this.isLocalInf = this.authService.getLocalInf() && this.authService.getLocalInf().unit ? 'yes' : 'no';
+    this.urlToDDIAProcessed = this.isLocalInf ? URLS.LOCALINFORMERVERIFIER_DDIA_PROCESSED : URLS.SOURCEVERIFIER_DDIA_PROCESSED;
 
-  getDDIAListInWaiting(): Observable<ActionOnDDIA[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCEVERIFIER_DDIA_IN_WAITING).pipe(
+  }
+
+  getDDIAListInWaiting(typeDDIA: string, dateOrder: string): Promise<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCEVERIFIER_DDIA_IN_WAITING + typeDDIA, {
+      params: {
+        is_localinf: this.isLocalInf,
+        date_order: dateOrder
+      }
+    })
+    .pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
         const actionsAgent = new Array<ActionOnDDIA>();
@@ -24,12 +39,15 @@ export class VerifSourceService {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
         return actionsAgent;
-      }));
+      })).toPromise();
   }
 
-  getDDIAListProcessed(): Observable<ActionOnDDIA[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCEVERIFIER_DDIA_PROCESSED, {
-      params: {is_localinf: this.isLocalInf}
+  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string): Promise<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(this.urlToDDIAProcessed + typeDDIA, {
+      params: {
+        state,
+        date_order: dateOrder
+      }
     }).pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
@@ -38,11 +56,30 @@ export class VerifSourceService {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
         return actionsAgent;
-      }));
+      })).toPromise();
   }
 
-  verifyDDIA(id: string, typeDDIA): void{
-    this.http.post(URLS.VERIFY_DDIA + typeDDIA + '/' + id, {});
+  getNationalInformersList(): Observable<NationalInformer[]>{
+    return this.http.get<NationalInformerI[]>(URLS.NATIONAL_INFORMER_CRU)
+    .pipe(
+      map((nationalinfs: NationalInformerI[]) => {
+        console.log(nationalinfs);
+        const nationalinformers = new Array<NationalInformer>();
+        nationalinfs.forEach((nationalinf) => {
+          nationalinformers.push(NationalInformer.fromJSON(nationalinf));
+        });
+        return nationalinformers;
+      })
+    );
+  }
+
+  verifyDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
+    console.log(this.isLocalInf);
+    return this.http.post(URLS.VERIFY_DDIA + classNameDDIA + '/' + id, data, {
+      params: {
+        is_localinf: this.isLocalInf
+      }
+    }).toPromise();
   }
 
   handleError(error: HttpErrorResponse): Observable<never> {

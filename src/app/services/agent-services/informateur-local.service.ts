@@ -14,8 +14,12 @@ export class InformateurLocalService {
   errors: string[] = [];
   constructor(private http: HttpClient) { }
 
-  getDDIAListInWaiting(): Observable<any[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.LOCALINFORMER_DDIA_IN_WAITING).pipe(
+  getDDIAListInWaiting(typeDDIA: string, dateOrder: string): Promise<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.LOCALINFORMER_DDIA_IN_WAITING + typeDDIA, {
+      params: {
+        date_order: dateOrder
+      }
+    }).pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
         const actionsAgent = new Array<ActionOnDDIA>();
@@ -23,11 +27,16 @@ export class InformateurLocalService {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
         return actionsAgent;
-      }));
+      })).toPromise();
   }
 
-  getDDIAListProcessed(): Observable<any[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.LOCALINFORMER_DDIA_PROCESSED).pipe(
+  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string): Promise<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.LOCALINFORMER_DDIA_PROCESSED + typeDDIA, {
+      params: {
+        state,
+        date_order: dateOrder
+      }
+    }).pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
         const validations = new Array<ActionOnDDIA>();
@@ -35,7 +44,7 @@ export class InformateurLocalService {
             validations.push(ActionOnDDIA.fromJSON(data));
           });
         return validations;
-      }));
+      })).toPromise();
   }
 
   validateDDIA(id: string, typeDDIA): void{

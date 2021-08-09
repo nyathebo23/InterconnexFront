@@ -133,7 +133,11 @@ getDDIAListInWaitingForSourceStructure(typeDDIA: string, fromLocalInf: string): 
   }
 
   verifyDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
-    return this.http.post(URLS.VERIFY_DDIA + classNameDDIA + '/' + id, data).toPromise();
+    return this.http.post(URLS.VERIFY_DDIA + classNameDDIA + '/' + id, data, {
+      params: {
+        is_localinf: 'no'
+      }
+    }).toPromise();
   }
 
   getNOTAMDetailsByUrl(url: string): Observable<DemandeNOTAM> {

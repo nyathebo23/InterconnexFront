@@ -12,18 +12,22 @@ export class ActionOnDDIA {
     // tslint:disable-next-line:variable-name
     private _newState: string;
     // tslint:disable-next-line:variable-name
+    private _nationalInfDest: string;
+    // tslint:disable-next-line:variable-name
     private _datetime: Date;
 
     constructor(
         ddiaObject: DemandeAICItemList | DemandeNOTAMItemList | DemandeSUPPItemList,
         newState: string,
         prevState: string,
-        datetime: Date
+        datetime: Date,
+        nationalinf?: string
     ){
         this._ddiaObject = ddiaObject;
         this._newState = newState;
         this._prevState = prevState;
         this._datetime = datetime;
+        this._nationalInfDest = nationalinf;
     }
 
     get ddiaObject(): DemandeAICItemList | DemandeNOTAMItemList | DemandeSUPPItemList {
@@ -42,12 +46,17 @@ export class ActionOnDDIA {
         return this._datetime;
     }
 
+    get nationalInfDest(): string {
+        return this._nationalInfDest;
+    }
+
     public static fromJSON(data: ActionOnDDIAI): ActionOnDDIA{
         return new ActionOnDDIA(
             DDIAItemList.fromJSON(data.ddia_object),
             data.new_state,
             data.prev_state,
-            new Date(data.date_time)
+            new Date(data.date_time),
+            data.nationalinf_dest
         );
     }
 }

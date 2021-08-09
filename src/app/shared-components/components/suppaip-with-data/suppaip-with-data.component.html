@@ -1,3 +1,4 @@
+<ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="suppaipForm" *ngIf="dataLoaded">
     <div class="d-flex flex-column">
         <h1 class="ddia-title"> {{'DDIAFORMS.suppaip.title' | translate}} </h1>
@@ -12,7 +13,7 @@
                             <input type="text" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
                             <owl-date-time #dt1></owl-date-time>
                         </div>
-                        <app-source-unit-form [locationInd]="demandeSUPP.locationIndicator" [initiatorInfos]="''" [unit]="demandeSUPP.sourceUnit"></app-source-unit-form>
+                        <app-source-unit-form [locationInd]="demandeSUPP.locationIndicator" [initiatorInfos]="initiatorInfos" [unit]="demandeSUPP.sourceUnit"></app-source-unit-form>
                         <div class="form-group">
                             <label for="typeSUPPAIP" class="custom-label">{{'DDIAFORMS.suppaip.type' | translate}}:</label>
                             <div class="d-flex flex-wrap justify-content-between">
@@ -59,40 +60,40 @@
                                 <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
                                 <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
                             </div>
-
+                            <div class="form-group">
+                                <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }}</label>
+                            </div>
+                            <a rel="stylesheet" *ngFor="let attachment of demandeSUPP.attachments" [href]="attachment.file">{{attachment.file}}</a>
                         </div>
                     </div>
                 </div>
             </mdb-carousel-item>
         </mdb-carousel>
     </div>
-
-    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'submittoverify'">
+    <app-history-box [history]="demandeSUPP.history"></app-history-box>
+    <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'submittoverify']; ddiaState: demandeSUPP.state; initiatorUserId: demandeSUPP.initiator.id">
         <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.cancelddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.sourcesubmitddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.sourcesubmitddia' | translate }}</button>
     </div>
 
-    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'verification'">
+    <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'verification']; ddiaState: demandeSUPP.state;">
         <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectverifddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.verifokddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.verifokddia' | translate }}</button>
     </div>
 
-    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'admission'">
+    <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'admission']; ddiaState: demandeSUPP.state;">
         <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectadmitddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.admitokddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.admitokddia' | translate }}</button>
     </div>
 
-    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'validation'">
+    <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'validation']; ddiaState: demandeSUPP.state;">
         <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectvalidateddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.validateokddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.validateokddia' | translate }}</button>
     </div>
 
-    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="toDoAction === 'approbation'">
+    <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'approbation']; ddiaState: demandeSUPP.state;">
         <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectapproveddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="frame.show()">{{'DDIAFORMS.buttons.approveokddia' | translate }}</button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.approveokddia' | translate }}</button>
     </div>
-    <div mdbModal #frame="mdbModal" class="modal fade right modal-scrolling" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: true}">
-        <app-control-ddia-confirm-modalcontent [mdbModalDir]="frame" [action]="toDoAction" [ddiaClassName]="className" [ddiaId]="demandeSUPP.id" [ddiaType]="'SUPP AIP'">
-        </app-control-ddia-confirm-modalcontent>
-    </div>
+
 </div>

@@ -11,7 +11,6 @@ import { ControlActorService } from 'src/app/services/agent-services/control-act
 })
 export class ModalControlDDIAConfirmComponent implements OnInit {
 
-  heading: string;
   contentText: string;
   ddiaClassName: string;
   ddiaId: string;
@@ -51,6 +50,12 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     }
   }
 
+  endSubmitAction(): void {
+    this.loading = false;
+    this.sourceAgentService.reloadCurrentRoute();
+    this.modalRef.hide();
+  }
+
   submitDDIAToVerif(): void {
     this.loading = true;
     const data = {decision: 'submit'};
@@ -59,9 +64,9 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
     })
     .catch((err) => {
-
+      alert('');
     })
-    .finally(() => this.loading = false);
+    .finally(() => this.endSubmitAction());
   }
 
   // cancelDDIA(): void {
@@ -71,14 +76,14 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
   acceptVerifyDDIA(): void {
     this.loading = true;
     const data = {decision: 'accept'};
-    this.controlActorService.verifyDDIA(this.ddiaClassName, this.ddiaId, data)
+    this.controlActorService.verifyDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
 
     })
     .catch((err) => {
-
+      alert('');
     })
-    .finally(() => this.loading = false);
+    .finally(() => this.endSubmitAction());
   }
 
   // rejectVerifyDDIA(): void {
@@ -87,15 +92,15 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
   acceptAdmitDDIA(): void {
     this.loading = true;
-    const data = {decision: 'accept'};
-    this.controlActorService.admitDDIA(this.ddiaClassName, this.ddiaId, data)
+    const data = {decision: 'accept', afterapprove: 'yes'};
+    this.controlActorService.admitDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
-
+      console.log(res);
     })
     .catch((err) => {
-
+      alert('');
     })
-    .finally(() => this.loading = false);
+    .finally(() => this.endSubmitAction());
 
   }
 
@@ -105,14 +110,14 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
   acceptValidateDDIA(): void {
     const data = {decision: 'accept'};
-    this.controlActorService.validateDDIA(this.ddiaClassName, this.ddiaId, data)
+    this.controlActorService.validateDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
 
     })
     .catch((err) => {
-
+      alert('');
     })
-    .finally(() => this.loading = false);
+    .finally(() => this.endSubmitAction());
 
   }
 
@@ -122,14 +127,14 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
   acceptApproveDDIA(): void {
     const data = {decision: 'accept'};
-    this.controlActorService.approveDDIA(this.ddiaClassName, this.ddiaId, data)
+    this.controlActorService.approveDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
 
     })
     .catch((err) => {
-
+      alert('');
     })
-    .finally(() => this.loading = false);
+    .finally(() => this.endSubmitAction());
 
   }
 

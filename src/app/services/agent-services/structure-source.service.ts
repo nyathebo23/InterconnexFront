@@ -1,23 +1,30 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient,  HttpErrorResponse } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { Observable , throwError } from 'rxjs';
 import { ActionOnDDIAI } from 'src/app/interfaces/action-on-ddia.interface';
 import * as URLS from '../../commons/urls-backend';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
+import { AuthManagerService } from '../auth-services/auth-manager.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StructureSourceService {
 
-  hasLocalInf = 'no';
+  isAerodromeConceded: string;
   errors: string[] = [];
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthManagerService) {
+    this.isAerodromeConceded = this.authService.getAerodrome().isConceded ? 'yes' : 'no';
+    console.log(this.isAerodromeConceded);
+  }
 
-  getDDIAListInWaiting(): Observable<any[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCESTRUCTURE_DDIA_IN_WAITING, {
-      params: {from_localinf: this.hasLocalInf}
+  getDDIAListInWaiting(typeDDIA: string, dateOrder: string): Promise<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCESTRUCTURE_DDIA_IN_WAITING + typeDDIA, {
+      params: {
+        from_localinf: this.isAerodromeConceded,
+        date_order: dateOrder
+      }
     }).pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
@@ -26,11 +33,17 @@ export class StructureSourceService {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
         return actionsAgent;
-      }));
+      })).toPromise();
   }
 
-  getDDIAListProcessed(): Observable<any[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCESTRUCTURE_DDIA_PROCESSED).pipe(
+  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string): Promise<ActionOnDDIA[]> {
+    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCESTRUCTURE_DDIA_PROCESSED + typeDDIA, {
+      params: {
+        from_localinf: this.isAerodromeConceded,
+        state,
+        date_order: dateOrder
+      }
+    }).pipe(
       catchError(this.handleError),
       map((resDatas: ActionOnDDIAI[]) => {
         const actionsAgent = new Array<ActionOnDDIA>();
@@ -38,12 +51,17 @@ export class StructureSourceService {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
         return actionsAgent;
-      }));
+      })).toPromise();
   }
 
-  validateDDIA(id: string, typeDDIA): void{
-    this.http.post(URLS.ADMIT_DDIA + typeDDIA + '/' + id, {});
+
+  admitDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
+    if (!this.isAerodromeConceded){
+      data.afterapprove = 'no';
+    }
+    return this.http.post(URLS.ADMIT_DDIA + classNameDDIA + '/' + id, data).toPromise();
   }
+
 
   handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {

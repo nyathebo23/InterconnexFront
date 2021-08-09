@@ -7,7 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BaseNationalInformerComponent implements OnInit {
 
-  constructor() { }
+  navLinks: {name: string, iconClass: string, url: string}[];
+
+  constructor() {
+    this.navLinks = [
+      {name: 'NATIONALINFORMER.receivedddia', iconClass: 'fas fa-inbox', url: '/nationalinformer/receivedddia'},
+      {name: 'NATIONALINFORMER.processedddia', iconClass: 'fas fa-list', url: '/nationalinformer/processedddia'},
+      {name: 'NATIONALINFORMER.stats', iconClass: 'fas fa-chart-bar', url: '/nationalinformer/stats'}
+    ];
+  }
 
   ngOnInit(): void {
   }

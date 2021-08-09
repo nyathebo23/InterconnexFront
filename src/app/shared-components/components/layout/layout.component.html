@@ -1,17 +1,17 @@
 <header>
     <nav class="navbar navbar-light bg-white fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" [routerLink]="navLinks[0].url">
                 <div class="d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row align-items-center">
                     <img src="/assets/images/ccaa.png" height="30" alt="CCAA">
-                    <h2 class="blue">CCAA</h2>
+                    <!-- <p class="h3-responsive">CCAA</p> -->
                 </div>
             </a>
             <ul class="navbar-nav d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row align-items-center">
                 <!-- Notification dropdown -->
                 <li class="nav-item mr-5">
                     <a class="nav-link" aria-expanded="false" style="position: relative;">
-                        <img src="/assets/images/notif.png" height="30" alt="CCAA">
+                        <mdb-icon far icon="bell" size="lg" class="indigo-text pr-3" aria-hidden="true"></mdb-icon>
                         <span class="mybadge">2</span>
                     </a>
                 </li>
@@ -31,13 +31,15 @@
                     <div class="m-auto">
                         <img src="/assets/images/user.png" style="border-radius: 50%;" height="100" alt="profile">
                     </div>
-                    <div class="overflow oneline text-center role-agent mb-1">{{user.role}} <span *ngIf="user.isStaff"> / Admin</span> </div>
+                    <div class="overflow oneline text-center role-agent mb-1"> <span *ngIf="user.isStaff">Admin</span> </div>
+                    <div class="overflow oneline text-center name-agent mb-1">{{user.function}}</div>
+                    <div class="overflow oneline text-center name-agent mb-1">{{user.quality}}</div>
                     <div class="overflow oneline text-center name-agent mb-1">{{user.getAllName()}}</div>
                 </div>
                 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
                     <a *ngFor="let navLink of navLinks;" class="d-flex align-items-center left-nav-item" [routerLink]="[navLink.url]" routerLinkActive="active">
                         <div class="mr-3"><i [class]="navLink.iconClass"></i></div>
-                        <div class="overflow">{{navLink.name}}</div>
+                        <div class="overflow">{{navLink.name | translate}}</div>
                     </a>
                 </div>
             </div>

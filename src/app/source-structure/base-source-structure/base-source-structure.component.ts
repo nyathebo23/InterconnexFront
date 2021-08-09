@@ -7,7 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BaseSourceStructureComponent implements OnInit {
 
-  constructor() { }
+  navLinks: {name: string, iconClass: string, url: string}[];
+
+  constructor() {
+    this.navLinks = [
+      {name: 'SOURCESTRUCTURE.receivedddia', iconClass: 'fas fa-inbox', url: '/sourcestructure/receivedddia'},
+      {name: 'SOURCESTRUCTURE.processedddia', iconClass: 'fas fa-list', url: '/sourcestructure/processedddia'},
+      {name: 'SOURCESTRUCTURE.stats', iconClass: 'fas fa-chart-bar', url: '/sourcestructure/stats'}
+    ];
+  }
 
   ngOnInit(): void {
   }

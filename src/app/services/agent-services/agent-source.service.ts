@@ -10,6 +10,7 @@ import { DemandeNOTAMItemList } from 'src/app/models/demandeNOTAM-item-list.mode
 import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model';
 import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
 import { DDIAItemList } from 'src/app/models/ddia-item-list.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ import { DDIAItemList } from 'src/app/models/ddia-item-list.model';
 export class AgentSourceService {
 
   headers = new HttpHeaders();
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.headers.append('Content-Type', 'multipart/form-data');
   }
 
@@ -50,17 +51,30 @@ export class AgentSourceService {
   }
 
 
-  getListDDIAInitiatedByUnit(typeDDIA: string): Observable<(DemandeNOTAMItemList | DemandeSUPPItemList | DemandeAICItemList)[]> {
-    return this.http.get<any[]>(URLS.SOURCEAGENT_DDIA_PROCESSED + typeDDIA).pipe(
+  // tslint:disable-next-line:max-line-length
+  getListDDIAInitiatedByUnit(typeDDIA: string, state: string, dateOrder: string): Observable<
+                          (DemandeNOTAMItemList | DemandeSUPPItemList | DemandeAICItemList)[]> {
+    return this.http.get<any[]>(URLS.SOURCEAGENT_DDIA_PROCESSED + typeDDIA, {
+      params: {
+        state,
+        date_order: dateOrder
+      }
+    }).pipe(
     catchError(this.handleError),
     map((resDatas: any) => {
-      console.log(resDatas);
       const actionsAgent = new Array<DemandeNOTAMItemList | DemandeSUPPItemList | DemandeAICItemList>();
       resDatas.forEach((data) => {
           actionsAgent.push(DDIAItemList.fromJSON(data));
         });
       return actionsAgent;
     }));
+  }
+
+  reloadCurrentRoute(): void {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
   }
 
   displayErrors(errorResp: HttpErrorResponse): string[]{

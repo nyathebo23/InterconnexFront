@@ -1,5 +1,7 @@
+import { AttachmentI } from '../interfaces/attachement.interface';
 import { DDIAHistory } from './ddia-history.model';
 import { Unit } from './unit.model';
+import { UserInfos } from './user-infos.model';
 
 export class DDIA {
     // tslint:disable-next-line:variable-name
@@ -17,7 +19,11 @@ export class DDIA {
     // tslint:disable-next-line:variable-name
     private _sourceUnit: Unit;
     // tslint:disable-next-line:variable-name
+    private _initiator: UserInfos;
+    // tslint:disable-next-line:variable-name
     private _history: DDIAHistory[];
+    // tslint:disable-next-line:variable-name
+    private _attachments: AttachmentI[];
 
     constructor(
         id: string,
@@ -25,8 +31,10 @@ export class DDIA {
         depositDatetime: Date,
         locationInd: string,
         state: string,
+        initiator: UserInfos,
         sourceUnit: Unit,
-        history: DDIAHistory[]
+        history: DDIAHistory[],
+        attachs: AttachmentI[]
     ){
         this._id = id;
         this._identDDIA = identDDIA;
@@ -34,7 +42,9 @@ export class DDIA {
         this._locationIndicator = locationInd;
         this._state = state;
         this._sourceUnit = sourceUnit;
+        this._initiator = initiator;
         this._history = history;
+        this._attachments = attachs;
     }
 
     get id(): string{
@@ -73,7 +83,15 @@ export class DDIA {
         return this._sourceUnit;
     }
 
+    get initiator(): UserInfos {
+        return this._initiator;
+    }
+
     get history(): DDIAHistory[] {
         return this._history;
+    }
+
+    get attachments(): AttachmentI[] {
+        return this._attachments;
     }
 }

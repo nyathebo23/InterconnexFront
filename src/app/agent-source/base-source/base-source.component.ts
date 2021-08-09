@@ -11,9 +11,9 @@ export class BaseSourceComponent  {
 
   constructor() {
     this.navLinks =  [
-      {name: 'Initiation DDIA', iconClass: 'fab fa-wpforms', url: '/source/initddia/'},
-      {name: 'DDIA de l\'unité',  iconClass: 'fas fa-list',  url: '/source/unitsddia/'},
-      {name: 'Statistiques DDIA', iconClass: 'fas fa-chart-bar',  url: '/source/stats/'},
+      {name: 'SOURCEAGENT.initddia', iconClass: 'fab fa-wpforms', url: '/source/initddia/'},
+      {name: 'SOURCEAGENT.unitsddia',  iconClass: 'fas fa-list',  url: '/source/unitsddia/'},
+      {name: 'SOURCEAGENT.stats', iconClass: 'fas fa-chart-bar',  url: '/source/stats/'},
     ];
   }
 

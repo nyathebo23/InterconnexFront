@@ -1,0 +1,25 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="heading">CONFIRMATION</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true" class="text-white">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p translate [translateParams]="{typeDDIA: ddiaType}">
+            {{contentText}}
+        </p>
+        <div class="form-group mb-4" *ngIf="nationalInfId">
+            <label class="custom-label" for="type">Choisissez l'informateur national qui doit recevoir cette demande de diffusion</label>
+            <select class="form-control" id="type" [(ngModel)]="nationalInfId">
+                <option *ngFor="let nationalInf of nationalInformers" [value]="nationalInf.id"  [selected]="nationalInf.id === nationalInfId">{{nationalInf.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" mdbBtn color="info" outline="true" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="modalRef.hide()">{{'MODAL.cancel' | translate}}</button>
+        <button type="button" mdbBtn color="info" class="waves-effect" mdbWavesEffect [disabled]="!nationalInfId" (click)="submit()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp; {{'MODAL.ok' | translate}}
+        </button>
+    </div>
+</div>

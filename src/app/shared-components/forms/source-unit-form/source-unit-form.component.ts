@@ -7,7 +7,10 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Aerodrome } from 'src/app/models/aerodrome.model';
 import { UnitSource } from 'src/app/models/unit-source.model';
+import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 
 @Component({
@@ -18,25 +21,65 @@ import { ValidationService } from 'src/app/services/auth-services/validation.ser
 export class SourceUnitFormComponent implements OnInit {
 
   sourceUnitForm: FormGroup;
-
+  @Input() isInCreateForm: boolean;
   @Input() locationInd: string;
   @Input() unit: UnitSource;
   @Input() initiatorInfos: string;
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  loadingDatas = true;
+  loaderId = 'unit-ddia';
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthManagerService,
+    private ngxUiLoaderService: NgxUiLoaderService
+  ) {
 
   }
 
   ngOnInit(): void {
-    console.log(this.unit);
-    this.sourceUnitForm = this.formBuilder.group({
-      airportLocationIndicator: [{value: this.locationInd ? this.locationInd : '', disabled: true}],
-      name: [{value: this.unit ? this.unit.name : '', disabled: true}],
-      adress: [{value: this.unit ? this.unit.address : '', disabled: true}],
-      fax: [{value: this.unit ? this.unit.fax : '', disabled: true}],
-      telephone: [{value: this.unit ? this.unit.phonenumber : '', disabled: true}],
-      email: [{value: this.unit ? this.unit.email : '', disabled: true}],
-      rsfta: [{value: this.unit ? this.unit.rsfta : '', disabled: true}],
-      initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
-    });
+    if (this.isInCreateForm){
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+      this.authService.getAgentInfos()
+      .then((data) => {
+        if (data.localinformer){
+          this.unit = UnitSource.fromJSON(data.localinformer.unit) ;
+          this.locationInd = Aerodrome.fromJSON(data.localinformer.aerodrome).locationInd;
+          this.initiatorInfos = data.user.last_name + ' ' + data.user.first_name + ',  ' + data.user.function + ',  ' + data.user.quality;
+        }
+        else{
+          this.unit = UnitSource.fromJSON(data.unit);
+          this.locationInd = Aerodrome.fromJSON(data.aerodrome).locationInd;
+          this.initiatorInfos = data.user.last_name + ' ' + data.user.first_name + ',  ' + data.user.function + ',  ' + data.user.quality;
+        }
+        this.sourceUnitForm = this.formBuilder.group({
+          airportLocationIndicator: [{value: this.locationInd ? this.locationInd : '', disabled: true}],
+          name: [{value: this.unit ? this.unit.name : '', disabled: true}],
+          adress: [{value: this.unit ? this.unit.address : '', disabled: true}],
+          fax: [{value: this.unit ? this.unit.fax : '', disabled: true}],
+          telephone: [{value: this.unit ? this.unit.phonenumber : '', disabled: true}],
+          email: [{value: this.unit ? this.unit.email : '', disabled: true}],
+          rsfta: [{value: this.unit ? this.unit.rsfta : '', disabled: true}],
+          initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
+        });
+        this.loadingDatas = false;
+        this.ngxUiLoaderService.stopLoader(this.loaderId);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+    else {
+      this.sourceUnitForm = this.formBuilder.group({
+        airportLocationIndicator: [{value: this.locationInd ? this.locationInd : '', disabled: true}],
+        name: [{value: this.unit ? this.unit.name : '', disabled: true}],
+        adress: [{value: this.unit ? this.unit.address : '', disabled: true}],
+        fax: [{value: this.unit ? this.unit.fax : '', disabled: true}],
+        telephone: [{value: this.unit ? this.unit.phonenumber : '', disabled: true}],
+        email: [{value: this.unit ? this.unit.email : '', disabled: true}],
+        rsfta: [{value: this.unit ? this.unit.rsfta : '', disabled: true}],
+        initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
+      });
+      this.loadingDatas = false;
+    }
   }
 }

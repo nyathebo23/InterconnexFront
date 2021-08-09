@@ -10,6 +10,7 @@ import { NationalInformer } from 'src/app/models/national-informer.model';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { map, catchError } from 'rxjs/operators';
 import { NationalInformerI } from 'src/app/interfaces/national-informer.interface';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-inf-national-management',
@@ -24,7 +25,12 @@ export class InfNationalManagementComponent implements OnInit  {
   errors: string[] = [];
   createSuccess: boolean;
   loading = false;
-  constructor(private formBuilder: FormBuilder, private adminService: AdminService) {
+  loaderId = 'nat-inf';
+  constructor(
+    private formBuilder: FormBuilder,
+    private adminService: AdminService,
+    private ngxUiLoaderService: NgxUiLoaderService
+  ) {
     this.infNationalForm = this.formBuilder.group({
       name: ['', [Validators.required, ValidationService.requiredValidator]],
       isAuthority: [false, [Validators.required]]
@@ -32,6 +38,7 @@ export class InfNationalManagementComponent implements OnInit  {
   }
 
   ngOnInit(): void{
+    this.ngxUiLoaderService.startLoader(this.loaderId);
     this.adminService.getNationalInformersList().pipe(
       catchError(this.adminService.handleError),
       map((localinfs: NationalInformerI[]) => {
@@ -43,6 +50,7 @@ export class InfNationalManagementComponent implements OnInit  {
       })
     ).subscribe((nationalinfs: NationalInformer[]) => {
       this.infnationaux = nationalinfs;
+      this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
   }
 
@@ -50,6 +58,7 @@ export class InfNationalManagementComponent implements OnInit  {
     this.loading = true;
     const formData = new FormData();
     formData.append('name', this.infNationalForm.controls.name.value);
+    formData.append('is_authority', this.infNationalForm.controls.isAuthority.value);
     this.adminService.createNationalInformer(formData)
     .then((resp) => {
       console.log(resp);

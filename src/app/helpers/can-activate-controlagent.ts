@@ -13,10 +13,21 @@ export class CanActivateControlAgent implements CanActivate{
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
   Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const roleForPage = route.paramMap.get('agentRole');
+    const rootUrl = route.url[0].path;
+    console.log(rootUrl);
     const user = this.authService.getUser();
     if (user){
-        return user.role === roleForPage;
+      switch (rootUrl){
+        case 'sourceverifier':
+          return user.role === ROLES.SOURCE_VERIFIER;
+        case 'sourcestructure':
+          return user.role === ROLES.SOURCE_STRUCTURE;
+        case 'localinformer':
+          return user.role === ROLES.LOCAL_VERIFIER || user.role === ROLES.LOCAL_INFORMER;
+        case 'nationalinformer':
+          return user.role === ROLES.NATIONAL_INFORMER;
+      }
+      return true;
     }
     return false;
   }

@@ -1,1 +1,7 @@
-<p>source-structure-list-ddia-received works!</p>
+<div class="container-fluid">
+    <div class="pretty-background background-gradient">
+        <app-ddia-list [labelTitle]="'SOURCESTRUCTURE.ddiareceivedLabel'" (ddiaTypeChange)="onDDIATypeChange($event)" (dateOrderChange)="onDateOrderChange($event)" [ddiaActionsList]="ddiaActionsList">
+
+        </app-ddia-list>
+    </div>
+</div>

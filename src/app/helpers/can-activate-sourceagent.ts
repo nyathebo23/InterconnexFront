@@ -15,7 +15,7 @@ export class CanActivateSourceAgent implements CanActivate{
   Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const user = this.authService.getUser();
     if (user){
-        return user.role === ROLES.SOURCE_AGENT;
+        return user.role === ROLES.SOURCE_AGENT || user.role === ROLES.SOURCE_VERIFIER;
     }
     return false;
   }

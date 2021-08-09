@@ -72,6 +72,40 @@
             "submitBtn": "Submit"
         }
     },
+    "SOURCEAGENT": {
+        "initddia": "DDIA Initiation",
+        "unitsddia": "DDIA initiated in the unit",
+        "stats": "DDIA statistics",
+        "unitsPageLabel": "List of the unit's DDIA"
+    },
+    "SOURCEVERIFIER": {
+        "receivedddia": "DDIA received to be processed",
+        "processedddia": "DDIA processed",
+        "ddiareceivedLabel": "Aeronautical information dissemination requests received to verify",
+        "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
+        "stats": "DDIA statistics"
+    },
+    "SOURCESTRUCTURE": {
+        "receivedddia": "DDIA received to be processed",
+        "processedddia": "DDIA processed",
+        "ddiareceivedLabel": "Aeronautical information dissemination requests received",
+        "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
+        "stats": "DDIA statistics"
+    },
+    "CCAALOCALINFORMER": {
+        "receivedddia": "DDIA received to be processed",
+        "processedddia": "DDIA processed",
+        "ddiareceivedLabel": "Aeronautical information dissemination requests received for validation",
+        "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
+        "stats": "DDIA statistics"
+    },
+    "NATIONALINFORMER": {
+        "receivedddia": "DDIA received to be processed",
+        "processedddia": "DDIA processed",
+        "ddiareceivedLabel": "Aeronautical information dissemination requests received for approbation",
+        "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
+        "stats": "DDIA statistics"
+    },
     "DDIAFORMS": {
         "buttons": {
             "reinit": "Reset form",
@@ -158,20 +192,33 @@
         "object": "Object",
         "valPeriod": "Validity period"
     },
+    "DDIAHistoryActions": {
+        "init": "INITIATION",
+        "submit": "SUBMISSION",
+        "verif": "VERIFICATION",
+        "admit": "ADMISSION",
+        "valid": "VALIDATION in SEGC",
+        "approve": "APPROBATION",
+        "modif": "MODIFICATION",
+        "reject": "Rejected by",
+        "ok": "OK by"
+    },
     "DDIAstates": {
         "brouillon": "draft",
         "attenteVerif": "pending verification",
         "attenteAdmission": "pending admission",
         "attenteValidation": "pending validation",
-        "attenteApprobation": "pending approval"
+        "attenteApprobation": "pending approval",
+        "attentePublication": "pending publication",
+        "publie": "published"
     },
     "DDIAerroneousstates": {
         "nonconforme": "not compliant",
         "nonadmis": "not admitted",
         "nonvalide": "not validated",
-        "nonapprouve": "not approved"
+        "nonapprouve": "not approved",
+        "errone": "rejected"
     },
-
     "navbar": {
         "logout": "Logout"
     },
@@ -189,6 +236,7 @@
         }
     },
     "ddialist": {
+        "emptylist": "None request for the dissemination of aeronotical information match search criteria !",
         "filterstitle": "Filters",
         "state": "State",
         "type": "Type",
@@ -256,11 +304,15 @@
     },
     "Errors": {
         "serverconnection": "Server connection failure",
-        "servererror": "An error occurred in the server"
+        "servererror": "An error occurred in the server",
+        "error": "An error occurred and the request could not be completed"
     },
     "MODAL": {
         "submitToVerify": {
             "helperText": "Do you really want to submit this request for the dissemination of {{typeDDIA}} for verification ?"
+        },
+        "submitByLocalinf": {
+            "helperText": "Do you really want to submit this request for the dissemination of {{typeDDIA}} ? if yes, after aerodrome supervisors validation, it will be send to the target national informers that you will have choosen."
         },
         "verifyok": {
             "helperText": "Do you confirm that this request for the dissemination of {{typeDDIA}} is compliant ? If yes, it will be sent to the aerodrome supervisors for validation of the content."

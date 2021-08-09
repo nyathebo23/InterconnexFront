@@ -1,0 +1,7 @@
+<div style="background-color: #FF8800;">
+    <div class="d-flex flex-column justify-content-around align-center" style="min-height: 300px; border-radius: 50%;">
+        <mdb-icon fas icon="exclamation-triangle" size="5x"></mdb-icon>
+        <p class="lead text-center text-white" *ngIf="isConnexionErr"> {{ 'Errors.serverconnection' | translate }} </p>
+        <p class="lead text-center text-white" *ngIf="!isConnexionErr"> {{ 'Errors.error' | translate }} </p>
+    </div>
+</div>

@@ -39,7 +39,7 @@ export class DuplicateDDIAComponent implements OnInit {
   }
 
   reloadDDIAItems(): void {
-    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType).subscribe(
+    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType, this.ddiaState, this.dateOrder).subscribe(
       (ddiaList) => {
         this.ddiaList = ddiaList;
         console.log(ddiaList);
@@ -49,7 +49,7 @@ export class DuplicateDDIAComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType).subscribe(
+    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType, this.ddiaState, this.dateOrder).subscribe(
       (ddiaList) => {
         this.ddiaList = ddiaList;
         console.log(ddiaList);

@@ -2,8 +2,7 @@ import { DDIAHistoryI } from '../interfaces/ddia-history';
 import { DDIAModifHistoryI } from '../interfaces/ddia-modif-history.interface';
 import { AgentObject } from './agent-object.model';
 import { DDIAModifHistory } from './ddia-modif-history.model';
-import { UserInfos } from './user-infos.model';
-import { User } from './user.model';
+
 
 export class DDIAHistory {
     // tslint:disable-next-line: variable-name
@@ -39,7 +38,6 @@ export class DDIAHistory {
     }
 
     public static fromJSON(data: DDIAHistoryI): DDIAHistory{
-        console.log(data);
         const modifsHistory = Array<DDIAModifHistory>();
         data.modifshistory.forEach((elt: DDIAModifHistoryI) => {
             modifsHistory.push(DDIAModifHistory.fromJSON(elt));

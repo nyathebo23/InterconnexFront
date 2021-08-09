@@ -6,17 +6,11 @@
         <div class="row">
             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
                 <div class="d-flex flex-column filters-box justify-content-center">
-                    <h3>{{'ddialist.filterstitle' | translate}}</h3>
-                    <div class="form-group mt-4 mb-4">
+                    <h3 class="mb-4">{{'ddialist.filterstitle' | translate}}</h3>
+                    <div class="form-group mt-4 mb-4" *ngIf="statesList">
                         <label class="custom-label" for="state">{{'ddialist.state' | translate}}</label>
                         <select class="form-control" id="state" (change)="changeState($event)">
-                            <option value="all" selected>all</option>
-                            <option value="brouillon">{{'DDIAstates.brouillon' | translate }}</option>
-                            <option value="en attente de vérification">{{'DDIAstates.attenteVerif' | translate }}</option>
-                            <option value="en attente d'admission">{{'DDIAstates.attenteAdmission' | translate }}</option>
-                            <option value="en attente de validation">{{'DDIAstates.attenteValidation' | translate }}</option>
-                            <option value="en attente d'approbation">{{'DDIAstates.attenteApprobation' | translate }}</option>
-                            <option value="erroné">erroné</option>
+                            <option *ngFor="let stateElt of statesList" [value]="stateElt.stateValue" [selected]="stateElt.stateValue === 'all'"> {{stateElt.stateLabel | translate}} </option>
                         </select>
                     </div>
                     <div class="form-group mb-4">
@@ -38,12 +32,42 @@
                 </div>
             </div>
             <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
-                <div class="container-items">
-                    <div class="d-flex flex-column vertical-overflow" *ngIf="ddiaActionsList">
-                        <app-ddia-item *ngFor="let ddiaAction of ddiaActionsList" [actionOnDDIA]="ddiaAction"></app-ddia-item>
+                <div class="d-flex flex-column">
+                    <div class="container-items">
+                        <ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
+                        <div class="d-flex flex-column vertical-overflow" *ngIf="ddiaActionsList">
+                            <app-empty-ddia-list *ngIf="ddiaActionsList.length === 0"></app-empty-ddia-list>
+                            <app-ddia-item *ngFor="let ddiaAction of ddiaActionsList" [actionOnDDIA]="ddiaAction"></app-ddia-item>
+                        </div>
+                        <div class="d-flex flex-column vertical-overflow" *ngIf="ddiaList">
+                            <app-empty-ddia-list *ngIf="ddiaList.length === 0"></app-empty-ddia-list>
+                            <app-ddia-item *ngFor="let ddiaItem of ddiaList" [ddiaItem]="ddiaItem"></app-ddia-item>
+                        </div>
                     </div>
-                    <div class="d-flex flex-column vertical-overflow" *ngIf="ddiaList">
-                        <app-ddia-item *ngFor="let ddiaItem of ddiaList" [ddiaItem]="ddiaItem"></app-ddia-item>
+                    <div class="bg-white p-t-10">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination pagination-circle pg-blue">
+                                <li class="page-item disabled"><a class="page-link" mdbWavesEffect>First</a></li>
+                                <li class="page-item disabled">
+                                    <a class="page-link" aria-label="Previous" mdbWavesEffect>
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" mdbWavesEffect>1</a></li>
+                                <li class="page-item"><a class="page-link" mdbWavesEffect>2</a></li>
+                                <li class="page-item"><a class="page-link" mdbWavesEffect>3</a></li>
+                                <li class="page-item"><a class="page-link" mdbWavesEffect>4</a></li>
+                                <li class="page-item"><a class="page-link" mdbWavesEffect>5</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" aria-label="Next" mdbWavesEffect>
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" mdbWavesEffect>Last</a></li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

@@ -64,8 +64,56 @@ export class AuthManagerService {
     return this.user;
   }
 
+  getUnit(): UnitSource {
+    if (this.unit){
+      return this.unit;
+    }
+    const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
+    if (jsonData && jsonData.unit){
+      return UnitSource.fromJSON(jsonData.unit);
+    }
+    return null;
+  }
+
+  getAerodrome(): Aerodrome {
+    if (this.aerodrome){
+      return this.aerodrome;
+    }
+    const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
+    if (jsonData && jsonData.aerodrome){
+      return Aerodrome.fromJSON(jsonData.aerodrome);
+    }
+    return null;
+  }
+
+  getLocalInf(): LocalInformerExtend {
+    if (this.localinformer){
+      return this.localinformer;
+    }
+    const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
+    if (jsonData && jsonData.localinformer){
+      return LocalInformerExtend.fromJSON(jsonData.localinformer);
+    }
+    return null;
+  }
+
+  getNationalInf(): NationalInformer {
+    if (this.nationalinformer){
+      return this.nationalinformer;
+    }
+    const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
+    if (jsonData && jsonData.aerodrome){
+      return NationalInformer.fromJSON(jsonData.nationalinformer);
+    }
+    return null;
+  }
+
   setUserInStorage(userJSON: UserI): void{
     localStorage.setItem('user', JSON.stringify(userJSON));
+  }
+
+  setExtraAgentInfosInStorage(data): void {
+    localStorage.setItem('agentExtras', JSON.stringify(data));
   }
 
   async getNewAccessTokenByRefresh(): Promise<{access: string}> {
@@ -86,9 +134,12 @@ export class AuthManagerService {
           this.aerodrome = this.localinformer.aerodrome;
         }
         else{
-          this.unit = UnitSource.fromJSON(data.unit);
+          if (data.unit){
+            this.unit = UnitSource.fromJSON(data.unit);
+          }
           this.aerodrome = Aerodrome.fromJSON(data.aerodrome);
         }
+        this.setExtraAgentInfosInStorage(data);
         this.navigateToPage(this.user.role, this.user.isStaff);
       })
       .catch((err) => {
@@ -99,6 +150,7 @@ export class AuthManagerService {
       this.getLocalAgentInfos()
       .then((data) => {
         this.localinformer = LocalInformerExtend.fromJSON(data.localinformer);
+        this.setExtraAgentInfosInStorage(data);
         console.log(data);
         this.navigateToPage(this.user.role, this.user.isStaff);
       })
@@ -111,6 +163,7 @@ export class AuthManagerService {
       .then((data) => {
         this.nationalinformer = NationalInformer.fromJSON(data.nationalinformer);
         console.log(data);
+        this.setExtraAgentInfosInStorage(data);
         this.navigateToPage(this.user.role, this.user.isStaff);
       })
       .catch((err) => {
@@ -124,11 +177,27 @@ export class AuthManagerService {
     if (isStaff){
       this.router.navigate(['admin']);
     }
-    else if (role === ROLES.SOURCE_AGENT){
-      this.router.navigate(['source']);
-    }
     else {
-      this.router.navigate(['controlagent', role]);
+      switch (role){
+        case ROLES.SOURCE_AGENT:
+          this.router.navigate(['source']);
+          break;
+        case ROLES.SOURCE_VERIFIER:
+          this.router.navigate(['sourceverifier']);
+          break;
+        case ROLES.SOURCE_STRUCTURE:
+          this.router.navigate(['sourcestructure']);
+          break;
+        case ROLES.LOCAL_INFORMER:
+          this.router.navigate(['localinformer']);
+          break;
+        case ROLES.LOCAL_VERIFIER:
+          this.router.navigate(['localinformer']);
+          break;
+        case ROLES.NATIONAL_INFORMER:
+          this.router.navigate(['nationalinformer']);
+          break;
+      }
     }
   }
 
@@ -231,6 +300,7 @@ export class AuthManagerService {
 
   logout(): void {
     localStorage.removeItem('user');
+    localStorage.removeItem('agentExtras');
     localStorage.removeItem('access_token');
     this.router.navigate(['/auth/signin']);
   }

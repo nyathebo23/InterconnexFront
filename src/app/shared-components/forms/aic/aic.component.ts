@@ -23,15 +23,11 @@ export class AICComponent implements OnInit {
   aicForm: FormGroup;
   subjectChoices: Array<string> = new Array();
   subjectList: Array<string>;
-  locationInd: string;
-  initiatorInfos: string;
-  unit: UnitSource;
   loadingDatas = true;
   errors: string[];
   createSuccess = false;
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
     private authService: AuthManagerService,
     private sourceAgentService: AgentSourceService
   ) {
@@ -56,23 +52,7 @@ export class AICComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.getAgentInfos()
-    .then((data) => {
-      if (data.localinformer){
-        this.unit = UnitSource.fromJSON(data.localinformer.unit) ;
-        this.locationInd = Aerodrome.fromJSON(data.localinformer.aerodrome).locationInd;
-        this.initiatorInfos = data.user.last_name + ' ' + data.user.first_name + ',  ' + data.user.function + ',  ' + data.user.quality;
-      }
-      else{
-        this.unit = UnitSource.fromJSON(data.unit);
-        this.locationInd = Aerodrome.fromJSON(data.aerodrome).locationInd;
-        this.initiatorInfos = data.user.last_name + ' ' + data.user.first_name + ',  ' + data.user.function + ',  ' + data.user.quality;
-      }
-      this.loadingDatas = false;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+
   }
 
   get form(): {[key: string]: any}{

@@ -29,6 +29,7 @@ export const SOURCEAGENT_DDIA_IN_WAITING = HOST_URL +  '/aeroinfos/sourceagent/l
 export const SOURCEAGENT_DDIA_PROCESSED = HOST_URL +  '/aeroinfos/sourceagent/listDDIA/processed/';
 export const SOURCEVERIFIER_DDIA_IN_WAITING = HOST_URL +  '/aeroinfos/verifsource/listDDIA/waited/';
 export const SOURCEVERIFIER_DDIA_PROCESSED = HOST_URL +  '/aeroinfos/verifsource/listDDIA/processed/';
+export const LOCALINFORMERVERIFIER_DDIA_PROCESSED = HOST_URL +  '/aeroinfos/localinfsource/listDDIA/processed/';
 export const SOURCESTRUCTURE_DDIA_IN_WAITING = HOST_URL +  '/aeroinfos/sourcestructure/listDDIA/waited/';
 export const SOURCESTRUCTURE_DDIA_PROCESSED = HOST_URL +  '/aeroinfos/sourcestructure/listDDIA/processed/';
 export const LOCALINFORMER_DDIA_IN_WAITING = HOST_URL +  '/aeroinfos/localinformer/listDDIA/waited/';

@@ -19,16 +19,12 @@ import { UnitsDDIAComponent } from './agent-source/units-ddia/units-ddia.compone
 import { PasswordReset1Component } from './auth-components/password-reset1/password-reset1.component';
 import { PasswordReset2Component } from './auth-components/password-reset2/password-reset2.component';
 import { SigninComponent } from './auth-components/signin/signin.component';
-import { ListDDIAProcessedComponent } from './agent-controller/list-ddia-processed/list-ddia-processed.component';
-import { ListDDIAReceivedComponent } from './agent-controller/list-ddia-received/list-ddia-received.component';
-// import { ListDDIAProcessedComponent } from './verificateursource/list-ddia-processed/list-ddia-processed.component';
-// import { ListDDIAReceivedComponent } from './verificateursource/list-ddia-received/list-ddia-received.component';
+
 import { SignupVerifComponent } from './auth-components/signup-verif/signup-verif.component';
 import { ChangeEmailComponent } from './auth-components/change-email/change-email.component';
 import { ConfirmChangeEmailComponent } from './auth-components/confirm-change-email/confirm-change-email.component';
 import { CodeResendComponent } from './auth-components/code-resend/code-resend.component';
 import { PageNotFoundComponent } from './shared-components/components/page-not-found/page-not-found.component';
-import { AuthGuardService } from './helpers/auth-guard.service';
 import { CanActivateSourceAgent } from './helpers/can-activate-sourceagent';
 import { BaseControlViewComponent } from './agent-controller/base-control-view/base-control-view.component';
 import { CanActivateAdmin } from './helpers/can-activate-admin';
@@ -36,12 +32,27 @@ import { DDIAPresentComponent } from './agent-source/ddia-present/ddia-present.c
 import { NOTAMWithDataComponent } from './shared-components/components/notam-with-data/notam-with-data.component';
 import { SUPPAIPWithDataComponent } from './shared-components/components/suppaip-with-data/suppaip-with-data.component';
 import { AICWithDataComponent } from './shared-components/components/aic-with-data/aic-with-data.component';
-import { DDIAReceivedContainerComponent } from './agent-controller/ddia-received-container/ddia-received-container.component';
+import { DDIAReceivedContainerComponent } from './shared-components/components/ddia-received-container/ddia-received-container.component';
 // tslint:disable-next-line:max-line-length
-import { DDIAProcessedContainerComponent } from './agent-controller/ddia-processed-container/ddia-processed-container.component';
+import { DDIAProcessedContainerComponent } from './shared-components/components/ddia-processed-container/ddia-processed-container.component';
 import { CanActivateControlAgent } from './helpers/can-activate-controlagent';
 import { CanActivateAuth } from './helpers/can-activate-auth';
 import { UnitsDDIAListComponent } from './agent-source/units-ddia-list/units-ddia-list.component';
+import { BaseVerifSourceComponent } from './verif-source/base-verif-source/base-verif-source.component';
+import { VerifSourceListDDIAReceivedComponent } from './verif-source/verif-source-list-ddia-received/verif-source-list-ddia-received.component';
+import { VerifSourceListDDIAProcessedComponent } from './verif-source/verif-source-list-ddia-processed/verif-source-list-ddia-processed.component';
+import { BaseSourceStructureComponent } from './source-structure/base-source-structure/base-source-structure.component';
+import { SourceStructureListDDIAReceivedComponent } from './source-structure/source-structure-list-ddia-received/source-structure-list-ddia-received.component';
+import { SourceStructureListDDIAProcessedComponent } from './source-structure/source-structure-list-ddia-processed/source-structure-list-ddia-processed.component';
+import { BaseLocalInformerComponent } from './local-informer-extern/base-local-informer/base-local-informer.component';
+import { LocalinfListDDIAReceivedComponent } from './local-informer-extern/localinf-list-ddia-received/localinf-list-ddia-received.component';
+import { LocalinfListDDIAProcessedComponent } from './local-informer-extern/localinf-list-ddia-processed/localinf-list-ddia-processed.component';
+import { DDIAReceivedBaseContainerComponent } from './shared-components/components/ddia-received-base-container/ddia-received-base-container.component';
+import { DDIAProcessedBaseContainerComponent } from './shared-components/components/ddia-processed-base-container/ddia-processed-base-container.component';
+import { NationalinfListDDIAReceivedComponent } from './national-informer/nationalinf-list-ddia-received/nationalinf-list-ddia-received.component';
+import { NationalinfListDDIAProcessedComponent } from './national-informer/nationalinf-list-ddia-processed/nationalinf-list-ddia-processed.component';
+import { ADMISSION, APPROBATION, SUBMIT_TO_VERIFY, VALIDATION, VERIFICATION } from './commons/control-actions-on-ddia';
+
 
 const routes: Routes = [
   {
@@ -80,9 +91,9 @@ const routes: Routes = [
           { path: '', redirectTo: 'list' , pathMatch: 'full'},
           { path: 'list', component: UnitsDDIAListComponent },
           { path: 'present-ddia', component: DDIAPresentComponent, children: [
-              { path: 'notam/:id', component: NOTAMWithDataComponent, data: {toDoAction: 'submittoverify'} },
-              { path: 'suppaip/:id', component: SUPPAIPWithDataComponent, data: {toDoAction: 'submittoverify'} },
-              { path: 'aic/:id', component: AICWithDataComponent, data: {toDoAction: 'submittoverify'} },
+              { path: 'notam/:id', component: NOTAMWithDataComponent, data: {toDoAction: SUBMIT_TO_VERIFY} },
+              { path: 'suppaip/:id', component: SUPPAIPWithDataComponent, data: {toDoAction: SUBMIT_TO_VERIFY} },
+              { path: 'aic/:id', component: AICWithDataComponent, data: {toDoAction: SUBMIT_TO_VERIFY} },
             ]
           }
         ]
@@ -114,25 +125,138 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'controlagent/:agentRole', component: BaseControlViewComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
+    path: 'sourceverifier', component: BaseVerifSourceComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
     children: [
       { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
-      { path: 'receivedddia', component: ListDDIAReceivedComponent},
-      { path: 'processedddia', component: ListDDIAProcessedComponent},
-      { path: 'received/present-ddia', component: DDIAReceivedContainerComponent, children: [
-          { path: 'notam/:id', component: NOTAMWithDataComponent },
-          { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
-          { path: 'aic/:id', component: AICWithDataComponent },
+      { path: 'receivedddia', component: DDIAReceivedBaseContainerComponent, children: [
+        { path: '', redirectTo: 'list' , pathMatch: 'full'},
+         { path: 'list', component: VerifSourceListDDIAReceivedComponent},
+         { path: 'present-ddia', component: DDIAReceivedContainerComponent, children: [
+            { path: 'notam/:id', component: NOTAMWithDataComponent, data: {toDoAction: VERIFICATION} },
+            { path: 'suppaip/:id', component: SUPPAIPWithDataComponent, data: {toDoAction: VERIFICATION} },
+            { path: 'aic/:id', component: AICWithDataComponent, data: {toDoAction: VERIFICATION} },
+          ]
+         }
         ]
       },
-      { path: 'processed/present-ddia', component: DDIAProcessedContainerComponent, children: [
-        { path: 'notam/:id', component: NOTAMWithDataComponent },
-        { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
-        { path: 'aic/:id', component: AICWithDataComponent },
+      { path: 'processedddia', component: DDIAProcessedBaseContainerComponent, children: [
+          { path: '', redirectTo: 'list' , pathMatch: 'full'},
+          { path: 'list', component: VerifSourceListDDIAProcessedComponent},
+          { path: 'present-ddia', component: DDIAProcessedContainerComponent, children: [
+             { path: 'notam/:id', component: NOTAMWithDataComponent },
+             { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
+             { path: 'aic/:id', component: AICWithDataComponent },
+            ]
+          }
         ]
       },
     ]
   },
+  {
+    path: 'sourcestructure', component: BaseSourceStructureComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
+    children: [
+      { path: '', redirectTo: 'list' , pathMatch: 'full'},
+      { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
+      { path: 'receivedddia', component: DDIAReceivedBaseContainerComponent, children: [
+         { path: '', redirectTo: 'list' , pathMatch: 'full'},
+         { path: 'list', component: SourceStructureListDDIAReceivedComponent},
+         { path: 'present-ddia', component: DDIAReceivedContainerComponent, children: [
+            { path: 'notam/:id', component: NOTAMWithDataComponent,  data: {toDoAction: ADMISSION}  },
+            { path: 'suppaip/:id', component: SUPPAIPWithDataComponent,  data: {toDoAction: ADMISSION}  },
+            { path: 'aic/:id', component: AICWithDataComponent,  data: {toDoAction: ADMISSION}  },
+          ]
+         }
+        ]
+      },
+      { path: 'processedddia', component: DDIAProcessedBaseContainerComponent, children: [
+          { path: '', redirectTo: 'list' , pathMatch: 'full'},
+          { path: 'list', component: SourceStructureListDDIAProcessedComponent},
+          { path: 'present-ddia', component: DDIAProcessedContainerComponent, children: [
+             { path: 'notam/:id', component: NOTAMWithDataComponent },
+             { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
+             { path: 'aic/:id', component: AICWithDataComponent },
+            ]
+          }
+        ]
+      },
+    ]
+  },
+  {
+    path: 'localinformer', component: BaseLocalInformerComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
+    children: [
+      { path: '', redirectTo: 'list' , pathMatch: 'full'},
+      { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
+      { path: 'receivedddia', component: DDIAReceivedBaseContainerComponent, children: [
+         { path: 'list', component: LocalinfListDDIAReceivedComponent},
+         { path: 'present-ddia', component: DDIAReceivedContainerComponent, children: [
+            { path: 'notam/:id', component: NOTAMWithDataComponent,  data: {toDoAction: VALIDATION}   },
+            { path: 'suppaip/:id', component: SUPPAIPWithDataComponent,  data: {toDoAction: VALIDATION}   },
+            { path: 'aic/:id', component: AICWithDataComponent,  data: {toDoAction: VALIDATION}   },
+          ]
+         }
+        ]
+      },
+      { path: 'processedddia', component: DDIAProcessedBaseContainerComponent, children: [
+          { path: '', redirectTo: 'list' , pathMatch: 'full'},
+          { path: 'list', component: LocalinfListDDIAProcessedComponent},
+          { path: 'present-ddia', component: DDIAProcessedContainerComponent, children: [
+             { path: 'notam/:id', component: NOTAMWithDataComponent },
+             { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
+             { path: 'aic/:id', component: AICWithDataComponent },
+            ]
+          }
+        ]
+      },
+    ]
+  },
+  {
+    path: 'nationalinformer', component: BaseControlViewComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
+    children: [
+      { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
+      { path: 'receivedddia', component: DDIAReceivedBaseContainerComponent, children: [
+         { path: '', redirectTo: 'list' , pathMatch: 'full'},
+         { path: 'list', component: NationalinfListDDIAReceivedComponent},
+         { path: 'present-ddia', component: DDIAReceivedContainerComponent, children: [
+            { path: 'notam/:id', component: NOTAMWithDataComponent,  data: {toDoAction: APPROBATION}   },
+            { path: 'suppaip/:id', component: SUPPAIPWithDataComponent,  data: {toDoAction: APPROBATION}   },
+            { path: 'aic/:id', component: AICWithDataComponent,  data: {toDoAction: APPROBATION}   },
+          ]
+         }
+        ]
+      },
+      { path: 'processedddia', component: DDIAProcessedBaseContainerComponent, children: [
+          { path: '', redirectTo: 'list' , pathMatch: 'full'},
+          { path: 'list', component: NationalinfListDDIAProcessedComponent},
+          { path: 'present-ddia', component: DDIAProcessedContainerComponent, children: [
+             { path: 'notam/:id', component: NOTAMWithDataComponent },
+             { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
+             { path: 'aic/:id', component: AICWithDataComponent },
+            ]
+          }
+        ]
+      },
+    ]
+  },
+  // {
+  //   path: 'controlagent/:agentRole', component: BaseControlViewComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
+  //   children: [
+  //     { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
+  //     { path: 'receivedddia', component: ListDDIAReceivedComponent},
+  //     { path: 'processedddia', component: ListDDIAProcessedComponent},
+  //     { path: 'received/present-ddia', component: DDIAReceivedContainerComponent, children: [
+  //         { path: 'notam/:id', component: NOTAMWithDataComponent },
+  //         { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
+  //         { path: 'aic/:id', component: AICWithDataComponent },
+  //       ]
+  //     },
+  //     { path: 'processed/present-ddia', component: DDIAProcessedContainerComponent, children: [
+  //       { path: 'notam/:id', component: NOTAMWithDataComponent },
+  //       { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
+  //       { path: 'aic/:id', component: AICWithDataComponent },
+  //       ]
+  //     },
+  //   ]
+  // },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
