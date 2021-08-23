@@ -6,13 +6,13 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { MDBModalService } from 'angular-bootstrap-md';
 import { VALIDITY_PERIOD_ESTIMATED, VALIDITY_PERIOD_PLANNED } from 'src/app/commons/constants';
-import { Aerodrome } from 'src/app/models/aerodrome.model';
-import { UnitSource } from 'src/app/models/unit-source.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalSuccessCreationDDIAComponent } from '../../components/modal-success-creation-ddia/modal-success-creation-ddia.component';
 
 @Component({
   selector: 'app-notam',
@@ -23,13 +23,23 @@ export class NotamComponent implements OnInit {
 
   notamForm: FormGroup;
   loadingDatas = true;
+  loadingSave: boolean;
   errors: string[];
-  createSuccess = false;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthManagerService,
-    private sourceAgentService: AgentSourceService
+    private sourceAgentService: AgentSourceService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService
   ) {
+    this.initForm();
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  initForm(): void {
     this.notamForm = this.formBuilder.group({
       depositDateTime: [{value: new Date(), disabled: true}],
       rangeAction: [''],
@@ -45,11 +55,6 @@ export class NotamComponent implements OnInit {
       supLimit: [''],
       filesForm: new FormArray([])
     });
-
-  }
-
-  ngOnInit(): void {
-
   }
 
   get form(): {[key: string]: AbstractControl}{
@@ -62,7 +67,7 @@ export class NotamComponent implements OnInit {
   addFileForm(): void{
     this.files.push(
       this.formBuilder.group({
-        file: ['', [Validators.required]],
+        file: [null, [Validators.required]],
         filename: [{value: '', disabled: true}]
       })
     );
@@ -72,9 +77,6 @@ export class NotamComponent implements OnInit {
   }
 
   onFileSelected(event: any, fileForm: any): void{
-    console.log(fileForm);
-    console.log(this.files);
-
     fileForm.patchValue({
       file: event.target.files[0],
       // filename: event.target.files[0].name
@@ -82,20 +84,54 @@ export class NotamComponent implements OnInit {
 
   }
 
-  isReplaceNOTAM(): boolean {
-    return this.notamForm.controls.typeNOTAM.value !== 'NOTAM N';
+  timeValGreaterThan(value1: string, value2: string): boolean {
+    const time1 = value1.split(':').map((val) => parseInt(val, 10));
+    const time2 = value2.split(':').map((val) => parseInt(val, 10));
+    if ( time1[0] > time2[0]){
+      return true;
+    }
+    else {
+      if (time1[0] === time2[0]){
+        return time1[1] > time2[1];
+      }
+      return false;
+    }
   }
 
   save(): void {
     const formData = new FormData();
+    const typeNOTAM = this.notamForm.controls.typeNOTAM.value;
+    const codeNOTAMReplaced: string = this.notamForm.controls.notamTargetCode.value;
+    if (typeNOTAM === 'NOTAM N' && codeNOTAMReplaced.trim() !== ''){
+      this.errors = ['DDIAFORMS.errors.replacedCodeNOTAMN'];
+      return;
+    }
+    else if (typeNOTAM !== 'NOTAM N' && codeNOTAMReplaced.trim() === ''){
+      this.errors = ['DDIAFORMS.errors.replacedCodeNOTAMRC'];
+      return;
+    }
+    const dailyFreqStart = this.notamForm.controls.dailyFreqStart.value;
+    const dailyFreqEnd = this.notamForm.controls.dailyFreqEnd.value;
+    console.log(dailyFreqStart, dailyFreqEnd);
+    if (!dailyFreqEnd && !dailyFreqStart){
+      this.errors = ['DDIAFORMS.errors.timeInvalid'];
+      return;
+    }
+    else {
+      if (this.timeValGreaterThan(dailyFreqStart, dailyFreqEnd)){
+        this.errors = ['DDIAFORMS.errors.timeInvalid'];
+        return;
+      }
+    }
+    this.loadingSave = true;
     formData.append('type_notam', this.notamForm.controls.typeNOTAM.value);
     formData.append('descriptive_text', this.notamForm.controls.text.value);
     formData.append('range_action', this.notamForm.controls.rangeAction.value);
     formData.append('coords', this.notamForm.controls.coords.value);
     formData.append('start_val_period', this.notamForm.controls.validityPeriod.value[0].toISOString());
     formData.append('end_val_period', this.notamForm.controls.validityPeriod.value[1].toISOString());
-    // formData.append('daily_freq_start', this.notamForm.controls.dailyFreqStart.value);
-    // formData.append('daily_freq_end', this.notamForm.controls.dailyFreqEnd.value);
+    formData.append('daily_freq_start', dailyFreqStart + ':00');
+    formData.append('daily_freq_end', dailyFreqEnd + ':00');
     formData.append('lower_vertical_limit', this.notamForm.controls.infLimit.value);
     formData.append('upper_vertical_limit', this.notamForm.controls.supLimit.value);
     const validityPeriod = this.notamForm.controls.periodType.value === 'planned' ? VALIDITY_PERIOD_PLANNED : VALIDITY_PERIOD_ESTIMATED;
@@ -108,12 +144,15 @@ export class NotamComponent implements OnInit {
     }
     this.sourceAgentService.createNOTAM(formData)
     .then(() => {
-      this.createSuccess = true;
-      setTimeout(() => this.createSuccess = false, 100000);
+      this.errors = [];
+      this.modalService.show(ModalSuccessCreationDDIAComponent,
+        this.modalDisplayService.getModalOptions({typeDDIA: 'NOTAM'}, 'modal-dialog modal-notify modal-success')
+      );
     })
     .catch((err) => {
       this.errors = this.sourceAgentService.displayErrors(err);
       setTimeout(() => this.errors = [], 100000);
-    });
+    })
+    .finally(() => this.loadingSave = false);
   }
 }

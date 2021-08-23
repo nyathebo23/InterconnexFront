@@ -1,0 +1,122 @@
+<ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
+<div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="notamForm" *ngIf="dataLoaded">
+    <div class="d-flex flex-column">
+        <h1 class="ddia-title"> {{'DDIAFORMS.notam.title' | translate}} </h1>
+        <div class="container mb-3">
+            <app-list-states-box [currentState]="demandeNOTAM.state"></app-list-states-box>
+        </div>
+        <div class="container" *ngIf="labelTargetNationalInf">
+            <div class="bg-white">
+                <blockquote class="blockquote text-center bq-primary">
+                    <p class="bq-title">{{labelTargetNationalInf | translate}}</p>
+                </blockquote>
+            </div>
+        </div>
+        <mdb-carousel [isControls]="true" [interval]="'0'" [animation]="'slide'">
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <input type="text" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
+                            <owl-date-time #dt1></owl-date-time>
+                        </div>
+                        <app-source-unit-form [locationInd]="demandeNOTAM.locationIndicator" [initiatorInfos]="initiatorInfos" [unit]="demandeNOTAM.sourceUnit"></app-source-unit-form>
+                        <div class="form-group">
+                            <label for="typeNOTAM" class="custom-label">{{'DDIAFORMS.notam.notamType' | translate}}:</label>
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <div class="custom-control custom-radio">
+                                    <input id="notamN" type="radio" class="custom-control-input" value="NOTAM N" formControlName="typeNOTAM" mdbInput>
+                                    <label for="notamN" class="custom-control-label">NOTAM N</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="notamR" type="radio" class="custom-control-input" value="NOTAM R" formControlName="typeNOTAM" mdbInput>
+                                    <label for="notamR" class="custom-control-label">NOTAM R</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="notamC" type="radio" class="custom-control-input" value="NOTAM C" formControlName="typeNOTAM" mdbInput>
+                                    <label for="notamC" class="custom-control-label">NOTAM C</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.notam.notamTargetCode' | translate }}</label>
+                            <input type="text" id="targetNOTAM" class="form-control" formControlName="notamTargetCode">
+                            <!-- <select [disabled]="!isReplaceNOTAM()" class="form-control" id="targetNOTAM">
+                                    <option value=""></option>
+                                </select> -->
+                        </div>
+                        <div class="form-group">
+                            <label for="coords" class="custom-label">{{'DDIAFORMS.notam.coords' | translate }}</label>
+                            <input type="text" id="coords" class="form-control" formControlName="coords">
+                        </div>
+                        <div class="form-group">
+                            <label for="rangeAct" class="custom-label">{{'DDIAFORMS.notam.rangeAction' | translate }}</label>
+                            <input type="text" id="rangeAct" class="form-control" formControlName="rangeAction">
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label class="custom-label">{{'DDIAFORMS.notam.valPeriod' | translate }}</label>
+                            <div class="form-group">
+                                <input type="text" placeholder="Validity period" class="form-control" [owlDateTimeTrigger]="dtPicker" [owlDateTime]="dtPicker" formControlName="validityPeriod" [selectMode]="'range'">
+                                <owl-date-time #dtPicker></owl-date-time>
+                                <app-control-messages [control]="notamForm.controls.validityPeriod"></app-control-messages>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="periodType" class="custom-label">{{'DDIAFORMS.notam.periodType' | translate}}:</label>
+                            <div class="d-flex justify-content-between">
+                                <div class="custom-control custom-radio">
+                                    <input id="period1" type="radio" class="custom-control-input" value="planned" formControlName="periodType" mdbInput>
+                                    <label for="period1" class="custom-control-label">{{'DDIAFORMS.notam.plannedPeriod' | translate}}</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="period2" type="radio" class="custom-control-input" value="estimated" formControlName="periodType" mdbInput>
+                                    <label for="period2" class="custom-control-label">{{'DDIAFORMS.notam.estimatedPeriod' | translate}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">{{'DDIAFORMS.notam.dailyFreq' | translate }}</label>
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <!-- <input type="time" id="input" class="form-control" formControlName="dailyFreqStart" mdbInput />
+                              <input type="time" id="input"  class="form-control" value="13:00"  mdbInput /> -->
+                                <timepicker [showMeridian]="false" formControlName="dailyFreqStart" [showSpinners]="false" [disabled]="true"></timepicker>
+                                <span>à</span>
+                                <timepicker [showMeridian]="false" formControlName="dailyFreqEnd" [showSpinners]="false" [disabled]="true"></timepicker>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="descText" class="custom-label">{{'DDIAFORMS.notam.text' | translate }}</label>
+                            <textarea class="form-control" formControlName="text" id="descText" cols="30" rows="7"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">{{'DDIAFORMS.notam.vertLimits' | translate }}</label>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6">
+                                    <input type="text" placeholder="{{'DDIAFORMS.notam.lowerLim' | translate }}" class="form-control" formControlName="infLimit">
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <input type="text" placeholder="{{'DDIAFORMS.notam.upperLim' | translate }}" class="form-control" formControlName="supLimit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+        </mdb-carousel>
+    </div>
+    <app-history-box [history]="demandeNOTAM.history"></app-history-box>
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="demandeNOTAM.state === objectDefaultState">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openRejectModal()">
+            {{'DDIAFORMS.buttons.rejectadmitddia' | translate }}
+        </button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
+            {{'DDIAFORMS.buttons.admitokddia' | translate }}
+        </button>
+    </div>
+</div>

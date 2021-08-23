@@ -4,8 +4,9 @@ import { map, catchError } from 'rxjs/operators';
 import { Observable , throwError } from 'rxjs';
 import * as URLS from '../../commons/urls-backend';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
-import { ActionOnDDIAI } from 'src/app/interfaces/action-on-ddia.interface';
-
+import { ActionsOnDDIAList, PaginateActionOnDDIAResp } from 'src/app/interfaces/responses.interface';
+import { Notification } from 'src/app/models/notification.model';
+import { NotificationI } from 'src/app/interfaces/notification.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,38 +16,53 @@ export class InformateurNationalService {
   errors: string[] = [];
   constructor(private http: HttpClient) { }
 
-  getDDIAListInWaiting(typeDDIA: string, dateOrder: string): Promise<ActionOnDDIA[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_IN_WAITING + typeDDIA, {
+  getDDIAListInWaiting(typeDDIA: string, dateOrder: string, page: string): Promise<ActionsOnDDIAList> {
+    return this.http.get<PaginateActionOnDDIAResp>(URLS.NATIONALINFORMER_DDIA_IN_WAITING + typeDDIA, {
       params: {
-        date_order: dateOrder
+        date_order: dateOrder,
+        page
       }
     }).pipe(
       catchError(this.handleError),
-      map((resDatas: ActionOnDDIAI[]) => {
+      map((resDatas: PaginateActionOnDDIAResp) => {
         const validations = new Array<ActionOnDDIA>();
-        resDatas.forEach((data) => {
+        resDatas.results.forEach((data) => {
             validations.push(ActionOnDDIA.fromJSON(data));
           });
-        return validations;
+        return {actionsAgent: validations, counts: resDatas.counts};
       })).toPromise();
   }
 
-  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string): Promise<ActionOnDDIA[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_PROCESSED + typeDDIA, {
+  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string, page: string): Promise<ActionsOnDDIAList> {
+    return this.http.get<PaginateActionOnDDIAResp>(URLS.NATIONALINFORMER_DDIA_PROCESSED + typeDDIA, {
       params: {
         state,
-        date_order: dateOrder
+        date_order: dateOrder,
+        page
       }
     }).pipe(
       catchError(this.handleError),
-      map((resDatas: ActionOnDDIAI[]) => {
+      map((resDatas: PaginateActionOnDDIAResp) => {
         const approbations = new Array<ActionOnDDIA>();
-        resDatas.forEach((data) => {
+        resDatas.results.forEach((data) => {
             approbations.push(ActionOnDDIA.fromJSON(data));
           });
-        return approbations;
+        return {actionsAgent: approbations, counts: resDatas.counts};
       })).toPromise();
 
+  }
+
+  getNotifications(): Observable<Notification[]> {
+    return this.http.get<NotificationI[]>(URLS.NOTIFICATIONS_LOCALINF)
+    .pipe(
+      map((notifs: NotificationI[]) => {
+        const notifications = new Array<Notification>();
+        notifs.forEach((notif) => {
+          notifications.push(Notification.fromJSON(notif));
+        });
+        return notifications;
+      })
+    );
   }
 
   approveDDIA(id: string, typeDDIA): void{

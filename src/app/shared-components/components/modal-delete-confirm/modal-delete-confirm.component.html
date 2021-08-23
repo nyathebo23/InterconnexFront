@@ -1,0 +1,22 @@
+<div class="modal-content text-center">
+    <!--Header-->
+    <div class="modal-header d-flex justify-content-center">
+        <p class="heading">CONFIRMATION</p>
+    </div>
+
+    <!--Body-->
+    <div class="modal-body">
+        <mdb-icon fas icon="times" size="4x" class="animated rotateIn"></mdb-icon>
+        <p class="lead" translate>MODAL.deleteConfirmMessage</p>
+    </div>
+
+    <!--Footer-->
+    <div class="modal-footer justify-content-center">
+        <button [disabled]="loading" mdbBtn color="danger" outline="true" class="waves-effect" mdbWavesEffect (click)="modalRef.hide()">
+            {{'Modal.cancel' | translate }}
+        </button>
+        <button [disabled]="loading" type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'Modal.ok' | translate }}
+        </button>
+    </div>
+</div>

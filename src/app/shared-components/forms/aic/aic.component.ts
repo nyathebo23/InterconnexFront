@@ -7,11 +7,12 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Aerodrome } from 'src/app/models/aerodrome.model';
-import { UnitSource } from 'src/app/models/unit-source.model';
+import { MDBModalService } from 'angular-bootstrap-md';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalSuccessCreationDDIAComponent } from '../../components/modal-success-creation-ddia/modal-success-creation-ddia.component';
 
 @Component({
   selector: 'app-aic',
@@ -21,16 +22,31 @@ import { ValidationService } from 'src/app/services/auth-services/validation.ser
 export class AICComponent implements OnInit {
 
   aicForm: FormGroup;
-  subjectChoices: Array<string> = new Array();
+  subjectChoices: Array<{val: string, label: string}> = new Array();
   subjectList: Array<string>;
   loadingDatas = true;
   errors: string[];
-  createSuccess = false;
+  loadingSave: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthManagerService,
-    private sourceAgentService: AgentSourceService
+    private sourceAgentService: AgentSourceService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService
   ) {
+    this.initForm();
+    this.subjectChoices.push({val: 'Administratif', label: 'DDIAFORMS.aic.subject.admin'});
+    this.subjectChoices.push({val: 'ATC', label: 'DDIAFORMS.aic.subject.atc'});
+    this.subjectChoices.push({val: 'Sécurité', label: 'DDIAFORMS.aic.subject.security'});
+    this.subjectChoices.push({val: 'Zone à statut particulier', label: 'DDIAFORMS.aic.subject.zone'});
+    this.subjectChoices.push({val: 'Carte', label: 'DDIAFORMS.aic.subject.maps'});
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  initForm(): void {
     this.aicForm = this.formBuilder.group({
       depositDateTime: [{value: new Date(), disabled: true}],
       subject: ['Administratif'],
@@ -38,21 +54,11 @@ export class AICComponent implements OnInit {
       text: [''],
       filesForm: new FormArray([
         this.formBuilder.group({
-          file: [''],
-          filename: ['']
+          file: [null, [Validators.required]],
+          filename: [{value: '', disabled: true}]
         })
       ])
     });
-    this.subjectList = ['Administratif', 'ATC', 'Sécurité', 'Zone à statut particulier', 'Carte'];
-    this.subjectChoices.push('DDIAFORMS.aic.subject.admin');
-    this.subjectChoices.push('DDIAFORMS.aic.subject.atc');
-    this.subjectChoices.push('DDIAFORMS.aic.subject.security');
-    this.subjectChoices.push('DDIAFORMS.aic.subject.zone');
-    this.subjectChoices.push('DDIAFORMS.aic.subject.maps');
-  }
-
-  ngOnInit(): void {
-
   }
 
   get form(): {[key: string]: any}{
@@ -66,7 +72,7 @@ export class AICComponent implements OnInit {
   addFileForm(): void{
     this.files.push(
       this.formBuilder.group({
-        file: ['', [Validators.required]],
+        file: [null, [Validators.required]],
         filename: [{value: '', disabled: true}]
       })
     );
@@ -84,6 +90,7 @@ export class AICComponent implements OnInit {
   }
 
   save(): void {
+    this.loadingSave = true;
     const formData = new FormData();
     formData.append('subject', this.aicForm.controls.subject.value);
     formData.append('object', this.aicForm.controls.object.value);
@@ -96,14 +103,17 @@ export class AICComponent implements OnInit {
 
     this.sourceAgentService.createAIC(formData)
     .then(() => {
-      this.createSuccess = true;
-      setTimeout(() => this.createSuccess = false, 10000);
+      this.errors = [];
+      this.modalService.show(ModalSuccessCreationDDIAComponent,
+        this.modalDisplayService.getModalOptions({typeDDIA: 'AIC'}, 'modal-dialog modal-notify modal-success')
+      );
     })
     .catch((err) => {
       console.log(err);
       this.errors = this.sourceAgentService.displayErrors(err);
-      setTimeout(() => this.errors = [], 10000);
-    });
+      setTimeout(() => this.errors = [], 100000);
+    })
+    .finally(() => this.loadingSave = false);
   }
 
 }

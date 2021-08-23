@@ -77,6 +77,8 @@
             "save": "Enregistrer",
             "plusonefile": "Ajouter autre fichier",
             "sourcesubmitddia": "Soumettre pour verif",
+            "publish": "Declarer publication",
+            "relance": "Relancer au publicateur",
             "cancelddia": "Annuler",
             "verifokddia": "Verification OK",
             "admitokddia": "Admission OK",
@@ -150,7 +152,12 @@
         "errors": {
             "invalidDate": "Entrez des dates valides",
             "invalidFrom": "La date de début doit ne doit pas être antérieure à la date actuelle",
-            "invalidTo": "La date de début doit être antérieure à la date de fin"
+            "invalidTo": "La date de début doit être antérieure à la date de fin",
+            "replacedCodeNOTAMN": "Le code du NOTAM de remplacement doit uniquement être renseigné lorsqu' il s'agit d'un NOTAM d'annulation ou de remplacement",
+            "replacedCodeNOTAMRC": "Vous devez renseigner le code du NOTAM publié à remplacer !",
+            "replacedCodeSUPPAIPN": "Le code de la demande de diffusion de remplacement doit uniquement être renseigné lorsqu'il s' agit d'un SUPP AIP R",
+            "replacedCodeSUPPAIPR": "Vous devez renseigner le code de la demande de diffusion publiée à remplacer !",
+            "timeInvalid": "Renseignez des horaires de fréquence journalière valides"
         },
         "descText": "Texte descriptif",
         "object": "Objet",
@@ -174,6 +181,8 @@
         "processedddia": "DDIA traitées",
         "ddiareceivedLabel": "Demandes de diffusion d'informations aéronautiques reçues",
         "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
+        "targetCCAALabel": "Cette demande sera envoyée à la CCAA pour validation et approbation.",
+        "targetASECNALabel": "Cette demande sera directement envoyée au représentant de l'ASECNA pour approbation et la CCAA sera notifiée",
         "stats": "Statistiques DDIA"
     },
     "CCAALOCALINFORMER": {
@@ -324,9 +333,31 @@
             "helperText": "Confirmez-vous bien que cette demande de diffusion de {{typeDDIA}} est conforme ? Si oui, elle sera envoyée à des utilisateurs du bureau d' informateur national pour approbation."
         },
         "approveok": {
-            "helperText": ""
+            "helperText": "Donnez-vous votre approbation en vue de la publication de cette demande de diffusion de {{typeDDIA}} ?"
         },
+        "reject": {
+            "helperText": "Êtes-vous sûr de vouloir rejeter cette demande de diffusion de {{typeDDIA}} ? Mentionnez dans le champ ci-dessous la raison du rejet et éventuellement des indications de correction."
+        },
+        "cancelDDIA": {
+            "helperText": "Êtes-vous sûr de vouloir annuler cette demande de diffusion de {{typeDDIA}}?"
+        },
+        "publish": {
+            "helperText": "Vérifiez bien que cette demande de diffusion de {{typeDDIA}} a été publiée et figure sur le site du publicateur national. Si oui renseignez le code de cette dernière attibué par le publicateur national dans le champ ci dessous."
+        },
+        "relance": {
+            "helperText": "Vérifiez bien que cette demande de diffusion n'est pas encore publiée avant d' effectuer cette action. Un mail sera envoyé au publicateur pour que ce dernier publie la demande de diffusion."
+        },
+        "successCreateDDIA": "Demande de diffusion de {{typeDDIA}} initiée avec succès !",
+        "deleteConfirmMessage": "Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible.",
         "ok": "Oui",
         "cancel": "Annuler"
+    },
+    "NOTIFICATION": {
+        "ddiaCreation": "Votre unité a initié une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}}",
+        "verifReception": "Votre unité a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} à vérifier.",
+        "sourcestructReception": "Vous avez reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} du bureau d'informateur local de votre aérodrome pour que vous validiez de cette dernière.",
+        "localinfReception": "Votre bureau d'informateur local a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} à valider.",
+        "nationalinfReception": "Votre bureau d'informateur national a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} pour approbation.",
+        "nationalinfApprobation": "Une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} a été approuvée."
     }
 }

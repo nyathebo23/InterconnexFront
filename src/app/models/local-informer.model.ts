@@ -1,9 +1,4 @@
-import { AerodromeI } from '../interfaces/aerodrome.interface';
-import { LocalInformerExtendI } from '../interfaces/local-informer-extend.interface';
 import { LocalInformerI } from '../interfaces/local-informer.interface';
-import { UnitSourceI } from '../interfaces/unit-source.interface';
-import { Aerodrome } from './aerodrome.model';
-import { UnitSource } from './unit-source.model';
 
 export class LocalInformer {
     // tslint:disable-next-line:variable-name
@@ -35,24 +30,12 @@ export class LocalInformer {
         return this._aerodrome;
     }
 
-    public set aerodrome(value: string){
-        this._aerodrome = value;
-    }
-
     public get unit(): string {
         return this._unit;
     }
 
-    public set unit(value: string){
-        this._unit = value;
-    }
-
     public static fromJSON(data: LocalInformerI): LocalInformer{
-        const localinf =  new LocalInformer(data.id, data.name);
-        if (data.unit && data.aerodrome){
-            localinf.unit =  data.unit;
-            localinf.aerodrome = data.aerodrome;
-        }
+        const localinf =  new LocalInformer(data.id, data.name, data.unit, data.aerodrome);
         return localinf;
     }
 }

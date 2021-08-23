@@ -90,6 +90,8 @@
         "processedddia": "DDIA processed",
         "ddiareceivedLabel": "Aeronautical information dissemination requests received",
         "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
+        "targetCCAALabel": "This request will be sent to the CCAA for validation and approval.",
+        "targetASECNALabel": "This request will be sent directly to the ASECNA representative for approval and the CCAA will be notified.",
         "stats": "DDIA statistics"
     },
     "CCAALOCALINFORMER": {
@@ -111,6 +113,8 @@
             "reinit": "Reset form",
             "save": "Save",
             "plusonefile": "Add another file",
+            "publish": "Set as published",
+            "relance": "Resend to publisher",
             "sourcesubmitddia": "Submit to verif",
             "cancelddia": "Cancel",
             "verifokddia": "Verification OK",
@@ -186,7 +190,13 @@
         "errors": {
             "invalidDate": "Enter valid dates",
             "invalidFrom": "The start date must be no earlier than the current date",
-            "invalidTo": "The start date must be earlier than the end date"
+            "invalidTo": "The start date must be earlier than the end date",
+            "replacedCodeNOTAMN": "The code of the replacement NOTAM must only be filled in when it is a cancellation or replacement NOTAM",
+            "replacedCodeNOTAMRC": "You must fill in the code of the published NOTAM to be replaced",
+            "replacedCodeSUPPAIPN": "The code of the replacement dissemination request must only be filled in when it is a SUPP AIP R",
+            "replacedCodeSUPPAIPR": "You must fill in the code of the published dissemination request to be replaced",
+            "timeInvalid": "Fill in valid daily frequency period"
+
         },
         "descText": "Descriptive text",
         "object": "Object",
@@ -324,9 +334,31 @@
             "helperText": "Do you confirm that this request for the dissemination of {{typeDDIA}} is compliant ? If yes, it will be sent to users in the National Informant Office for approval."
         },
         "approveok": {
-            "helperText": ""
+            "helperText": "Do you give your approval for the release of this {{typeDDIA}} dissemination request ?"
         },
+        "reject": {
+            "helperText": "Are you sure you want to reject this {{typeDDIA}} dissemination request ? Please mention in the field below the reason for rejection and possibly some indications for correction."
+        },
+        "cancelDDIA": {
+            "helperText": "Are you sure you want to cancel this {{typeDDIA}} dissemination request ?"
+        },
+        "publish": {
+            "helperText": "Make sure that this {{typeDDIA}} request has been published and is listed on the national publisher's website. If so, enter the code of this request in the field below."
+        },
+        "relance": {
+            "helperText": "Make sure that this {{typeDDIA}} broadcast request is not yet published before performing this action. An email will be sent to the publisher to publish the broadcast request."
+        },
+        "successCreateDDIA": "Successfully created {{typeDDIA}} broadcast request !",
+        "deleteConfirmMessage": "Are you sure you want to remove this element? This action is irreversible.",
         "ok": "Yes",
         "cancel": "Cancel"
+    },
+    "NOTIFICATION": {
+        "ddiaCreation": "Your unit has initiated a broadcast request of {{typeDDIA}}, reference {{refDDIA}}",
+        "verifReception": "Your unit has received a broadcast request of {{typeDDIA}}, reference {{refDDIA}} to verify.",
+        "sourcestructReception": "You have received a broadcast request of {{typeDDIA}}, reference {{refDDIA}} from the local informant office of your aerodrome for you to validate.",
+        "localinfReception": "Your local informant office has received a broadcast request from {{typeDDIA}}, reference {{refDDIA}} to validate.",
+        "nationalinfReception": "Your National Informant Office has received a request to release {{typeDDIA}}, reference {{refDDIA}} for approval.",
+        "nationalInfApprobation": "A {{typeDDIA}} dissemination request, reference {{refDDIA}} has been approved."
     }
 }

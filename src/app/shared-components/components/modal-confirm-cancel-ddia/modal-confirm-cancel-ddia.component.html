@@ -1,0 +1,25 @@
+<div class="modal-content text-center">
+    <!--Header-->
+    <div class="modal-header d-flex justify-content-center">
+        <p class="heading">CONFIRMATION</p>
+        <a type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true" class="white-text">&times;</span>
+        </a>
+    </div>
+
+    <!--Body-->
+    <div class="modal-body">
+        <mdb-icon fas icon="times" size="4x" class="animated rotateIn"></mdb-icon>
+        <p class="lead" translate [translateParams]="{typeDDIA: ddiaType}">MODAL.cancelDDIA.helperText</p>
+    </div>
+
+    <!--Footer-->
+    <div class="modal-footer justify-content-center">
+        <button [disabled]="loading" mdbBtn color="danger" outline="true" class="waves-effect" mdbWavesEffect (click)="modalRef.hide()">
+            {{'Modal.cancel' | translate }}
+        </button>
+        <button [disabled]="loading" type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="cancelDDIA()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'Modal.ok' | translate }}
+        </button>
+    </div>
+</div>

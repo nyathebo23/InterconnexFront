@@ -5,26 +5,25 @@
     </div>
     <form [formGroup]="signUpForm">
         <div class="form-group mb-4">
-            <input type="text" formControlName="username" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.username.invalid && signUpForm.controls.username.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.username' | translate }}" />
+            <input type="text" formControlName="username" class="form-control" placeholder="{{'AUTHFORMS.SIGNUP.username' | translate }}" />
             <app-control-messages [control]="signUpForm.controls.username"></app-control-messages>
         </div>
         <div class="form-group mb-4">
-            <input type="email" formControlName="email" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.email.invalid && signUpForm.controls.email.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.email' | translate }}" />
+            <input type="email" formControlName="email" class="form-control" placeholder="{{'AUTHFORMS.SIGNUP.email' | translate }}" />
             <app-control-messages [control]="signUpForm.controls.email"></app-control-messages>
         </div>
         <div class="row mb-2">
             <div class="form-group col-sm-6">
-                <input type="text" formControlName="firstname" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.firstname.invalid && signUpForm.controls.firstname.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.firstname' | translate }}" />
+                <input type="text" formControlName="firstname" class="form-control" placeholder="{{'AUTHFORMS.SIGNUP.firstname' | translate }}" />
                 <app-control-messages [control]="signUpForm.controls.firstname"></app-control-messages>
             </div>
             <div class="form-group col-sm-6">
-                <input type="text" formControlName="lastname" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.lastname.invalid && signUpForm.controls.lastname.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.lastname' | translate }}" />
+                <input type="text" formControlName="lastname" class="form-control" placeholder="{{'AUTHFORMS.SIGNUP.lastname' | translate }}" />
                 <app-control-messages [control]="signUpForm.controls.lastname"></app-control-messages>
             </div>
         </div>
         <div class="form-group mb-4">
-            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.password.invalid && signUpForm.controls.password.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.password' | translate }}"
-            />
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control" placeholder="{{'AUTHFORMS.SIGNUP.password' | translate }}" />
             <i [ngClass]="showPassword ? 'fa fa-eye field-icon' : 'fa fa-eye-slash field-icon'" (click)="togglePasswordVisibility()"></i>
             <app-control-messages [control]="signUpForm.controls.password"></app-control-messages>
         </div>
@@ -37,11 +36,11 @@
                 </select>
             </div> -->
         <div class="form-group mb-4">
-            <input type="text" formControlName="function" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.function.invalid && signUpForm.controls.function.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.function' | translate }}" />
+            <input type="text" formControlName="function" class="form-control" placeholder="{{'AUTHFORMS.SIGNUP.function' | translate }}" />
             <app-control-messages [control]="signUpForm.controls.function"></app-control-messages>
         </div>
         <div class="form-group mb-4">
-            <input type="text" formControlName="quality" class="form-control" [ngClass]="{'red-border' : signUpForm.controls.quality.invalid && signUpForm.controls.quality.dirty}" placeholder="{{'AUTHFORMS.SIGNUP.quality' | translate }}" />
+            <input type="text" formControlName="quality" class="form-control" placeholder="{{'AUTHFORMS.SIGNUP.quality' | translate }}" />
             <app-control-messages [control]="signUpForm.controls.quality"></app-control-messages>
         </div>
         <div class="form-group mb-4">

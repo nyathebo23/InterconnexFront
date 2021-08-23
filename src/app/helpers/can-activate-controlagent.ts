@@ -14,7 +14,6 @@ export class CanActivateControlAgent implements CanActivate{
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
   Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const rootUrl = route.url[0].path;
-    console.log(rootUrl);
     const user = this.authService.getUser();
     if (user){
       switch (rootUrl){

@@ -33,14 +33,7 @@ body {
     background-image: conic-gradient( #4B9FE1, #0099CC);
 }
 
-// .whitebg {
-//     margin-top: 20px;
-//     background-color: #F3F1F6;
-//     box-shadow: 4px 3px 4px 4px #1507346e;
-//     margin-bottom: 20px;
-// }
 .pretty-background {
-    padding-top: 20px;
     background-color: #f3f1f6;
     box-shadow: 4px 3px 4px 4px #1507346e;
     margin-top: 20px;
@@ -52,4 +45,10 @@ body {
     background-image: url('/assets/images/form/avion.png'), conic-gradient( #F3F1F6, #4B9FE1, #F3F1F6, #150734ab);
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.text-one-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

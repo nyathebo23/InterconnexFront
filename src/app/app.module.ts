@@ -17,7 +17,8 @@ import { NotamComponent } from './shared-components/forms/notam/notam.component'
 import { SUPPAIPComponent } from './shared-components/forms/supp-aip/supp-aip.component';
 import { AICComponent } from './shared-components/forms/aic/aic.component';
 import { SourceUnitFormComponent } from './shared-components/forms/source-unit-form/source-unit-form.component';
-import { ButtonsModule, WavesModule, CollapseModule, CarouselModule, TableModule, CheckboxModule, ModalModule, IconsModule } from 'angular-bootstrap-md';
+import { ButtonsModule, WavesModule, CollapseModule, CarouselModule,
+  TableModule, NavbarModule, CheckboxModule, ModalModule, IconsModule } from 'angular-bootstrap-md';
 import { LeftNavComponent } from './shared-components/components/left-nav/left-nav.component';
 import { DDIAItemComponent } from './shared-components/components/ddia-item/ddia-item.component';
 import { LayoutComponent } from './shared-components/components/layout/layout.component';
@@ -98,6 +99,29 @@ import { ModalConnectionErrorComponent } from './shared-components/components/mo
 // tslint:disable-next-line:max-line-length
 import { ModalChoiceNationalinfComponent } from './shared-components/components/modal-choice-nationalinf/modal-choice-nationalinf.component';
 import { ModalDisplayService } from './services/shared/modal-display.service';
+import { DDIAActionsListComponent } from './shared-components/components/ddia-actions-list/ddia-actions-list.component';
+import { DDIAActionItemComponent } from './shared-components/components/ddia-action-item/ddia-action-item.component';
+import { ModalDeleteConfirmComponent } from './shared-components/components/modal-delete-confirm/modal-delete-confirm.component';
+import { ModalRejectDDIAComponent } from './shared-components/components/modal-reject-ddia/modal-reject-ddia.component';
+import { ModalSuccessCreationDDIAComponent } from './shared-components/components/modal-success-creation-ddia/modal-success-creation-ddia.component';
+import { DisabledWhenLoadingDirective } from './directives/disabled-when-loading.directive';
+import { DisableControlDirective } from './directives/disable-control.directive';
+import { NotificationComponent } from './shared-components/components/notification/notification.component';
+import { ListNotificationsComponent } from './shared-components/components/list-notifications/list-notifications.component';
+import { PusherSourceService } from './services/pusher/pusher-source.service';
+import { PusherNationalInformerService } from './services/pusher/pusher-national-informer.service';
+import { PusherAuthorityLocalinfService } from './services/pusher/pusher-authority-localinf.service';
+import { PusherSourceVerifierService } from './services/pusher/pusher-source-verifier.service';
+import { PusherSourceStructureService } from './services/pusher/pusher-source-structure.service';
+import { ModalReceiveDDIANotifComponent } from './shared-components/components/modal-receive-ddia-notif/modal-receive-ddia-notif.component';
+import { ModalNotifStateChangeComponent } from './shared-components/components/modal-notif-state-change/modal-notif-state-change.component';
+import { NotificationDisplayService } from './services/shared/notification-display.service';
+import { AicWithDatasForSourcestructureComponent } from './shared-components/components/aic-with-datas-for-sourcestructure/aic-with-datas-for-sourcestructure.component';
+import { NOTAMWithDatasForSourcestructureComponent } from './shared-components/components/notam-with-datas-for-sourcestructure/notam-with-datas-for-sourcestructure.component';
+import { SUPPAIPWithDatasForSourcestructureComponent } from './shared-components/components/suppaip-with-datas-for-sourcestructure/suppaip-with-datas-for-sourcestructure.component';
+import { ModalConfirmCancelDDIAComponent } from './shared-components/components/modal-confirm-cancel-ddia/modal-confirm-cancel-ddia.component';
+import { ModalPublishDDIAComponent } from './shared-components/components/modal-publish-ddia/modal-publish-ddia.component';
+import { ModalConfirmRelanceComponent } from './shared-components/components/modal-confirm-relance/modal-confirm-relance.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   // console.log(localStorage.getItem('access_token'));
@@ -208,7 +232,24 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HistoryBoxComponent,
     ItemHistoryBoxComponent,
     ModalConnectionErrorComponent,
-    ModalChoiceNationalinfComponent
+    ModalChoiceNationalinfComponent,
+    DDIAActionsListComponent,
+    DDIAActionItemComponent,
+    ModalDeleteConfirmComponent,
+    ModalRejectDDIAComponent,
+    ModalSuccessCreationDDIAComponent,
+    DisabledWhenLoadingDirective,
+    DisableControlDirective,
+    NotificationComponent,
+    ListNotificationsComponent,
+    ModalReceiveDDIANotifComponent,
+    ModalNotifStateChangeComponent,
+    AicWithDatasForSourcestructureComponent,
+    NOTAMWithDatasForSourcestructureComponent,
+    SUPPAIPWithDatasForSourcestructureComponent,
+    ModalConfirmCancelDDIAComponent,
+    ModalPublishDDIAComponent,
+    ModalConfirmRelanceComponent,
   ],
   imports: [
     BrowserModule,
@@ -224,6 +265,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     WavesModule.forRoot(),
     IconsModule,
     CheckboxModule,
+    NavbarModule,
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
@@ -257,7 +299,13 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CanActivateAdmin,
     CanActivateSourceAgent,
     CanActivateControlAgent,
-    ModalDisplayService
+    ModalDisplayService,
+    PusherSourceService,
+    PusherSourceVerifierService,
+    PusherSourceStructureService,
+    PusherNationalInformerService,
+    PusherAuthorityLocalinfService,
+    NotificationDisplayService
   ],
   bootstrap: [AppComponent]
 })

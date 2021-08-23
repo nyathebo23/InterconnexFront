@@ -14,8 +14,8 @@ export interface DemandeSUPPAIPI{
     type_suppaip: string;
     object: string;
     aip_target_sections: string;
-    start_validity_period: Date;
-    end_validity_period: Date;
+    start_val_period: Date;
+    end_val_period: Date;
     descriptive_text: string;
     attachments: AttachmentI[];
     history: DDIAHistoryI[];

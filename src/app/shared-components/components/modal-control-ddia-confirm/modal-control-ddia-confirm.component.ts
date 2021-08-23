@@ -17,10 +17,10 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
   ddiaType: string;
   action: string;
   loading = false;
+  approbationAfter: string;
   functionToTrigger: () => void;
 
   constructor(
-    private sourceAgentService: AgentSourceService,
     private controlActorService: ControlActorService,
     public modalRef: MDBModalRef
   ) { }
@@ -52,14 +52,15 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
   endSubmitAction(): void {
     this.loading = false;
-    this.sourceAgentService.reloadCurrentRoute();
+    this.controlActorService.reloadCurrentRoute();
     this.modalRef.hide();
   }
+
 
   submitDDIAToVerif(): void {
     this.loading = true;
     const data = {decision: 'submit'};
-    this.sourceAgentService.submitDDIAToVerif(this.ddiaClassName, this.ddiaId, data)
+    this.controlActorService.submitDDIAToVerif(this.ddiaClassName, this.ddiaId, data)
     .then((res) => {
 
     })
@@ -92,7 +93,7 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
   acceptAdmitDDIA(): void {
     this.loading = true;
-    const data = {decision: 'accept', afterapprove: 'yes'};
+    const data = {decision: 'accept', afterapprove: this.approbationAfter ? this.approbationAfter : 'no'};
     this.controlActorService.admitDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
       console.log(res);
@@ -109,23 +110,22 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
   // }
 
   acceptValidateDDIA(): void {
+    this.loading = true;
     const data = {decision: 'accept'};
     this.controlActorService.validateDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
 
     })
     .catch((err) => {
-      alert('');
+      console.error(err);
     })
     .finally(() => this.endSubmitAction());
 
   }
 
-  // rejectValidateDDIA(): void {
-
-  // }
 
   acceptApproveDDIA(): void {
+    this.loading = true;
     const data = {decision: 'accept'};
     this.controlActorService.approveDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
@@ -138,8 +138,5 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
   }
 
-  // rejectApproveDDIA(): void {
-
-  // }
 
 }

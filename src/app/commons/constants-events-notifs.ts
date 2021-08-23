@@ -1,0 +1,8 @@
+export const RECEPTION_SUBMISSION = 'ddia-reception-submission';
+export const RECEPTION_VERIFSUBMISSION = 'ddia-reception-verifsubmission';
+export const RECEPTION_VERIFICATION = 'ddia-reception-verification';
+export const RECEPTION_VALIDATION_SOURCECOMMANDER = 'ddia-reception-admission';
+export const RECEPTION_VALIDATION = 'ddia-reception-validation';
+export const RECEPTION_SIGNAL_APPROBATION = 'ddia-signal-approbation';
+export const DDIA_STATE_CHANGE_EVENT = 'ddia-state-change';
+export const DDIA_CREATION = 'ddia-creation';

@@ -15,6 +15,8 @@ export class DuplicateDDIAComponent implements OnInit {
   ddiaState = 'all';
   dateOrder = 'descendingDate';
   ddiaType = 'notam';
+  page = '1';
+  pagesNb: number;
   ddiaList: (DemandeAICItemList | DemandeNOTAMItemList | DemandeSUPPItemList) [];
 
   constructor(
@@ -25,10 +27,12 @@ export class DuplicateDDIAComponent implements OnInit {
 
   onDDIAStateChange(state: string): void {
     this.ddiaState = state;
+    this.page = '1';
     this.reloadDDIAItems();
   }
 
   onDDIATypeChange(typeDDIA: string): void {
+    this.page = '1';
     this.ddiaType = typeDDIA;
     this.reloadDDIAItems();
   }
@@ -38,10 +42,15 @@ export class DuplicateDDIAComponent implements OnInit {
     this.reloadDDIAItems();
   }
 
+  onPageChange(page: string): void {
+    this.page = page;
+    this.reloadDDIAItems();
+  }
+
   reloadDDIAItems(): void {
-    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType, this.ddiaState, this.dateOrder).subscribe(
+    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType, this.ddiaState, this.dateOrder, this.page).subscribe(
       (ddiaList) => {
-        this.ddiaList = ddiaList;
+        this.ddiaList = ddiaList.listDDIA;
         console.log(ddiaList);
       }
     );
@@ -49,12 +58,7 @@ export class DuplicateDDIAComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType, this.ddiaState, this.dateOrder).subscribe(
-      (ddiaList) => {
-        this.ddiaList = ddiaList;
-        console.log(ddiaList);
-      }
-    );
+    this.reloadDDIAItems();
   }
 
 

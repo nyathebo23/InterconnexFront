@@ -96,11 +96,10 @@ export class InfLocalManagementComponent implements OnInit {
   isFormValid(): boolean {
     const aerodrome = this.infLocalForm.controls.aerodrome.value;
     const unit = this.infLocalForm.controls.unit.value;
-    console.log(unit);
     if (aerodrome){
-      return unit !== '';
+      return unit !== '' && this.infLocalForm.valid;
     }
-    return true;
+    return this.infLocalForm.valid;
   }
 
   edit(inflocal: LocalInformer): void{

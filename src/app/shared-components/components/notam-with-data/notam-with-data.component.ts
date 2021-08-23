@@ -15,6 +15,11 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
 import { ModalChoiceNationalinfComponent } from '../modal-choice-nationalinf/modal-choice-nationalinf.component';
 import { SOURCE_VERIFIER } from 'src/app/commons/constants-roles';
+import { Location } from '@angular/common';
+import { ModalRejectDDIAComponent } from '../modal-reject-ddia/modal-reject-ddia.component';
+import { ModalPublishDDIAComponent } from '../modal-publish-ddia/modal-publish-ddia.component';
+import { ModalConfirmRelanceComponent } from '../modal-confirm-relance/modal-confirm-relance.component';
+import { ModalConfirmCancelDDIAComponent } from '../modal-confirm-cancel-ddia/modal-confirm-cancel-ddia.component';
 
 @Component({
   selector: 'app-notam-with-data',
@@ -33,7 +38,7 @@ export class NOTAMWithDataComponent implements OnInit {
   modalRef: MDBModalRef;
   initiatorInfos: string;
   loaderId = 'ddia-loader';
-  isAerodromeLocalInf: boolean;
+  isAerodromeConceded: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private modalDisplayService: ModalDisplayService,
@@ -41,15 +46,23 @@ export class NOTAMWithDataComponent implements OnInit {
     private controlActorService: ControlActorService,
     private authService: AuthManagerService,
     private activatedRoute: ActivatedRoute,
-    private ngxUiLoaderService: NgxUiLoaderService
+    private ngxUiLoaderService: NgxUiLoaderService,
   ) {
     this.toDoAction = activatedRoute.snapshot.data.toDoAction;
     this.user = this.authService.getUser();
-    this.isAerodromeLocalInf = this.user.role === SOURCE_VERIFIER && this.authService.getLocalInf() != null;
+    this.isAerodromeConceded = this.authService.getAerodrome() ? this.authService.getAerodrome().isConceded : false;
   }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.modalDatas = {
+      ddiaClassName: NOTAM_CLASS_NAME,
+      ddiaType: NOTAM_TYPE,
+      ddiaId: id,
+      action: this.toDoAction
+    };
+
     this.ngxUiLoaderService.startLoader(this.loaderId);
     this.controlActorService.getNOTAMDetailsById(id).subscribe(
       (demandenotam) => {
@@ -74,16 +87,10 @@ export class NOTAMWithDataComponent implements OnInit {
         this.ngxUiLoaderService.stopLoader(this.loaderId);
       }
     );
-    this.modalDatas = {
-      ddiaClassName: NOTAM_CLASS_NAME,
-      ddiaType: NOTAM_TYPE,
-      ddiaId: id,
-      action: this.toDoAction
-    };
+
   }
-  openModal(): void {
-    if (this.isAerodromeLocalInf){
-      this.modalDatas.action = this.toDoAction;
+  openOKModal(): void {
+    if (this.isAerodromeConceded && this.user.role === SOURCE_VERIFIER){
       this.modalRef = this.modalService.show(ModalChoiceNationalinfComponent,
         this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
     }
@@ -92,4 +99,26 @@ export class NOTAMWithDataComponent implements OnInit {
         this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
     }
   }
+
+  openRejectModal(functionToTrigger: (ddiaId: string, ddiaClassName: string, data: {[key: string]: string}) => Promise<any>): void {
+    this.modalDatas.functionToTrigger = functionToTrigger;
+    this.modalRef = this.modalService.show(ModalRejectDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-danger'));
+  }
+
+  openPublishSetModal(): void {
+    this.modalRef = this.modalService.show(ModalPublishDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
+  }
+
+  openRelanceConfirmModal(): void {
+    this.modalRef = this.modalService.show(ModalConfirmRelanceComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-warning'));
+  }
+
+  openCancelConfirmModal(): void {
+    this.modalRef = this.modalService.show(ModalConfirmCancelDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-danger'));
+  }
+
 }

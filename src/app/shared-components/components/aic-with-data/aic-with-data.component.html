@@ -2,6 +2,9 @@
 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="aicForm" *ngIf="dataLoaded">
     <div class="d-flex flex-column">
         <h1 class="ddia-title"> {{'DDIAFORMS.aic.title' | translate}} </h1>
+        <blockquote class="blockquote bq-primary" *ngIf="labelTargetNationalInf">
+            <p class="bq-title">{{labelTargetNationalInf | translate}}</p>
+        </blockquote>
         <div class="container mb-3">
             <app-list-states-box [currentState]="demandeAIC.state"></app-list-states-box>
         </div>
@@ -17,8 +20,8 @@
                         <label for="subject" class="custom-label">{{'DDIAFORMS.aic.subject.label' | translate}}:</label>
                         <div class="d-flex flex-wrap justify-content-between">
                             <div class="custom-control custom-radio" *ngFor="let choice of subjectChoices; let index=index;">
-                                <input [id]="'subjectchoice'+index" class="custom-control-input" type="radio" [value]="subjectList[index]" formControlName="subject">
-                                <label [for]="'subjectchoice'+index" class="custom-control-label">{{ choice | translate }}</label>
+                                <input [id]="'subjectchoice'+index" class="custom-control-input" type="radio" [value]="choice.val" formControlName="subject">
+                                <label [for]="'subjectchoice'+index" class="custom-control-label">{{ choice.label | translate }}</label>
                             </div>
                         </div>
                         <div class="form-group mb-2">
@@ -42,28 +45,48 @@
     </div>
     <app-history-box [history]="demandeAIC.history"></app-history-box>
     <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'submittoverify']; ddiaState: demandeAIC.state; initiatorUserId: demandeAIC.initiator.id">
-        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.cancelddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.sourcesubmitddia' | translate }}</button>
+        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
+            {{'DDIAFORMS.buttons.cancelddia' | translate }}
+        </button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
+            {{'DDIAFORMS.buttons.sourcesubmitddia' | translate }}
+        </button>
     </div>
 
     <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'verification']; ddiaState: demandeAIC.state;">
-        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectverifddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.verifokddia' | translate }}</button>
-    </div>
-
-    <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'admission']; ddiaState: demandeAIC.state;">
-        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectadmitddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.admitokddia' | translate }}</button>
+        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openRejectModal(controlActorService.verifyDDIA)">
+            {{'DDIAFORMS.buttons.rejectverifddia' | translate }}
+        </button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
+            {{'DDIAFORMS.buttons.verifokddia' | translate }}
+        </button>
     </div>
 
     <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'validation']; ddiaState: demandeAIC.state;">
-        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectvalidateddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.validateokddia' | translate }}</button>
+        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openRejectModal(controlActorService.validateDDIA)">
+            {{'DDIAFORMS.buttons.rejectvalidateddia' | translate }}
+        </button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
+            {{'DDIAFORMS.buttons.validateokddia' | translate }}
+        </button>
     </div>
 
     <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'approbation']; ddiaState: demandeAIC.state;">
-        <button type="button" mdbBtn color="danger" mdbWavesEffect>{{'DDIAFORMS.buttons.rejectapproveddia' | translate }}</button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openModal()">{{'DDIAFORMS.buttons.approveokddia' | translate }}</button>
+        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openRejectModal(controlActorService.approveDDIA)">
+            {{'DDIAFORMS.buttons.rejectapproveddia' | translate }}
+        </button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
+            {{'DDIAFORMS.buttons.approveokddia' | translate }}
+        </button>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'publish']; ddiaState: demandeAIC.state;">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openRelanceConfirmModal()">
+            {{'DDIAFORMS.buttons.relance' | translate }}
+        </button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openPublishSetModal()">
+            {{'DDIAFORMS.buttons.publish' | translate }}
+        </button>
     </div>
 
 </div>

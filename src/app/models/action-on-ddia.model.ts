@@ -3,6 +3,7 @@ import { DemandeNOTAMItemList } from './demandeNOTAM-item-list.model';
 import { DemandeSUPPItemList } from './demandeSUPP-item-list.model';
 import { DDIAItemList } from './ddia-item-list.model';
 import { ActionOnDDIAI } from '../interfaces/action-on-ddia.interface';
+import { NationalInformer } from './national-informer.model';
 
 export class ActionOnDDIA {
     // tslint:disable-next-line: variable-name
@@ -12,7 +13,7 @@ export class ActionOnDDIA {
     // tslint:disable-next-line:variable-name
     private _newState: string;
     // tslint:disable-next-line:variable-name
-    private _nationalInfDest: string;
+    private _nationalInfDest: NationalInformer;
     // tslint:disable-next-line:variable-name
     private _datetime: Date;
 
@@ -21,7 +22,7 @@ export class ActionOnDDIA {
         newState: string,
         prevState: string,
         datetime: Date,
-        nationalinf?: string
+        nationalinf?: NationalInformer
     ){
         this._ddiaObject = ddiaObject;
         this._newState = newState;
@@ -46,7 +47,7 @@ export class ActionOnDDIA {
         return this._datetime;
     }
 
-    get nationalInfDest(): string {
+    get nationalInfDest(): NationalInformer {
         return this._nationalInfDest;
     }
 
@@ -56,7 +57,7 @@ export class ActionOnDDIA {
             data.new_state,
             data.prev_state,
             new Date(data.date_time),
-            data.nationalinf_dest
+            data.target_nationalinf ? NationalInformer.fromJSON(data.target_nationalinf) : null
         );
     }
 }

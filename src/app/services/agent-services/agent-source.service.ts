@@ -3,14 +3,12 @@ import { HttpClient,  HttpErrorResponse, HttpHeaders } from '@angular/common/htt
 import { map, catchError } from 'rxjs/operators';
 import { Observable , throwError } from 'rxjs';
 import * as URLS from '../../commons/urls-backend';
-import { DemandeAICItemListI } from 'src/app/interfaces/demande-aic-itemlist.interface';
-import { DemandeNOTAMItemListI } from 'src/app/interfaces/demande-notam-itemlist.interface';
-import { DemandeSUPPItemListI } from 'src/app/interfaces/demande-suppaip-itemlist.interface';
 import { DemandeNOTAMItemList } from 'src/app/models/demandeNOTAM-item-list.model';
 import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model';
 import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
 import { DDIAItemList } from 'src/app/models/ddia-item-list.model';
 import { Router } from '@angular/router';
+import { ListDDIA, PaginateDDIAListResp } from 'src/app/interfaces/responses.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -50,31 +48,33 @@ export class AgentSourceService {
     return this.http.post(URLS.SUBMIT_DDIA_TOVERIFY + ddiaClassName + '/' + pk, data).toPromise();
   }
 
-
+  cancelDDIA(ddiaClassName: string, pk: string): Promise<any> {
+    return this.http.post(URLS.CANCEL_DDIA + ddiaClassName + '/' + pk, {}).toPromise();
+  }
   // tslint:disable-next-line:max-line-length
-  getListDDIAInitiatedByUnit(typeDDIA: string, state: string, dateOrder: string): Observable<
-                          (DemandeNOTAMItemList | DemandeSUPPItemList | DemandeAICItemList)[]> {
-    return this.http.get<any[]>(URLS.SOURCEAGENT_DDIA_PROCESSED + typeDDIA, {
+  getListDDIAInitiatedByUnit(typeDDIA: string, state: string, dateOrder: string, page: string): Observable<ListDDIA> {
+    return this.http.get<PaginateDDIAListResp>(URLS.SOURCEAGENT_DDIA_PROCESSED + typeDDIA, {
       params: {
         state,
-        date_order: dateOrder
+        date_order: dateOrder,
+        page
       }
     }).pipe(
     catchError(this.handleError),
-    map((resDatas: any) => {
-      const actionsAgent = new Array<DemandeNOTAMItemList | DemandeSUPPItemList | DemandeAICItemList>();
-      resDatas.forEach((data) => {
-          actionsAgent.push(DDIAItemList.fromJSON(data));
-        });
-      return actionsAgent;
+    map((resDatas: PaginateDDIAListResp) => {
+      const ddiaList = new Array<DemandeNOTAMItemList | DemandeSUPPItemList | DemandeAICItemList>();
+      resDatas.results.forEach((data) => {
+        ddiaList.push(DDIAItemList.fromJSON(data));
+      });
+      return {listDDIA: ddiaList, counts: resDatas.counts};
     }));
   }
 
   reloadCurrentRoute(): void {
     const currentUrl = this.router.url;
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
-    });
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
   }
 
   displayErrors(errorResp: HttpErrorResponse): string[]{

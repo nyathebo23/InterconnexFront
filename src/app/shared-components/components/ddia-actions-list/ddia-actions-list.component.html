@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <div class="d-flex flex-column">
+        <div class="label-title mb-4">
+            {{ labelTitle | translate }}
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                <div class="d-flex flex-column filters-box justify-content-center">
+                    <h3 class="mb-4">{{'ddialist.filterstitle' | translate}}</h3>
+                    <div class="form-group mt-4 mb-4" *ngIf="statesList">
+                        <label class="custom-label" for="state">{{'ddialist.state' | translate}}</label>
+                        <select class="form-control" id="state" (change)="changeState($event)">
+                            <option *ngFor="let stateElt of statesList" [value]="stateElt.stateValue" [selected]="stateElt.stateValue === 'all'"> {{stateElt.stateLabel | translate}} </option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="custom-label" for="type">{{'ddialist.type' | translate}}</label>
+                        <select class="form-control" id="type" (change)="changeType($event)">
+                            <option value="all" selected>All</option>
+                            <option value="notam">NOTAM</option>
+                            <option value="suppaip">SUPP AIP</option>
+                            <option value="aic">AIC</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="custom-label" for="date">{{'ddialist.date' | translate}}</label>
+                        <select class="form-control" id="date" (change)="changeDateOrder($event)">
+                            <option value="ascendingDate" selected>{{'ddialist.dateOldToNew' | translate}}</option>
+                            <option value="descendingDate">{{'ddialist.dateNewToOld' | translate}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                <div class="d-flex flex-column">
+                    <ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
+                    <div class="container-items scrollbar scrollbar-primary">
+                        <div class="d-flex flex-column" *ngIf="ddiaActionsList">
+                            <app-empty-ddia-list *ngIf="ddiaActionsList.length === 0"></app-empty-ddia-list>
+                            <app-ddia-action-item *ngFor="let ddiaAction of ddiaActionsList" [actionOnDDIA]="ddiaAction"></app-ddia-action-item>
+                        </div>
+                    </div>
+                    <div class="bg-white scroll-horizontal scrollbar-primary p-t-10" *ngIf="pagesNb && pagesList && pagesNb > 1">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination pagination-circle pg-blue">
+                                <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                                    <a class="page-link" mdbWavesEffect (click)="goToPage('first')">First</a>
+                                </li>
+                                <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                                    <a class="page-link" aria-label="Previous" mdbWavesEffect (click)="goToPage('prev')">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" *ngFor="let ind of pagesList;" [ngClass]="{'active': currentPage === ind}">
+                                    <a class="page-link" mdbWavesEffect (click)="changePage(ind)">{{ind}}</a>
+                                </li>
+                                <li class="page-item" [ngClass]="{'disabled': currentPage === pagesList.length}">
+                                    <a class="page-link" aria-label="Next" mdbWavesEffect (click)="goToPage('next')">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" [ngClass]="{'disabled': currentPage === pagesList.length}">
+                                    <a class="page-link" mdbWavesEffect (click)="goToPage('last')">Last</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

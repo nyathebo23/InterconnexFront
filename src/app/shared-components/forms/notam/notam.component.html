@@ -7,9 +7,6 @@
                     <div class="alert alert-danger" role="alert" *ngFor="let err of errors">
                         {{err | translate}}
                     </div>
-                    <div class="alert alert-success" role="alert" *ngIf="createSuccess">
-                        {{'DDIAFORMS.notam.createsuccess' | translate }}
-                    </div>
                     <div class="container-fluid">
                         <div class="form-group">
                             <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
@@ -36,7 +33,7 @@
                             </div>
                             <div class="form-group mb-2">
                                 <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.notam.notamTargetCode' | translate }}</label>
-                                <input type="text" [disabled]="isReplaceNOTAM()" id="targetNOTAM" class="form-control" formControlName="notamTargetCode">
+                                <input type="text" id="targetNOTAM" class="form-control" formControlName="notamTargetCode">
                                 <!-- <select [disabled]="!isReplaceNOTAM()" class="form-control" id="targetNOTAM">
                                     <option value=""></option>
                                 </select> -->
@@ -55,6 +52,9 @@
             </mdb-carousel-item>
             <mdb-carousel-item>
                 <div class="ddia-form">
+                    <div class="alert alert-danger" role="alert" *ngFor="let err of errors">
+                        {{err | translate}}
+                    </div>
                     <div class="container-fluid">
                         <div class="form-group">
                             <label class="custom-label">{{'DDIAFORMS.notam.valPeriod' | translate }}</label>
@@ -79,12 +79,16 @@
                         </div>
                         <div class="form-group">
                             <label class="custom-label">{{'DDIAFORMS.notam.dailyFreq' | translate }}</label>
-                            <div class="d-flex flex-wrap justify-content-between">
-                                <!-- <input type="time" id="input" class="form-control" formControlName="dailyFreqStart" mdbInput />
-                              <input type="time" id="input"  class="form-control" value="13:00"  mdbInput /> -->
-                                <timepicker [showMeridian]="false" formControlName="dailyFreqStart" [showSpinners]="false" [disabled]="true"></timepicker>
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                <div>
+                                    <input type="time" id="input1" class="form-control" formControlName="dailyFreqStart" mdbInput value="08:00" />
+                                </div>
+                                <div>
+                                    <input type="time" id="input2" class="form-control" formControlName="dailyFreqEnd" mdbInput value="20:00" />
+                                </div>
+                                <!-- <timepicker [showMeridian]="false" formControlName="dailyFreqStart" [showSpinners]="false"></timepicker>
                                 <span>à</span>
-                                <timepicker [showMeridian]="false" formControlName="dailyFreqEnd" [showSpinners]="false" [disabled]="true"></timepicker>
+                                <timepicker [showMeridian]="false" formControlName="dailyFreqEnd" [showSpinners]="false"></timepicker> -->
                             </div>
                         </div>
                         <div class="form-group">
@@ -106,19 +110,19 @@
                         <div formArrayName="filesForm" class="form-group">
                             <label class="custom-label">{{'DDIAFORMS.notam.files' | translate }}</label>
                             <div *ngFor="let fileForm of files.controls;let index=index;">
-                                <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start mb-2">
+                                <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                     <div>
                                         <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
-                                        <button class="uploader-file-btn">                        
-                                            <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
+                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;">                        
+                                            <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<mdb-icon fas icon="paperclip" size="lg"></mdb-icon></label>
                                         </button>
                                     </div>
                                     <div>
-                                        <input type="text" formControlName="filename" [disabled]="true" class="form-control" style="height: 35px;">
+                                        <input type="text" formControlName="filename" [disabled]="true" class="form-control">
                                     </div>
                                     <div>
-                                        <button class="remove-button" (click)="removeFileForm()">
-                                            <i class="fas fa-minus"></i>&nbsp; 
+                                        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="removeFileForm()" style="height: 43px;">
+                                            <mdb-icon fas icon="minus" size="lg"></mdb-icon>
                                         </button>
                                     </div>
                                 </div>
@@ -126,8 +130,8 @@
                         </div>
 
                         <div class="form-group mb-5">
-                            <button class="add-button mt-3" (click)="addFileForm()">
-                                <i class="fas fa-plus"></i>&nbsp; {{'DDIAFORMS.buttons.plusonefile' | translate }}
+                            <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="addFileForm()">
+                                <mdb-icon fas icon="plus" size="lg"></mdb-icon> &nbsp; {{'DDIAFORMS.buttons.plusonefile' | translate }}
                             </button>
                         </div>
                     </div>
@@ -137,7 +141,11 @@
     </div>
 
     <div class="d-flex flex-wrap justify-content-around mt-4">
-        <button mdbBtn type="button" color="primary" outline="true" mdbWavesEffect>{{'DDIAFORMS.buttons.reinit' | translate }}</button>
-        <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="save()">{{'DDIAFORMS.buttons.save' | translate }}</button>
+        <button mdbBtn type="button" color="primary" outline="true" mdbWavesEffect (click)="initForm()">
+            {{'DDIAFORMS.buttons.reinit' | translate }}
+        </button>
+        <button type="button" [disabled]="notamForm.invalid || loadingSave" mdbBtn color="primary" mdbWavesEffect (click)="save()">
+            <span *ngIf="loadingSave" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'DDIAFORMS.buttons.save' | translate }}
+        </button>
     </div>
 </div>

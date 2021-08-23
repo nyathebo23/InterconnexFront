@@ -1,0 +1,23 @@
+<!--Content-->
+<div class="modal-content text-center">
+    <!--Header-->
+    <div class="modal-header d-flex justify-content-center">
+        <p class="heading">NOTIFICATIONS</p>
+        <a type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true" class="white-text">&times;</span>
+        </a>
+    </div>
+
+    <!--Body-->
+    <div class="modal-body">
+        <mdb-icon fas icon="bell" size="4x" class="animated rotateIn mb-4"></mdb-icon>
+        <p [translate]="contentText" [translateParams]="{typeDDIA: typeDDIA, refDDIA: refDDIA}"> </p>
+    </div>
+
+    <!--Footer-->
+    <div class="modal-footer justify-content-center">
+        <a mdbBtn color="primary" class="waves-light" mdbWavesEffect (click)="navigateToDetails()">Go to retrieve it</a>
+        <a type="button" mdbBtn color="primary" outline="true" class="waves-light" mdbWavesEffect data-dismiss="modal" (click)="modalRef.hide()">OK</a>
+    </div>
+</div>
+<!--/.Content-->

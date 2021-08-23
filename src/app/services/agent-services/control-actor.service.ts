@@ -12,13 +12,19 @@ import { AuthManagerService } from '../auth-services/auth-manager.service';
 import { DemandeNOTAM } from 'src/app/models/demande-notam.model';
 import { DemandeSUPPAIP } from 'src/app/models/demande-suppaip.model';
 import { DemandeAIC } from 'src/app/models/demande-aic.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ControlActorService {
 
-  constructor(private http: HttpClient, private authService: AuthManagerService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthManagerService,
+    private router: Router
+  ) {}
+
 
   getDDIAListInWaitingForNationalInf(typeDDIA: string): Observable<ActionOnDDIA[]> {
     return this.http.get<ActionOnDDIAI[]>(URLS.NATIONALINFORMER_DDIA_IN_WAITING + typeDDIA).pipe(
@@ -101,7 +107,15 @@ getDDIAListInWaitingForSourceStructure(typeDDIA: string, fromLocalInf: string): 
   }
 
   admitDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
-    return this.http.post(URLS.ADMIT_DDIA + classNameDDIA + '/' + id, data).toPromise();
+    const isAerodromeConceded = this.authService.getAerodrome().isConceded;
+    if (!isAerodromeConceded){
+      data.afterapprove = 'no';
+    }
+    return this.http.post(URLS.ADMIT_DDIA + classNameDDIA + '/' + id, data, {
+      params: {
+        from_localinf: isAerodromeConceded ? 'yes' : 'no'
+      }
+    }).toPromise();
   }
 
   getDDIAListInWaitingForSourceVerifier(typeDDIA: string, isLocalInf: string): Observable<ActionOnDDIA[]> {
@@ -138,6 +152,26 @@ getDDIAListInWaitingForSourceStructure(typeDDIA: string, fromLocalInf: string): 
         is_localinf: 'no'
       }
     }).toPromise();
+  }
+
+  submitDDIAToVerif(ddiaClassName: string, pk: string, data: {[key: string]: string}): Promise<any> {
+    return this.http.post(URLS.SUBMIT_DDIA_TOVERIFY + ddiaClassName + '/' + pk, data).toPromise();
+  }
+
+  setPublicationCode(ddiaClassName: string, pk: string, code: string): Promise<any> {
+    return this.http.post(URLS.SET_PUBLICATION_CODE + ddiaClassName + '/' + pk, {publication_code: code}).toPromise();
+  }
+
+  reloadCurrentRoute(): void {
+    // const currentUrl = this.router.url;
+    // this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+    //     this.router.navigate([currentUrl]);
+    // });
+    const currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
+    // window.location.reload();
   }
 
   getNOTAMDetailsByUrl(url: string): Observable<DemandeNOTAM> {

@@ -5,6 +5,4 @@ export interface LocalInformerI{
     name: string;
     unit?: string;
     aerodrome?: string;
-    // unit?: UnitI;
-    // informateur_nat: NationalInformerI;
 }

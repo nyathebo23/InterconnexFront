@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -15,6 +16,10 @@ import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.
 import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
 import { ModalChoiceNationalinfComponent } from '../modal-choice-nationalinf/modal-choice-nationalinf.component';
 import { ModalControlDDIAConfirmComponent } from '../modal-control-ddia-confirm/modal-control-ddia-confirm.component';
+import { ModalRejectDDIAComponent } from '../modal-reject-ddia/modal-reject-ddia.component';
+import { ModalPublishDDIAComponent } from '../modal-publish-ddia/modal-publish-ddia.component';
+import { ModalConfirmRelanceComponent } from '../modal-confirm-relance/modal-confirm-relance.component';
+import { ModalConfirmCancelDDIAComponent } from '../modal-confirm-cancel-ddia/modal-confirm-cancel-ddia.component';
 
 @Component({
   selector: 'app-aic-with-data',
@@ -24,8 +29,7 @@ import { ModalControlDDIAConfirmComponent } from '../modal-control-ddia-confirm/
 export class AICWithDataComponent implements OnInit {
 
   aicForm: FormGroup;
-  subjectChoices: Array<string> = new Array();
-  subjectList: Array<string>;
+  subjectChoices: Array<{val: string, label: string}> = new Array();
   demandeAIC: DemandeAIC;
   initiatorInfos: string;
   dataLoaded = false;
@@ -34,7 +38,7 @@ export class AICWithDataComponent implements OnInit {
   user: User;
   modalRef: MDBModalRef;
   loaderId = 'ddia-loader';
-  isAerodromeLocalInf: boolean;
+  isAerodromeConceded: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private modalService: MDBModalService,
@@ -42,16 +46,24 @@ export class AICWithDataComponent implements OnInit {
     private modalDisplayService: ModalDisplayService,
     private authService: AuthManagerService,
     private activatedRoute: ActivatedRoute,
-    private ngxUiLoaderService: NgxUiLoaderService
+    private ngxUiLoaderService: NgxUiLoaderService,
   ) {
     this.toDoAction = activatedRoute.snapshot.data.toDoAction;
     this.user = this.authService.getUser();
-    this.isAerodromeLocalInf = this.user.role === SOURCE_VERIFIER && this.authService.getLocalInf() != null;
+    this.isAerodromeConceded = this.authService.getAerodrome() ? this.authService.getAerodrome().isConceded : false;
+
   }
 
   ngOnInit(): void {
-    // this.initiatorInfos = this.demandeAIC.c
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.modalDatas = {
+      ddiaClassName: AIC_CLASS_NAME,
+      ddiaType: AIC_TYPE,
+      ddiaId: id,
+      action: this.toDoAction
+    };
+
+    // this.initiatorInfos = this.demandeAIC.c
     this.ngxUiLoaderService.startLoader(this.loaderId);
     this.controlActorService.getAICDetailsById(id).subscribe(
       (demandeaic) => {
@@ -67,23 +79,16 @@ export class AICWithDataComponent implements OnInit {
         this.dataLoaded = true;
         this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
-    this.modalDatas = {
-      ddiaClassName: AIC_CLASS_NAME,
-      ddiaType: AIC_TYPE,
-      ddiaId: id,
-      action: this.toDoAction
-    };
-    this.subjectList = ['Administratif', 'ATC', 'Sécurité', 'Zone à statut particulier', 'Carte'];
-    this.subjectChoices.push('DDIAFORMS.aic.subject.admin');
-    this.subjectChoices.push('DDIAFORMS.aic.subject.atc');
-    this.subjectChoices.push('DDIAFORMS.aic.subject.security');
-    this.subjectChoices.push('DDIAFORMS.aic.subject.zone');
-    this.subjectChoices.push('DDIAFORMS.aic.subject.maps');
+
+    this.subjectChoices.push({val: 'Administratif', label: 'DDIAFORMS.aic.subject.admin'});
+    this.subjectChoices.push({val: 'ATC', label: 'DDIAFORMS.aic.subject.atc'});
+    this.subjectChoices.push({val: 'Sécurité', label: 'DDIAFORMS.aic.subject.security'});
+    this.subjectChoices.push({val: 'Zone à statut particulier', label: 'DDIAFORMS.aic.subject.zone'});
+    this.subjectChoices.push({val: 'Carte', label: 'DDIAFORMS.aic.subject.maps'});
   }
 
-  openModal(): void {
-    if (this.isAerodromeLocalInf){
-      this.modalDatas.action = this.toDoAction;
+  openOKModal(): void {
+    if (this.isAerodromeConceded && this.user.role === SOURCE_VERIFIER){
       this.modalRef = this.modalService.show(ModalChoiceNationalinfComponent,
         this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
     }
@@ -93,7 +98,25 @@ export class AICWithDataComponent implements OnInit {
     }
   }
 
-  closeModal(): void {
-    // this.mdbModal.hide();
+  openRejectModal(functionToTrigger: (ddiaId: string, ddiaClassName: string, data: {[key: string]: string}) => Promise<any>): void {
+    this.modalDatas.functionToTrigger = functionToTrigger;
+    this.modalRef = this.modalService.show(ModalRejectDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-danger'));
   }
+
+  openPublishSetModal(): void {
+    this.modalRef = this.modalService.show(ModalPublishDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
+  }
+
+  openRelanceConfirmModal(): void {
+    this.modalRef = this.modalService.show(ModalConfirmRelanceComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-warning'));
+  }
+
+  openCancelConfirmModal(): void {
+    this.modalRef = this.modalService.show(ModalConfirmCancelDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-danger'));
+  }
+
 }

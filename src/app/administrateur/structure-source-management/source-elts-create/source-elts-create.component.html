@@ -9,15 +9,11 @@
         </div>
         <form [formGroup]="aerodromeForm">
             <div class="form-group mt-5 mb-4">
-                <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.name.invalid && aerodromeForm.controls.name.dirty}" placeholder="{{'STRUCTURESSOURCES.name' | translate }}" />
+                <input type="text" formControlName="name" class="form-control" placeholder="{{'STRUCTURESSOURCES.name' | translate }}" />
                 <app-control-messages [control]="aerodromeForm.controls.name"></app-control-messages>
             </div>
-            <!-- <div class="form-group mb-4">
-                <input type="text" formControlName="code" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.code.invalid && aerodromeForm.controls.code.dirty}" placeholder="{{'STRUCTURESSOURCES.code' | translate }}" />
-                <app-control-messages [control]="aerodromeForm.controls.code"></app-control-messages>
-            </div> -->
             <div class="form-group mb-4">
-                <input type="text" formControlName="locationInd" class="form-control" [ngClass]="{'red-border' : aerodromeForm.controls.locationInd.invalid && aerodromeForm.controls.locationInd.dirty}" placeholder="{{'STRUCTURESSOURCES.locationInd' | translate }}" />
+                <input type="text" formControlName="locationInd" class="form-control" placeholder="{{'STRUCTURESSOURCES.locationInd' | translate }}" />
                 <app-control-messages [control]="aerodromeForm.controls.locationInd"></app-control-messages>
             </div>
             <div class="form-group mb-4" style="margin-left: 20px; position: relative;">
@@ -63,7 +59,7 @@
                 </button>
             </div> -->
             <div class="d-flex justify-content-center">
-                <button [disabled]="aerodromeForm.invalid" (click)="submitAerodrome()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                <button [disabled]="aerodromeForm.invalid || loadingss" (click)="submitAerodrome()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
                     <span *ngIf="loadingss" class="spinner-border spinner-border-sm mr-1"></span>
                     {{'STRUCTURESSOURCES.submitBtn' | translate }}                    
                 </button>
@@ -80,27 +76,27 @@
         </div>
         <form [formGroup]="sourceUnitForm">
             <div class="form-group mt-5 mb-4">
-                <input type="text" formControlName="name" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.name.invalid && sourceUnitForm.controls.name.dirty}" placeholder="{{'SOURCEUNIT.name' | translate }}" />
+                <input type="text" formControlName="name" class="form-control" placeholder="{{'SOURCEUNIT.name' | translate }}" />
                 <app-control-messages [control]="sourceUnitForm.controls.name"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <input type="text" formControlName="telephone" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.telephone.invalid && sourceUnitForm.controls.telephone.dirty}" placeholder="{{'SOURCEUNIT.phone' | translate }}" />
+                <input type="text" formControlName="telephone" class="form-control" placeholder="{{'SOURCEUNIT.phone' | translate }}" />
                 <app-control-messages [control]="sourceUnitForm.controls.telephone"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <input type="email" formControlName="email" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.email.invalid && sourceUnitForm.controls.email.dirty}" placeholder="{{'SOURCEUNIT.email' | translate }}" />
+                <input type="email" formControlName="email" class="form-control" placeholder="{{'SOURCEUNIT.email' | translate }}" />
                 <app-control-messages [control]="sourceUnitForm.controls.email"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <input type="text" formControlName="fax" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.fax.invalid && sourceUnitForm.controls.fax.dirty}" placeholder="{{'SOURCEUNIT.fax' | translate }}" />
+                <input type="text" formControlName="fax" class="form-control" placeholder="{{'SOURCEUNIT.fax' | translate }}" />
                 <app-control-messages [control]="sourceUnitForm.controls.fax"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <input type="text" formControlName="address" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.address.invalid && sourceUnitForm.controls.address.dirty}" placeholder="{{'SOURCEUNIT.adress' | translate }}" />
+                <input type="text" formControlName="address" class="form-control" placeholder="{{'SOURCEUNIT.adress' | translate }}" />
                 <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages>
             </div>
             <div class="form-group mb-4">
-                <input type="text" formControlName="rsfta" class="form-control" [ngClass]="{'red-border' : sourceUnitForm.controls.rsfta.invalid && sourceUnitForm.controls.rsfta.dirty}" placeholder="{{'SOURCEUNIT.rsfta' | translate }}" />
+                <input type="text" formControlName="rsfta" class="form-control" placeholder="{{'SOURCEUNIT.rsfta' | translate }}" />
                 <!-- <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages> -->
             </div>
             <div class="form-group mb-4">
@@ -111,7 +107,7 @@
             </div>
 
             <div class="d-flex justify-content-center">
-                <button [disabled]="sourceUnitForm.invalid" (click)="submitUnit()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                <button [disabled]="sourceUnitForm.invalid || loadingsu" (click)="submitUnit()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
                         <span *ngIf="loadingsu" class="spinner-border spinner-border-sm mr-1"></span>
                         {{'SOURCEUNIT.submitBtn' | translate }}                    
                 </button>

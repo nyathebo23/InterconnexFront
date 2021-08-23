@@ -1,0 +1,21 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="heading">RELANCE CONFIRMATION</h4>
+        <a type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true" class="text-white">&times;</span>
+        </a>
+    </div>
+    <div class="modal-body">
+        <p translate [translateParams]="{typeDDIA: ddiaType}">
+            MODAL.relance.helperText
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" mdbBtn color="info" outline="true" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="modalRef.hide()">
+            {{'MODAL.cancel' | translate}}
+        </button>
+        <button type="button" mdbBtn color="info" class="waves-effect" mdbWavesEffect [disabled]="loading" (click)="submit()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp; {{'MODAL.ok' | translate}}
+        </button>
+    </div>
+</div>

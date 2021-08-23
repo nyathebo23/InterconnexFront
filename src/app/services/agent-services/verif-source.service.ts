@@ -3,11 +3,13 @@ import { HttpClient,  HttpErrorResponse } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { Observable , Subject, throwError } from 'rxjs';
 import * as URLS from '../../commons/urls-backend';
-import { ActionOnDDIAI } from 'src/app/interfaces/action-on-ddia.interface';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { AuthManagerService } from '../auth-services/auth-manager.service';
 import { NationalInformer } from 'src/app/models/national-informer.model';
 import { NationalInformerI } from 'src/app/interfaces/national-informer.interface';
+import { ActionsOnDDIAList, PaginateActionOnDDIAResp } from 'src/app/interfaces/responses.interface';
+import { Notification } from 'src/app/models/notification.model';
+import { NotificationI } from 'src/app/interfaces/notification.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,42 +22,43 @@ export class VerifSourceService {
   urlToDDIAProcessed: string;
   constructor(private http: HttpClient, private authService: AuthManagerService) {
     this.isLocalInf = this.authService.getLocalInf() && this.authService.getLocalInf().unit ? 'yes' : 'no';
-    this.urlToDDIAProcessed = this.isLocalInf ? URLS.LOCALINFORMERVERIFIER_DDIA_PROCESSED : URLS.SOURCEVERIFIER_DDIA_PROCESSED;
-
+    this.urlToDDIAProcessed = this.isLocalInf === 'yes' ? URLS.LOCALINFORMERVERIFIER_DDIA_PROCESSED : URLS.SOURCEVERIFIER_DDIA_PROCESSED;
   }
 
-  getDDIAListInWaiting(typeDDIA: string, dateOrder: string): Promise<ActionOnDDIA[]> {
-    return this.http.get<ActionOnDDIAI[]>(URLS.SOURCEVERIFIER_DDIA_IN_WAITING + typeDDIA, {
+  getDDIAListInWaiting(typeDDIA: string, dateOrder: string, page: string): Promise<ActionsOnDDIAList> {
+    return this.http.get<PaginateActionOnDDIAResp>(URLS.SOURCEVERIFIER_DDIA_IN_WAITING + typeDDIA, {
       params: {
         is_localinf: this.isLocalInf,
-        date_order: dateOrder
+        date_order: dateOrder,
+        page
       }
     })
     .pipe(
       catchError(this.handleError),
-      map((resDatas: ActionOnDDIAI[]) => {
+      map((resDatas: PaginateActionOnDDIAResp) => {
         const actionsAgent = new Array<ActionOnDDIA>();
-        resDatas.forEach((data) => {
+        resDatas.results.forEach((data) => {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
-        return actionsAgent;
+        return {actionsAgent, counts: resDatas.counts};
       })).toPromise();
   }
 
-  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string): Promise<ActionOnDDIA[]> {
-    return this.http.get<ActionOnDDIAI[]>(this.urlToDDIAProcessed + typeDDIA, {
+  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string, page: string): Promise<ActionsOnDDIAList> {
+    return this.http.get<PaginateActionOnDDIAResp>(this.urlToDDIAProcessed + typeDDIA, {
       params: {
         state,
-        date_order: dateOrder
+        date_order: dateOrder,
+        page
       }
     }).pipe(
       catchError(this.handleError),
-      map((resDatas: ActionOnDDIAI[]) => {
+      map((resDatas: PaginateActionOnDDIAResp) => {
         const actionsAgent = new Array<ActionOnDDIA>();
-        resDatas.forEach((data) => {
+        resDatas.results.forEach((data) => {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
-        return actionsAgent;
+        return {actionsAgent, counts: resDatas.counts};
       })).toPromise();
   }
 
@@ -63,12 +66,24 @@ export class VerifSourceService {
     return this.http.get<NationalInformerI[]>(URLS.NATIONAL_INFORMER_CRU)
     .pipe(
       map((nationalinfs: NationalInformerI[]) => {
-        console.log(nationalinfs);
         const nationalinformers = new Array<NationalInformer>();
         nationalinfs.forEach((nationalinf) => {
           nationalinformers.push(NationalInformer.fromJSON(nationalinf));
         });
         return nationalinformers;
+      })
+    );
+  }
+
+  getNotifications(): Observable<Notification[]> {
+    return this.http.get<NotificationI[]>(URLS.NOTIFICATIONS_SOURCEVERIF)
+    .pipe(
+      map((notifs: NotificationI[]) => {
+        const notifications = new Array<Notification>();
+        notifs.forEach((notif) => {
+          notifications.push(Notification.fromJSON(notif));
+        });
+        return notifications;
       })
     );
   }

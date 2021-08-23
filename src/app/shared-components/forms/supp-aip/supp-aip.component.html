@@ -8,9 +8,6 @@
                         <div class="alert alert-danger" role="alert" *ngFor="let err of errors">
                             {{err | translate}}
                         </div>
-                        <div class="alert alert-success" role="alert" *ngIf="createSuccess">
-                            {{'DDIAFORMS.suppaip.createsuccess' | translate }}
-                        </div>
                         <div class="form-group">
                             <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
                             <owl-date-time #dt1></owl-date-time>
@@ -32,7 +29,7 @@
                             </div>
                             <div class="form-group mb-1">
                                 <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.suppaip.notamRcode' | translate }}</label>
-                                <input type="text" [disabled]="!isReplaceSUPPAIP()" id="targetNOTAM" formControlName="codeDDIAToReplace" class="form-control" />
+                                <input type="text" id="targetNOTAM" formControlName="codeDDIAToReplace" class="form-control" />
                                 <!-- <select [disabled]="!isReplaceSUPPAIP()" class="form-control" id="targetNOTAM" formControlName="codeDDIAToReplace">
                                     <option value=""></option>
                                 </select> -->
@@ -41,17 +38,35 @@
                                 <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }}</label>
                                 <input type="text" id="object" formControlName="object" class="form-control" />
                             </div>
-                            <div class="form-group">
-                                <label for="targetSection" class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }}</label>
-                                <textarea type="text" id="targetSection" class="form-control" formControlName="aipTargetSections"></textarea>
-                            </div>
                         </div>
                     </div>
                 </div>
             </mdb-carousel-item>
             <mdb-carousel-item>
                 <div class="ddia-form">
+                    <div class="alert alert-danger" role="alert" *ngFor="let err of errors">
+                        {{err | translate}}
+                    </div>
                     <div class="container-fluid">
+                        <div formArrayName="aipTargetSectForm" class="form-group">
+                            <div class="d-flex flex-column">
+                                <label class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }}</label>
+                                <div class="form-group" *ngFor="let aipTargetSect of aipTargetSections.controls;let i=index;">
+                                    <div class="d-flex flex-row justify-content-start align-items-center">
+                                        <input type="text" [formControl]="aipTargetSect" class="form-control" [ngClass]="{'red-border' : aipTargetSect.invalid}" />
+                                        <button type="button" mdbBtn color="primary" style="height: 38px;" mdbWavesEffect (click)="removeAIPTargetSection()" *ngIf="i !== 0">
+                                            <mdb-icon fas icon="minus" size="lg"></mdb-icon>
+                                        </button>
+                                    </div>
+                                    <app-control-messages [control]="aipTargetSect"></app-control-messages>
+                                </div>
+                                <div class="text-right">
+                                    <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="addAIPTargetSection()">
+                                        <mdb-icon fas icon="plus" size="lg"></mdb-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="custom-label">{{'DDIAFORMS.suppaip.valPeriod' | translate }}</label>
                             <div class="form-group">
@@ -67,29 +82,29 @@
                             <div formArrayName="filesForm" class="form-group">
                                 <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }}</label>
                                 <div *ngFor="let fileForm of files.controls;let index=index;">
-                                    <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start mb-4">
+                                    <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                         <div>
                                             <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
-                                            <button class="uploader-file-btn">                        
+                                            <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;">                        
                                                 <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
                                             </button>
                                         </div>
                                         <div>
                                             <input type="text" formControlName="filename" [disabled]="true" class="form-control" style="height: 35px;">
                                         </div>
-                                        <div>
-                                            <button class="remove-button" (click)="removeFileForm()">
-                                            <i class="fas fa-minus"></i>&nbsp; 
-                                        </button>
+                                        <div *ngIf="index !== 0">
+                                            <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="removeFileForm()" style="height: 43px;">
+                                                <mdb-icon fas icon="minus" size="lg"></mdb-icon>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group mb-5">
-                                <button class="add-button mt-3" (click)="addFileForm()">
-                                <i class="fas fa-plus"></i>&nbsp; {{'DDIAFORMS.buttons.plusonefile' | translate }}
-                            </button>
+                                <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="addFileForm()">
+                                    <mdb-icon fas icon="plus" size="lg"></mdb-icon> &nbsp; {{'DDIAFORMS.buttons.plusonefile' | translate }}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -98,7 +113,11 @@
         </mdb-carousel>
     </div>
     <div class="d-flex flex-wrap justify-content-around mt-4">
-        <button mdbBtn type="button" color="primary" outline="true" mdbWavesEffect>{{'DDIAFORMS.buttons.reinit' | translate }}</button>
-        <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="save()">{{'DDIAFORMS.buttons.save' | translate }}</button>
+        <button mdbBtn type="button" color="primary" outline="true" mdbWavesEffect (click)="initForm()">
+            {{'DDIAFORMS.buttons.reinit' | translate }}
+        </button>
+        <button type="button" [disabled]="suppaipForm.invalid || loadingSave" mdbBtn color="primary" mdbWavesEffect (click)="save()">
+            <span *ngIf="loadingSave" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'DDIAFORMS.buttons.save' | translate }}
+        </button>
     </div>
 </div>

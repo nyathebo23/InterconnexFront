@@ -11,7 +11,9 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a type="button" mdbBtn color="info" outline="true" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="modalRef.hide()">{{'MODAL.cancel' | translate}}</a>
-        <a type="button" mdbBtn color="info" class="waves-effect" mdbWavesEffect (click)="functionToTrigger()"><span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp; {{'MODAL.ok' | translate}}</a>
+        <button type="button" mdbBtn color="info" outline="true" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="modalRef.hide()">{{'MODAL.cancel' | translate}}</button>
+        <button [disabled]="loading" type="button" mdbBtn color="info" class="waves-effect" mdbWavesEffect (click)="functionToTrigger()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp; {{'MODAL.ok' | translate}}
+        </button>
     </div>
 </div>

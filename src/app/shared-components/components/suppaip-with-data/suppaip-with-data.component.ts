@@ -3,7 +3,7 @@ import {
   FormBuilder,
   FormGroup
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SUPPAIP_CLASS_NAME, SUPPAIP_TYPE } from 'src/app/commons/constants';
 import { DemandeSUPPAIP } from 'src/app/models/demande-suppaip.model';
 import { User } from 'src/app/models/user.model';
@@ -15,6 +15,10 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
 import { SOURCE_VERIFIER } from 'src/app/commons/constants-roles';
 import { ModalChoiceNationalinfComponent } from '../modal-choice-nationalinf/modal-choice-nationalinf.component';
+import { ModalRejectDDIAComponent } from '../modal-reject-ddia/modal-reject-ddia.component';
+import { ModalPublishDDIAComponent } from '../modal-publish-ddia/modal-publish-ddia.component';
+import { ModalConfirmRelanceComponent } from '../modal-confirm-relance/modal-confirm-relance.component';
+import { ModalConfirmCancelDDIAComponent } from '../modal-confirm-cancel-ddia/modal-confirm-cancel-ddia.component';
 
 @Component({
   selector: 'app-suppaip-with-data',
@@ -33,7 +37,7 @@ export class SUPPAIPWithDataComponent implements OnInit {
   modalRef: MDBModalRef;
   initiatorInfos: string;
   loaderId = 'ddia-loader';
-  isAerodromeLocalInf: boolean;
+  isAerodromeConceded: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private modalDisplayService: ModalDisplayService,
@@ -41,20 +45,27 @@ export class SUPPAIPWithDataComponent implements OnInit {
     private modalService: MDBModalService,
     private authService: AuthManagerService,
     private activatedRoute: ActivatedRoute,
-    private ngxUiLoaderService: NgxUiLoaderService
+    private ngxUiLoaderService: NgxUiLoaderService,
   ) {
     this.toDoAction = activatedRoute.snapshot.data.toDoAction;
     this.user = this.authService.getUser();
-    this.isAerodromeLocalInf = this.user.role === SOURCE_VERIFIER && this.authService.getLocalInf() != null;
+    this.isAerodromeConceded = this.authService.getAerodrome() ? this.authService.getAerodrome().isConceded : false;
   }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.modalDatas = {
+      ddiaClassName: SUPPAIP_CLASS_NAME,
+      ddiaType: SUPPAIP_TYPE,
+      ddiaId: id,
+      action: this.toDoAction
+    };
+
     this.ngxUiLoaderService.startLoader(this.loaderId);
     this.controlActorService.getSUPPAIPDetailsById(id).subscribe(
       (demandesupp) => {
         this.demandeSUPP = demandesupp;
-        console.log(demandesupp.attachments);
         const user = demandesupp.initiator;
         this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
         this.suppaipForm = this.formBuilder.group({
@@ -71,17 +82,11 @@ export class SUPPAIPWithDataComponent implements OnInit {
         this.ngxUiLoaderService.stopLoader(this.loaderId);
       }
     );
-    this.modalDatas = {
-      ddiaClassName: SUPPAIP_CLASS_NAME,
-      ddiaType: SUPPAIP_TYPE,
-      ddiaId: id,
-      action: this.toDoAction
-    };
+
   }
 
-  openModal(): void {
-    if (this.isAerodromeLocalInf){
-      this.modalDatas.action = this.toDoAction;
+  openOKModal(): void {
+    if (this.isAerodromeConceded && this.user.role === SOURCE_VERIFIER){
       this.modalRef = this.modalService.show(ModalChoiceNationalinfComponent,
         this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
     }
@@ -91,6 +96,26 @@ export class SUPPAIPWithDataComponent implements OnInit {
     }
   }
 
+  openRejectModal(functionToTrigger: (ddiaId: string, ddiaClassName: string, data: {[key: string]: string}) => Promise<any>): void {
+    this.modalDatas.functionToTrigger = functionToTrigger;
+    this.modalRef = this.modalService.show(ModalRejectDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-danger'));
+  }
+
+  openPublishSetModal(): void {
+    this.modalRef = this.modalService.show(ModalPublishDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));
+  }
+
+  openRelanceConfirmModal(): void {
+    this.modalRef = this.modalService.show(ModalConfirmRelanceComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-warning'));
+  }
+
+  openCancelConfirmModal(): void {
+    this.modalRef = this.modalService.show(ModalConfirmCancelDDIAComponent,
+      this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-danger'));
+  }
 
 }
 

@@ -1,10 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { PENDING_ADMISSION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE,
+import { PAGE_LIST_SIZE, PENDING_ADMISSION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE,
    PENDING_VALIDATION_STATE, PUBLISHED_STATE } from 'src/app/commons/constants';
+import { RECEPTION_SUBMISSION } from 'src/app/commons/constants-events-notifs';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { VerifSourceService } from 'src/app/services/agent-services/verif-source.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
+import { PusherSourceVerifierService } from 'src/app/services/pusher/pusher-source-verifier.service';
 
 @Component({
   selector: 'app-verif-source-list-ddia-processed',
@@ -16,6 +18,8 @@ export class VerifSourceListDDIAProcessedComponent implements OnInit {
   ddiaState = 'all';
   dateOrder = 'ascendingDate';
   ddiaType = 'all';
+  page = '1';
+  pagesNb: number;
   ddiaActionsList: ActionOnDDIA[];
   states = [
     {stateLabel: 'all', stateValue: 'all'} ,
@@ -29,8 +33,14 @@ export class VerifSourceListDDIAProcessedComponent implements OnInit {
   ];
   constructor(
     private authService: AuthManagerService,
-    private verifSourceService: VerifSourceService
+    private verifSourceService: VerifSourceService,
+    private pusherVerifService: PusherSourceVerifierService
   ) {
+    this.pusherVerifService.notificationStateChange.subscribe(
+      (notif) => {
+
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -39,11 +49,13 @@ export class VerifSourceListDDIAProcessedComponent implements OnInit {
 
   onDDIAStateChange(state: string): void {
     this.ddiaState = state;
+    this.page = '1';
     this.reloadDDIAItems();
   }
 
   onDDIATypeChange(typeDDIA: string): void {
     this.ddiaType = typeDDIA;
+    this.page = '1';
     this.reloadDDIAItems();
   }
 
@@ -52,14 +64,27 @@ export class VerifSourceListDDIAProcessedComponent implements OnInit {
     this.reloadDDIAItems();
   }
 
+  onPageChange(page: string): void {
+    this.page = page;
+    this.reloadDDIAItems();
+  }
+
   reloadDDIAItems(): void {
-    this.verifSourceService.getDDIAListProcessed(this.ddiaType, this.ddiaState, this.dateOrder)
+    this.verifSourceService.getDDIAListProcessed(this.ddiaType, this.ddiaState, this.dateOrder, this.page)
     .then((ddiaActions) => {
-      this.ddiaActionsList = ddiaActions;
+      this.ddiaActionsList = ddiaActions.actionsAgent;
+      this.pagesNb = Math.ceil(ddiaActions.counts / PAGE_LIST_SIZE);
     })
     .catch((err: HttpErrorResponse) => {
 
     });
   }
 
+  setNotifRenderAction(): void {
+    this.pusherVerifService.channel.bind(
+      RECEPTION_SUBMISSION, (data: any) => {
+
+      }
+    );
+  }
 }

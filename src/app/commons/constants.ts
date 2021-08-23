@@ -21,3 +21,4 @@ export const AIC_CLASS_NAME = 'demandeaic';
 export const CREATE_ACTION = 'CREATION';
 export const MODIF_ACTION = 'MODIFICATION';
 export const CONTROL_ACTION = 'CONTROLE';
+export const PAGE_LIST_SIZE = 5;

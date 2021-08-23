@@ -15,6 +15,7 @@ import * as ROLES from '../../commons/constants-roles';
 import { Unit } from 'src/app/models/unit.model';
 import { UnitSource } from 'src/app/models/unit-source.model';
 import { Router } from '@angular/router';
+import { AerodromeExtendI } from 'src/app/interfaces/aerodrome-extend.interface';
 
 interface ResponseMessage  {
   message: string;
@@ -39,16 +40,13 @@ export class AuthManagerService {
   localinformer: LocalInformerExtend;
   nationalinformer: NationalInformer;
   helper = new JwtHelperService();
-  serverConnectError: string;
-  internalServerError: string;
+
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService,
     private router: Router
   ) {
-     this.serverConnectError = this.translate.instant('Errors.serverconnection');
-     this.internalServerError = this.translate.instant('Errors.servererror');
+
   }
 
   getUser(): User | null {
@@ -72,6 +70,10 @@ export class AuthManagerService {
     if (jsonData && jsonData.unit){
       return UnitSource.fromJSON(jsonData.unit);
     }
+    const localinf = this.getLocalInf();
+    if (localinf){
+      return localinf.unit;
+    }
     return null;
   }
 
@@ -82,6 +84,10 @@ export class AuthManagerService {
     const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
     if (jsonData && jsonData.aerodrome){
       return Aerodrome.fromJSON(jsonData.aerodrome);
+    }
+    const localinf = this.getLocalInf();
+    if (localinf){
+      return localinf.aerodrome;
     }
     return null;
   }
@@ -102,7 +108,7 @@ export class AuthManagerService {
       return this.nationalinformer;
     }
     const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
-    if (jsonData && jsonData.aerodrome){
+    if (jsonData && jsonData.nationalinformer){
       return NationalInformer.fromJSON(jsonData.nationalinformer);
     }
     return null;
@@ -128,6 +134,7 @@ export class AuthManagerService {
     if (ROLES.aerodromeRoles.includes(this.user.role)){
       this.getAgentInfos()
       .then((data) => {
+        console.log(data);
         if (data.localinformer){
           this.localinformer = LocalInformerExtend.fromJSON(data.localinformer);
           this.unit = this.localinformer.unit;
@@ -170,7 +177,6 @@ export class AuthManagerService {
         console.log(err);
       });
     }
-
   }
 
   navigateToPage(role: string, isStaff: boolean): void {
@@ -211,7 +217,6 @@ export class AuthManagerService {
 
   getNationalAgentInfos(): Promise<any> {
     return this.http.get<any>(URLS.NATIONAL_AGENT_INFOS).toPromise();
-
   }
 
   signIn(formData: FormData): Promise<any> {
@@ -331,10 +336,10 @@ export class AuthManagerService {
       return ['An error occurred: ' + error.message];
     }
     else if (errorResp.status === 500){
-      return [this.internalServerError];
+      return ['Errors.servererror'];
     }
     else if (errorResp.status === 0){
-      return [this.serverConnectError];
+      return ['Errors.serverconnection'];
     }
     else if (typeof error === 'string'){
       return [error];

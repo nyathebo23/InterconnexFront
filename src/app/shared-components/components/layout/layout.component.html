@@ -1,14 +1,47 @@
 <header>
-    <nav class="navbar navbar-light bg-white fixed-top">
+    <mdb-navbar SideClass="navbar navbar-expand-md navbar-dark bg-white fixed-top indigo-text" [containerInside]="false" [iconBackground]="'indigo'">
+
+        <mdb-navbar-brand>
+            <a class="navbar-brand" [routerLink]="navLinks[0].url">
+                <div class="d-flex flex-row align-items-center">
+                    <img src="/assets/images/ccaa.png" class="rounded-circle z-depth-0" height="37" alt="CCAA">
+                    <!-- <p class="h3-responsive">CCAA</p> -->
+                </div>
+            </a>
+        </mdb-navbar-brand>
+
+        <links>
+
+            <ul class="navbar-nav mr-auto ml-5">
+
+                <li class="nav-item dropdown" dropdown>
+
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <li class="nav-item mr-3">
+                    <a class="nav-link" aria-expanded="false" style="position: relative;" routerLink="notifications">
+                        <mdb-icon far icon="bell" size="lg" style="padding-top: 10px;" class="indigo-text" aria-hidden="true"></mdb-icon>
+                        <span class="mybadge">2</span>
+                    </a>
+                </li>
+                <li class="ml-3 mr-2">
+                    <button mdbBtn class="roundedbtn" type="button" color="deep-purple" mdbWavesEffect (click)="logout()">{{'navbar.logout' | translate }}</button>
+                </li>
+            </ul>
+        </links>
+
+    </mdb-navbar>
+    <!-- <nav class="navbar navbar-light bg-white fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" [routerLink]="navLinks[0].url">
                 <div class="d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row align-items-center">
                     <img src="/assets/images/ccaa.png" height="30" alt="CCAA">
-                    <!-- <p class="h3-responsive">CCAA</p> -->
+                    <p class="h3-responsive">CCAA</p>
                 </div>
             </a>
             <ul class="navbar-nav d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row align-items-center">
-                <!-- Notification dropdown -->
                 <li class="nav-item mr-5">
                     <a class="nav-link" aria-expanded="false" style="position: relative;">
                         <mdb-icon far icon="bell" size="lg" class="indigo-text pr-3" aria-hidden="true"></mdb-icon>
@@ -20,7 +53,7 @@
                 </li>
             </ul>
         </div>
-    </nav>
+    </nav> -->
 </header>
 
 <div class="container-fluid" style="margin-top: 65px;">

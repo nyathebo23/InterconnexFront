@@ -13,11 +13,11 @@
         </p>
         <form [formGroup]="confirmMailChangeForm">
             <div class="form-group mb-5">
-                <input type="text" formControlName="code" class="form-control cust-input" [ngClass]="{'red-border' : confirmMailChangeForm.controls.code.invalid && confirmMailChangeForm.controls.code.dirty}" placeholder="Code" />
+                <input type="text" formControlName="code" class="form-control cust-input" placeholder="Code" />
                 <app-control-messages [control]="confirmMailChangeForm.controls.code"></app-control-messages>
             </div>
             <div class="form-group">
-                <button [disabled]="confirmMailChangeForm.invalid" class="custom-btn m-auto" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                <button [disabled]="confirmMailChangeForm.invalid || loading" class="custom-btn m-auto" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
                     {{'AUTHFORMS.EMAILCHANGECONFIRM.submitBtn' | translate }}                
                 </button>

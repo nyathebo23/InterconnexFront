@@ -14,11 +14,11 @@
         <form [formGroup]="signupVerifForm">
 
             <div class="form-group mb-5">
-                <input type="text" formControlName="code" class="form-control cust-input" [ngClass]="{'red-border' : signupVerifForm.controls.code.invalid && signupVerifForm.controls.code.dirty}" placeholder="Code" />
+                <input type="text" formControlName="code" class="form-control cust-input" placeholder="Code" />
                 <app-control-messages [control]="signupVerifForm.controls.code"></app-control-messages>
             </div>
             <div class="form-group">
-                <button [disabled]="signupVerifForm.invalid" (click)="submit()" class="custom-btn m-auto" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+                <button [disabled]="signupVerifForm.invalid || loading" (click)="submit()" class="custom-btn m-auto" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                     {{'AUTHFORMS.SIGNUPVERIF.submitBtn' | translate }}                
                 </button>

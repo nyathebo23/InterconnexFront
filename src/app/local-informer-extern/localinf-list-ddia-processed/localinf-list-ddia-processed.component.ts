@@ -3,7 +3,8 @@ import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { InformateurLocalService } from 'src/app/services/agent-services/informateur-local.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { PENDING_VERIFICATION_STATE, PENDING_ADMISSION_STATE,
-  PENDING_VALIDATION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE, PUBLISHED_STATE } from 'src/app/commons/constants';
+  PENDING_VALIDATION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE, PUBLISHED_STATE, PAGE_LIST_SIZE } from 'src/app/commons/constants';
+import { PusherAuthorityLocalinfService } from 'src/app/services/pusher/pusher-authority-localinf.service';
 @Component({
   selector: 'app-localinf-list-ddia-processed',
   templateUrl: './localinf-list-ddia-processed.component.html',
@@ -15,7 +16,9 @@ export class LocalinfListDDIAProcessedComponent implements OnInit {
   ddiaState = 'all';
   dateOrder = 'descendingDate';
   ddiaType = 'all';
-  ddiaActionsList: ActionOnDDIA[] = [];
+  page = '1';
+  pagesNb: number;
+  ddiaActionsList: ActionOnDDIA[];
   states = [
     {stateLabel: 'all', stateValue: 'all'} ,
     // {stateLabel: 'DDIAstates.attenteVerif', stateValue: PENDING_VERIFICATION_STATE},
@@ -28,20 +31,25 @@ export class LocalinfListDDIAProcessedComponent implements OnInit {
   ];
   constructor(
     private authService: AuthManagerService,
-    private localInformerService: InformateurLocalService
+    private localInformerService: InformateurLocalService,
+    private pusherLocalInformerService: PusherAuthorityLocalinfService
+
   ) {
   }
 
   ngOnInit(): void {
+    this.reloadDDIAItems();
   }
 
   onDDIAStateChange(state: string): void {
     this.ddiaState = state;
+    this.page = '1';
     this.reloadDDIAItems();
   }
 
   onDDIATypeChange(typeDDIA: string): void {
     this.ddiaType = typeDDIA;
+    this.page = '1';
     this.reloadDDIAItems();
   }
 
@@ -50,10 +58,16 @@ export class LocalinfListDDIAProcessedComponent implements OnInit {
     this.reloadDDIAItems();
   }
 
+  onPageChange(page: string): void {
+    this.page = page;
+    this.reloadDDIAItems();
+  }
+
   reloadDDIAItems(): void {
-    this.localInformerService.getDDIAListProcessed(this.ddiaType, this.ddiaState, this.dateOrder)
+    this.localInformerService.getDDIAListProcessed(this.ddiaType, this.ddiaState, this.dateOrder, this.page)
     .then((ddiaActions) => {
-      this.ddiaActionsList = ddiaActions;
+      this.ddiaActionsList = ddiaActions.actionsAgent;
+      this.pagesNb = Math.ceil(ddiaActions.counts / PAGE_LIST_SIZE);
     })
     .catch((err) => {
 

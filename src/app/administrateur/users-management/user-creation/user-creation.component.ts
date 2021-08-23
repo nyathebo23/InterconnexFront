@@ -126,7 +126,7 @@ export class UserCreationComponent implements OnInit {
       .catch((err) => {
         console.log(err);
         if (err.status === 0){
-          const error = this.authService.serverConnectError;
+          const error = 'Errors.serverconnection';
           this.errors = [error];
         }
         else{

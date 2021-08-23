@@ -22,6 +22,8 @@ export class SourceUnitFormComponent implements OnInit {
 
   sourceUnitForm: FormGroup;
   @Input() isInCreateForm: boolean;
+  // les 03 input suivants ne sont pas initialisés par un composant parent quand on a affaire à
+  // une initiation de demande de diffusion d'information aéronautique
   @Input() locationInd: string;
   @Input() unit: UnitSource;
   @Input() initiatorInfos: string;
@@ -52,13 +54,13 @@ export class SourceUnitFormComponent implements OnInit {
           this.initiatorInfos = data.user.last_name + ' ' + data.user.first_name + ',  ' + data.user.function + ',  ' + data.user.quality;
         }
         this.sourceUnitForm = this.formBuilder.group({
-          airportLocationIndicator: [{value: this.locationInd ? this.locationInd : '', disabled: true}],
-          name: [{value: this.unit ? this.unit.name : '', disabled: true}],
-          adress: [{value: this.unit ? this.unit.address : '', disabled: true}],
-          fax: [{value: this.unit ? this.unit.fax : '', disabled: true}],
-          telephone: [{value: this.unit ? this.unit.phonenumber : '', disabled: true}],
-          email: [{value: this.unit ? this.unit.email : '', disabled: true}],
-          rsfta: [{value: this.unit ? this.unit.rsfta : '', disabled: true}],
+          airportLocationIndicator: [{value: this.locationInd, disabled: true}],
+          name: [{value: this.unit.name, disabled: true}],
+          adress: [{value: this.unit.address, disabled: true}],
+          fax: [{value: this.unit.fax, disabled: true}],
+          telephone: [{value: this.unit.phonenumber, disabled: true}],
+          email: [{value: this.unit.email, disabled: true}],
+          rsfta: [{value: this.unit.rsfta ? this.unit.rsfta : '', disabled: true}],
           initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
         });
         this.loadingDatas = false;

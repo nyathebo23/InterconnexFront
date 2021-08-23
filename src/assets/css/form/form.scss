@@ -64,9 +64,9 @@
     font-family: 'Comic sans MS';
 }
 
-.red-border {
-    border: 1px rgb(231, 58, 58) solid;
-    box-shadow: 2px 2px 2px #ef5350;
+.form-control.ng-dirty.ng-invalid {
+    border: 1px rgb(243, 75, 75) solid;
+    box-shadow: 2px 2px 5px #ef5350;
 }
 
 .background-form {

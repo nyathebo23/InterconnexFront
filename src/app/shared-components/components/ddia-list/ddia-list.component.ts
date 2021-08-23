@@ -15,13 +15,15 @@ export class DDIAListComponent implements OnInit, OnChanges {
 
   @Input() labelTitle: string;
   @Input() statesList: { stateValue: string, stateLabel: string}[];
-  @Input() ddiaActionsList: ActionOnDDIA[];
   @Input() ddiaList: (DemandeNOTAMItemList | DemandeSUPPItemList | DemandeAICItemList)[];
+  @Input() pagesNb: number;
   @Output() ddiaStateChange = new EventEmitter<string>();
   @Output() ddiaTypeChange = new EventEmitter<string>();
   @Output() dateOrderChange = new EventEmitter<string>();
-
-  loaderId = 'ddia-act-list';
+  @Output() pageChange = new EventEmitter<string>();
+  currentPage = 1;
+  pagesList: number[];
+  loaderId = 'ddia-list';
   constructor(private ngxUiLoaderService: NgxUiLoaderService) {
   }
 
@@ -30,13 +32,22 @@ export class DDIAListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.ddiaActionsList || this.ddiaList){
+
+    console.log(this.ddiaList, this.pagesNb);
+    if (this.ddiaList !== undefined && this.pagesNb !== undefined){
       this.ngxUiLoaderService.stopLoader(this.loaderId);
+      if (!this.pagesList){
+        this.pagesList = [];
+        for (let i = 1; i <= this.pagesNb; i++){
+          this.pagesList.push(i);
+        }
+      }
     }
   }
 
   changeState(event): void {
     const state = event.target.value;
+    this.currentPage = 1;
     this.ddiaStateChange.emit(state);
     this.ngxUiLoaderService.startLoader(this.loaderId);
   }
@@ -44,6 +55,7 @@ export class DDIAListComponent implements OnInit, OnChanges {
   changeType(event): void {
     const typeDDIA = event.target.value;
     this.ddiaTypeChange.emit(typeDDIA);
+    this.currentPage = 1;
     this.ngxUiLoaderService.startLoader(this.loaderId);
   }
 
@@ -51,6 +63,37 @@ export class DDIAListComponent implements OnInit, OnChanges {
     const dateOrder = event.target.value;
     this.dateOrderChange.emit(dateOrder);
     this.ngxUiLoaderService.startLoader(this.loaderId);
+  }
+
+  changePage(pageNumber: number): void {
+    if (pageNumber !== this.currentPage){
+      this.pageChange.emit(pageNumber.toString());
+      this.currentPage = pageNumber;
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+    }
+  }
+
+  goToPage(page: string): void {
+    switch (page){
+      case 'prev':
+        if (this.currentPage > 1){
+          this.changePage(this.currentPage - 1);
+        }
+        break;
+      case 'next':
+        if (this.currentPage < this.pagesList.length){
+          this.changePage(this.currentPage + 1);
+        }
+        break;
+      case 'first':
+        this.changePage(1);
+        break;
+      case 'last':
+        if (this.pagesList.length !== 0){
+          this.changePage(this.pagesList.length);
+        }
+        break;
+    }
   }
 
 }

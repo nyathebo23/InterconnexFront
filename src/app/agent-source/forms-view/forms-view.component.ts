@@ -7,13 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormsViewComponent implements OnInit {
 
-  activeDDIA = 'notam';
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  setActiveDDIA(ddia: string): void{
-    this.activeDDIA = ddia;
-  }
 }

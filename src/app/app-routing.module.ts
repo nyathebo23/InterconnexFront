@@ -52,7 +52,16 @@ import { DDIAProcessedBaseContainerComponent } from './shared-components/compone
 import { NationalinfListDDIAReceivedComponent } from './national-informer/nationalinf-list-ddia-received/nationalinf-list-ddia-received.component';
 import { NationalinfListDDIAProcessedComponent } from './national-informer/nationalinf-list-ddia-processed/nationalinf-list-ddia-processed.component';
 import { ADMISSION, APPROBATION, SUBMIT_TO_VERIFY, VALIDATION, VERIFICATION } from './commons/control-actions-on-ddia';
-
+import { NotamComponent } from './shared-components/forms/notam/notam.component';
+import { SUPPAIPComponent } from './shared-components/forms/supp-aip/supp-aip.component';
+import { AICComponent } from './shared-components/forms/aic/aic.component';
+import { NotificationComponent } from './shared-components/components/notification/notification.component';
+import * as URLS from './commons/urls-backend';
+import { ListNotificationsComponent } from './shared-components/components/list-notifications/list-notifications.component';
+import { NOTAMWithDatasForSourcestructureComponent } from './shared-components/components/notam-with-datas-for-sourcestructure/notam-with-datas-for-sourcestructure.component';
+import { AicWithDatasForSourcestructureComponent } from './shared-components/components/aic-with-datas-for-sourcestructure/aic-with-datas-for-sourcestructure.component';
+import { SUPPAIPWithDatasForSourcestructureComponent } from './shared-components/components/suppaip-with-datas-for-sourcestructure/suppaip-with-datas-for-sourcestructure.component';
+import { BaseNationalInformerComponent } from './national-informer/base-national-informer/base-national-informer.component';
 
 const routes: Routes = [
   {
@@ -80,11 +89,18 @@ const routes: Routes = [
   {
     path: 'source', component: BaseSourceComponent, canActivate: [CanActivateAuth, CanActivateSourceAgent],
     children: [
+      { path: 'notifications', component: ListNotificationsComponent, data: {url: URLS.NOTIFICATIONS_SOURCEUNIT}},
       { path: '', redirectTo: 'initddia' , pathMatch: 'full'},
       { path: 'initddia', component: InitDDIAViewComponent, children: [
           { path: '', redirectTo: 'forms' , pathMatch: 'full'},
-          { path: 'forms', component: FormsViewComponent},
-          { path: 'cloneddia', component: DuplicateDDIAComponent}
+          { path: 'forms', component: FormsViewComponent, children: [
+            { path: '', redirectTo: 'notam' , pathMatch: 'full'},
+            { path: 'notam', component: NotamComponent},
+            { path: 'suppaip', component: SUPPAIPComponent},
+            { path: 'aic', component: AICComponent},
+           ]
+          },
+          // { path: 'cloneddia', component: DuplicateDDIAComponent}
         ]
       },
       { path: 'unitsddia', component: UnitsDDIAComponent, children: [
@@ -127,6 +143,7 @@ const routes: Routes = [
   {
     path: 'sourceverifier', component: BaseVerifSourceComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
     children: [
+      { path: 'notifications', component: ListNotificationsComponent, data: {url: URLS.NOTIFICATIONS_SOURCEVERIF}},
       { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
       { path: 'receivedddia', component: DDIAReceivedBaseContainerComponent, children: [
         { path: '', redirectTo: 'list' , pathMatch: 'full'},
@@ -155,15 +172,15 @@ const routes: Routes = [
   {
     path: 'sourcestructure', component: BaseSourceStructureComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
     children: [
-      { path: '', redirectTo: 'list' , pathMatch: 'full'},
+      { path: 'notifications', component: ListNotificationsComponent, data: {url: URLS.NOTIFICATIONS_SOURCESTRUCTURE}},
       { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
       { path: 'receivedddia', component: DDIAReceivedBaseContainerComponent, children: [
          { path: '', redirectTo: 'list' , pathMatch: 'full'},
          { path: 'list', component: SourceStructureListDDIAReceivedComponent},
          { path: 'present-ddia', component: DDIAReceivedContainerComponent, children: [
-            { path: 'notam/:id', component: NOTAMWithDataComponent,  data: {toDoAction: ADMISSION}  },
-            { path: 'suppaip/:id', component: SUPPAIPWithDataComponent,  data: {toDoAction: ADMISSION}  },
-            { path: 'aic/:id', component: AICWithDataComponent,  data: {toDoAction: ADMISSION}  },
+            { path: 'notam/:id', component: NOTAMWithDatasForSourcestructureComponent,  data: {toDoAction: ADMISSION}  },
+            { path: 'suppaip/:id', component: SUPPAIPWithDatasForSourcestructureComponent,  data: {toDoAction: ADMISSION}  },
+            { path: 'aic/:id', component: AicWithDatasForSourcestructureComponent,  data: {toDoAction: ADMISSION}  },
           ]
          }
         ]
@@ -184,9 +201,10 @@ const routes: Routes = [
   {
     path: 'localinformer', component: BaseLocalInformerComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
     children: [
-      { path: '', redirectTo: 'list' , pathMatch: 'full'},
+      { path: 'notifications', component: ListNotificationsComponent, data: {url: URLS.NOTIFICATIONS_LOCALINF}},
       { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
       { path: 'receivedddia', component: DDIAReceivedBaseContainerComponent, children: [
+        { path: '', redirectTo: 'list' , pathMatch: 'full'},
          { path: 'list', component: LocalinfListDDIAReceivedComponent},
          { path: 'present-ddia', component: DDIAReceivedContainerComponent, children: [
             { path: 'notam/:id', component: NOTAMWithDataComponent,  data: {toDoAction: VALIDATION}   },
@@ -210,8 +228,9 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'nationalinformer', component: BaseControlViewComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
+    path: 'nationalinformer', component: BaseNationalInformerComponent, canActivate: [CanActivateAuth, CanActivateControlAgent],
     children: [
+      { path: 'notifications', component: ListNotificationsComponent, data: {url: URLS.NOTIFICATIONS_NATIONALINF}},
       { path: '', redirectTo: 'receivedddia' , pathMatch: 'full'},
       { path: 'receivedddia', component: DDIAReceivedBaseContainerComponent, children: [
          { path: '', redirectTo: 'list' , pathMatch: 'full'},

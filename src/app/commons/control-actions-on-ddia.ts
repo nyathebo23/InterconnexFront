@@ -4,3 +4,4 @@ export const VERIFICATION = 'verification';
 export const ADMISSION = 'admission';
 export const VALIDATION = 'validation';
 export const APPROBATION = 'approbation';
+export const PUBLISH_OR_RESENDREQ = 'publish';

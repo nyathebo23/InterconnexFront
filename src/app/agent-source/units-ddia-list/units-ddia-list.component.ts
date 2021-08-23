@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DRAFT_STATE, PENDING_VERIFICATION_STATE, PENDING_ADMISSION_STATE,
-  PENDING_VALIDATION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE, PUBLISHED_STATE } from 'src/app/commons/constants';
+  PENDING_VALIDATION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE, PUBLISHED_STATE, PAGE_LIST_SIZE } from 'src/app/commons/constants';
 import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
 import { DemandeNOTAMItemList } from 'src/app/models/demandeNOTAM-item-list.model';
 import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
+import { PusherSourceService } from 'src/app/services/pusher/pusher-source.service';
 
 @Component({
   selector: 'app-units-ddia-list',
@@ -17,6 +18,8 @@ export class UnitsDDIAListComponent implements OnInit {
   ddiaState = 'all';
   dateOrder = 'ascendingDate';
   ddiaType = 'notam';
+  page = '1';
+  pagesNb: number;
   ddiaList: (DemandeAICItemList | DemandeNOTAMItemList | DemandeSUPPItemList) [];
   states = [
     {stateLabel: 'all', stateValue: 'all'} ,
@@ -31,17 +34,20 @@ export class UnitsDDIAListComponent implements OnInit {
   ];
   constructor(
     private authService: AuthManagerService,
-    private sourceAgentService: AgentSourceService
+    private sourceAgentService: AgentSourceService,
+    private pusherSourceAgentService: PusherSourceService
   ) {
   }
 
   onDDIAStateChange(state: string): void {
     this.ddiaState = state;
+    this.page = '1';
     this.reloadDDIAItems();
   }
 
   onDDIATypeChange(typeDDIA: string): void {
     this.ddiaType = typeDDIA;
+    this.page = '1';
     this.reloadDDIAItems();
   }
 
@@ -50,11 +56,16 @@ export class UnitsDDIAListComponent implements OnInit {
     this.reloadDDIAItems();
   }
 
+  onPageChange(page: string): void {
+    this.page = page;
+    this.reloadDDIAItems();
+  }
+
   reloadDDIAItems(): void {
-    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType, this.ddiaState, this.dateOrder).subscribe(
+    this.sourceAgentService.getListDDIAInitiatedByUnit(this.ddiaType, this.ddiaState, this.dateOrder, this.page).subscribe(
       (ddiaList) => {
-        this.ddiaList = ddiaList;
-        console.log(ddiaList);
+        this.ddiaList = ddiaList.listDDIA;
+        this.pagesNb = Math.ceil(ddiaList.counts / PAGE_LIST_SIZE);
       }
     );
   }

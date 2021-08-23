@@ -1,11 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
-import { DemandeSUPPAIP } from 'src/app/models/demande-suppaip.model';
 import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
 import { DemandeNOTAMItemList } from 'src/app/models/demandeNOTAM-item-list.model';
 import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model';
 import { NOTAM_TYPE, AIC_TYPE, SUPPAIP_TYPE } from 'src/app/commons/constants';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+
 @Component({
   selector: 'app-ddia-item',
   templateUrl: './ddia-item.component.html',
@@ -29,46 +28,10 @@ export class DDIAItemComponent implements OnInit {
   action: string;
   actionDate: string;
   pathToExtend: string;
-  @Input() actionOnDDIA: ActionOnDDIA;
   @Input() ddiaItem: DemandeSUPPItemList | DemandeAICItemList | DemandeNOTAMItemList;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    if (this.actionOnDDIA){
-      const startPath0 = this.route.parent.parent.snapshot.url[0].path;
-      const startPath = this.route.parent.snapshot.url[0].path;
-      this.id = this.actionOnDDIA.ddiaObject.id;
-      this.reference = this.actionOnDDIA.ddiaObject.identDDIA;
-      this.typeDDIA = this.actionOnDDIA.ddiaObject.ddiaType;
-      this.airportname = this.actionOnDDIA.ddiaObject.airportName;
-      this.unitname = this.actionOnDDIA.ddiaObject.unitName;
-      this.text = this.actionOnDDIA.ddiaObject.text;
-      this.state = this.actionOnDDIA.ddiaObject.state;
-      this.actionDate = this.actionOnDDIA.datetime.toLocaleString();
-      this.url = this.actionOnDDIA.ddiaObject.url;
-      if (this.actionOnDDIA.ddiaObject.ddiaType === AIC_TYPE){
-        const aicobject = this.actionOnDDIA.ddiaObject as DemandeAICItemList;
-        this.object = aicobject.object;
-        this.pathToExtend = startPath0 + '/' + startPath + '/present-ddia/aic/';
-      }
-      else if (this.actionOnDDIA.ddiaObject.ddiaType === SUPPAIP_TYPE){
-        const suppaipobject = this.actionOnDDIA.ddiaObject as DemandeSUPPItemList;
-        this.type = suppaipobject.typeSUPPAIP;
-        this.pathToExtend = startPath0 + '/'  + startPath + '/present-ddia/suppaip/';
-      }
-      else if (this.actionOnDDIA.ddiaObject.ddiaType === NOTAM_TYPE) {
-        const notamobject = this.actionOnDDIA.ddiaObject as DemandeNOTAMItemList;
-        this.type = notamobject.typeNOTAM;
-        this.pathToExtend = startPath0 + '/'  + startPath + '/present-ddia/notam/';
-      }
-      if (this.actionOnDDIA.ddiaObject.ddiaType === NOTAM_TYPE || this.actionOnDDIA.ddiaObject.ddiaType === SUPPAIP_TYPE){
-        const object = this.actionOnDDIA.ddiaObject as DemandeNOTAMItemList | DemandeSUPPItemList;
-        this.validityPeriodStart = object.startValidityPeriod.toLocaleString();
-        this.validityPeriodEnd = object.endValidityPeriod.toLocaleString();
-      }
-    }
-
-    else if (this.ddiaItem) {
       const startPath = this.route.parent.parent.routeConfig.path;
       this.id = this.ddiaItem.id;
       this.reference = this.ddiaItem.identDDIA;
@@ -102,6 +65,6 @@ export class DDIAItemComponent implements OnInit {
       }
     }
 
-  }
+
 
 }
