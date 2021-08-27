@@ -76,14 +76,24 @@
         "initddia": "DDIA Initiation",
         "unitsddia": "DDIA initiated in the unit",
         "stats": "DDIA statistics",
-        "unitsPageLabel": "List of the unit's DDIA"
+        "unitsPageLabel": "List of the unit's DDIA",
+        "statsView": {
+            "allDDIA": "All aeronautical information dissemination requests initiated",
+            "publishedDDIA": "Only previously published aeronautical information dissemination requests"
+        }
     },
     "SOURCEVERIFIER": {
         "receivedddia": "DDIA received to be processed",
         "processedddia": "DDIA processed",
         "ddiareceivedLabel": "Aeronautical information dissemination requests received to verify",
         "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
-        "stats": "DDIA statistics"
+        "stats": "DDIA statistics",
+        "statsView": {
+            "allDDIA": "All aeronautical information dissemination requests validated",
+            "publishedDDIA": "Only previously published aeronautical information dissemination requests",
+            "allAirportDDIA": "All dissemination requests from the airport",
+            "unitsDDIA": "Dissemination requests by airport unit"
+        }
     },
     "SOURCESTRUCTURE": {
         "receivedddia": "DDIA received to be processed",
@@ -92,21 +102,35 @@
         "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
         "targetCCAALabel": "This request will be sent to the CCAA for validation and approval.",
         "targetASECNALabel": "This request will be sent directly to the ASECNA representative for approval and the CCAA will be notified.",
-        "stats": "DDIA statistics"
+        "stats": "DDIA statistics",
+        "statsView": {
+            "allDDIA": "All aeronautical information dissemination requests validated",
+            "publishedDDIA": "Only previously published aeronautical information dissemination requests",
+            "allAirportDDIA": "All dissemination requests from the airport",
+            "unitsDDIA": "Dissemination requests by airport unit"
+        }
     },
     "CCAALOCALINFORMER": {
         "receivedddia": "DDIA received to be processed",
         "processedddia": "DDIA processed",
         "ddiareceivedLabel": "Aeronautical information dissemination requests received for validation",
         "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
-        "stats": "DDIA statistics"
+        "stats": "DDIA statistics",
+        "statsView": {
+            "allDDIA": "All aeronautical information dissemination requests from airports",
+            "publishedDDIA": "Only previously published aeronautical information dissemination requests"
+        }
     },
     "NATIONALINFORMER": {
         "receivedddia": "DDIA received to be processed",
         "processedddia": "DDIA processed",
         "ddiareceivedLabel": "Aeronautical information dissemination requests received for approbation",
         "ddiaprocessedLabel": "Aeronautical information dissemination requests processed",
-        "stats": "DDIA statistics"
+        "stats": "DDIA statistics",
+        "statsView": {
+            "allDDIA": "All aeronautical information dissemination requests from airports",
+            "publishedDDIA": "Only previously published aeronautical information dissemination requests"
+        }
     },
     "DDIAFORMS": {
         "buttons": {
@@ -209,7 +233,9 @@
         "admit": "ADMISSION",
         "valid": "VALIDATION in SEGC",
         "approve": "APPROBATION",
+        "publish": "PUBLICATION STATEMENT",
         "modif": "MODIFICATION",
+        "cancel": "CANCELLED",
         "reject": "Rejected by",
         "ok": "OK by"
     },
@@ -227,6 +253,7 @@
         "nonadmis": "not admitted",
         "nonvalide": "not validated",
         "nonapprouve": "not approved",
+        "cancel": "cancel",
         "errone": "rejected"
     },
     "navbar": {

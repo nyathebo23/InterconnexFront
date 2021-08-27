@@ -18,7 +18,7 @@ export class PusherSourceStructureService {
   actionDataSubject: Subject<ActionOnDDIA> = new Subject<ActionOnDDIA>();
   constructor(private authService: AuthManagerService) {
     const aerodrome = this.authService.getAerodrome();
-    this.channel = globalThis.pusher.subscribe('aerodrome' + aerodrome.locationInd);
+    this.channel = window.globalThis.pusher.subscribe('aerodrome' + aerodrome.locationInd);
     this.channel.bind( RECEPTION_VERIFSUBMISSION, (data: NotificationResp) => {
       console.log(data);
       this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);

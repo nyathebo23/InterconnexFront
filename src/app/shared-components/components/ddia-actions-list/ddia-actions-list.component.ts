@@ -35,7 +35,6 @@ export class DDIAActionsListComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     if (this.ddiaActionsList !== undefined && this.pagesNb !== undefined){
-      console.log(this.ddiaActionsList);
       this.ngxUiLoaderService.stopLoader(this.loaderId);
       if (!this.pagesList){
         this.pagesList = [];

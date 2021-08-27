@@ -19,7 +19,7 @@ export class PusherNationalInformerService {
   actionDataApproveSubject: Subject<ActionOnDDIA> = new Subject<ActionOnDDIA>();
   constructor(private authService: AuthManagerService) {
     const nationalinf = this.authService.getNationalInf();
-    this.channel = globalThis.pusher.subscribe('inf-nat' + nationalinf.id);
+    this.channel = window.globalThis.pusher.subscribe('inf-nat' + nationalinf.id);
     this.channel.bind( RECEPTION_VALIDATION, (data: NotificationResp) => {
       this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
       this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));

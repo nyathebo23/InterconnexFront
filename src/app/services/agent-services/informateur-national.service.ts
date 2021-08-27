@@ -7,6 +7,8 @@ import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { ActionsOnDDIAList, PaginateActionOnDDIAResp } from 'src/app/interfaces/responses.interface';
 import { Notification } from 'src/app/models/notification.model';
 import { NotificationI } from 'src/app/interfaces/notification.interface';
+import { CountAerodromeDDIA } from 'src/app/models/count-ddia.model';
+import { CountAerodromeDDIAI } from 'src/app/interfaces/count-ddia.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +65,21 @@ export class InformateurNationalService {
         return notifications;
       })
     );
+  }
+
+  getStatsOnDDIANationalInf(year: string, allDDIA: string): Promise<CountAerodromeDDIA[]> {
+    return this.http.get<CountAerodromeDDIAI[]>(URLS.STATS_NATIONALINFORMER, {
+      params: {
+        year,
+        all: allDDIA
+      }
+    }).pipe(
+      map((res) => {
+        const aerodromesCountDDIA = new Array<CountAerodromeDDIA>();
+        res.forEach((data) => aerodromesCountDDIA.push(CountAerodromeDDIA.fromJSON(data)));
+        return aerodromesCountDDIA;
+      })
+    ).toPromise();
   }
 
   approveDDIA(id: string, typeDDIA): void{

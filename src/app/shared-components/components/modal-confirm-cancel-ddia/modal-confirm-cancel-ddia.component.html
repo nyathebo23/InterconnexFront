@@ -16,10 +16,10 @@
     <!--Footer-->
     <div class="modal-footer justify-content-center">
         <button [disabled]="loading" mdbBtn color="danger" outline="true" class="waves-effect" mdbWavesEffect (click)="modalRef.hide()">
-            {{'Modal.cancel' | translate }}
+            {{'MODAL.cancel' | translate }}
         </button>
         <button [disabled]="loading" type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="cancelDDIA()">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'Modal.ok' | translate }}
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'MODAL.ok' | translate }}
         </button>
     </div>
 </div>

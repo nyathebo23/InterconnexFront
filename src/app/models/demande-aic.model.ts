@@ -3,6 +3,7 @@ import { DDIAHistoryI } from '../interfaces/ddia-history';
 import { DemandeAICI } from '../interfaces/demande-aic.interface';
 import { DDIAHistory } from './ddia-history.model';
 import { DDIA } from './ddia.model';
+import { RequestReferral } from './request-referral.model';
 import { Unit } from './unit.model';
 import { UserInfos } from './user-infos.model';
 import { User } from './user.model';
@@ -27,9 +28,10 @@ export class DemandeAIC extends DDIA {
         unit: Unit,
         initiator: UserInfos,
         histor: DDIAHistory[],
-        attachments: AttachmentI[]
+        attachments: AttachmentI[],
+        referral: RequestReferral
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments);
+        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referral);
         this._subject = subject;
         this._object = object;
         this._text = text;
@@ -64,7 +66,8 @@ export class DemandeAIC extends DDIA {
             Unit.fromJSON(data.unit),
             historiesData[0].agentObject.user,
             historiesData,
-            data.attachments
+            data.attachments,
+            RequestReferral.fromJSON(data.request_referral)
         );
     }
 }

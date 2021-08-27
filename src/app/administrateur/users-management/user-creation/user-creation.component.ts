@@ -112,6 +112,7 @@ export class UserCreationComponent implements OnInit {
     if (this.checkExtraFieldsValidity() && this.signUpForm.valid){
       this.adminService.signUpUser(formData).then((response: SignupResponse) => {
         const userid = response.user_id;
+        this.loading = true;
         this.submitAgentCreate(userid)
         .then((res) => {
           console.log(res);
@@ -133,7 +134,8 @@ export class UserCreationComponent implements OnInit {
           this.errors = this.authService.displayErrors(err);
         }
         setTimeout(() => this.errors = [], 10000);
-      });
+      })
+      .finally(() => this.loading = false);
     }
   }
 

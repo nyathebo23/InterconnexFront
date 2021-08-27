@@ -1,5 +1,6 @@
 import { AttachmentI } from './attachement.interface';
 import { DDIAHistoryI } from './ddia-history';
+import { RequestReferralI } from './request-referral.interface';
 import { UnitI } from './unit.interface';
 
 export interface DemandeSUPPAIPI{
@@ -19,4 +20,5 @@ export interface DemandeSUPPAIPI{
     descriptive_text: string;
     attachments: AttachmentI[];
     history: DDIAHistoryI[];
+    request_referral: RequestReferralI;
 }

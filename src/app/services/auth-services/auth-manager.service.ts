@@ -333,7 +333,7 @@ export class AuthManagerService {
     const errors: string[] = [];
     const error = errorResp.error;
     if (error instanceof ErrorEvent) {
-      return ['An error occurred: ' + error.message];
+      return ['Errors.error'];
     }
     else if (errorResp.status === 500){
       return ['Errors.servererror'];
@@ -342,7 +342,7 @@ export class AuthManagerService {
       return ['Errors.serverconnection'];
     }
     else if (typeof error === 'string'){
-      return [error];
+      return ['Errors.error'];
     }
     for (const key of Object.keys(error)) {
       const value = error[key];

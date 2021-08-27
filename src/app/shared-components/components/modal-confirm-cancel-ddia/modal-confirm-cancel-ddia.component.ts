@@ -19,6 +19,7 @@ export class ModalConfirmCancelDDIAComponent implements OnInit {
   }
 
   cancelDDIA(): void {
+    this.loading = true;
     this.agentSourceService.cancelDDIA(this.ddiaClassName, this.ddiaId)
     .then((res) => {
 

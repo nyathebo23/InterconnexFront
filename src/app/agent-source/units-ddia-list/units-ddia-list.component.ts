@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DRAFT_STATE, PENDING_VERIFICATION_STATE, PENDING_ADMISSION_STATE,
-  PENDING_VALIDATION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE, PUBLISHED_STATE, PAGE_LIST_SIZE } from 'src/app/commons/constants';
+  PENDING_VALIDATION_STATE, PENDING_APPROVAL_STATE, PENDING_PUBLICATION_STATE, PUBLISHED_STATE, PAGE_LIST_SIZE, CANCELLED_STATE } from 'src/app/commons/constants';
 import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
 import { DemandeNOTAMItemList } from 'src/app/models/demandeNOTAM-item-list.model';
 import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model';
@@ -24,6 +24,7 @@ export class UnitsDDIAListComponent implements OnInit {
   states = [
     {stateLabel: 'all', stateValue: 'all'} ,
     {stateLabel: 'DDIAstates.brouillon', stateValue: DRAFT_STATE} ,
+    {stateLabel: 'DDIAerroneousstates.cancel', stateValue: CANCELLED_STATE},
     {stateLabel: 'DDIAstates.attenteVerif', stateValue: PENDING_VERIFICATION_STATE} ,
     {stateLabel: 'DDIAstates.attenteAdmission', stateValue: PENDING_ADMISSION_STATE} ,
     {stateLabel: 'DDIAstates.attenteValidation', stateValue: PENDING_VALIDATION_STATE} ,

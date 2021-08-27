@@ -51,7 +51,8 @@ import { DDIAReceivedBaseContainerComponent } from './shared-components/componen
 import { DDIAProcessedBaseContainerComponent } from './shared-components/components/ddia-processed-base-container/ddia-processed-base-container.component';
 import { NationalinfListDDIAReceivedComponent } from './national-informer/nationalinf-list-ddia-received/nationalinf-list-ddia-received.component';
 import { NationalinfListDDIAProcessedComponent } from './national-informer/nationalinf-list-ddia-processed/nationalinf-list-ddia-processed.component';
-import { ADMISSION, APPROBATION, SUBMIT_TO_VERIFY, VALIDATION, VERIFICATION } from './commons/control-actions-on-ddia';
+import { ADMISSION, APPROBATION, PUBLISH_OR_RESENDREQ, SUBMIT_TO_VERIFY,
+  VALIDATION, VERIFICATION } from './commons/control-actions-on-ddia';
 import { NotamComponent } from './shared-components/forms/notam/notam.component';
 import { SUPPAIPComponent } from './shared-components/forms/supp-aip/supp-aip.component';
 import { AICComponent } from './shared-components/forms/aic/aic.component';
@@ -62,6 +63,11 @@ import { NOTAMWithDatasForSourcestructureComponent } from './shared-components/c
 import { AicWithDatasForSourcestructureComponent } from './shared-components/components/aic-with-datas-for-sourcestructure/aic-with-datas-for-sourcestructure.component';
 import { SUPPAIPWithDatasForSourcestructureComponent } from './shared-components/components/suppaip-with-datas-for-sourcestructure/suppaip-with-datas-for-sourcestructure.component';
 import { BaseNationalInformerComponent } from './national-informer/base-national-informer/base-national-informer.component';
+import { StatisticPageSourceComponent } from './agent-source/statistic-page-source/statistic-page-source.component';
+import { StatisticPageSourceVerifComponent } from './verif-source/statistic-page-source-verif/statistic-page-source-verif.component';
+import { StatisticPageSourceStructureComponent } from './source-structure/statistic-page-source-structure/statistic-page-source-structure.component';
+import { StatisticPageLocalInformerComponent } from './local-informer-extern/statistic-page-local-informer/statistic-page-local-informer.component';
+import { StatisticPageNationalInformerComponent } from './national-informer/statistic-page-national-informer/statistic-page-national-informer.component';
 
 const routes: Routes = [
   {
@@ -114,6 +120,7 @@ const routes: Routes = [
           }
         ]
       },
+      { path: 'stats', component: StatisticPageSourceComponent}
     ]
   },
   {
@@ -167,6 +174,8 @@ const routes: Routes = [
           }
         ]
       },
+      { path: 'stats', component: StatisticPageSourceVerifComponent}
+
     ]
   },
   {
@@ -196,6 +205,8 @@ const routes: Routes = [
           }
         ]
       },
+      { path: 'stats', component: StatisticPageSourceStructureComponent}
+
     ]
   },
   {
@@ -218,13 +229,15 @@ const routes: Routes = [
           { path: '', redirectTo: 'list' , pathMatch: 'full'},
           { path: 'list', component: LocalinfListDDIAProcessedComponent},
           { path: 'present-ddia', component: DDIAProcessedContainerComponent, children: [
-             { path: 'notam/:id', component: NOTAMWithDataComponent },
-             { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
-             { path: 'aic/:id', component: AICWithDataComponent },
+             { path: 'notam/:id', component: NOTAMWithDataComponent,  data: {toDoAction: PUBLISH_OR_RESENDREQ}  },
+             { path: 'suppaip/:id', component: SUPPAIPWithDataComponent,  data: {toDoAction: PUBLISH_OR_RESENDREQ}  },
+             { path: 'aic/:id', component: AICWithDataComponent,  data: {toDoAction: PUBLISH_OR_RESENDREQ}  },
             ]
           }
         ]
       },
+      { path: 'stats', component: StatisticPageLocalInformerComponent}
+
     ]
   },
   {
@@ -247,13 +260,15 @@ const routes: Routes = [
           { path: '', redirectTo: 'list' , pathMatch: 'full'},
           { path: 'list', component: NationalinfListDDIAProcessedComponent},
           { path: 'present-ddia', component: DDIAProcessedContainerComponent, children: [
-             { path: 'notam/:id', component: NOTAMWithDataComponent },
-             { path: 'suppaip/:id', component: SUPPAIPWithDataComponent },
-             { path: 'aic/:id', component: AICWithDataComponent },
+             { path: 'notam/:id', component: NOTAMWithDataComponent,  data: {toDoAction: PUBLISH_OR_RESENDREQ} },
+             { path: 'suppaip/:id', component: SUPPAIPWithDataComponent,  data: {toDoAction: PUBLISH_OR_RESENDREQ}  },
+             { path: 'aic/:id', component: AICWithDataComponent,  data: {toDoAction: PUBLISH_OR_RESENDREQ}  },
             ]
           }
         ]
       },
+      { path: 'stats', component: StatisticPageNationalInformerComponent}
+
     ]
   },
   // {

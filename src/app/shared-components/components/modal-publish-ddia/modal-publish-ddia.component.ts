@@ -21,7 +21,7 @@ export class ModalPublishDDIAComponent implements OnInit {
   }
 
   isCodeDDIAInvalid(): boolean {
-    return this.codeDDIA ? this.codeDDIA.trim() !== '' : false;
+    return this.codeDDIA ? this.codeDDIA.trim() === '' : true;
   }
 
   setPublishDDIA(): void {

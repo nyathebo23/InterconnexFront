@@ -28,7 +28,7 @@ export class BaseNationalInformerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.pusherNationalInfService.notificationSubject.subscribe(
+    this.subscription = this.pusherNationalInfService.notificationSubject.subscribe(
       ([notif, ddiaId]) => {
         let contenttext = '';
         if (notif.event === RECEPTION_SIGNAL_APPROBATION){

@@ -3,6 +3,7 @@ import { DDIAHistoryI } from '../interfaces/ddia-history';
 import { DemandeSUPPAIPI } from '../interfaces/demande-supp.interface';
 import { DDIAHistory } from './ddia-history.model';
 import { DDIA } from './ddia.model';
+import { RequestReferral } from './request-referral.model';
 import { SourceUnit } from './source-unit.model';
 import { Unit } from './unit.model';
 import { UserInfos } from './user-infos.model';
@@ -39,9 +40,10 @@ export class DemandeSUPPAIP extends DDIA{
         initiator: UserInfos,
         histor: DDIAHistory[],
         attachments: AttachmentI[],
+        referral: RequestReferral,
         replaceDDIACode?: string
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments);
+        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referral);
         this._typeSUPPAIP = typeSUPPAIP;
         this._object = object;
         this._targetSection = targetSection;
@@ -100,6 +102,7 @@ export class DemandeSUPPAIP extends DDIA{
             historiesData[0].agentObject.user,
             historiesData,
             data.attachments,
+            RequestReferral.fromJSON(data.request_referral),
             data.code_ddia_replaced
         );
     }

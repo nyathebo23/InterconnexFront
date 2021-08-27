@@ -167,14 +167,24 @@
         "initddia": "Initiation DDIA",
         "unitsddia": "DDIA initiés dans l'unité",
         "stats": "Statistiques DDIA",
-        "unitsPageLabel": "List des DDIA de l'unité"
+        "unitsPageLabel": "List des DDIA de l'unité",
+        "statsView": {
+            "allDDIA": "Toutes les demandes de diffusion d'informations aéronautiques initiées",
+            "publishedDDIA": "Seulement les demandes de diffusion d'informations aéronautiques déjà publiées"
+        }
     },
     "SOURCEVERIFIER": {
         "receivedddia": "DDIA reçues à traiter",
         "processedddia": "DDIA traitées",
         "ddiareceivedLabel": "Demandes de diffusion d'informations aéronautiques reçues à vérifier",
         "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
-        "stats": "Statistiques DDIA"
+        "stats": "Statistiques DDIA",
+        "statsView": {
+            "allDDIA": "Toutes les demandes de diffusion d'informations aéronautiques validées",
+            "publishedDDIA": "Seulement les demandes de diffusion d'informations aéronautiques déjà publiées",
+            "allAirportDDIA": "Toutes les demandes de diffusion de l' aéroport",
+            "unitsDDIA": "Demandes de diffusion par unité de l'aéroport"
+        }
     },
     "SOURCESTRUCTURE": {
         "receivedddia": "DDIA reçues à traiter",
@@ -183,21 +193,35 @@
         "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
         "targetCCAALabel": "Cette demande sera envoyée à la CCAA pour validation et approbation.",
         "targetASECNALabel": "Cette demande sera directement envoyée au représentant de l'ASECNA pour approbation et la CCAA sera notifiée",
-        "stats": "Statistiques DDIA"
+        "stats": "Statistiques DDIA",
+        "statsView": {
+            "allDDIA": "Toutes les demandes de diffusion d'informations aéronautiques validées",
+            "publishedDDIA": "Seulement les demandes de diffusion d'informations aéronautiques déjà publiées",
+            "allAirportDDIA": "Toutes les demandes de diffusion de l' aéroport",
+            "unitsDDIA": "Demandes de diffusion par unité de l'aéroport"
+        }
     },
     "CCAALOCALINFORMER": {
         "receivedddia": "DDIA reçues à traiter",
         "processedddia": "DDIA traitées",
         "ddiareceivedLabel": "Demandes de diffusion d'informations aéronautiques reçues pour validation",
         "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
-        "stats": "Statistiques DDIA"
+        "stats": "Statistiques DDIA",
+        "statsView": {
+            "allDDIA": "Toutes les demandes de diffusion d'informations aéronautiques émanant des aéroports",
+            "publishedDDIA": "Seulement les demandes de diffusion d'informations aéronautiques déjà publiées"
+        }
     },
     "NATIONALINFORMER": {
         "receivedddia": "DDIA reçues à traiter",
         "processedddia": "DDIA traitées",
         "ddiareceivedLabel": "Demandes de diffusion d'informations aéronautiques reçues pour approbation",
         "ddiaprocessedLabel": "demandes de diffusion d'informations aéronautiques traitées",
-        "stats": "Statistiques DDIA"
+        "stats": "Statistiques DDIA",
+        "statsView": {
+            "allDDIA": "Toutes les demandes de diffusion d'informations aéronautiques émanant des aéroports",
+            "publishedDDIA": "Seulement les demandes de diffusion d'informations aéronautiques déjà publiées"
+        }
     },
     "DDIAHistoryActions": {
         "init": "INITIATION",
@@ -206,7 +230,9 @@
         "admit": "ADMISSION",
         "valid": "VALIDATION à la SEGC",
         "approve": "APPROBATION",
+        "publish": "DECLARATION PUBLICATION",
         "modif": "MODIFICATION",
+        "cancel": "ANNULEE",
         "reject": "Rejeté par",
         "ok": "OK par"
     },
@@ -224,6 +250,7 @@
         "nonadmis": "non admis",
         "nonvalide": "non validé",
         "nonapprouve": "non approuvé",
+        "cancel": "annulé",
         "errone": "rejeté"
     },
     "navbar": {

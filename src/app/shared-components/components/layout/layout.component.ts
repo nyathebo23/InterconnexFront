@@ -31,7 +31,7 @@ export class LayoutComponent implements OnInit {
   ) {
     this.accessibleViews.push({label: 'DDIA Initiation', url: '/source'});
     this.accessibleViews.push({label: 'DDIA Verification', url: '/sourceverifier'});
-    this.connectionService.monitor().subscribe( (isConnected) => {
+    this.connectionService.monitor().subscribe((isConnected) => {
       this.isConnected = isConnected;
       if (!isConnected){
         this.openModal();
@@ -55,7 +55,7 @@ export class LayoutComponent implements OnInit {
 
   openModal(): void {
     this.modalRef = this.mdbModalService.show(ModalConnectionErrorComponent, this.modalDisplayService.getModalOptions({},
-      'modal-dialog modal-frame modal-bottom modal-warning'));
+      'modal-dialog modal-frame modal-bottom modal-warning', true));
   }
 
   logout(): void {

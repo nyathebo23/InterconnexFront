@@ -51,7 +51,6 @@ export class AICWithDataComponent implements OnInit {
     this.toDoAction = activatedRoute.snapshot.data.toDoAction;
     this.user = this.authService.getUser();
     this.isAerodromeConceded = this.authService.getAerodrome() ? this.authService.getAerodrome().isConceded : false;
-
   }
 
   ngOnInit(): void {

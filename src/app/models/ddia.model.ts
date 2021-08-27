@@ -1,7 +1,10 @@
 import { AttachmentI } from '../interfaces/attachement.interface';
 import { DDIAHistory } from './ddia-history.model';
+import { RequestReferral } from './request-referral.model';
 import { Unit } from './unit.model';
 import { UserInfos } from './user-infos.model';
+
+
 
 export class DDIA {
     // tslint:disable-next-line:variable-name
@@ -24,6 +27,8 @@ export class DDIA {
     private _history: DDIAHistory[];
     // tslint:disable-next-line:variable-name
     private _attachments: AttachmentI[];
+    // tslint:disable-next-line:variable-name
+    private _requestReferral: RequestReferral;
 
     constructor(
         id: string,
@@ -34,7 +39,8 @@ export class DDIA {
         initiator: UserInfos,
         sourceUnit: Unit,
         history: DDIAHistory[],
-        attachs: AttachmentI[]
+        attachs: AttachmentI[],
+        referral?: RequestReferral
     ){
         this._id = id;
         this._identDDIA = identDDIA;
@@ -45,6 +51,7 @@ export class DDIA {
         this._initiator = initiator;
         this._history = history;
         this._attachments = attachs;
+        this._requestReferral = referral;
     }
 
     get id(): string{
@@ -93,5 +100,9 @@ export class DDIA {
 
     get attachments(): AttachmentI[] {
         return this._attachments;
+    }
+
+    get requestReferral(): RequestReferral {
+        return this._requestReferral;
     }
 }

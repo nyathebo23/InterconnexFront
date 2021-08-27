@@ -9,6 +9,8 @@ import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
 import { DDIAItemList } from 'src/app/models/ddia-item-list.model';
 import { Router } from '@angular/router';
 import { ListDDIA, PaginateDDIAListResp } from 'src/app/interfaces/responses.interface';
+import { CountUnitDDIAI } from 'src/app/interfaces/count-ddia.interface';
+import { CountUnitDDIA } from 'src/app/models/count-ddia.model';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +70,17 @@ export class AgentSourceService {
       });
       return {listDDIA: ddiaList, counts: resDatas.counts};
     }));
+  }
+
+  getStatsOnDDIAUnit(year: string, allDDIA: string): Promise<CountUnitDDIA> {
+    return this.http.get<CountUnitDDIAI>(URLS.STATS_SOURCEAGENT, {
+      params: {
+        year,
+        all: allDDIA
+      }
+    }).pipe(
+      map((res) => CountUnitDDIA.fromJSON(res))
+    ).toPromise();
   }
 
   reloadCurrentRoute(): void {

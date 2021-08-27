@@ -10,6 +10,8 @@ import { NotificationI } from 'src/app/interfaces/notification.interface';
 import { Notification } from 'src/app/models/notification.model';
 import { NationalInformer } from 'src/app/models/national-informer.model';
 import { NationalInformerI } from 'src/app/interfaces/national-informer.interface';
+import { CountAerodromeDDIAI, CountUnitDDIAI } from 'src/app/interfaces/count-ddia.interface';
+import { CountAerodromeDDIA, CountUnitDDIA } from 'src/app/models/count-ddia.model';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +80,34 @@ export class StructureSourceService {
         return notifications;
       })
     );
+  }
+
+  getStatsOnDDIAAerodrome(year: string, allDDIA: string): Promise<CountAerodromeDDIA> {
+    return this.http.get<CountAerodromeDDIAI>(URLS.STATS_SOURCESTRUCTURE, {
+      params: {
+        year,
+        all: allDDIA,
+        count_by_unit: 'no'
+      }
+    }).pipe(
+      map((res) => CountAerodromeDDIA.fromJSON(res))
+    ).toPromise();
+  }
+
+  getStatsOnDDIAAerodromeUnits(year: string, allDDIA: string): Promise<CountUnitDDIA[]> {
+    return this.http.get<CountUnitDDIAI[]>(URLS.STATS_SOURCESTRUCTURE, {
+      params: {
+        year,
+        all: allDDIA,
+        count_by_unit: 'yes'
+      }
+    }).pipe(
+      map((res) => {
+        const unitsDatas = new Array<CountUnitDDIA>();
+        res.forEach((data) => unitsDatas.push(CountUnitDDIA.fromJSON(data)));
+        return unitsDatas;
+      })
+    ).toPromise();
   }
 
   admitDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{

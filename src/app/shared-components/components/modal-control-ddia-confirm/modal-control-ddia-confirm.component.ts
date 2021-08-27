@@ -45,7 +45,7 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
         break;
       case APPROBATION:
         this.functionToTrigger = this.acceptApproveDDIA;
-        this.contentText = 'MODAL.approve.helperText';
+        this.contentText = 'MODAL.approveok.helperText';
         break;
     }
   }

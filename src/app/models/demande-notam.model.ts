@@ -3,6 +3,7 @@ import { DDIAHistoryI } from '../interfaces/ddia-history';
 import { DemandeNOTAMI } from '../interfaces/demande-notam.interface';
 import { DDIAHistory } from './ddia-history.model';
 import { DDIA } from './ddia.model';
+import { RequestReferral } from './request-referral.model';
 import { Unit } from './unit.model';
 import { UserInfos } from './user-infos.model';
 
@@ -54,9 +55,11 @@ export class DemandeNOTAM extends DDIA{
         initiator: UserInfos,
         histor: DDIAHistory[],
         attachments: AttachmentI[],
-        replaceorcancelNOTAMCode?: string
+        referral: RequestReferral,
+        replaceorcancelNOTAMCode?: string,
+
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments);
+        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referral);
         this._rangeAction = rangeAction;
         this._typeNOTAM = typeNOTAM;
         this._coords = coords;
@@ -145,6 +148,7 @@ export class DemandeNOTAM extends DDIA{
             historiesData[0].agentObject.user,
             historiesData,
             data.attachments,
+            RequestReferral.fromJSON(data.request_referral),
             data.code_notam_replaceorcancel
         );
     }

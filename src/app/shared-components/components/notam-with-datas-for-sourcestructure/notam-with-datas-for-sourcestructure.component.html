@@ -1,9 +1,12 @@
 <ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="notamForm" *ngIf="dataLoaded">
     <div class="d-flex flex-column">
-        <h1 class="ddia-title"> {{'DDIAFORMS.notam.title' | translate}} </h1>
+        <h1 class="ddia-title">
+            <app-back-to-prec-page></app-back-to-prec-page>{{'DDIAFORMS.notam.title' | translate}}
+        </h1>
+
         <div class="container mb-3">
-            <app-list-states-box [currentState]="demandeNOTAM.state"></app-list-states-box>
+            <app-list-states-box [currentState]="demandeNOTAM.state" [historyItems]="demandeNOTAM.history"></app-list-states-box>
         </div>
         <div class="container" *ngIf="labelTargetNationalInf">
             <div class="bg-white">

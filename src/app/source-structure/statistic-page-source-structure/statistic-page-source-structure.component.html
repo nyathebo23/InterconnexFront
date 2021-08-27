@@ -1,0 +1,27 @@
+<div class="container-fluid mt-3">
+    <div class="bg-white z-depth-1-half" style="min-height: 600px;">
+        <div class="d-flex flex-wrap justify-content-around">
+            <div class="form-group">
+                <select class="form-control" id="typesDDIA" (change)="changeSpecifDDIADisplayed($event)">
+                    <option value="no"> {{'SOURCESTRUCTURE.statsView.publishedDDIA' | translate}} </option>
+                    <option value="yes" selected> {{'SOURCESTRUCTURE.statsView.allDDIA' | translate}} </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" (change)="changeYear($event)">
+                    <option *ngFor="let year of yearsList" [value]="year" [selected]="year === actualYear"> {{year}} </option>
+                </select>
+            </div>
+        </div>
+        <div style="display: block; margin: auto;" class="mb-5">
+            <h3 class="text-center"> {{'SOURCESTRUCTURE.statsView.allAirportDDIA' | translate}} </h3>
+            <canvas mdbChart [chartType]="chartTypeAerodrome" [datasets]="chartDatasetsAerodrome" [labels]="typesDDIA" [options]="chartOptionsAirport" [legend]="true" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+            </canvas>
+        </div>
+        <div style="display: block; margin: auto;">
+            <h3 class="text-center"> {{'SOURCESTRUCTURE.statsView.unitsDDIA' | translate}} </h3>
+            <canvas mdbChart [chartType]="chartTypeForUnits" [datasets]="chartDatasetsForUnits" [labels]="unitsNames" [options]="chartOptionsUnits" [legend]="true" (chartHover)="chartHoveredUnits($event)" (chartClick)="chartClickedUnits($event)">
+            </canvas>
+        </div>
+    </div>
+</div>

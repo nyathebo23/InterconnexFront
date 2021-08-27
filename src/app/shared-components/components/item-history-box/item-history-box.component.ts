@@ -38,11 +38,15 @@ export class ItemHistoryBoxComponent implements OnInit {
         switch (modifHist.prevValue) {
           case DRAFT_STATE:
             this.structureName = agent.unit ? agent.unit : agent.localinformer;
-            this.structureName +=  ', ' + agent.aerodrome;            this.action = 'DDIAHistoryActions.submit';
+            this.structureName +=  ', ' + agent.aerodrome;
             if (modifHist.newValue === PENDING_VERIFICATION_STATE || modifHist.newValue === PENDING_ADMISSION_STATE){
+              this.action = 'DDIAHistoryActions.submit';
               this.decision = 'DDIAHistoryActions.ok';
             }
             else {
+              this.action = 'DDIAHistoryActions.cancel';
+              this.decision = '';
+
             }
             break;
           case PENDING_VERIFICATION_STATE:

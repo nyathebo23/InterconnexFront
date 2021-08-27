@@ -1,4 +1,4 @@
-export const HOST_URL = 'http://192.168.43.73:8000';
+export const HOST_URL = 'http://127.0.0.1:8000';
 export const LOGIN = HOST_URL + '/auth/user/login/';
 export const SIGNUP = HOST_URL + '/auth/user/signup/';
 export const SIGNUP_ACTIVATE = HOST_URL + '/auth/user/signup/activate/';
@@ -27,7 +27,6 @@ export const ADMIT_DDIA = HOST_URL +  '/aeroinfos/admit/';
 export const VALIDATE_DDIA = HOST_URL +  '/aeroinfos/validate/';
 export const APPROVE_DDIA = HOST_URL +  '/aeroinfos/approve/';
 export const SET_PUBLICATION_CODE = HOST_URL +  '/aeroinfos/code-publish/';
-
 export const SOURCEAGENT_DDIA_IN_WAITING = HOST_URL +  '/aeroinfos/sourceagent/listDDIA/waited/';
 export const SOURCEAGENT_DDIA_PROCESSED = HOST_URL +  '/aeroinfos/sourceagent/listDDIA/processed/';
 export const SOURCEVERIFIER_DDIA_IN_WAITING = HOST_URL +  '/aeroinfos/verifsource/listDDIA/waited/';
@@ -56,3 +55,8 @@ export const NOTIFICATIONS_SOURCESTRUCTURE = HOST_URL + '/aeroinfos/notification
 export const NOTIFICATIONS_LOCALINF = HOST_URL + '/aeroinfos/notifications/localinformer/';
 export const NOTIFICATIONS_NATIONALINF = HOST_URL + '/aeroinfos/notifications/nationalinformer/';
 export const NATIONAL_INFORMER_TARGET_DDIA = HOST_URL + '/aeroinfos/nationalinf-ddia-target/';
+export const STATS_SOURCEAGENT = HOST_URL + '/aeroinfos/sourceagent/stats/';
+export const STATS_SOURCEVERIFIER = HOST_URL + '/aeroinfos/verifsource/stats/';
+export const STATS_SOURCESTRUCTURE = HOST_URL + '/aeroinfos/sourcestructure/stats/';
+export const STATS_LOCALINFORMER = HOST_URL + '/aeroinfos/localinformer/stats/';
+export const STATS_NATIONALINFORMER = HOST_URL + '/aeroinfos/nationalinformer/stats/';

@@ -18,7 +18,7 @@ export class PusherSourceVerifierService {
   actionDataSubject: Subject<ActionOnDDIA> = new Subject<ActionOnDDIA>();
   constructor(private authService: AuthManagerService) {
     const aerodrome = this.authService.getAerodrome();
-    this.channel = globalThis.pusher.subscribe('verif-source' + aerodrome.locationInd);
+    this.channel = window.globalThis.pusher.subscribe('verif-source' + aerodrome.locationInd);
     this.channel.bind(RECEPTION_SUBMISSION, (data: NotificationResp) => {
       this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
       this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));

@@ -1,4 +1,4 @@
-<div class="modal-content">
+<div class="modal-content" style="background-color: #f3f1f6;">
     <!--Header-->
     <div class="modal-header">
         <p class="heading lead">PUBLICATION CONFIRMATION</p>
@@ -21,10 +21,10 @@
 
     <!--Footer-->
     <div class="modal-footer justify-content-center">
-        <button [disabled]="loading" mdbBtn color="danger" outline="true" class="waves-effect" mdbWavesEffect (click)="modalRef.hide()">
+        <button [disabled]="loading" mdbBtn color="primary" outline="true" class="waves-effect" mdbWavesEffect (click)="modalRef.hide()">
             {{'MODAL.cancel' | translate }}
         </button>
-        <button [disabled]="isCodeDDIAInvalid() || loading" type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="setPublishDDIA()">
+        <button [disabled]="isCodeDDIAInvalid() || loading" type="button" mdbBtn color="primary" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="setPublishDDIA()">
             <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'MODAL.ok' | translate }}
         </button>
     </div>

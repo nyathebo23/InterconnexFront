@@ -17,7 +17,7 @@ import { NotamComponent } from './shared-components/forms/notam/notam.component'
 import { SUPPAIPComponent } from './shared-components/forms/supp-aip/supp-aip.component';
 import { AICComponent } from './shared-components/forms/aic/aic.component';
 import { SourceUnitFormComponent } from './shared-components/forms/source-unit-form/source-unit-form.component';
-import { ButtonsModule, WavesModule, CollapseModule, CarouselModule,
+import { ButtonsModule, WavesModule, CollapseModule, CarouselModule, ChartsModule,
   TableModule, NavbarModule, CheckboxModule, ModalModule, IconsModule } from 'angular-bootstrap-md';
 import { LeftNavComponent } from './shared-components/components/left-nav/left-nav.component';
 import { DDIAItemComponent } from './shared-components/components/ddia-item/ddia-item.component';
@@ -122,6 +122,13 @@ import { SUPPAIPWithDatasForSourcestructureComponent } from './shared-components
 import { ModalConfirmCancelDDIAComponent } from './shared-components/components/modal-confirm-cancel-ddia/modal-confirm-cancel-ddia.component';
 import { ModalPublishDDIAComponent } from './shared-components/components/modal-publish-ddia/modal-publish-ddia.component';
 import { ModalConfirmRelanceComponent } from './shared-components/components/modal-confirm-relance/modal-confirm-relance.component';
+import { BackToPrecPageComponent } from './shared-components/components/back-to-prec-page/back-to-prec-page.component';
+import { ConnectionServiceModule } from 'ng-connection-service';
+import { StatisticPageSourceComponent } from './agent-source/statistic-page-source/statistic-page-source.component';
+import { StatisticPageSourceVerifComponent } from './verif-source/statistic-page-source-verif/statistic-page-source-verif.component';
+import { StatisticPageSourceStructureComponent } from './source-structure/statistic-page-source-structure/statistic-page-source-structure.component';
+import { StatisticPageLocalInformerComponent } from './local-informer-extern/statistic-page-local-informer/statistic-page-local-informer.component';
+import { StatisticPageNationalInformerComponent } from './national-informer/statistic-page-national-informer/statistic-page-national-informer.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   // console.log(localStorage.getItem('access_token'));
@@ -250,6 +257,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ModalConfirmCancelDDIAComponent,
     ModalPublishDDIAComponent,
     ModalConfirmRelanceComponent,
+    BackToPrecPageComponent,
+    StatisticPageSourceComponent,
+    StatisticPageSourceVerifComponent,
+    StatisticPageSourceStructureComponent,
+    StatisticPageLocalInformerComponent,
+    StatisticPageNationalInformerComponent,
   ],
   imports: [
     BrowserModule,
@@ -271,6 +284,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CollapseModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     TableModule,
+    ChartsModule,
+    ConnectionServiceModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
