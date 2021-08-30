@@ -1,9 +1,11 @@
 
 import { Aerodrome } from 'src/app/models/aerodrome.model';
 import { Component, OnInit, ViewChild, HostListener, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { MdbTablePaginationComponent, MdbTableDirective } from 'angular-bootstrap-md';
+import { MdbTablePaginationComponent, MdbTableDirective, MDBModalService } from 'angular-bootstrap-md';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalEditAerodromeComponent } from '../modal-edit-aerodrome/modal-edit-aerodrome.component';
 
 @Component({
   selector: 'app-list-aerodromes',
@@ -23,6 +25,8 @@ export class ListAerodromesComponent implements OnInit, AfterViewInit {
   constructor(
     private cdAerodRef: ChangeDetectorRef,
     private adminService: AdminService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService,
     private ngxUiLoaderService: NgxUiLoaderService,
   ) {
     this.loadingDatas = true;
@@ -48,7 +52,9 @@ export class ListAerodromesComponent implements OnInit, AfterViewInit {
   }
 
   editAerodrome(aerodrome: Aerodrome): void{
-
+    this.modalService.show(ModalEditAerodromeComponent,
+      this.modalDisplayService.getModalOptions({aerodrome}, 'modal-dialog modal-notify modal-warning')
+    );
   }
 
   deleteAerodrome(aerodrome: Aerodrome): void{

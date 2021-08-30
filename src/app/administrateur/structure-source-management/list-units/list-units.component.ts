@@ -1,9 +1,11 @@
 import { Unit } from 'src/app/models/unit.model';
 import { Aerodrome } from 'src/app/models/aerodrome.model';
 import { Component, OnInit, ViewChild, HostListener, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { MdbTablePaginationComponent, MdbTableDirective } from 'angular-bootstrap-md';
+import { MdbTablePaginationComponent, MdbTableDirective, MDBModalService } from 'angular-bootstrap-md';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalEditUnitComponent } from '../modal-edit-unit/modal-edit-unit.component';
 
 @Component({
   selector: 'app-list-units',
@@ -23,6 +25,8 @@ export class ListUnitsComponent implements OnInit, AfterViewInit {
   constructor(
     private cdUnitsRef: ChangeDetectorRef,
     private adminService: AdminService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService,
     private ngxUiLoaderService: NgxUiLoaderService
   ) {
     this.loadingDatas = true;
@@ -51,8 +55,11 @@ export class ListUnitsComponent implements OnInit, AfterViewInit {
   }
 
   editUnit(unit: Unit): void{
-
+    this.modalService.show(ModalEditUnitComponent,
+      this.modalDisplayService.getModalOptions({unit}, 'modal-dialog modal-notify modal-warning')
+    );
   }
+
   deleteUnit(unit: Unit): void{
 
   }

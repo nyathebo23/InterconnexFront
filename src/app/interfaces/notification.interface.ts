@@ -9,10 +9,12 @@ interface UnitReduced {
 
 
 export interface NotificationI {
+    id: string;
     receiver_object: any;
     event: string;
     ddia_type: string;
     ref_ddia: string;
     new_ddia_state: string;
     date_time: string;
+    read: boolean;
 }

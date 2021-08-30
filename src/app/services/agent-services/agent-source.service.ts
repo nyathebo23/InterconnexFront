@@ -12,6 +12,12 @@ import { ListDDIA, PaginateDDIAListResp } from 'src/app/interfaces/responses.int
 import { CountUnitDDIAI } from 'src/app/interfaces/count-ddia.interface';
 import { CountUnitDDIA } from 'src/app/models/count-ddia.model';
 
+interface RespDDIAListSource {
+  demandesAIC: DemandeAICItemList[];
+  demandesNOTAM: DemandeNOTAMItemList[];
+  demandesSUPP: DemandeSUPPItemList[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,16 +40,16 @@ export class AgentSourceService {
     return this.http.post(URLS.DEMANDE_SUPPAIP_CREATE, formData, {headers: this.headers}).toPromise();
   }
 
-  updateNOTAM(formData: FormData): Promise<any> {
-    return this.http.put(URLS.DEMANDE_NOTAM_UPDATE, formData, {headers: this.headers}).toPromise();
+  updateNOTAM(id: string, formData: FormData): Promise<any> {
+    return this.http.put(URLS.DEMANDE_NOTAM_UPDATE + id + '/', formData, {headers: this.headers}).toPromise();
   }
 
-  updateAIC(formData: FormData): Promise<any> {
-    return this.http.put(URLS.DEMANDE_AIC_UPDATE, formData, {headers: this.headers}).toPromise();
+  updateAIC(id: string, formData: FormData): Promise<any> {
+    return this.http.put(URLS.DEMANDE_AIC_UPDATE + id + '/', formData, {headers: this.headers}).toPromise();
   }
 
-  updateSUPPAIP(formData: FormData): Promise<any> {
-    return this.http.put(URLS.DEMANDE_SUPPAIP_UPDATE, formData, {headers: this.headers}).toPromise();
+  updateSUPPAIP(id: string, formData: FormData): Promise<any> {
+    return this.http.put(URLS.DEMANDE_SUPPAIP_UPDATE + id + '/', formData, {headers: this.headers}).toPromise();
   }
 
   submitDDIAToVerif(ddiaClassName: string, pk: string, data: {[key: string]: string}): Promise<any> {
@@ -70,6 +76,20 @@ export class AgentSourceService {
       });
       return {listDDIA: ddiaList, counts: resDatas.counts};
     }));
+  }
+
+  getListDDIAWithErrors(): Observable<any> {
+    return this.http.get<RespDDIAListSource>(URLS.SOURCEAGENT_DDIA_IN_WAITING)
+    .pipe(
+      catchError(this.handleError),
+      map((res) => {
+        const ddiaList = new Array<DemandeNOTAMItemList | DemandeSUPPItemList | DemandeAICItemList>();
+        res.demandesAIC.forEach((data) => ddiaList.push(DemandeAICItemList.fromJSON(data)));
+        res.demandesNOTAM.forEach((data) => ddiaList.push(DemandeNOTAMItemList.fromJSON(data)));
+        res.demandesAIC.forEach((data) => ddiaList.push(DemandeAICItemList.fromJSON(data)));
+        return ddiaList;
+      })
+    );
   }
 
   getStatsOnDDIAUnit(year: string, allDDIA: string): Promise<CountUnitDDIA> {
@@ -103,7 +123,7 @@ export class AgentSourceService {
       return ['Errors.serverconnection'];
     }
     else if (typeof error === 'string'){
-      return [error];
+      return ['Errors.error'];
     }
     for (const key of Object.keys(error)) {
       const value = error[key];

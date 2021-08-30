@@ -19,7 +19,6 @@ export class SourceStructureListDDIAReceivedComponent implements OnInit {
   ddiaActionsList: ActionOnDDIA[];
 
   constructor(
-    private authService: AuthManagerService,
     private structureSourceService: StructureSourceService,
     private pusherSourceStructService: PusherSourceStructureService
   ) {
@@ -64,7 +63,6 @@ export class SourceStructureListDDIAReceivedComponent implements OnInit {
   onPageChange(page: string): void {
     this.page = page;
     this.reloadDDIAItems();
-    this.page = '1';
   }
 
   reloadDDIAItems(): void {

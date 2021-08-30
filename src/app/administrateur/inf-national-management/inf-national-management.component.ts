@@ -11,6 +11,9 @@ import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { map, catchError } from 'rxjs/operators';
 import { NationalInformerI } from 'src/app/interfaces/national-informer.interface';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { MDBModalService } from 'angular-bootstrap-md';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalEditNationalInformerComponent } from '../modals-for-informers/modal-edit-national-informer/modal-edit-national-informer.component';
 
 @Component({
   selector: 'app-inf-national-management',
@@ -21,7 +24,7 @@ export class InfNationalManagementComponent implements OnInit  {
 
   infNationalForm: FormGroup;
   infnationaux: NationalInformer[];
-  headsInfNational = ['ID', 'InformateurNational.name', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
+  headsInfNational = ['ID', 'InformateurNational.name', 'InformateurNational.email', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
   errors: string[] = [];
   createSuccess: boolean;
   loading = false;
@@ -29,10 +32,13 @@ export class InfNationalManagementComponent implements OnInit  {
   constructor(
     private formBuilder: FormBuilder,
     private adminService: AdminService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService,
     private ngxUiLoaderService: NgxUiLoaderService
   ) {
     this.infNationalForm = this.formBuilder.group({
       name: ['', [Validators.required, ValidationService.requiredValidator]],
+      email: ['', [Validators.required, ValidationService.emailValidator]],
       isAuthority: [false, [Validators.required]]
     });
   }
@@ -58,19 +64,23 @@ export class InfNationalManagementComponent implements OnInit  {
     this.loading = true;
     const formData = new FormData();
     formData.append('name', this.infNationalForm.controls.name.value);
+    formData.append('email', this.infNationalForm.controls.email.value);
     formData.append('is_authority', this.infNationalForm.controls.isAuthority.value);
     this.adminService.createNationalInformer(formData)
     .then((resp) => {
-      console.log(resp);
-      this.loading = false;
       this.adminService.reloadCurrentRoute();
     })
     .catch((err) => {
-      this.loading = false;
-    });
+      this.errors = this.adminService.displayErrors(err);
+    })
+    .finally(() => this.loading = false);
   }
 
-  edit(infnational: NationalInformer): void{
+  edit(nationalInf: NationalInformer): void{
+    this.modalService.show(
+      ModalEditNationalInformerComponent,
+      this.modalDisplayService.getModalOptions({nationalInf}, 'modal-dialog modal-notify modal-warning')
+    );
   }
 
   delete(id: string): void{

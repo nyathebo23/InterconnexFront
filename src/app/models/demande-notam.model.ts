@@ -22,6 +22,8 @@ export class DemandeNOTAM extends DDIA{
     // tslint:disable-next-line:variable-name
     private _endValidityPeriod: Date;
     // tslint:disable-next-line:variable-name
+    private _dailyFreqType: string;
+    // tslint:disable-next-line:variable-name
     private _dailyFreqStart: string;
     // tslint:disable-next-line:variable-name
     private _dailyFreqEnd: string;
@@ -46,6 +48,7 @@ export class DemandeNOTAM extends DDIA{
         periodType: string,
         startValidityPeriod: Date,
         endValidityPeriod: Date,
+        dailyFreqType: string,
         dailyFreqStart: string,
         dailyFreqEnd: string,
         lowerVerticalLimit: string,
@@ -122,6 +125,10 @@ export class DemandeNOTAM extends DDIA{
         return this._text;
     }
 
+    public get dailyFreqType(): string {
+        return this._dailyFreqType;
+    }
+
     public static fromJSON(data: DemandeNOTAMI): DemandeNOTAM{
         const historiesData = new Array<DDIAHistory>();
         data.history.forEach((elt: DDIAHistoryI) => {
@@ -139,6 +146,7 @@ export class DemandeNOTAM extends DDIA{
             data.validity_period_type,
             new Date(data.start_val_period),
             new Date(data.end_val_period),
+            data.daily_freq_type,
             data.daily_freq_start,
             data.daily_freq_end,
             data.lower_vertical_limit,

@@ -16,7 +16,7 @@
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"></td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{unit.aerodromeName}}</td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"><button mdbBtn type="button" class="roundedbtn" (click)="editUnit(unit)" color="amber" mdbWavesEffect>{{'UpdateDelete.editBtn' | translate}}</button></td>
-                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"><button mdbBtn type="button" class="roundedbtn" (click)="deleteUnit(unit)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button></td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"><button mdbBtn type="button" class="roundedbtn" disabled (click)="deleteUnit(unit)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button></td>
             </tr>
         </tbody>
         <tfoot class="grey lighten-5 w-100">

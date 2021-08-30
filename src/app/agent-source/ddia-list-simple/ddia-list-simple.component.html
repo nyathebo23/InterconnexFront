@@ -1,0 +1,16 @@
+<div class="container-fluid">
+    <div class="d-flex flex-column">
+        <div class="label-title mb-4">
+            {{ labelTitle | translate }}
+        </div>
+        <div class="d-flex flex-column">
+            <ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
+            <div class="container-items scrollbar scrollbar-primary">
+                <div class="d-flex flex-column" *ngIf="ddiaList">
+                    <app-empty-ddia-list *ngIf="ddiaList.length === 0"></app-empty-ddia-list>
+                    <app-ddia-item *ngFor="let ddiaItem of ddiaList" [ddiaItem]="ddiaItem"></app-ddia-item>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

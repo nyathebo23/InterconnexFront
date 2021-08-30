@@ -29,19 +29,11 @@ export class VerifSourceListDDIAProcessedComponent implements OnInit {
     {stateLabel: 'DDIAstates.attenteApprobation', stateValue: PENDING_APPROVAL_STATE} ,
     {stateLabel: 'DDIAstates.attentePublication', stateValue: PENDING_PUBLICATION_STATE} ,
     {stateLabel: 'DDIAstates.publie', stateValue: PUBLISHED_STATE} ,
-    {stateLabel: 'erroné', stateValue: 'erroné'} ,
   ];
   constructor(
-    private authService: AuthManagerService,
     private verifSourceService: VerifSourceService,
     private pusherVerifService: PusherSourceVerifierService
-  ) {
-    this.pusherVerifService.notificationStateChange.subscribe(
-      (notif) => {
-
-      }
-    );
-  }
+  ) {}
 
   ngOnInit(): void {
     this.reloadDDIAItems();
@@ -80,11 +72,4 @@ export class VerifSourceListDDIAProcessedComponent implements OnInit {
     });
   }
 
-  setNotifRenderAction(): void {
-    this.pusherVerifService.channel.bind(
-      RECEPTION_SUBMISSION, (data: any) => {
-
-      }
-    );
-  }
 }

@@ -7,7 +7,8 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { MDBModalService } from 'angular-bootstrap-md';
-import { VALIDITY_PERIOD_ESTIMATED, VALIDITY_PERIOD_PLANNED } from 'src/app/commons/constants';
+import { DAILY_FREQ_ESTIMATED, DAILY_FREQ_PLANNED, VALIDITY_PERIOD_ESTIMATED, VALIDITY_PERIOD_PLANNED } from 'src/app/commons/constants';
+import { DemandeNOTAM } from 'src/app/models/demande-notam.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
@@ -27,7 +28,6 @@ export class NotamComponent implements OnInit {
   errors: string[];
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthManagerService,
     private sourceAgentService: AgentSourceService,
     private modalService: MDBModalService,
     private modalDisplayService: ModalDisplayService
@@ -49,6 +49,7 @@ export class NotamComponent implements OnInit {
       coords: [''],
       periodType: ['planned'],
       validityPeriod: [[new Date(), new Date()], [ValidationService.DateValidator]],
+      dailyFreqType: ['estimated'],
       dailyFreqStart: [''],
       dailyFreqEnd: [''],
       infLimit: [''],
@@ -77,6 +78,10 @@ export class NotamComponent implements OnInit {
   }
 
   onFileSelected(event: any, fileForm: any): void{
+    if (event.target.files[0].size > 10000000){
+      alert('file size is too high');
+      return;
+    }
     fileForm.patchValue({
       file: event.target.files[0],
       // filename: event.target.files[0].name
@@ -112,12 +117,11 @@ export class NotamComponent implements OnInit {
     }
     const dailyFreqStart = this.notamForm.controls.dailyFreqStart.value;
     const dailyFreqEnd = this.notamForm.controls.dailyFreqEnd.value;
-    console.log(dailyFreqStart, dailyFreqEnd);
-    if (!dailyFreqEnd && !dailyFreqStart){
-      this.errors = ['DDIAFORMS.errors.timeInvalid'];
-      return;
-    }
-    else {
+    if (dailyFreqEnd || dailyFreqStart){
+      if (!dailyFreqEnd && !dailyFreqStart){
+        this.errors = ['DDIAFORMS.errors.timeInvalid'];
+        return;
+      }
       if (this.timeValGreaterThan(dailyFreqStart, dailyFreqEnd)){
         this.errors = ['DDIAFORMS.errors.timeInvalid'];
         return;
@@ -130,12 +134,14 @@ export class NotamComponent implements OnInit {
     formData.append('coords', this.notamForm.controls.coords.value);
     formData.append('start_val_period', this.notamForm.controls.validityPeriod.value[0].toISOString());
     formData.append('end_val_period', this.notamForm.controls.validityPeriod.value[1].toISOString());
-    formData.append('daily_freq_start', dailyFreqStart + ':00');
-    formData.append('daily_freq_end', dailyFreqEnd + ':00');
+    formData.append('daily_freq_start', dailyFreqStart);
+    formData.append('daily_freq_end', dailyFreqEnd);
     formData.append('lower_vertical_limit', this.notamForm.controls.infLimit.value);
     formData.append('upper_vertical_limit', this.notamForm.controls.supLimit.value);
     const validityPeriod = this.notamForm.controls.periodType.value === 'planned' ? VALIDITY_PERIOD_PLANNED : VALIDITY_PERIOD_ESTIMATED;
     formData.append('validity_period_type', validityPeriod);
+    const dailyFreqType = this.notamForm.controls.dailyFreqType.value === 'planned' ? DAILY_FREQ_PLANNED : DAILY_FREQ_ESTIMATED;
+    formData.append('daily_freq_type', dailyFreqType);
     formData.append('code_notam_replaceorcancel', this.notamForm.controls.notamTargetCode.value);
     const nbAttachs = this.files.length;
     for (let i = 0; i < nbAttachs; i++){
@@ -146,7 +152,7 @@ export class NotamComponent implements OnInit {
     .then(() => {
       this.errors = [];
       this.modalService.show(ModalSuccessCreationDDIAComponent,
-        this.modalDisplayService.getModalOptions({typeDDIA: 'NOTAM'}, 'modal-dialog modal-notify modal-success')
+        this.modalDisplayService.getModalOptions({typeDDIA: 'NOTAM', contentText: 'MODAL.successCreateDDIA'}, 'modal-dialog modal-notify modal-success')
       );
     })
     .catch((err) => {

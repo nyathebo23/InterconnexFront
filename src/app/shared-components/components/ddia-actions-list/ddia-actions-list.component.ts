@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
@@ -26,7 +26,7 @@ export class DDIAActionsListComponent implements OnInit, OnChanges {
   currentPage = 1;
   pagesList: number[];
   loaderId = 'ddia-act-list';
-  constructor(private ngxUiLoaderService: NgxUiLoaderService) {
+  constructor(private ngxUiLoaderService: NgxUiLoaderService, private ref: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -36,6 +36,7 @@ export class DDIAActionsListComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     if (this.ddiaActionsList !== undefined && this.pagesNb !== undefined){
       this.ngxUiLoaderService.stopLoader(this.loaderId);
+      this.ref.detectChanges();
       if (!this.pagesList){
         this.pagesList = [];
         for (let i = 1; i <= this.pagesNb; i++){

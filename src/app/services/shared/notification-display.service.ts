@@ -13,12 +13,19 @@ import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
 import { ModalDisplayService } from './modal-display.service';
 import { ModalReceiveDDIANotifComponent } from 'src/app/shared-components/components/modal-receive-ddia-notif/modal-receive-ddia-notif.component';
 import { DDIA_CREATION } from 'src/app/commons/constants-events-notifs';
+import { MARK_NOTIF_AS_READ } from 'src/app/commons/urls-backend';
+import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationDisplayService {
 
+  actionDDIAToAddSubject = new Subject<ActionOnDDIA>();
+  idDDIARemoveSubject = new Subject<string>();
+  notifToAddSubject = new Subject<Notification>();
+  notifsListSubject = new Subject<Notification[]>();
   constructor(
     private http: HttpClient,
   ) {}
@@ -35,6 +42,11 @@ export class NotificationDisplayService {
       })
     );
   }
+
+  markAsRead(id: string): Promise<{message: string}> {
+    return this.http.get<{message: string}>(MARK_NOTIF_AS_READ + id).toPromise();
+  }
+
 
   // switch (key) {
   //   case value:

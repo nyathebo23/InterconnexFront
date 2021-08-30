@@ -19,11 +19,9 @@ export class LocalinfListDDIAReceivedComponent implements OnInit {
   ddiaActionsList: ActionOnDDIA[];
 
   constructor(
-    private authService: AuthManagerService,
     private localInformerService: InformateurLocalService,
     private pusherLocalInformerService: PusherAuthorityLocalinfService
   ) {
-
     this.pusherLocalInformerService.actionDataSubject.subscribe(
       (actionOnDDIA) => {
         if (actionOnDDIA.ddiaObject.ddiaType === this.ddiaType || this.ddiaType === 'all'){
@@ -39,7 +37,7 @@ export class LocalinfListDDIAReceivedComponent implements OnInit {
     this.pusherLocalInformerService.notificationStateChange.subscribe(
       (notification) => {
         if (notification.newDDIAState === PENDING_APPROVAL_STATE || notification.newDDIAState === NOT_VALIDATED_STATE){
-          this.ddiaActionsList.filter(( action) => action.ddiaObject.identDDIA === notification.refDDIA);
+          this.ddiaActionsList.filter(( action) => !(action.ddiaObject.identDDIA === notification.refDDIA));
         }
       }
     );

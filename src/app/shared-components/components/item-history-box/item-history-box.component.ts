@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CONTROL_ACTION, CREATE_ACTION, DRAFT_STATE, MODIF_ACTION, NON_CONFORMING_STATE,
-  NOT_ADMITTED_STATE, NOT_VALIDATED_STATE, PENDING_ADMISSION_STATE, PENDING_APPROVAL_STATE,
-  PENDING_PUBLICATION_STATE, PENDING_VALIDATION_STATE, PENDING_VERIFICATION_STATE } from 'src/app/commons/constants';
+  NOT_ADMITTED_STATE, NOT_APPROVED_STATE, NOT_VALIDATED_STATE, PENDING_ADMISSION_STATE, PENDING_APPROVAL_STATE,
+  PENDING_PUBLICATION_STATE, PENDING_VALIDATION_STATE, PENDING_VERIFICATION_STATE, PUBLISHED_STATE } from 'src/app/commons/constants';
+import { PUBLISH_OR_RESENDREQ } from 'src/app/commons/control-actions-on-ddia';
 import { DDIAHistory } from 'src/app/models/ddia-history.model';
 import { DDIAModifHistory } from 'src/app/models/ddia-modif-history.model';
 
@@ -15,10 +16,10 @@ export class ItemHistoryBoxComponent implements OnInit {
   @Input() historyItem: DDIAHistory;
   action: string;
   actionDate: string;
-  decision = 'DDIAHistoryActions.ok';
+  decision: string;
   userInfos: string;
   structureName: string;
-  modifsListDisplayed: string[];
+  modifsListDisplayed: string[] = [];
   constructor() {
   }
 
@@ -31,6 +32,7 @@ export class ItemHistoryBoxComponent implements OnInit {
       case CREATE_ACTION:
         this.structureName = agent.unit ? agent.unit : agent.localinformer;
         this.structureName +=  ', ' + agent.aerodrome;
+        this.decision = 'DDIAHistoryActions.ok';
         this.action = 'DDIAHistoryActions.init';
         break;
       case CONTROL_ACTION:
@@ -46,7 +48,6 @@ export class ItemHistoryBoxComponent implements OnInit {
             else {
               this.action = 'DDIAHistoryActions.cancel';
               this.decision = '';
-
             }
             break;
           case PENDING_VERIFICATION_STATE:
@@ -83,17 +84,31 @@ export class ItemHistoryBoxComponent implements OnInit {
           case PENDING_APPROVAL_STATE:
             this.structureName = agent.nationalinformer;
             this.action = 'DDIAHistoryActions.approve';
-            this.decision = modifHist.newValue === PENDING_PUBLICATION_STATE ? 'DDIAHistoryActions.ok' : 'DDIAHistoryActions.reject';
+            if (modifHist.newValue === PENDING_APPROVAL_STATE){
+              this.decision =  'DDIAHistoryActions.ok';
+            }
+            else if (modifHist.newValue === NOT_APPROVED_STATE ){
+                this.decision = 'DDIAHistoryActions.reject';
+            }
             break;
           case PENDING_PUBLICATION_STATE:
             this.structureName = agent.localinformer;
-            this.action = 'DDIAHistoryActions.publish';
-            this.decision = 'DDIAHistoryActions.ok';
+            if (modifHist.newValue === PUBLISHED_STATE){
+              this.action = 'DDIAHistoryActions.publish';
+              this.decision = 'DDIAHistoryActions.ok';
+            }
+            break;
+          default:
+            this.structureName = agent.unit ? agent.unit : agent.localinformer;
+            this.structureName +=  ', ' + agent.aerodrome;
+            this.action = 'DDIAHistoryActions.cancel';
+            this.decision = '';
             break;
         }
         break;
       case MODIF_ACTION:
         this.action = 'DDIAHistoryActions.modif';
+        this.decision = 'DDIAHistoryActions.ok';
         const modifsList = this.historyItem.modifsHistory;
         for (const modif of modifsList){
           const modifStr = modif.field + ' ' + modif.prevValue + ' > ' + modif.newValue;

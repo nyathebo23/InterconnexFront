@@ -22,13 +22,11 @@ export class VerifSourceListDDIAReceivedComponent implements OnInit {
   ddiaActionsList: ActionOnDDIA[];
   errors: string[];
   constructor(
-    private authService: AuthManagerService,
     private verifSourceService: VerifSourceService,
     private pusherVerifService: PusherSourceVerifierService
   ) {
     this.pusherVerifService.actionDataSubject.subscribe(
       (actionOnDDIA) => {
-        console.log(actionOnDDIA);
         if (this.ddiaType === actionOnDDIA.ddiaObject.ddiaType || this.ddiaType === 'all'){
           this.ddiaActionsList.unshift(actionOnDDIA);
         }

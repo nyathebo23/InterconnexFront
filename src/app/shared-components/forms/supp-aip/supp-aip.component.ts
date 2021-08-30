@@ -7,8 +7,11 @@ import {
   AbstractControl,
   FormControl,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MDBModalService } from 'angular-bootstrap-md';
+import { DemandeSUPPAIP } from 'src/app/models/demande-suppaip.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
+import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
@@ -28,23 +31,20 @@ export class SUPPAIPComponent implements OnInit {
   createSuccess = false;
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthManagerService,
     private sourceAgentService: AgentSourceService,
     private modalService: MDBModalService,
-    private modalDisplayService: ModalDisplayService
+    private modalDisplayService: ModalDisplayService,
   ) {
-    this.initForm();
   }
 
   ngOnInit(): void {
-
+      this.initForm();
   }
 
   initForm(): void {
     this.suppaipForm = this.formBuilder.group({
       depositDateTime: [{value: new Date(), disabled: true}],
       typeSUPPAIP: ['SUPP AIP N'],
-      text: [''],
       object: [''],
       codeDDIAToReplace: [''],
       // aipTargetSections: [''],
@@ -98,6 +98,10 @@ export class SUPPAIPComponent implements OnInit {
   }
 
   onFileSelected(event: any, fileForm: any): void{
+    if (event.target.files[0].size > 10000000){
+      alert('file size is too high');
+      return;
+    }
     fileForm.patchValue({
       file: event.target.files[0],
       filename: event.target.files[0].name
@@ -140,7 +144,7 @@ export class SUPPAIPComponent implements OnInit {
     .then(() => {
       this.errors = [];
       this.modalService.show(ModalSuccessCreationDDIAComponent,
-        this.modalDisplayService.getModalOptions({typeDDIA: 'SUPP AIP'}, 'modal-dialog modal-notify modal-success')
+        this.modalDisplayService.getModalOptions({typeDDIA: 'SUPP AIP', contentText: 'MODAL.successCreateDDIA'}, 'modal-dialog modal-notify modal-success')
       );
     })
     .catch((err) => {

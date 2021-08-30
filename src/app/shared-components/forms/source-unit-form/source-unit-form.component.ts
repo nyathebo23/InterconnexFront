@@ -21,7 +21,6 @@ import { ValidationService } from 'src/app/services/auth-services/validation.ser
 export class SourceUnitFormComponent implements OnInit {
 
   sourceUnitForm: FormGroup;
-  @Input() isInCreateForm: boolean;
   // les 03 input suivants ne sont pas initialisés par un composant parent quand on a affaire à
   // une initiation de demande de diffusion d'information aéronautique
   @Input() locationInd: string;
@@ -39,7 +38,20 @@ export class SourceUnitFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.isInCreateForm){
+    if (this.unit){
+      this.sourceUnitForm = this.formBuilder.group({
+        airportLocationIndicator: [{value: this.locationInd ? this.locationInd : '', disabled: true}],
+        name: [{value: this.unit ? this.unit.name : '', disabled: true}],
+        adress: [{value: this.unit ? this.unit.address : '', disabled: true}],
+        fax: [{value: this.unit ? this.unit.fax : '', disabled: true}],
+        telephone: [{value: this.unit ? this.unit.phonenumber : '', disabled: true}],
+        email: [{value: this.unit ? this.unit.email : '', disabled: true}],
+        rsfta: [{value: this.unit ? this.unit.rsfta : '', disabled: true}],
+        initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
+      });
+      this.loadingDatas = false;
+    }
+    else {
       this.ngxUiLoaderService.startLoader(this.loaderId);
       this.authService.getAgentInfos()
       .then((data) => {
@@ -69,19 +81,6 @@ export class SourceUnitFormComponent implements OnInit {
       .catch((err) => {
         console.log(err);
       });
-    }
-    else {
-      this.sourceUnitForm = this.formBuilder.group({
-        airportLocationIndicator: [{value: this.locationInd ? this.locationInd : '', disabled: true}],
-        name: [{value: this.unit ? this.unit.name : '', disabled: true}],
-        adress: [{value: this.unit ? this.unit.address : '', disabled: true}],
-        fax: [{value: this.unit ? this.unit.fax : '', disabled: true}],
-        telephone: [{value: this.unit ? this.unit.phonenumber : '', disabled: true}],
-        email: [{value: this.unit ? this.unit.email : '', disabled: true}],
-        rsfta: [{value: this.unit ? this.unit.rsfta : '', disabled: true}],
-        initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
-      });
-      this.loadingDatas = false;
     }
   }
 }

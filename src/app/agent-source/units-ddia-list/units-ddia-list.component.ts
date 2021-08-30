@@ -5,7 +5,6 @@ import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
 import { DemandeNOTAMItemList } from 'src/app/models/demandeNOTAM-item-list.model';
 import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
-import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { PusherSourceService } from 'src/app/services/pusher/pusher-source.service';
 
 @Component({
@@ -31,10 +30,8 @@ export class UnitsDDIAListComponent implements OnInit {
     {stateLabel: 'DDIAstates.attenteApprobation', stateValue: PENDING_APPROVAL_STATE} ,
     {stateLabel: 'DDIAstates.attentePublication', stateValue: PENDING_PUBLICATION_STATE} ,
     {stateLabel: 'DDIAstates.publie', stateValue: PUBLISHED_STATE} ,
-    {stateLabel: 'erroné', stateValue: 'erroné'} ,
   ];
   constructor(
-    private authService: AuthManagerService,
     private sourceAgentService: AgentSourceService,
     private pusherSourceAgentService: PusherSourceService
   ) {

@@ -1,6 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MDBModalRef } from 'angular-bootstrap-md';
+import { NotificationDisplayService } from 'src/app/services/shared/notification-display.service';
 
 @Component({
   selector: 'app-modal-receive-ddia-notif',
@@ -9,19 +10,35 @@ import { MDBModalRef } from 'angular-bootstrap-md';
 })
 export class ModalReceiveDDIANotifComponent implements OnInit {
 
+  idNotif: string;
   contentText: string;
   typeDDIA: string;
   refDDIA: string;
   urlDDIADetails: string;
-  constructor(public modalRef: MDBModalRef, private router: Router, private zone: NgZone) { }
+  loading = false;
+  constructor(
+    private notificationDisplayService: NotificationDisplayService,
+    public modalRef: MDBModalRef,
+    private router: Router,
+    private zone: NgZone
+  ) { }
 
   ngOnInit(): void {
   }
 
   navigateToDetails(): void {
-    this.zone.run(() => {
-      this.router.navigateByUrl(this.urlDDIADetails);
-      this.modalRef.hide();
-    });
+    this.loading = true;
+    this.notificationDisplayService.markAsRead(this.idNotif)
+    .then((res) => {
+      this.zone.run(() => {
+        this.router.navigateByUrl(this.urlDDIADetails);
+        this.modalRef.hide();
+      });
+    })
+    .catch((err) => {
+
+    })
+    .finally(() => this.loading = false);
+
   }
 }

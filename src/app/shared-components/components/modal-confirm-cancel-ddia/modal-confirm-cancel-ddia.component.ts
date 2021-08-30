@@ -25,7 +25,7 @@ export class ModalConfirmCancelDDIAComponent implements OnInit {
 
     })
     .catch((err) => {
-
+      alert(this.agentSourceService.displayErrors(err));
     })
     .finally(() => {
       this.loading = false;

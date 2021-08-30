@@ -31,7 +31,7 @@ export class ModalPublishDDIAComponent implements OnInit {
 
     })
     .catch((err) => {
-
+      alert(this.controlActorService.displayErrors(err));
     })
     .finally(() => {
       this.loading = false;

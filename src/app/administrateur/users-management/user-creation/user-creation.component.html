@@ -64,25 +64,25 @@
     </form>
     <div class="form-group mb-4" *ngIf="isAerodromeAgent()">
         <select class="form-control" [(ngModel)]="aerodromeId" (change)="changeAerodrome($event)">
-            <option selected disabled [value]="undefined">Aerodromes</option>
+            <option selected disabled [value]="undefined">{{'AUTHFORMS.SIGNUP.aerodromes' | translate }}</option>
             <option *ngFor="let aerodrom of aerodromeList" [value]="aerodrom.id">{{aerodrom.name}}</option>
         </select>
     </div>
     <div class="form-group mb-4" *ngIf="aerodrome">
         <select class="form-control" [(ngModel)]="unitId">
-            <option selected disabled [value]="undefined">Unités source de l'aérodrome</option>
+            <option selected disabled [value]="undefined">{{'AUTHFORMS.SIGNUP.units' | translate }}</option>
             <option *ngFor="let unitsource of unitList" [value]="unitsource.id" >{{unitsource.name}}</option>
         </select>
     </div>
     <div class="form-group mb-4" *ngIf="isExtLocalInfAgent()">
         <select class="form-control" [(ngModel)]="localInfId">
-            <option selected disabled [value]="undefined">Informateurs Locaux Externes</option>
+            <option selected disabled [value]="undefined">{{'AUTHFORMS.SIGNUP.localInfsExt' | translate }}</option>
             <option *ngFor="let localinf of localInfExternsList" [value]="localinf.id"> {{localinf.name}}</option>
         </select>
     </div>
     <div class="form-group mb-4" *ngIf="isNationalInfAgent()">
         <select class="form-control" [(ngModel)]="nationalInfId">
-            <option selected disabled [value]="undefined">Informateurs nationaux</option>
+            <option selected disabled [value]="undefined">{{'AUTHFORMS.SIGNUP.nationalInfs' | translate }}</option>
             <option *ngFor="let nationalInf of nationalInfList" [value]="nationalInf.id">{{nationalInf.name}}</option>
         </select>
     </div>

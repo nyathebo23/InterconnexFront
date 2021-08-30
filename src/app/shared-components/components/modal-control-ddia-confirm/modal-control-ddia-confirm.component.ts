@@ -65,7 +65,7 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
     })
     .catch((err) => {
-      alert('');
+      alert(this.controlActorService.displayErrors(err));
     })
     .finally(() => this.endSubmitAction());
   }
@@ -82,7 +82,7 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
     })
     .catch((err) => {
-      alert('');
+      alert(this.controlActorService.displayErrors(err));
     })
     .finally(() => this.endSubmitAction());
   }
@@ -99,7 +99,7 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
       console.log(res);
     })
     .catch((err) => {
-      alert('');
+      alert(this.controlActorService.displayErrors(err));
     })
     .finally(() => this.endSubmitAction());
 
@@ -117,7 +117,7 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
     })
     .catch((err) => {
-      console.error(err);
+      alert(this.controlActorService.displayErrors(err));
     })
     .finally(() => this.endSubmitAction());
 
@@ -132,7 +132,7 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
     })
     .catch((err) => {
-      alert('');
+      alert(this.controlActorService.displayErrors(err));
     })
     .finally(() => this.endSubmitAction());
 

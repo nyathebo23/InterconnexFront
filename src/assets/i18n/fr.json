@@ -43,6 +43,10 @@
             "function": "Fonction",
             "quality": "Qualité",
             "sex": "Sexe",
+            "localInfsExt": "Informateurs locaux externes",
+            "nationalInfs": "Informateurs nationaux",
+            "aerodromes": "Aerodromes",
+            "units": "Unités sources de l' aérodrome",
             "sexmale": "Masculin",
             "sexfemale": "Feminin",
             "role": "Rôle",
@@ -136,6 +140,7 @@
             "notamTargetCode": "Code du NOTAM ciblé",
             "valPeriod": "Période de validité",
             "periodType": "Type de période",
+            "dailyFreqType": "Type de fréquence journalière",
             "plannedPeriod": "Prévue",
             "estimatedPeriod": "Estimée",
             "notamType": "Type NOTAM",
@@ -166,8 +171,10 @@
     "SOURCEAGENT": {
         "initddia": "Initiation DDIA",
         "unitsddia": "DDIA initiés dans l'unité",
+        "unitsDDIAErroneous": "DDIA erronées",
         "stats": "Statistiques DDIA",
-        "unitsPageLabel": "List des DDIA de l'unité",
+        "unitsPageLabel": "Liste des DDIA de l'unité",
+        "unitsErrPageLabel": "List des DDIA érronées de l'unité",
         "statsView": {
             "allDDIA": "Toutes les demandes de diffusion d'informations aéronautiques initiées",
             "publishedDDIA": "Seulement les demandes de diffusion d'informations aéronautiques déjà publiées"
@@ -254,7 +261,8 @@
         "errone": "rejeté"
     },
     "navbar": {
-        "logout": "Déconnexion"
+        "logout": "Déconnexion",
+        "goTo": "Aller à"
     },
     "AGENTSOURCE": {
         "initDDIA": {
@@ -323,12 +331,14 @@
     "InformateurLocal": {
         "title": "Informateur local",
         "name": "Nom",
+        "units": "Unités sources de l' aérodrome",
         "submitBtn": "Enregistrer",
         "createsuccess": "Informateur local créé avec succès"
     },
     "InformateurNational": {
         "title": "Informateur national",
         "name": "Nom",
+        "email": "Adresse mail",
         "isauthority": "Appartient à l'autorité aéronautique",
         "submitBtn": "Enregistrer",
         "createsuccess": "Informateur national créé avec succès"
@@ -375,6 +385,7 @@
             "helperText": "Vérifiez bien que cette demande de diffusion n'est pas encore publiée avant d' effectuer cette action. Un mail sera envoyé au publicateur pour que ce dernier publie la demande de diffusion."
         },
         "successCreateDDIA": "Demande de diffusion de {{typeDDIA}} initiée avec succès !",
+        "successModifDDIA": "Demande de diffusion de {{typeDDIA}} modifiée avec succès !",
         "deleteConfirmMessage": "Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible.",
         "ok": "Oui",
         "cancel": "Annuler"
@@ -382,6 +393,7 @@
     "NOTIFICATION": {
         "ddiaCreation": "Votre unité a initié une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}}",
         "verifReception": "Votre unité a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} à vérifier.",
+        "publicationDDIA": "La demande de diffusion de {{typeDDIA}}, reference {{refDDIA}} a été publiée.",
         "sourcestructReception": "Vous avez reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} du bureau d'informateur local de votre aérodrome pour que vous validiez de cette dernière.",
         "localinfReception": "Votre bureau d'informateur local a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} à valider.",
         "nationalinfReception": "Votre bureau d'informateur national a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} pour approbation.",

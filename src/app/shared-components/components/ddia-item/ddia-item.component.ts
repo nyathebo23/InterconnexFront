@@ -33,6 +33,7 @@ export class DDIAItemComponent implements OnInit {
 
   ngOnInit(): void {
       const startPath = this.route.parent.parent.routeConfig.path;
+      const startPath1 = this.route.parent.routeConfig.path;
       this.id = this.ddiaItem.id;
       this.reference = this.ddiaItem.identDDIA;
       this.typeDDIA = this.ddiaItem.ddiaType;
@@ -46,17 +47,17 @@ export class DDIAItemComponent implements OnInit {
       if (this.ddiaItem.ddiaType === AIC_TYPE){
         const aicobject = this.ddiaItem as DemandeAICItemList;
         this.object = aicobject.object;
-        this.pathToExtend = startPath + '/unitsddia/present-ddia/' + 'aic';
+        this.pathToExtend = startPath + '/' + startPath1 + '/present-ddia/' + 'aic';
       }
       else if (this.ddiaItem.ddiaType === SUPPAIP_TYPE){
         const suppaipobject = this.ddiaItem as DemandeSUPPItemList;
         this.type = suppaipobject.typeSUPPAIP;
-        this.pathToExtend = startPath + '/unitsddia/present-ddia/' + 'suppaip';
+        this.pathToExtend = startPath + '/' + startPath1 + '/present-ddia/' + 'suppaip';
       }
       else if (this.ddiaItem.ddiaType === NOTAM_TYPE) {
         const notamobject = this.ddiaItem as DemandeNOTAMItemList;
         this.type = notamobject.typeNOTAM;
-        this.pathToExtend = startPath + '/unitsddia/present-ddia/' + 'notam';
+        this.pathToExtend = startPath + '/' + startPath1 + '/present-ddia/' + 'notam';
       }
       if (this.ddiaItem.ddiaType === NOTAM_TYPE || this.ddiaItem.ddiaType === SUPPAIP_TYPE){
         const object = this.ddiaItem as DemandeNOTAMItemList | DemandeSUPPItemList;

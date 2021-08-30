@@ -1,0 +1,51 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="heading">EDIT</h4>
+        <a type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true" class="text-white">&times;</span>
+        </a>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-danger" role="alert" *ngFor="let err of errors">
+            {{err}}
+        </div>
+        <form [formGroup]="sourceUnitForm">
+            <div class="form-group mt-5 mb-4">
+                <input type="text" formControlName="name" class="form-control" placeholder="{{'SOURCEUNIT.name' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.name"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="telephone" class="form-control" placeholder="{{'SOURCEUNIT.phone' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.telephone"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="email" formControlName="email" class="form-control" placeholder="{{'SOURCEUNIT.email' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.email"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="fax" class="form-control" placeholder="{{'SOURCEUNIT.fax' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.fax"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="address" class="form-control" placeholder="{{'SOURCEUNIT.adress' | translate }}" />
+                <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages>
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="rsfta" class="form-control" placeholder="{{'SOURCEUNIT.rsfta' | translate }}" />
+                <!-- <app-control-messages [control]="sourceUnitForm.controls.address"></app-control-messages> -->
+            </div>
+            <div class="form-group mb-4">
+                <select formControlName="aerodrome" class="form-control">
+                    <option selected disabled value=""> {{ 'SOURCEUNIT.labelAerodrome' | translate }} </option>
+                    <option *ngFor="let aerodrome of aerodromes" [value]="aerodrome.id">{{aerodrome.name}}</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" mdbBtn color="info" outline="true" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="modalRef.hide()">{{'MODAL.cancel' | translate}}</button>
+        <button [disabled]="sourceUnitForm.invalid || loading" type="button" mdbBtn color="info" class="waves-effect" mdbWavesEffect (click)="submit()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp; {{'SOURCEUNIT.submitBtn' | translate }}                    
+        </button>
+    </div>
+</div>

@@ -14,16 +14,25 @@
 
             <ul class="navbar-nav mr-auto ml-5">
 
-                <li class="nav-item dropdown" dropdown>
 
-                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item mr-3">
-                    <a class="nav-link" aria-expanded="false" style="position: relative;" routerLink="notifications">
+                    <div class="dropdown" mdbDropdown *ngIf="accessibleViews">
+                        <button mdbDropdownToggle type="button" outline=true mdbBtn color="primary" style="overflow: clip;" class="dropdown-toggle waves-light" mdbWavesEffect>
+                          {{'navbar.goTo' | translate }}
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" [routerLink]="accessibleView.url" *ngFor="let accessibleView of accessibleViews;">{{accessibleView.label}}</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link" aria-expanded="false" style="position: relative;" [mdbPopover]="popContent" placement="bottom" mdbPopoverHeader="Notifications" mdbWavesEffect *ngIf="notifsNb">
                         <mdb-icon far icon="bell" size="lg" style="padding-top: 10px;" class="indigo-text" aria-hidden="true"></mdb-icon>
-                        <span class="mybadge">2</span>
+                        <span class="mybadge" *ngIf="notifsNb">{{notifsNb > 99 ? '99+' : notifsNb}}</span>
                     </a>
                 </li>
                 <li class="ml-3 mr-2">
@@ -33,27 +42,6 @@
         </links>
 
     </mdb-navbar>
-    <!-- <nav class="navbar navbar-light bg-white fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" [routerLink]="navLinks[0].url">
-                <div class="d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row align-items-center">
-                    <img src="/assets/images/ccaa.png" height="30" alt="CCAA">
-                    <p class="h3-responsive">CCAA</p>
-                </div>
-            </a>
-            <ul class="navbar-nav d-flex flex-row flex-sm-row flex-md-row flex-lg-row flex-xl-row align-items-center">
-                <li class="nav-item mr-5">
-                    <a class="nav-link" aria-expanded="false" style="position: relative;">
-                        <mdb-icon far icon="bell" size="lg" class="indigo-text pr-3" aria-hidden="true"></mdb-icon>
-                        <span class="mybadge">2</span>
-                    </a>
-                </li>
-                <li class="ml-3 mr-2">
-                    <button mdbBtn class="roundedbtn" type="button" color="deep-purple" mdbWavesEffect (click)="logout()">{{'navbar.logout' | translate }}</button>
-                </li>
-            </ul>
-        </div>
-    </nav> -->
 </header>
 
 <div class="container-fluid" style="margin-top: 65px;">
@@ -82,3 +70,15 @@
         </div>
     </div>
 </div>
+
+<ng-template #popContent>
+    <div class="container" style="height: 80vh;">
+        <div class="scrollable scrollbar-primary">
+            <div class="d-flex flex-column">
+                <div *ngFor="let notif of notificationsList">
+                    <app-notification (notifRead)="notifReadEvent($event)" [notification]="notif"></app-notification>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

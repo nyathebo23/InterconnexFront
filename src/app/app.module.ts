@@ -17,7 +17,7 @@ import { NotamComponent } from './shared-components/forms/notam/notam.component'
 import { SUPPAIPComponent } from './shared-components/forms/supp-aip/supp-aip.component';
 import { AICComponent } from './shared-components/forms/aic/aic.component';
 import { SourceUnitFormComponent } from './shared-components/forms/source-unit-form/source-unit-form.component';
-import { ButtonsModule, WavesModule, CollapseModule, CarouselModule, ChartsModule,
+import { ButtonsModule, WavesModule, CollapseModule, CarouselModule, ChartsModule, DropdownModule, PopoverModule,
   TableModule, NavbarModule, CheckboxModule, ModalModule, IconsModule } from 'angular-bootstrap-md';
 import { LeftNavComponent } from './shared-components/components/left-nav/left-nav.component';
 import { DDIAItemComponent } from './shared-components/components/ddia-item/ddia-item.component';
@@ -129,6 +129,15 @@ import { StatisticPageSourceVerifComponent } from './verif-source/statistic-page
 import { StatisticPageSourceStructureComponent } from './source-structure/statistic-page-source-structure/statistic-page-source-structure.component';
 import { StatisticPageLocalInformerComponent } from './local-informer-extern/statistic-page-local-informer/statistic-page-local-informer.component';
 import { StatisticPageNationalInformerComponent } from './national-informer/statistic-page-national-informer/statistic-page-national-informer.component';
+import { ModalEditAerodromeComponent } from './administrateur/structure-source-management/modal-edit-aerodrome/modal-edit-aerodrome.component';
+import { ModalEditUnitComponent } from './administrateur/structure-source-management/modal-edit-unit/modal-edit-unit.component';
+import { ModalEditLocalInformerComponent } from './administrateur/modals-for-informers/modal-edit-local-informer/modal-edit-local-informer.component';
+import { ModalEditNationalInformerComponent } from './administrateur/modals-for-informers/modal-edit-national-informer/modal-edit-national-informer.component';
+import { UnitsErroneousDDIAComponent } from './agent-source/units-erroneous-ddia/units-erroneous-ddia.component';
+import { DDIAListSimpleComponent } from './agent-source/ddia-list-simple/ddia-list-simple.component';
+import { NOTAMModifComponent } from './shared-components/forms/notam-modif/notam-modif.component';
+import { SUPPAIPModifComponent } from './shared-components/forms/suppaip-modif/suppaip-modif.component';
+import { AICModifComponent } from './shared-components/forms/aic-modif/aic-modif.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   // console.log(localStorage.getItem('access_token'));
@@ -263,6 +272,15 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     StatisticPageSourceStructureComponent,
     StatisticPageLocalInformerComponent,
     StatisticPageNationalInformerComponent,
+    ModalEditAerodromeComponent,
+    ModalEditUnitComponent,
+    ModalEditLocalInformerComponent,
+    ModalEditNationalInformerComponent,
+    UnitsErroneousDDIAComponent,
+    DDIAListSimpleComponent,
+    NOTAMModifComponent,
+    SUPPAIPModifComponent,
+    AICModifComponent,
   ],
   imports: [
     BrowserModule,
@@ -273,13 +291,16 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     BrowserAnimationsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    PopoverModule.forRoot(),
     TimepickerModule.forRoot(),
     CarouselModule.forRoot(),
     WavesModule.forRoot(),
     IconsModule,
     CheckboxModule,
     NavbarModule,
+    CollapseModule.forRoot(),
     ButtonsModule.forRoot(),
+    DropdownModule.forRoot(),
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),

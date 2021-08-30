@@ -10,10 +10,6 @@ import { LocalInformerI } from 'src/app/interfaces/local-informer.interface';
 import { NationalInformerI } from 'src/app/interfaces/national-informer.interface';
 import { SignupResponse } from 'src/app/interfaces/signup-reponse.interface';
 import { UnitLite } from 'src/app/interfaces/unit-lite.interface';
-import { Aerodrome } from 'src/app/models/aerodrome.model';
-import { LocalInformer } from 'src/app/models/local-informer.model';
-import { NationalInformer } from 'src/app/models/national-informer.model';
-import { Unit } from 'src/app/models/unit.model';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
@@ -69,7 +65,7 @@ export class UserCreationComponent implements OnInit {
         this.aerodromeList = aerodromes;
       });
       this.localinfsSubscription =  this.adminService.getLocalInformersList('True').subscribe((localinfs: LocalInformerI[]) => {
-        this.localInfExternsList = localinfs;
+        this.localInfExternsList = localinfs.filter((val) => val.unit == null);
       });
       this.nationalinfsSubscription = this.adminService.getNationalInformersList().subscribe((nationalinfs: NationalInformerI[]) => {
         this.nationalInfList = nationalinfs;
@@ -97,6 +93,7 @@ export class UserCreationComponent implements OnInit {
   }
 
   submitUserCreate(): void {
+    this.loading = true;
     this.beforeSubmit();
     const formData = new FormData();
     formData.append('username', this.signUpForm.controls.username.value);

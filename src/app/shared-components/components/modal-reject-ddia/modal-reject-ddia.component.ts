@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MDBModalRef } from 'angular-bootstrap-md';
+import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class ModalRejectDDIAComponent implements OnInit {
   // 'functionToTrigger' car celle-ci n'est pas liée au contexte de la classe ControlActorService dans laquelle elle est implémentée
   constructor(
     public modalRef: MDBModalRef,
+    private controlActorService: ControlActorService,
     private authService: AuthManagerService,
     private http: HttpClient,
     private router: Router
@@ -48,7 +50,7 @@ export class ModalRejectDDIAComponent implements OnInit {
       console.log(res);
     })
     .catch((err) => {
-      alert(err.error);
+      alert(this.controlActorService.displayErrors(err));
     })
     .finally(() => this.endSubmitAction());
   }

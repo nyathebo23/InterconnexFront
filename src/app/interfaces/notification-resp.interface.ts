@@ -3,6 +3,6 @@ import { NotificationI } from './notification.interface';
 
 export interface NotificationResp {
     typeDDIA: string;
-    data?: ActionOnDDIAI;
+    data?: any;
     notification: NotificationI;
 }

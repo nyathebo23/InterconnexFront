@@ -46,6 +46,10 @@
             "sex": "Sex",
             "sexmale": "Male",
             "sexfemale": "Female",
+            "localInfsExt": "Externs Local informers",
+            "nationalInfs": "National informers",
+            "aerodromes": "Aerodromes",
+            "units": "Aerodrome's source units",
             "role": "Role",
             "submitBtn": "Save"
         },
@@ -77,6 +81,8 @@
         "unitsddia": "DDIA initiated in the unit",
         "stats": "DDIA statistics",
         "unitsPageLabel": "List of the unit's DDIA",
+        "unitsErrPageLabel": "List of the unit's DDIA with errors",
+        "unitsDDIAErroneous": "Erroneous DDIA",
         "statsView": {
             "allDDIA": "All aeronautical information dissemination requests initiated",
             "publishedDDIA": "Only previously published aeronautical information dissemination requests"
@@ -198,6 +204,7 @@
             "notamTargetCode": "Targeted NOTAM code",
             "valPeriod": "Validity period",
             "periodType": "Period type",
+            "dailyFreqType": "Daily frquency type",
             "plannedPeriod": "Planned",
             "estimatedPeriod": "Estimated",
             "notamType": "NOTAM type",
@@ -257,7 +264,8 @@
         "errone": "rejected"
     },
     "navbar": {
-        "logout": "Logout"
+        "logout": "Logout",
+        "goTo": "Go to"
     },
     "AGENTSOURCE": {
         "initDDIA": {
@@ -325,12 +333,14 @@
     "InformateurLocal": {
         "title": "Local informer",
         "name": "Name",
+        "units": "Aerodrome's source units",
         "submitBtn": "Save",
         "createsuccess": "Local informer successfully created"
     },
     "InformateurNational": {
         "title": "National informer",
         "name": "Name",
+        "email": "Email",
         "isauthority": "Belongs to the aeronautical authority",
         "submitBtn": "Save",
         "createsuccess": "National informer successfully created"
@@ -376,6 +386,7 @@
             "helperText": "Make sure that this {{typeDDIA}} broadcast request is not yet published before performing this action. An email will be sent to the publisher to publish the broadcast request."
         },
         "successCreateDDIA": "Successfully created {{typeDDIA}} broadcast request !",
+        "successModifDDIA": "Successfully modified {{typeDDIA}} broadcast request !",
         "deleteConfirmMessage": "Are you sure you want to remove this element? This action is irreversible.",
         "ok": "Yes",
         "cancel": "Cancel"
@@ -383,6 +394,7 @@
     "NOTIFICATION": {
         "ddiaCreation": "Your unit has initiated a broadcast request of {{typeDDIA}}, reference {{refDDIA}}",
         "verifReception": "Your unit has received a broadcast request of {{typeDDIA}}, reference {{refDDIA}} to verify.",
+        "publicationDDIA": "The broadcast request of {{typeDDIA}}, reference {{refDDIA}} has been published.",
         "sourcestructReception": "You have received a broadcast request of {{typeDDIA}}, reference {{refDDIA}} from the local informant office of your aerodrome for you to validate.",
         "localinfReception": "Your local informant office has received a broadcast request from {{typeDDIA}}, reference {{refDDIA}} to validate.",
         "nationalinfReception": "Your National Informant Office has received a request to release {{typeDDIA}}, reference {{refDDIA}} for approval.",

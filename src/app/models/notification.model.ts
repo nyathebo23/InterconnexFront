@@ -29,6 +29,8 @@ class UnitReduced {
 
 export class Notification {
     // tslint:disable-next-line:variable-name
+    private _id: string;
+    // tslint:disable-next-line:variable-name
     private _receiverStructure: UnitReduced | NationalInformer | LocalInformer | Aerodrome;
     // tslint:disable-next-line:variable-name
     private _event: string;
@@ -39,19 +41,27 @@ export class Notification {
     // tslint:disable-next-line:variable-name
     private _newDDIAState: string;
     // tslint:disable-next-line:variable-name
+    private _read: boolean;
+    // tslint:disable-next-line:variable-name
     private _datetime: Date;
 
     constructor(
-        structure: UnitReduced | NationalInformer | LocalInformer | Aerodrome,
-        event: string, typeDDIA: string, refDDIA: string, stateDDIA: string, datetime: Date
+        id: string, structure: UnitReduced | NationalInformer | LocalInformer | Aerodrome,
+        event: string, typeDDIA: string, refDDIA: string, stateDDIA: string, datetime: Date, read: boolean
     )
     {
+        this._id = id;
         this._receiverStructure = structure;
         this._event = event;
         this._typeDDIA = typeDDIA;
         this._datetime = datetime;
         this._refDDIA = refDDIA;
         this._newDDIAState = stateDDIA;
+        this._read = read;
+    }
+
+    get id(): string {
+        return this._id;
     }
 
     get receiverStructure(): UnitReduced | NationalInformer | LocalInformer | Aerodrome {
@@ -78,6 +88,14 @@ export class Notification {
         return this._newDDIAState;
     }
 
+    get read(): boolean {
+        return this._read;
+    }
+
+    set read(read: boolean){
+        this._read = read;
+    }
+
     public static fromJSON(data: NotificationI): Notification{
         let structure = null;
         if (data.receiver_object.is_authority){
@@ -93,12 +111,14 @@ export class Notification {
             structure = LocalInformer.fromJSON(data.receiver_object);
         }
         return new Notification(
+            data.id,
             structure,
             data.event,
             data.ddia_type,
             data.ref_ddia,
             data.new_ddia_state,
-            new Date(data.date_time)
+            new Date(data.date_time),
+            data.read
         );
     }
 }

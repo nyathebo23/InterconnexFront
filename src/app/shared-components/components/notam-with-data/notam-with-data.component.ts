@@ -4,7 +4,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NOTAM_CLASS_NAME, NOTAM_TYPE, VALIDITY_PERIOD_PLANNED } from 'src/app/commons/constants';
+import { DAILY_FREQ_ESTIMATED, DAILY_FREQ_PLANNED, NOTAM_CLASS_NAME, NOTAM_TYPE, VALIDITY_PERIOD_ESTIMATED, VALIDITY_PERIOD_PLANNED } from 'src/app/commons/constants';
 import { DemandeNOTAM } from 'src/app/models/demande-notam.model';
 import { User } from 'src/app/models/user.model';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
@@ -67,6 +67,10 @@ export class NOTAMWithDataComponent implements OnInit {
     this.controlActorService.getNOTAMDetailsById(id).subscribe(
       (demandenotam) => {
         this.demandeNOTAM = demandenotam;
+        const periodType = this.demandeNOTAM.periodType === VALIDITY_PERIOD_PLANNED ? 'planned' :
+        this.demandeNOTAM.periodType === VALIDITY_PERIOD_ESTIMATED ? 'estimated' : '';
+        const dailyFreqType = this.demandeNOTAM.dailyFreqType === DAILY_FREQ_PLANNED ? 'planned' :
+        this.demandeNOTAM.dailyFreqType === DAILY_FREQ_ESTIMATED ? 'estimated' : '';
         const user = demandenotam.initiator;
         this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
         this.notamForm = this.formBuilder.group({
@@ -76,10 +80,11 @@ export class NOTAMWithDataComponent implements OnInit {
           text: [{value: this.demandeNOTAM.text, disabled: true}],
           notamTargetCode: [{value: this.demandeNOTAM.replaceorcancelNOTAMCode, disabled: true}],
           coords: [{value: this.demandeNOTAM.coords, disabled: true}],
-          periodType: [{value: this.demandeNOTAM.periodType === VALIDITY_PERIOD_PLANNED ? 'planned' : 'estimated', disabled: true}],
+          periodType: [{value: periodType, disabled: true}],
           validityPeriod: [{value: [this.demandeNOTAM.startValidityPeriod, this.demandeNOTAM.endValidityPeriod], disabled: true}],
           dailyFreqStart: [{value: this.demandeNOTAM.dailyFreqStart, disabled: true}],
           dailyFreqEnd: [{value: this.demandeNOTAM.dailyFreqEnd, disabled: true}],
+          dailyFreqType: [{value: dailyFreqType, disabled: true}],
           infLimit: [{value: this.demandeNOTAM.lowerVerticalLimit, disabled: true}],
           supLimit: [{value: this.demandeNOTAM.upperVerticalLimit, disabled: true}],
         });

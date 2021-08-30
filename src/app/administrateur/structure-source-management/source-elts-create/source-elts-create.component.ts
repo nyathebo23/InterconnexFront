@@ -93,15 +93,12 @@ export class SourceEltsCreateComponent implements OnInit {
     this.adminService.createUnit(formData)
     .then(() => {
       this.createUnitSuccess = true;
-      setTimeout(() => {
-        this.loadingsu = false;
-        this.adminService.reloadCurrentRoute();
-      }, 5000);
     })
     .catch((err) => {
-      this.loadingsu = false;
+      this.unitErrors = this.adminService.displayErrors(err);
       setTimeout(() => this.unitErrors = [], 5000);
-    });
+    })
+    .finally(() => this.loadingsu = false);
   }
 
   submitAerodrome(): void {
@@ -115,15 +112,12 @@ export class SourceEltsCreateComponent implements OnInit {
       .then((resp) => {
         console.log(resp);
         this.createAerodromeSuccess = true;
-        setTimeout(() => {
-          this.loadingss = false;
-          this.adminService.reloadCurrentRoute();
-        }, 5000);
       })
       .catch((err) => {
-        this.loadingss = false;
-        setTimeout(() => this.aerodromeErrors = [], 5000);
-      });
+        this.aerodromeErrors = this.adminService.displayErrors(err);
+        setTimeout(() => this.aerodromeErrors = [], 10000);
+      })
+      .finally(() => this.loadingss = false);
     }
   // }
 }

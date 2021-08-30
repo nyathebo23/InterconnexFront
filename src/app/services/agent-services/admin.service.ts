@@ -82,19 +82,19 @@ export class AdminService {
   }
 
   updateUnit(id: string, formData: FormData): Promise<any> {
-    return this.http.post(URLS.UNIT_CRU + id, formData).toPromise();
+    return this.http.put(URLS.UNIT_CRU + id + '/', formData).toPromise();
   }
 
   updateAerodrome(id: string, formData: FormData): Promise<any> {
-    return this.http.post(URLS.AERODROME_CRU + id, formData).toPromise();
+    return this.http.put(URLS.AERODROME_CRU + id + '/', formData).toPromise();
   }
 
   updateNationalInformer(id: string, formData: FormData): Promise<any>  {
-    return this.http.post(URLS.NATIONAL_INFORMER_CRU + id, formData).toPromise();
+    return this.http.put(URLS.NATIONAL_INFORMER_CRU + id + '/', formData).toPromise();
   }
 
   updateLocalInformer(id: string, formData: FormData): Promise<any> {
-    return this.http.post(URLS.LOCAL_INFORMER_CRU + id, formData).toPromise();
+    return this.http.put(URLS.LOCAL_INFORMER_CRU + id + '/', formData).toPromise();
   }
 
   deleteUnit(id: string): Promise<any> {
@@ -138,6 +138,35 @@ export class AdminService {
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
     });
+  }
+
+  displayErrors(errorResp: HttpErrorResponse): string[]{
+    const errors: string[] = [];
+    const error = errorResp.error;
+    if (error instanceof ErrorEvent) {
+      return ['An error occurred: ' + error.message];
+    }
+    else if (errorResp.status === 500){
+      return ['Errors.servererror'];
+    }
+    else if (errorResp.status === 0){
+      return ['Errors.serverconnection'];
+    }
+    else if (typeof error === 'string'){
+      return ['Errors.error'];
+    }
+    for (const key of Object.keys(error)) {
+      const value = error[key];
+      if (Array.isArray(value)){
+        for (const elt of value){
+          errors.push(key + ' - ' + elt );
+        }
+      }
+      else{
+        errors.push(key === 'message' ? value : key + ' - ' + value );
+      }
+    }
+    return errors;
   }
 
   handleError(error: HttpErrorResponse): Observable<never> {

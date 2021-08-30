@@ -26,10 +26,8 @@ export class NationalinfListDDIAProcessedComponent implements OnInit {
     // {stateLabel: 'DDIAstates.attenteApprobation', stateValue: PENDING_APPROVAL_STATE} ,
     {stateLabel: 'DDIAstates.attentePublication', stateValue: PENDING_PUBLICATION_STATE} ,
     {stateLabel: 'DDIAstates.publie', stateValue: PUBLISHED_STATE} ,
-    {stateLabel: 'erroné', stateValue: 'erroné'} ,
   ];
   constructor(
-    private authService: AuthManagerService,
     private nationalInformerService: InformateurNationalService,
     private pusherNationalInfService: PusherNationalInformerService
   ) {

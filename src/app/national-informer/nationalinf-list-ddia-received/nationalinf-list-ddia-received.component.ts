@@ -19,7 +19,6 @@ export class NationalinfListDDIAReceivedComponent implements OnInit {
   ddiaActionsList: ActionOnDDIA[];
 
   constructor(
-    private authService: AuthManagerService,
     private nationalInformerService: InformateurNationalService,
     private pusherNationalInfService: PusherNationalInformerService
   ) {

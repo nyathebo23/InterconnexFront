@@ -38,6 +38,9 @@ export class InfLocalManagementComponent implements OnInit {
       aerodrome: [''],
       unit: ['']
     });
+    this.infLocalForm.controls.aerodrome.valueChanges.subscribe((val) => {
+      this.infLocalForm.controls.unit.setValue('');
+    });
     this.ngxUiLoaderService.startLoader(this.loaderId);
     const localInfsSubscription = this.adminService.getLocalInformersList().pipe(
       catchError(this.adminService.handleError),
@@ -88,7 +91,7 @@ export class InfLocalManagementComponent implements OnInit {
       this.adminService.reloadCurrentRoute();
     })
     .catch((err) => {
-
+      this.errors = this.adminService.displayErrors(err);
     })
     .finally(() => this.loading = false);
   }

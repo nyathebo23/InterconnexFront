@@ -4,7 +4,7 @@ import {
   FormGroup
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SUPPAIP_CLASS_NAME, SUPPAIP_TYPE } from 'src/app/commons/constants';
+import { PENDING_ADMISSION_STATE, SUPPAIP_CLASS_NAME, SUPPAIP_TYPE } from 'src/app/commons/constants';
 import { DemandeSUPPAIP } from 'src/app/models/demande-suppaip.model';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
 import { ModalControlDDIAConfirmComponent } from '../modal-control-ddia-confirm/modal-control-ddia-confirm.component';
@@ -32,6 +32,8 @@ export class SUPPAIPWithDatasForSourcestructureComponent implements OnInit {
   loaderId = 'ddia-loader';
   isAerodromeConceded: boolean;
   labelTargetNationalInf: string;
+  objectDefaultState = PENDING_ADMISSION_STATE;
+
   constructor(
     private formBuilder: FormBuilder,
     private modalDisplayService: ModalDisplayService,

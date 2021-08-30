@@ -6,11 +6,14 @@ export class NationalInformer{
     // tslint:disable-next-line:variable-name
     private _name: string;
     // tslint:disable-next-line:variable-name
+    private _email: string;
+    // tslint:disable-next-line:variable-name
     private _isAuthority: boolean;
 
-    constructor(id: string, name: string, isAuthority: boolean) {
+    constructor(id: string, name: string, mail: string, isAuthority: boolean) {
         this._id = id;
         this._name = name;
+        this._email = mail;
         this._isAuthority = isAuthority;
     }
 
@@ -22,11 +25,15 @@ export class NationalInformer{
         return this._name;
     }
 
+    public get email(): string {
+        return this._email;
+    }
+
     public get isAuthority(): boolean {
         return this._isAuthority;
     }
 
     public static fromJSON(data: NationalInformerI): NationalInformer{
-        return new NationalInformer(data.id, data.name, data.is_authority);
+        return new NationalInformer(data.id, data.name, data.email, data.is_authority);
     }
 }

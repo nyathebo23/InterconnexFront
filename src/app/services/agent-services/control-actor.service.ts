@@ -147,9 +147,10 @@ getDDIAListInWaitingForSourceStructure(typeDDIA: string, fromLocalInf: string): 
   }
 
   verifyDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
+    const isAerodromeConceded = this.authService.getAerodrome().isConceded;
     return this.http.post(URLS.VERIFY_DDIA + classNameDDIA + '/' + id, data, {
       params: {
-        is_localinf: 'no'
+        is_localinf: isAerodromeConceded ? 'yes' : 'no'
       }
     }).toPromise();
   }
@@ -214,6 +215,35 @@ getDDIAListInWaitingForSourceStructure(typeDDIA: string, fromLocalInf: string): 
       catchError(this.handleError),
       map((data: DemandeAICI) => DemandeAIC.fromJSON(data))
     );
+  }
+
+  displayErrors(errorResp: HttpErrorResponse): string[]{
+    const errors: string[] = [];
+    const error = errorResp.error;
+    if (error instanceof ErrorEvent) {
+      return ['An error occurred: ' + error.message];
+    }
+    else if (errorResp.status === 500){
+      return ['Errors.servererror'];
+    }
+    else if (errorResp.status === 0){
+      return ['Errors.serverconnection'];
+    }
+    else if (typeof error === 'string'){
+      return ['Errors.error'];
+    }
+    for (const key of Object.keys(error)) {
+      const value = error[key];
+      if (Array.isArray(value)){
+        for (const elt of value){
+          errors.push(key + ' - ' + elt );
+        }
+      }
+      else{
+        errors.push(key === 'message' ? value : key + ' - ' + value );
+      }
+    }
+    return errors;
   }
 
   handleError(error: HttpErrorResponse): Observable<never> {

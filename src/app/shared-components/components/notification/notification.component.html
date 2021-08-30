@@ -1,8 +1,15 @@
-<div class="jumbotron p-0">
-    <blockquote class="blockquote bq-primary">
-        <p class="bq-title"> </p>
-        <p [translate]="contentText" [translateParams]="{typeDDIA: notification.typeDDIA, refDDIA: notification.refDDIA}"> </p>
-        <footer class="blockquote-footer">Received on <cite title="date"> {{ date }} </cite></footer>
-        <hr>
-    </blockquote>
-</div>
+<blockquote class="blockquote" [ngClass]="{'bq-primary': !notification.read}">
+    <div class="d-flex flex-column align-items-center">
+        <div class="d-flex flex-row justify-content-between">
+            <div class="mr-1"> {{contentTitle}} </div>
+            <div [ngClass]="{'invisible': !displayToggler}">
+                <a>
+                    <mdb-icon size="x" class="indigo-text" far [icon]="displayTextNotif ? 'caret-square-up' : 'caret-square-down'" (click)="markNotifAsRead()"></mdb-icon>
+                </a>
+            </div>
+        </div>
+        <div class="fs-14" [ngClass]="{'invisible': !displayTextNotif}" [translate]="contentText" [translateParams]="{typeDDIA: notification.typeDDIA, refDDIA: notification.refDDIA}"></div>
+    </div>
+    <footer class="blockquote-footer fs-13"><cite title="date"> {{ date }} </cite></footer>
+    <hr>
+</blockquote>

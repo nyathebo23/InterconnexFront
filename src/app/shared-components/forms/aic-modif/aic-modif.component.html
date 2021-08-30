@@ -1,0 +1,79 @@
+<ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
+<div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="aicForm" *ngIf="demandeAIC">
+    <div class="d-flex flex-column">
+        <h1 class="ddia-title">
+            <app-back-to-prec-page></app-back-to-prec-page>{{'DDIAFORMS.aic.title' | translate}}
+        </h1>
+        <div class="container mb-3">
+            <app-list-states-box [currentState]="demandeAIC.state" [historyItems]="demandeAIC.history"></app-list-states-box>
+        </div>
+        <mdb-carousel [isControls]="true" [interval]="'0'" [animation]="'slide'">
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
+                            <owl-date-time #dt1></owl-date-time>
+                        </div>
+                        <app-source-unit-form [locationInd]="demandeAIC.locationIndicator" [initiatorInfos]="initiatorInfos" [unit]="demandeAIC.sourceUnit"></app-source-unit-form>
+                        <label for="subject" class="custom-label">{{'DDIAFORMS.aic.subject.label' | translate}}:</label>
+                        <div class="d-flex flex-wrap justify-content-between">
+                            <div class="custom-control custom-radio" *ngFor="let choice of subjectChoices; let index=index;">
+                                <input [id]="'subjectchoice'+index" class="custom-control-input" type="radio" [value]="choice.val" formControlName="subject">
+                                <label [for]="'subjectchoice'+index" class="custom-control-label">{{ choice.label | translate }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="object" class="custom-label">{{'DDIAFORMS.aic.object' | translate }}</label>
+                            <input type="text" id="object" formControlName="object" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+            <mdb-carousel-item>
+                <div class="ddia-form">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="descText" class="custom-label">{{'DDIAFORMS.aic.text' | translate }}</label>
+                            <textarea class="form-control" formControlName="text" id="descText" cols="30" rows="5"></textarea>
+                        </div>
+                        <div formArrayName="filesForm" class="form-group">
+                            <label class="custom-label">{{'DDIAFORMS.notam.files' | translate }}</label>
+                            <div *ngFor="let fileForm of files.controls;let index=index;">
+                                <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
+                                    <div>
+                                        <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
+                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;">                        
+                                            <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<mdb-icon fas icon="paperclip" size="lg"></mdb-icon></label>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <input type="text" formControlName="filename" [disabled]="true" class="form-control">
+                                    </div>
+                                    <div>
+                                        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="removeFileForm()" style="height: 43px;">
+                                            <mdb-icon fas icon="minus" size="lg"></mdb-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-5">
+                                <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="addFileForm()">
+                                    <mdb-icon fas icon="plus" size="lg"></mdb-icon> &nbsp; {{'DDIAFORMS.buttons.plusonefile' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mdb-carousel-item>
+        </mdb-carousel>
+    </div>
+    <app-history-box [history]="demandeAIC.history"></app-history-box>
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="isOwner && !isCancelled">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
+        {{'DDIAFORMS.buttons.cancelddia' | translate }}
+        </button>
+        <button type="button" [disabled]="notamForm.invalid || loadingSave" mdbBtn color="primary" mdbWavesEffect (click)="save()">
+        <span *ngIf="loadingSave" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'DDIAFORMS.buttons.save' | translate }} MODIF
+    </button>
+    </div>

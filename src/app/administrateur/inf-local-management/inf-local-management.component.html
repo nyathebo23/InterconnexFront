@@ -21,7 +21,7 @@
             </div>
             <div class="form-group mb-4" *ngIf="isAerodromeLocalInf()">
                 <select class="form-control" formControlName="unit">
-                    <option selected disabled value="">Unités source de l'aérodrome</option>
+                    <option selected disabled value="">{{'InformateurLocal.units' | translate}}</option>
                     <option *ngFor="let unitsource of unitsList" [value]="unitsource.id" >{{unitsource.name}}</option>
                 </select>
             </div>

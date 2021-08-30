@@ -5,3 +5,4 @@ export const ADMISSION = 'admission';
 export const VALIDATION = 'validation';
 export const APPROBATION = 'approbation';
 export const PUBLISH_OR_RESENDREQ = 'publish';
+export const MODIFICATION = 'modification';

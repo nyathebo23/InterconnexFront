@@ -4,9 +4,7 @@ import {
   FormGroup,
   FormArray,
   Validators,
-  AbstractControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { MDBModalService } from 'angular-bootstrap-md';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
@@ -29,12 +27,10 @@ export class AICComponent implements OnInit {
   loadingSave: boolean;
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthManagerService,
     private sourceAgentService: AgentSourceService,
     private modalService: MDBModalService,
-    private modalDisplayService: ModalDisplayService
+    private modalDisplayService: ModalDisplayService,
   ) {
-    this.initForm();
     this.subjectChoices.push({val: 'Administratif', label: 'DDIAFORMS.aic.subject.admin'});
     this.subjectChoices.push({val: 'ATC', label: 'DDIAFORMS.aic.subject.atc'});
     this.subjectChoices.push({val: 'Sécurité', label: 'DDIAFORMS.aic.subject.security'});
@@ -43,7 +39,7 @@ export class AICComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.initForm();
   }
 
   initForm(): void {
@@ -83,6 +79,10 @@ export class AICComponent implements OnInit {
   }
 
   onFileSelected(event: any, fileForm: any): void{
+    if (event.target.files[0].size > 10000000){
+      alert('file size is too high');
+      return;
+    }
     fileForm.patchValue({
       file: event.target.files[0],
       filename: event.target.files[0].name
@@ -105,7 +105,7 @@ export class AICComponent implements OnInit {
     .then(() => {
       this.errors = [];
       this.modalService.show(ModalSuccessCreationDDIAComponent,
-        this.modalDisplayService.getModalOptions({typeDDIA: 'AIC'}, 'modal-dialog modal-notify modal-success')
+        this.modalDisplayService.getModalOptions({typeDDIA: 'AIC', contentText: 'MODAL.successCreateDDIA'}, 'modal-dialog modal-notify modal-success')
       );
     })
     .catch((err) => {

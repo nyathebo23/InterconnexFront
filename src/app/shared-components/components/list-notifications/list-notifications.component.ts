@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Notification } from 'src/app/models/notification.model';
 import { NotificationDisplayService } from 'src/app/services/shared/notification-display.service';
 
@@ -10,17 +9,11 @@ import { NotificationDisplayService } from 'src/app/services/shared/notification
 })
 export class ListNotificationsComponent implements OnInit {
 
-  notificationsList: Notification[];
-  constructor(
-    private notifiationDisplayService: NotificationDisplayService,
-    private activatedRoute: ActivatedRoute
-  ) { }
+  @Input() notificationsList: Notification[];
+  constructor() { }
 
   ngOnInit(): void {
-    const url = this.activatedRoute.snapshot.data.url;
-    this.notifiationDisplayService.getNotifications(url).subscribe((notifs) => {
-      this.notificationsList = notifs;
-    });
+
   }
 
 }
