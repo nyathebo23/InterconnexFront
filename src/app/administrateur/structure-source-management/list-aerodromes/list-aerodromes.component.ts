@@ -40,6 +40,9 @@ export class ListAerodromesComponent implements OnInit, AfterViewInit {
       this.aerodromes = this.mdbTable.getDataSource();
       this.prevAerodromes = this.mdbTable.getDataSource();
       this.loadingDatas = false;
+    }, error => {
+      this.adminService.setError(error);
+    }, () => {
       this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
   }

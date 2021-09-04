@@ -20,5 +20,5 @@ export interface DemandeSUPPAIPI{
     descriptive_text: string;
     attachments: AttachmentI[];
     history: DDIAHistoryI[];
-    request_referral: RequestReferralI;
+    request_referrals: RequestReferralI[];
 }

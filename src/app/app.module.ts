@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AppRoutingModule } from './app-routing.module';
@@ -138,6 +138,14 @@ import { DDIAListSimpleComponent } from './agent-source/ddia-list-simple/ddia-li
 import { NOTAMModifComponent } from './shared-components/forms/notam-modif/notam-modif.component';
 import { SUPPAIPModifComponent } from './shared-components/forms/suppaip-modif/suppaip-modif.component';
 import { AICModifComponent } from './shared-components/forms/aic-modif/aic-modif.component';
+import { ReferralMessageComponent } from './shared-components/components/referral-message/referral-message.component';
+import { HttpErrorInterceptor } from './helpers/http-error.interceptor';
+import { ErrorHandlingService } from './services/agent-services/error-handling.service';
+import { AgentSourceService } from './services/agent-services/agent-source.service';
+import { VerifSourceService } from './services/agent-services/verif-source.service';
+import { InformateurLocalService } from './services/agent-services/informateur-local.service';
+import { InformateurNationalService } from './services/agent-services/informateur-national.service';
+import { StructureSourceService } from './services/agent-services/structure-source.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   // console.log(localStorage.getItem('access_token'));
@@ -281,6 +289,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NOTAMModifComponent,
     SUPPAIPModifComponent,
     AICModifComponent,
+    ReferralMessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -341,7 +350,13 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     PusherSourceStructureService,
     PusherNationalInformerService,
     PusherAuthorityLocalinfService,
-    NotificationDisplayService
+    NotificationDisplayService,
+    ErrorHandlingService
+  //  {
+  //   provide: HTTP_INTERCEPTORS,
+  //   useClass: HttpErrorInterceptor,
+  //   multi: true
+  // }
   ],
   bootstrap: [AppComponent]
 })

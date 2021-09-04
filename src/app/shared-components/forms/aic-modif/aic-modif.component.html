@@ -2,7 +2,7 @@
 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="aicForm" *ngIf="demandeAIC">
     <div class="d-flex flex-column">
         <h1 class="ddia-title">
-            <app-back-to-prec-page></app-back-to-prec-page>{{'DDIAFORMS.aic.title' | translate}}
+            <app-back-to-prec-page></app-back-to-prec-page>{{'DDIAFORMS.aic.title' | translate}} &nbsp;({{demandeAIC.identDDIA}})
         </h1>
         <div class="container mb-3">
             <app-list-states-box [currentState]="demandeAIC.state" [historyItems]="demandeAIC.history"></app-list-states-box>
@@ -26,6 +26,7 @@
                         <div class="form-group mb-2">
                             <label for="object" class="custom-label">{{'DDIAFORMS.aic.object' | translate }}</label>
                             <input type="text" id="object" formControlName="object" class="form-control" />
+                            <app-control-messages [control]="aicForm.controls.object"></app-control-messages>
                         </div>
                     </div>
                 </div>
@@ -42,8 +43,8 @@
                             <div *ngFor="let fileForm of files.controls;let index=index;">
                                 <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                     <div>
-                                        <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
-                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;">                        
+                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;" (click)="fileUpload.click()"> 
+                                            <input type="file" class="file-input" #fileUpload [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">                       
                                             <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<mdb-icon fas icon="paperclip" size="lg"></mdb-icon></label>
                                         </button>
                                     </div>
@@ -68,7 +69,20 @@
             </mdb-carousel-item>
         </mdb-carousel>
     </div>
-    <app-history-box [history]="demandeAIC.history"></app-history-box>
+    <div *ngIf="demandeAIC.requestReferrals">
+        <app-referral-message [referrals]="demandeAIC.requestReferrals"></app-referral-message>
+    </div>
+
+    <div class="container mb-3">
+        <div class="row bg-white">
+            <button mdbBtn color="primary" outline="true" class="waves-light m-auto" type="button" (click)="historyBox.toggle()" mdbWavesEffect>
+                {{'DDIAFORMS.history' | translate}} &nbsp; <mdb-icon fas [icon]="historyBox.isCollapsed ? 'caret-down' : 'caret-up'"></mdb-icon>
+            </button>
+        </div>
+    </div>
+    <div mdbCollapse #historyBox>
+        <app-history-box [history]="demandeAIC.history"></app-history-box>
+    </div>
     <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="isOwner && !isCancelled">
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
         {{'DDIAFORMS.buttons.cancelddia' | translate }}

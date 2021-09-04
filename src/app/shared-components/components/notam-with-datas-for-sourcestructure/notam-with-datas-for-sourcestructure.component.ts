@@ -62,7 +62,7 @@ export class NOTAMWithDatasForSourcestructureComponent implements OnInit {
       (demandenotam) => {
         if (this.isAerodromeConceded){
           this.structureSourceService.getNationalInformerDDIATargeted(NOTAM_CLASS_NAME, id)
-          .then((nationalinf) => {
+          .subscribe((nationalinf) => {
             if (nationalinf.isAuthority){
               this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetCCAALabel';
               this.modalDatas.approbationAfter = 'no';
@@ -71,9 +71,8 @@ export class NOTAMWithDatasForSourcestructureComponent implements OnInit {
               this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetASECNALabel';
               this.modalDatas.approbationAfter = 'yes';
             }
-          })
-          .catch((err) => {
-
+          }, error => {
+            this.controlActorService.setError(error);
           });
         }
         this.demandeNOTAM = demandenotam;
@@ -99,6 +98,10 @@ export class NOTAMWithDatasForSourcestructureComponent implements OnInit {
           supLimit: [{value: this.demandeNOTAM.upperVerticalLimit, disabled: true}],
         });
         this.dataLoaded = true;
+      }, error => {
+        this.controlActorService.setError(error);
+      },
+      () => {
         this.ngxUiLoaderService.stopLoader(this.loaderId);
       }
     );

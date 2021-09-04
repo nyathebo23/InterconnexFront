@@ -43,6 +43,9 @@ export class ListUnitsComponent implements OnInit, AfterViewInit {
       this.units = this.mdbTable.getDataSource();
       this.prevUnits = this.mdbTable.getDataSource();
       this.loadingDatas = false;
+    }, error => {
+      this.adminService.setError(error);
+    }, () => {
       this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
   }

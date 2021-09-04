@@ -34,6 +34,8 @@
                             <div class="form-group mb-2">
                                 <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.notam.notamTargetCode' | translate }}</label>
                                 <input type="text" id="targetNOTAM" class="form-control" formControlName="notamTargetCode">
+                                <app-control-messages [control]="notamForm.controls.notamTargetCode"></app-control-messages>
+
                                 <!-- <select [disabled]="!isReplaceNOTAM()" class="form-control" id="targetNOTAM">
                                     <option value=""></option>
                                 </select> -->
@@ -81,10 +83,10 @@
                             <label class="custom-label">{{'DDIAFORMS.notam.dailyFreq' | translate }}</label>
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
                                 <div>
-                                    <input type="time" id="input1" class="form-control" formControlName="dailyFreqStart" mdbInput value="08:00" />
+                                    <input type="time" id="input1" class="form-control" formControlName="dailyFreqStart" mdbInput />
                                 </div>
                                 <div>
-                                    <input type="time" id="input2" class="form-control" formControlName="dailyFreqEnd" mdbInput value="20:00" />
+                                    <input type="time" id="input2" class="form-control" formControlName="dailyFreqEnd" mdbInput />
                                 </div>
                                 <!-- <timepicker [showMeridian]="false" formControlName="dailyFreqStart" [showSpinners]="false"></timepicker>
                                 <span>à</span>
@@ -125,8 +127,8 @@
                             <div *ngFor="let fileForm of files.controls;let index=index;">
                                 <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                     <div>
-                                        <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
-                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;">                        
+                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;" (click)="fileUpload.click()"> 
+                                            <input type="file" class="file-input" #fileUpload [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">                       
                                             <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<mdb-icon fas icon="paperclip" size="lg"></mdb-icon></label>
                                         </button>
                                     </div>

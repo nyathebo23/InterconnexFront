@@ -61,14 +61,13 @@ export class NationalinfListDDIAProcessedComponent implements OnInit {
 
   reloadDDIAItems(): void {
     this.nationalInformerService.getDDIAListProcessed(this.ddiaType, this.ddiaState, this.dateOrder, this.page)
-    .then((ddiaActions) => {
-      console.log(ddiaActions);
+    .subscribe((ddiaActions) => {
       this.ddiaActionsList = ddiaActions.actionsAgent;
       this.pagesNb = Math.ceil(ddiaActions.counts / PAGE_LIST_SIZE);
-    })
-    .catch((err) => {
-
-    });
+    }, error => {
+      this.nationalInformerService.setError(error);
+    },
+    () => {});
   }
 
 }

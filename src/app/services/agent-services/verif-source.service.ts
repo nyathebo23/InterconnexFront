@@ -12,6 +12,7 @@ import { Notification } from 'src/app/models/notification.model';
 import { NotificationI } from 'src/app/interfaces/notification.interface';
 import { CountAerodromeDDIAI, CountUnitDDIAI } from 'src/app/interfaces/count-ddia.interface';
 import { CountAerodromeDDIA, CountUnitDDIA } from 'src/app/models/count-ddia.model';
+import { ErrorHandlingService } from './error-handling.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,17 @@ export class VerifSourceService {
 
   isLocalInf: string;
   errorsSubject: Subject<string> = new Subject<string>();
-  errors: string[] = [];
   urlToDDIAProcessed: string;
-  constructor(private http: HttpClient, private authService: AuthManagerService) {
-    this.isLocalInf = this.authService.getLocalInf() && this.authService.getLocalInf().unit ? 'yes' : 'no';
+  constructor(
+    private http: HttpClient,
+    private authService: AuthManagerService,
+    private errorHandlingService: ErrorHandlingService
+  ) {
+    this.isLocalInf = this.authService.getAerodrome().isConceded ? 'yes' : 'no';
     this.urlToDDIAProcessed = this.isLocalInf === 'yes' ? URLS.LOCALINFORMERVERIFIER_DDIA_PROCESSED : URLS.SOURCEVERIFIER_DDIA_PROCESSED;
   }
 
-  getDDIAListInWaiting(typeDDIA: string, dateOrder: string, page: string): Promise<ActionsOnDDIAList> {
+  getDDIAListInWaiting(typeDDIA: string, dateOrder: string, page: string): Observable<ActionsOnDDIAList> {
     return this.http.get<PaginateActionOnDDIAResp>(URLS.SOURCEVERIFIER_DDIA_IN_WAITING + typeDDIA, {
       params: {
         is_localinf: this.isLocalInf,
@@ -43,10 +47,10 @@ export class VerifSourceService {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
         return {actionsAgent, counts: resDatas.counts};
-      })).toPromise();
+      }));
   }
 
-  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string, page: string): Promise<ActionsOnDDIAList> {
+  getDDIAListProcessed(typeDDIA: string, state: string, dateOrder: string, page: string): Observable<ActionsOnDDIAList> {
     return this.http.get<PaginateActionOnDDIAResp>(this.urlToDDIAProcessed + typeDDIA, {
       params: {
         state,
@@ -61,7 +65,7 @@ export class VerifSourceService {
             actionsAgent.push(ActionOnDDIA.fromJSON(data));
           });
         return {actionsAgent, counts: resDatas.counts};
-      })).toPromise();
+      }));
   }
 
   getNationalInformersList(): Observable<NationalInformer[]>{
@@ -77,20 +81,7 @@ export class VerifSourceService {
     );
   }
 
-  getNotifications(): Observable<Notification[]> {
-    return this.http.get<NotificationI[]>(URLS.NOTIFICATIONS_SOURCEVERIF)
-    .pipe(
-      map((notifs: NotificationI[]) => {
-        const notifications = new Array<Notification>();
-        notifs.forEach((notif) => {
-          notifications.push(Notification.fromJSON(notif));
-        });
-        return notifications;
-      })
-    );
-  }
-
-  getStatsOnDDIAAerodrome(year: string, allDDIA: string): Promise<CountAerodromeDDIA> {
+  getStatsOnDDIAAerodrome(year: string, allDDIA: string): Observable<CountAerodromeDDIA> {
     return this.http.get<CountAerodromeDDIAI>(URLS.STATS_SOURCEVERIFIER, {
       params: {
         year,
@@ -98,11 +89,12 @@ export class VerifSourceService {
         count_by_unit: 'no'
       }
     }).pipe(
+      catchError(this.handleError),
       map((res) => CountAerodromeDDIA.fromJSON(res))
-    ).toPromise();
+    );
   }
 
-  getStatsOnDDIAAerodromeUnits(year: string, allDDIA: string): Promise<CountUnitDDIA[]> {
+  getStatsOnDDIAAerodromeUnits(year: string, allDDIA: string): Observable<CountUnitDDIA[]> {
     return this.http.get<CountUnitDDIAI[]>(URLS.STATS_SOURCEVERIFIER, {
       params: {
         year,
@@ -110,12 +102,8 @@ export class VerifSourceService {
         count_by_unit: 'yes'
       }
     }).pipe(
-      map((res) => {
-        const unitsDatas = new Array<CountUnitDDIA>();
-        res.forEach((data) => unitsDatas.push(CountUnitDDIA.fromJSON(data)));
-        return unitsDatas;
-      })
-    ).toPromise();
+      map((res) => res.map((val) => CountUnitDDIA.fromJSON(val)))
+    );
   }
 
   verifyDDIA(id: string, classNameDDIA: string, data: {[key: string]: string}): Promise<any>{
@@ -127,24 +115,31 @@ export class VerifSourceService {
     }).toPromise();
   }
 
+  setError(err: string): void {
+    this.errorHandlingService.errorsSubject.next(err);
+  }
+
   handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
-      this.errors = ['An error occurred: ' + error.error.message];
+      return throwError('Errors.error');
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.status === 0){
-        this.errors = ['Echec de connexion au serveur distant'];
+        return throwError('Errors.serverconnection');
+
+      }
+      else if (error.status === 500){
+        return throwError('Errors.servererror');
       }
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError('Errors.error');
   }
 
 }

@@ -19,13 +19,13 @@
             <div class="d-flex flex-column mb-2" *ngIf="validityPeriodStart && validityPeriodEnd">
                 <div>{{'DDIAFORMS.valPeriod' | translate }} <span *ngIf="periodType">({{periodType}})</span></div>
                 <div class="d-flex flex-wrap justify-content-between">
-                    <span class="text-one-line val-period-date">{{validityPeriodStart}}</span>
-                    <span class="text-one-line val-period-date">{{validityPeriodEnd}}</span>
+                    <span class="text-one-line val-period-date"> {{ validityPeriodStart | date : 'dd/MM/yyyy, hh:mm a'}}</span>
+                    <span class="text-one-line val-period-date">{{ validityPeriodEnd | date : 'dd/MM/yyyy, hh:mm a' }}</span>
                 </div>
             </div>
             <div class="d-flex justify-content-end">
                 <div class="date">
-                    <small>{{action | translate }} &nbsp; {{actionDate}}</small>
+                    <small>{{action | translate }} &nbsp; {{actionDate  | date : 'dd/MM/yyyy, hh:mm a'}}</small>
                 </div>
             </div>
         </div>

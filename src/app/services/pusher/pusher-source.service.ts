@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthManagerService } from '../auth-services/auth-manager.service';
 import * as URLS from '../../commons/urls-backend';
-import { DDIA_CREATION, DDIA_STATE_CHANGE_EVENT, RECEPTION_SUBMISSION } from 'src/app/commons/constants-events-notifs';
+import { DDIA_CREATION, DDIA_MUST_BE_PUBLISHED, DDIA_STATE_CHANGE_EVENT, DDIA_VALIDITY_EXP, RECEPTION_SUBMISSION } from 'src/app/commons/constants-events-notifs';
 import { NotificationResp } from 'src/app/interfaces/notification-resp.interface';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { Subject } from 'rxjs';
@@ -19,6 +19,7 @@ export class PusherSourceService {
 
   channel: any;
   notificationSubject: Subject<[Notification, string, string]> = new Subject();
+  notificationEventOnDDIASubject: Subject<Notification> = new Subject();
   notificationStateChange: Subject<Notification> = new Subject<Notification>();
   actionDataSubject: Subject<DemandeAICItemList | DemandeNOTAMItemList | DemandeSUPPItemList> = new Subject();
   constructor(private authService: AuthManagerService) {
@@ -30,6 +31,15 @@ export class PusherSourceService {
     this.channel.bind( DDIA_CREATION, (data: NotificationResp) => {
         this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.id, user.id]);
         this.actionDataSubject.next(DDIAItemList.fromJSON(data.data));
+    });
+    this.channel.bind( DDIA_MUST_BE_PUBLISHED, (data: NotificationResp) => {
+      this.notificationEventOnDDIASubject.next(Notification.fromJSON(data.notification));
+    });
+    this.channel.bind( DDIA_VALIDITY_EXP , (data: NotificationResp) => {
+      this.notificationEventOnDDIASubject.next(Notification.fromJSON(data.notification));
+    });
+    this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
+      this.notificationStateChange.next(Notification.fromJSON(data.notification));
     });
     this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
       this.notificationStateChange.next(Notification.fromJSON(data.notification));

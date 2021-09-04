@@ -33,7 +33,6 @@ export class DDIAListComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
 
-    console.log(this.ddiaList, this.pagesNb);
     if (this.ddiaList !== undefined && this.pagesNb !== undefined){
       this.ngxUiLoaderService.stopLoader(this.loaderId);
       if (!this.pagesList){

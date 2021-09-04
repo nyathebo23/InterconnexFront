@@ -54,31 +54,34 @@ export class StatisticPageSourceVerifComponent implements OnInit {
   loadDatas(): void {
     this.loadingDatas = true;
     this.sourceVerifService.getStatsOnDDIAAerodromeUnits(this.year, this.takeAllDDIA)
-    .then((values) => {
+    .subscribe((values) => {
       this.unitsNames = values.map((val) => val.unit);
       this.chartDatasetsForUnits = [
         { data: values.map((val) => val.countDDIA.countNOTAM), label: 'NOTAM' },
         { data: values.map((val) => val.countDDIA.countSUPP), label: 'SUPP AIP' },
         { data: values.map((val) => val.countDDIA.countAIC), label: 'AIC' },
       ];
-    })
-    .catch((err) => {
+    }, error => {
+      this.sourceVerifService.setError(error);
+    },
+    () => {
+      this.loadingDatas = false;
+    });
 
-    })
-    .finally(() => this.loadingDatas = false);
 
     this.sourceVerifService.getStatsOnDDIAAerodrome(this.year, this.takeAllDDIA)
-    .then((value) => {
+    .subscribe((value) => {
       this.typesDDIA = ['NOTAM', 'SUPP AIP', 'AIC'];
       this.chartDatasetsAerodrome = [
         { data: [value.countDDIA.countNOTAM, value.countDDIA.countSUPP, value.countDDIA.countAIC],
           label: 'Demandes de diffusion d\'information aéronautique'}
       ];
-    })
-    .catch((err) => {
-
-    })
-    .finally(() => this.loadingDatas = false);
+    }, error => {
+      this.sourceVerifService.setError(error);
+    },
+    () => {
+      this.loadingDatas = false;
+    });
   }
 
 }

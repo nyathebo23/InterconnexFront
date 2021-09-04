@@ -2,7 +2,7 @@
 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="suppaipForm" *ngIf="demandeSUPP">
     <div class="d-flex flex-column">
         <h1 class="ddia-title">
-            <app-back-to-prec-page></app-back-to-prec-page> {{'DDIAFORMS.suppaip.title' | translate}}
+            <app-back-to-prec-page></app-back-to-prec-page> {{'DDIAFORMS.suppaip.title' | translate}} &nbsp;({{demandeSUPP.identDDIA}})
         </h1>
         <div class="container mb-3">
             <app-list-states-box [currentState]="demandeSUPP.state" [historyItems]="demandeSUPP.history"></app-list-states-box>
@@ -32,24 +32,40 @@
                         <div class="form-group mb-1">
                             <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.suppaip.notamRcode' | translate }}</label>
                             <input type="text" id="targetNOTAM" formControlName="codeDDIAToReplace" class="form-control" />
-                            <!-- <select [disabled]="!isReplaceSUPPAIP()" class="form-control" id="targetNOTAM" formControlName="codeDDIAToReplace">
-                                    <option value=""></option>
-                                </select> -->
+                            <app-control-messages [control]="suppaipForm.controls.codeDDIAToReplace"></app-control-messages>
+
                         </div>
                         <div class="form-group mb-1">
                             <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }}</label>
                             <input type="text" id="object" formControlName="object" class="form-control" />
+                            <app-control-messages [control]="suppaipForm.controls.object"></app-control-messages>
                         </div>
-                        <div class="form-group">
-                            <label for="targetSection" class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }}</label>
-                            <textarea type="text" id="targetSection" class="form-control" formControlName="aipTargetSections"></textarea>
-                        </div>
+
                     </div>
                 </div>
             </mdb-carousel-item>
             <mdb-carousel-item>
                 <div class="ddia-form">
                     <div class="container-fluid">
+                        <div formArrayName="aipTargetSectForm" class="form-group">
+                            <div class="d-flex flex-column">
+                                <label class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }}</label>
+                                <div class="form-group" *ngFor="let aipTargetSect of aipTargetSections.controls;let i=index;">
+                                    <div class="d-flex flex-row justify-content-start align-items-center">
+                                        <input type="text" [formControl]="aipTargetSect" class="form-control" [ngClass]="{'red-border' : aipTargetSect.invalid}" />
+                                        <button type="button" mdbBtn color="primary" style="height: 38px;" mdbWavesEffect (click)="removeAIPTargetSection()" *ngIf="i !== 0">
+                                            <mdb-icon fas icon="minus" size="lg"></mdb-icon>
+                                        </button>
+                                    </div>
+                                    <app-control-messages [control]="aipTargetSect"></app-control-messages>
+                                </div>
+                                <div class="text-right">
+                                    <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="addAIPTargetSection()">
+                                        <mdb-icon fas icon="plus" size="lg"></mdb-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="custom-label">{{'DDIAFORMS.suppaip.valPeriod' | translate }}</label>
                             <div class="form-group">
@@ -72,8 +88,8 @@
                             <div *ngFor="let fileForm of files.controls;let index=index;">
                                 <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                     <div>
-                                        <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
-                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;">                        
+                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;" (click)="fileUpload.click()"> 
+                                            <input type="file" class="file-input" #fileUpload [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">                       
                                             <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<mdb-icon fas icon="paperclip" size="lg"></mdb-icon></label>
                                         </button>
                                     </div>
@@ -98,7 +114,19 @@
             </mdb-carousel-item>
         </mdb-carousel>
     </div>
-    <app-history-box [history]="demandeSUPP.history"></app-history-box>
+    <div *ngIf="demandeSUPP.requestReferrals">
+        <app-referral-message [referrals]="demandeSUPP.requestReferrals"></app-referral-message>
+    </div>
+    <div class="container mb-3">
+        <div class="row bg-white">
+            <button mdbBtn color="primary" outline="true" class="waves-light m-auto" type="button" (click)="historyBox.toggle()" mdbWavesEffect>
+                {{'DDIAFORMS.history' | translate}} &nbsp; <mdb-icon fas [icon]="historyBox.isCollapsed ? 'caret-down' : 'caret-up'"></mdb-icon>
+            </button>
+        </div>
+    </div>
+    <div mdbCollapse #historyBox>
+        <app-history-box [history]="demandeSUPP.history"></app-history-box>
+    </div>
     <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="isOwner && !isCancelled">
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
             {{'DDIAFORMS.buttons.cancelddia' | translate }}

@@ -46,16 +46,12 @@ export class InfNationalManagementComponent implements OnInit  {
   ngOnInit(): void{
     this.ngxUiLoaderService.startLoader(this.loaderId);
     this.adminService.getNationalInformersList().pipe(
-      catchError(this.adminService.handleError),
-      map((localinfs: NationalInformerI[]) => {
-        const nationalinformers = new Array<NationalInformer>();
-        localinfs.forEach((nationalinf) => {
-          nationalinformers.push(NationalInformer.fromJSON(nationalinf));
-        });
-        return nationalinformers;
-      })
+      map((nationalinfs: NationalInformerI[]) => nationalinfs.map(val => NationalInformer.fromJSON(val)))
     ).subscribe((nationalinfs: NationalInformer[]) => {
       this.infnationaux = nationalinfs;
+    }, error => {
+      this.adminService.setError(error);
+    }, () => {
       this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
   }

@@ -45,7 +45,7 @@ export class StatisticPageNationalInformerComponent implements OnInit {
 
   loadDatas(): void {
     this.nationalInfService.getStatsOnDDIANationalInf(this.year, this.takeAllDDIA)
-    .then((values: CountAerodromeDDIA[]) => {
+    .subscribe((values: CountAerodromeDDIA[]) => {
       console.log(values);
       this.aerodromesNames = values.map((val) => val.aerodrome.name);
       this.chartDatasets = [
@@ -53,10 +53,9 @@ export class StatisticPageNationalInformerComponent implements OnInit {
         { data: values.map((val) => val.countDDIA.countSUPP), label: 'SUPP AIP' },
         { data: values.map((val) => val.countDDIA.countAIC), label: 'AIC' },
       ];
-    })
-    .catch((err) => {
-
-    })
-    .finally(() => {});
+    }, error => {
+      this.nationalInfService.setError(error);
+    },
+    () => {});
   }
 }

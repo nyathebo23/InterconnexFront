@@ -50,6 +50,8 @@ export class SourceEltsCreateComponent implements OnInit {
     });
     this.adminService.getAerodromesList().subscribe((aerodromes) => {
       this.aerodromes = aerodromes;
+    }, error => {
+      this.adminService.setError(error);
     });
   }
 

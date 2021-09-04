@@ -24,6 +24,7 @@
                             <div class="form-group mb-2">
                                 <label for="object" class="custom-label">{{'DDIAFORMS.aic.object' | translate }}</label>
                                 <input type="text" id="object" formControlName="object" class="form-control" />
+                                <app-control-messages [control]="aicForm.controls.object"></app-control-messages>
                             </div>
                         </div>
                     </div>
@@ -45,8 +46,8 @@
                             <div *ngFor="let fileForm of files.controls;let index=index;">
                                 <div [formGroupName]="index" class="d-flex flex-wrap align-items-center">
                                     <div>
-                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;">    
-                                            <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">                    
+                                        <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;" (click)="fileUpload.click()">    
+                                            <input type="file" #fileUpload class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">                    
                                             <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
                                         </button>
                                     </div>

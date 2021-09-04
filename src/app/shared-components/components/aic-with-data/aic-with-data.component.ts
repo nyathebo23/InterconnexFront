@@ -76,7 +76,11 @@ export class AICWithDataComponent implements OnInit {
           text: [{value: this.demandeAIC.text, disabled: true}],
         });
         this.dataLoaded = true;
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
+    }, error => {
+      this.controlActorService.setError(error);
+    },
+    () => {
+      this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
 
     this.subjectChoices.push({val: 'Administratif', label: 'DDIAFORMS.aic.subject.admin'});

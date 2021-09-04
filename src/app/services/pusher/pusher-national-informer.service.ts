@@ -5,7 +5,7 @@ import { NotificationResp } from 'src/app/interfaces/notification-resp.interface
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { Subject } from 'rxjs';
 import { Notification } from 'src/app/models/notification.model';
-import { RECEPTION_SIGNAL_APPROBATION, RECEPTION_VALIDATION, DDIA_STATE_CHANGE_EVENT } from 'src/app/commons/constants-events-notifs';
+import { RECEPTION_SIGNAL_APPROBATION, RECEPTION_VALIDATION, DDIA_STATE_CHANGE_EVENT, RECEPTION_VALIDATION_SOURCECOMMANDER } from 'src/app/commons/constants-events-notifs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,10 @@ export class PusherNationalInformerService {
   constructor(private authService: AuthManagerService) {
     const nationalinf = this.authService.getNationalInf();
     this.channel = window.globalThis.pusher.subscribe('inf-nat' + nationalinf.id);
+    this.channel.bind( RECEPTION_VALIDATION_SOURCECOMMANDER, (data: NotificationResp) => {
+      this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
+      this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
+    });
     this.channel.bind( RECEPTION_VALIDATION, (data: NotificationResp) => {
       this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
       this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));

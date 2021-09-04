@@ -44,18 +44,17 @@ export class StatisticPageLocalInformerComponent implements OnInit {
 
   loadDatas(): void {
     this.localInfService.getStatsOnDDIALocalInfAuthority(this.year, this.takeAllDDIA)
-    .then((values: CountAerodromeDDIA[]) => {
+    .subscribe((values: CountAerodromeDDIA[]) => {
       this.aerodromesNames = values.map((val) => val.aerodrome.name);
       this.chartDatasets = [
         { data: values.map((val) => val.countDDIA.countNOTAM), label: 'NOTAM' },
         { data: values.map((val) => val.countDDIA.countSUPP), label: 'SUPP AIP' },
         { data: values.map((val) => val.countDDIA.countAIC), label: 'AIC' },
       ];
-    })
-    .catch((err) => {
-
-    })
-    .finally(() => {});
+    }, error => {
+      this.localInfService.setError(error);
+    }, () => {
+    });
   }
 
 }

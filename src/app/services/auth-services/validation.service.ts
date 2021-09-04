@@ -16,7 +16,8 @@ export class ValidationService {
       mustMatch: 'AUTHFORMS.errors.mustmatchpassword',
       invalidDate: 'DDIAFORMS.errors.invalidDate',
       invalidFrom: 'DDIAFORMS.errors.invalidFrom',
-      invalidTo: 'DDIAFORMS.errors.invalidTo'
+      invalidTo: 'DDIAFORMS.errors.invalidTo',
+
       // invalidPassword:
       //   'Invalid password. Password must be at least 8 characters long and least 100, contain a number, and special character.',
       // minlength: `Minimum length ${validatorValue.requiredLength}`
@@ -72,6 +73,9 @@ export class ValidationService {
     const date = control.value;
     const from = date[0];
     const to = date[1];
+    if (from == null && to == null){
+      return null;
+    }
     if (from == null || to == null){
       return {
         invalidDate: true
@@ -89,4 +93,6 @@ export class ValidationService {
     }
     return null;
     }
+
+
 }

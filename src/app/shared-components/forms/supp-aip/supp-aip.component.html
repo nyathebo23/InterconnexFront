@@ -31,6 +31,8 @@
                             <div class="form-group mb-1">
                                 <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.suppaip.notamRcode' | translate }}</label>
                                 <input type="text" id="targetNOTAM" formControlName="codeDDIAToReplace" class="form-control" />
+                                <app-control-messages [control]="suppaipForm.controls.codeDDIAToReplace"></app-control-messages>
+
                                 <!-- <select [disabled]="!isReplaceSUPPAIP()" class="form-control" id="targetNOTAM" formControlName="codeDDIAToReplace">
                                     <option value=""></option>
                                 </select> -->
@@ -38,6 +40,7 @@
                             <div class="form-group mb-1">
                                 <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }}</label>
                                 <input type="text" id="object" formControlName="object" class="form-control" />
+                                <app-control-messages [control]="suppaipForm.controls.object"></app-control-messages>
                             </div>
                         </div>
                     </div>
@@ -85,13 +88,13 @@
                                 <div *ngFor="let fileForm of files.controls;let index=index;">
                                     <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                         <div>
-                                            <input type="file" class="file-input" [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">
-                                            <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;">                        
-                                                <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></label>
+                                            <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;" (click)="fileUpload.click()"> 
+                                                <input type="file" class="file-input" #fileUpload [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">                       
+                                                <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<mdb-icon fas icon="paperclip" size="lg"></mdb-icon></label>
                                             </button>
                                         </div>
                                         <div>
-                                            <input type="text" formControlName="filename" [disabled]="true" class="form-control" style="height: 35px;">
+                                            <input type="text" formControlName="filename" [disabled]="true" class="form-control">
                                         </div>
                                         <div *ngIf="index !== 0">
                                             <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="removeFileForm()" style="height: 43px;">

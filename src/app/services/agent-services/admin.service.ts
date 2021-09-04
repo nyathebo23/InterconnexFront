@@ -13,7 +13,8 @@ import { LocalInformer } from 'src/app/models/local-informer.model';
 import { LocalInformerExtendI } from 'src/app/interfaces/local-informer-extend.interface';
 import { AerodromeExtendI } from 'src/app/interfaces/aerodrome-extend.interface';
 import { Aerodrome } from 'src/app/models/aerodrome.model';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ErrorHandlingService } from './error-handling.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,11 @@ import { Router } from '@angular/router';
 export class AdminService {
 
   errors: string[] = [];
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private errorHandlingService: ErrorHandlingService
+  ) { }
 
   getUnitsList(): Observable<Unit[]>{
     return this.http.get<UnitI[]>(URLS.UNIT_CRU).pipe(
@@ -39,7 +44,9 @@ export class AdminService {
     if (extend){
       return this.http.get<AerodromeExtendI[]>(URLS.AERODROME_CRU, {
         params: {extend: 'True'}
-      });
+      }).pipe(
+        catchError(this.handleError),
+      );
     }
     return this.http.get<AerodromeI[]>(URLS.AERODROME_CRU).pipe(
       catchError(this.handleError),
@@ -56,13 +63,19 @@ export class AdminService {
     if (extern){
       return this.http.get<LocalInformerI[]>(URLS.LOCAL_INFORMER_CRU, {
         params: {extern: 'True'}
-      });
+      }).pipe(
+        catchError(this.handleError),
+      );
     }
-    return this.http.get<LocalInformerI[]>(URLS.LOCAL_INFORMER_CRU);
+    return this.http.get<LocalInformerI[]>(URLS.LOCAL_INFORMER_CRU).pipe(
+      catchError(this.handleError),
+    );
   }
 
   getNationalInformersList(): Observable<any[]>{
-    return this.http.get<NationalInformerI[]>(URLS.NATIONAL_INFORMER_CRU);
+    return this.http.get<NationalInformerI[]>(URLS.NATIONAL_INFORMER_CRU).pipe(
+      catchError(this.handleError),
+    );
   }
 
   createUnit(formData: FormData): Promise<any> {
@@ -169,24 +182,31 @@ export class AdminService {
     return errors;
   }
 
+  setError(err: string): void {
+    this.errorHandlingService.errorsSubject.next(err);
+  }
+
   handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
-      this.errors = ['An error occurred:' + error.error.message];
+      return throwError('Errors.error');
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.status === 0){
-        this.errors = ['Echec de connexion au serveur distant'];
+        return throwError('Errors.serverconnection');
+
+      }
+      else if (error.status === 500){
+        return throwError('Errors.servererror');
       }
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError('Errors.error');
   }
 
 }

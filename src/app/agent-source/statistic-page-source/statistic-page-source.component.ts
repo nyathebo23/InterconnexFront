@@ -47,17 +47,16 @@ export class StatisticPageSourceComponent implements OnInit {
   loadDatas(): void {
     this.loadingDatas = true;
     this.sourceAgentService.getStatsOnDDIAUnit(this.year, this.takeAllDDIA)
-    .then((value) => {
+    .subscribe((value) => {
       this.chartLabels = ['NOTAM', 'SUPP AIP', 'AIC'];
       this.chartDatasets = [
         { data: [value.countDDIA.countNOTAM, value.countDDIA.countSUPP, value.countDDIA.countAIC],
           label: 'Demandes de diffusion d\'information aéronautique'}
       ];
-    })
-    .catch((err) => {
-
-    })
-    .finally(() => this.loadingDatas = false);
+    }, error => {
+      this.sourceAgentService.setError(error);
+    }, () => {
+    });
   }
 
 }

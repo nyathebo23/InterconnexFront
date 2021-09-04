@@ -79,6 +79,10 @@ export class SUPPAIPWithDataComponent implements OnInit {
           descriptionText: [{value: this.demandeSUPP.descriptionText, disabled: true}],
         });
         this.dataLoaded = true;
+      }, error => {
+        this.controlActorService.setError(error);
+      },
+      () => {
         this.ngxUiLoaderService.stopLoader(this.loaderId);
       }
     );

@@ -40,10 +40,10 @@ export class DemandeSUPPAIP extends DDIA{
         initiator: UserInfos,
         histor: DDIAHistory[],
         attachments: AttachmentI[],
-        referral: RequestReferral,
+        referrals: RequestReferral[],
         replaceDDIACode?: string
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referral);
+        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referrals);
         this._typeSUPPAIP = typeSUPPAIP;
         this._object = object;
         this._targetSection = targetSection;
@@ -102,7 +102,7 @@ export class DemandeSUPPAIP extends DDIA{
             historiesData[0].agentObject.user,
             historiesData,
             data.attachments,
-            RequestReferral.fromJSON(data.request_referral),
+            data.request_referrals.map((val) => RequestReferral.fromJSON(val)),
             data.code_ddia_replaced
         );
     }

@@ -16,6 +16,7 @@ import { Unit } from 'src/app/models/unit.model';
 import { UnitSource } from 'src/app/models/unit-source.model';
 import { Router } from '@angular/router';
 import { AerodromeExtendI } from 'src/app/interfaces/aerodrome-extend.interface';
+import { ErrorHandlingService } from '../agent-services/error-handling.service';
 
 interface ResponseMessage  {
   message: string;
@@ -44,7 +45,8 @@ export class AuthManagerService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private errorHandlingService: ErrorHandlingService
   ) {
 
   }
@@ -56,8 +58,7 @@ export class AuthManagerService {
       if (!jsonUser){
         return null;
       }
-      const user = User.fromJSON(JSON.parse(jsonUser));
-      this.user = user;
+      return this.user = User.fromJSON(JSON.parse(jsonUser));
     }
     return this.user;
   }
@@ -68,11 +69,11 @@ export class AuthManagerService {
     }
     const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
     if (jsonData && jsonData.unit){
-      return UnitSource.fromJSON(jsonData.unit);
+      return this.unit = UnitSource.fromJSON(jsonData.unit);
     }
     const localinf = this.getLocalInf();
     if (localinf){
-      return localinf.unit;
+      return this.unit = localinf.unit;
     }
     return null;
   }
@@ -83,11 +84,11 @@ export class AuthManagerService {
     }
     const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
     if (jsonData && jsonData.aerodrome){
-      return Aerodrome.fromJSON(jsonData.aerodrome);
+      return this.aerodrome = Aerodrome.fromJSON(jsonData.aerodrome);
     }
     const localinf = this.getLocalInf();
     if (localinf){
-      return localinf.aerodrome;
+      return this.aerodrome = this.localinformer.aerodrome;
     }
     return null;
   }
@@ -98,7 +99,7 @@ export class AuthManagerService {
     }
     const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
     if (jsonData && jsonData.localinformer){
-      return LocalInformerExtend.fromJSON(jsonData.localinformer);
+      return this.localinformer = LocalInformerExtend.fromJSON(jsonData.localinformer);
     }
     return null;
   }
@@ -109,7 +110,7 @@ export class AuthManagerService {
     }
     const jsonData = JSON.parse(localStorage.getItem('agentExtras'));
     if (jsonData && jsonData.nationalinformer){
-      return NationalInformer.fromJSON(jsonData.nationalinformer);
+      return this.nationalinformer = NationalInformer.fromJSON(jsonData.nationalinformer);
     }
     return null;
   }
@@ -134,7 +135,6 @@ export class AuthManagerService {
     if (ROLES.aerodromeRoles.includes(this.user.role)){
       this.getAgentInfos()
       .then((data) => {
-        console.log(data);
         if (data.localinformer){
           this.localinformer = LocalInformerExtend.fromJSON(data.localinformer);
           this.unit = this.localinformer.unit;
@@ -158,7 +158,6 @@ export class AuthManagerService {
       .then((data) => {
         this.localinformer = LocalInformerExtend.fromJSON(data.localinformer);
         this.setExtraAgentInfosInStorage(data);
-        console.log(data);
         this.navigateToPage(this.user.role, this.user.isStaff);
       })
       .catch((err) => {
@@ -169,7 +168,6 @@ export class AuthManagerService {
       this.getNationalAgentInfos()
       .then((data) => {
         this.nationalinformer = NationalInformer.fromJSON(data.nationalinformer);
-        console.log(data);
         this.setExtraAgentInfosInStorage(data);
         this.navigateToPage(this.user.role, this.user.isStaff);
       })
@@ -205,6 +203,10 @@ export class AuthManagerService {
           break;
       }
     }
+  }
+
+  setError(err: string): void {
+    this.errorHandlingService.errorsSubject.next(err);
   }
 
   getAgentInfos(): Promise<any> {

@@ -65,15 +65,15 @@ export class NationalinfListDDIAReceivedComponent implements OnInit {
 
   reloadDDIAItems(): void {
     this.nationalInformerService.getDDIAListInWaiting(this.ddiaType, this.dateOrder, this.page)
-    .then((ddiaActions) => {
+    .subscribe((ddiaActions) => {
       console.log(ddiaActions);
       this.ddiaActionsList = ddiaActions.actionsAgent;
       this.pagesNb = Math.ceil(ddiaActions.counts / PAGE_LIST_SIZE);
 
-    })
-    .catch((err) => {
-
-    });
+    }, error => {
+      this.nationalInformerService.setError(error);
+    },
+    () => {});
   }
 
 }

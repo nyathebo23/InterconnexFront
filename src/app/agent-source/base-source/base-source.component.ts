@@ -28,7 +28,7 @@ export class BaseSourceComponent implements OnInit {
     private pusherSourceAgentService: PusherSourceService,
     private modalService: MDBModalService,
     private modalDisplayService: ModalDisplayService,
-    private notifiationDisplayService: NotificationDisplayService
+    private notificationDisplayService: NotificationDisplayService
   ) {
     this.navLinks =  [
       {name: 'SOURCEAGENT.initddia', iconClass: 'fab fa-wpforms', url: '/source/initddia/'},
@@ -60,17 +60,19 @@ export class BaseSourceComponent implements OnInit {
           };
           this.modalService.show(ModalReceiveDDIANotifComponent,
           this.modalDisplayService.getModalOptions(data, 'modal-dialog modal-notify modal-info'));
-          this.notifiationDisplayService.notifToAddSubject.next(notif);
+          this.notificationDisplayService.notifToAddSubject.next(notif);
         }
       }
     );
-    this.notifiationDisplayService.getNotifications(NOTIFICATIONS_SOURCEUNIT)
+    this.notificationDisplayService.getNotifications(NOTIFICATIONS_SOURCEUNIT)
     .subscribe(
       (notifs)  => {
-        this.notifiationDisplayService.notifsListSubject.next(notifs);
+        this.notificationDisplayService.notifsListSubject.next(notifs);
+      },
+      error => {
+
       }
     );
-
   }
 
 }

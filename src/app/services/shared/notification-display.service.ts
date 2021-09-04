@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Notification } from 'src/app/models/notification.model';
 import { NotificationI } from 'src/app/interfaces/notification.interface';
 import { PusherSourceService } from '../pusher/pusher-source.service';
@@ -33,6 +33,7 @@ export class NotificationDisplayService {
   getNotifications(url: string): Observable<Notification[]> {
     return this.http.get<NotificationI[]>(url)
     .pipe(
+      catchError(this.handleError),
       map((notifs: NotificationI[]) => {
         const notifications = new Array<Notification>();
         notifs.forEach((notif) => {
@@ -47,6 +48,28 @@ export class NotificationDisplayService {
     return this.http.get<{message: string}>(MARK_NOTIF_AS_READ + id).toPromise();
   }
 
+  handleError(error: HttpErrorResponse): Observable<never> {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+      return throwError('Errors.error');
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      if (error.status === 0){
+        return throwError('Errors.serverconnection');
+
+      }
+      else if (error.status === 500){
+        return throwError('Errors.servererror');
+      }
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError('Errors.error');
+  }
 
   // switch (key) {
   //   case value:

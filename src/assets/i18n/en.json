@@ -204,7 +204,7 @@
             "notamTargetCode": "Targeted NOTAM code",
             "valPeriod": "Validity period",
             "periodType": "Period type",
-            "dailyFreqType": "Daily frquency type",
+            "dailyFreqType": "Daily frequency type",
             "plannedPeriod": "Planned",
             "estimatedPeriod": "Estimated",
             "notamType": "NOTAM type",
@@ -222,16 +222,20 @@
             "invalidDate": "Enter valid dates",
             "invalidFrom": "The start date must be no earlier than the current date",
             "invalidTo": "The start date must be earlier than the end date",
+            "emptyTypeDailyFreq": "You must choose the Daily frequency type",
+            "emptyValPeriodType": "You must choose the validity period type",
             "replacedCodeNOTAMN": "The code of the replacement NOTAM must only be filled in when it is a cancellation or replacement NOTAM",
-            "replacedCodeNOTAMRC": "You must fill in the code of the published NOTAM to be replaced",
+            "replacedCodeNOTAMR": "You must fill in the code of the published NOTAM to be replaced",
+            "replacedCodeNOTAMC": "You must fill in the code of the published NOTAM to be cancelled",
             "replacedCodeSUPPAIPN": "The code of the replacement dissemination request must only be filled in when it is a SUPP AIP R",
             "replacedCodeSUPPAIPR": "You must fill in the code of the published dissemination request to be replaced",
-            "timeInvalid": "Fill in valid daily frequency period"
+            "timeInvalid": "Fill in a valid daily frequency period"
 
         },
         "descText": "Descriptive text",
         "object": "Object",
-        "valPeriod": "Validity period"
+        "valPeriod": "Validity period",
+        "history": "History"
     },
     "DDIAHistoryActions": {
         "init": "INITIATION",
@@ -311,7 +315,7 @@
         "code": "Code",
         "isconceded": "Is a conceded airport",
         "inflocal": "Local informer",
-        "labelLocalInf": "Select the local informant related to the aerodrome",
+        "labelLocalInf": "Select the local informant related to the airport",
         "submitBtn": "Save",
         "addunitBtn": "Add Source unit",
         "createsuccess": "Aerodrome successfully created"
@@ -352,17 +356,18 @@
     "Errors": {
         "serverconnection": "Server connection failure",
         "servererror": "An error occurred in the server",
-        "error": "An error occurred and the request could not be completed"
+        "error": "An error occurred and the request could not be completed",
+        "retry": "Retry"
     },
     "MODAL": {
         "submitToVerify": {
             "helperText": "Do you really want to submit this request for the dissemination of {{typeDDIA}} for verification ?"
         },
         "submitByLocalinf": {
-            "helperText": "Do you really want to submit this request for the dissemination of {{typeDDIA}} ? if yes, after aerodrome supervisors validation, it will be send to the target national informers that you will have choosen."
+            "helperText": "Do you really want to submit this request for the dissemination of {{typeDDIA}} ? if yes, after airport supervisors validation, it will be send to the target national informers that you will have choosen."
         },
         "verifyok": {
-            "helperText": "Do you confirm that this request for the dissemination of {{typeDDIA}} is compliant ? If yes, it will be sent to the aerodrome supervisors for validation of the content."
+            "helperText": "Do you confirm that this request for the dissemination of {{typeDDIA}} is compliant ? If yes, it will be sent to the airport supervisors for validation of the content."
         },
         "admitok": {
             "helperText": "Do you confirm that this request for the dissemination of {{typeDDIA}} is compliant ?"
@@ -393,11 +398,13 @@
     },
     "NOTIFICATION": {
         "ddiaCreation": "Your unit has initiated a broadcast request of {{typeDDIA}}, reference {{refDDIA}}",
+        "ddiaMustBePublished": "The {{typeDDIA}} broadcast request, reference {{refDDIA}} has been sent to the publisher for more than 48 hours",
+        "ddiaNearExpiration": "The {{typeDDIA}} broadcast request, reference {{refDDIA}} will no longer be valid in less than 05 days",
         "verifReception": "Your unit has received a broadcast request of {{typeDDIA}}, reference {{refDDIA}} to verify.",
-        "publicationDDIA": "The broadcast request of {{typeDDIA}}, reference {{refDDIA}} has been published.",
-        "sourcestructReception": "You have received a broadcast request of {{typeDDIA}}, reference {{refDDIA}} from the local informant office of your aerodrome for you to validate.",
-        "localinfReception": "Your local informant office has received a broadcast request from {{typeDDIA}}, reference {{refDDIA}} to validate.",
-        "nationalinfReception": "Your National Informant Office has received a request to release {{typeDDIA}}, reference {{refDDIA}} for approval.",
+        "publicationDDIA": "The {{typeDDIA}} broadcast request, reference {{refDDIA}} has been published.",
+        "sourcestructReception": "You have received a broadcast request of {{typeDDIA}}, reference {{refDDIA}} from the local informant office of your airport for you to validate.",
+        "localinfReception": "Your local informant office has received a {{typeDDIA}} broadcast request, reference {{refDDIA}} to validate.",
+        "nationalinfReception": "Your National Informant Office has received a {{typeDDIA}} broadcast request, reference {{refDDIA}} for approval.",
         "nationalInfApprobation": "A {{typeDDIA}} dissemination request, reference {{refDDIA}} has been approved."
     }
 }

@@ -89,6 +89,10 @@ export class NOTAMWithDataComponent implements OnInit {
           supLimit: [{value: this.demandeNOTAM.upperVerticalLimit, disabled: true}],
         });
         this.dataLoaded = true;
+      }, error => {
+        this.controlActorService.setError(error);
+      },
+      () => {
         this.ngxUiLoaderService.stopLoader(this.loaderId);
       }
     );

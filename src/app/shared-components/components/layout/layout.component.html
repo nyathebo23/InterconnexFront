@@ -1,5 +1,5 @@
 <header>
-    <mdb-navbar SideClass="navbar navbar-expand-md navbar-dark bg-white fixed-top indigo-text" [containerInside]="false" [iconBackground]="'indigo'">
+    <mdb-navbar SideClass="navbar navbar-expand-sm navbar-dark bg-white fixed-top indigo-text" [containerInside]="false" [iconBackground]="'indigo'">
 
         <mdb-navbar-brand>
             <a class="navbar-brand" [routerLink]="navLinks[0].url">
@@ -19,18 +19,17 @@
 
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item mr-3">
-                    <div class="dropdown" mdbDropdown *ngIf="accessibleViews">
-                        <button mdbDropdownToggle type="button" outline=true mdbBtn color="primary" style="overflow: clip;" class="dropdown-toggle waves-light" mdbWavesEffect>
-                          {{'navbar.goTo' | translate }}
-                        </button>
-
+                    <div class="dropdown" mdbDropdown *ngIf="accessibleViews && accessibleViews.length > 0">
+                        <a mdbDropdownToggle style="padding-top: 12px;" color="primary" class="dropdown-toggle waves-light text-uppercase" mdbWavesEffect>
+                            {{'navbar.goTo' | translate }}
+                        </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" [routerLink]="accessibleView.url" *ngFor="let accessibleView of accessibleViews;">{{accessibleView.label}}</a>
                         </div>
                     </div>
                 </li>
                 <li class="nav-item mr-3">
-                    <a class="nav-link" aria-expanded="false" style="position: relative;" [mdbPopover]="popContent" placement="bottom" mdbPopoverHeader="Notifications" mdbWavesEffect *ngIf="notifsNb">
+                    <a class="nav-link" aria-expanded="false" style="position: relative;" [mdbPopover]="popContent" placement="bottom" mdbPopoverHeader="Notifications" mdbWavesEffect *ngIf="notificationsList">
                         <mdb-icon far icon="bell" size="lg" style="padding-top: 10px;" class="indigo-text" aria-hidden="true"></mdb-icon>
                         <span class="mybadge" *ngIf="notifsNb">{{notifsNb > 99 ? '99+' : notifsNb}}</span>
                     </a>
@@ -66,7 +65,10 @@
             </div>
         </div>
         <div class="col-xl-9 col-md-9 col-lg-9 col-sm-8 col-12">
-            <router-outlet></router-outlet>
+            <router-outlet *ngIf="!errorReqMessage"></router-outlet>
+            <div *ngIf="errorReqMessage">
+                <app-load-data-error [contentText]="errorReqMessage"></app-load-data-error>
+            </div>
         </div>
     </div>
 </div>

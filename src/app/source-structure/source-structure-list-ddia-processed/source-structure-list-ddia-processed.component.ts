@@ -60,12 +60,13 @@ export class SourceStructureListDDIAProcessedComponent implements OnInit {
 
   reloadDDIAItems(): void {
     this.structureSourceService.getDDIAListProcessed(this.ddiaType, this.ddiaState, this.dateOrder, this.page)
-    .then((actions) => {
+    .subscribe((actions) => {
       this.ddiaActionsList = actions.actionsAgent;
       this.pagesNb = Math.ceil(actions.counts / PAGE_LIST_SIZE);
-    })
-    .catch((err) => {
-
+    }, error => {
+      this.structureSourceService.setError(error);
+    },
+    () => {
     });
   }
 

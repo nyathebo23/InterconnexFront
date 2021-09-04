@@ -43,16 +43,12 @@ export class InfLocalManagementComponent implements OnInit {
     });
     this.ngxUiLoaderService.startLoader(this.loaderId);
     const localInfsSubscription = this.adminService.getLocalInformersList().pipe(
-      catchError(this.adminService.handleError),
-      map((localinfs: LocalInformerI[]) => {
-        const localinformers = new Array<LocalInformer>();
-        localinfs.forEach((localinf) => {
-          localinformers.push(LocalInformer.fromJSON(localinf));
-        });
-        return localinformers;
-      })
+      map((localinfs: LocalInformerI[]) => localinfs.map((val) => LocalInformer.fromJSON(val)))
     ).subscribe((localinfs: LocalInformer[]) => {
       this.inflocaux = localinfs;
+    }, error => {
+      this.adminService.setError(error);
+    }, () => {
       this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
   }
@@ -65,6 +61,8 @@ export class InfLocalManagementComponent implements OnInit {
   ngOnInit(): void{
     this.aerodromesSubscription = this.adminService.getAerodromesList('True').subscribe((aerodromes: AerodromeExtendI[]) => {
       this.aerodromesList = aerodromes;
+    }, error => {
+      this.adminService.setError(error);
     });
     this.infLocalForm.controls.aerodrome.valueChanges.subscribe((value) => {
       const aerodrome = this.aerodromesList.find((elt: AerodromeExtendI) => {

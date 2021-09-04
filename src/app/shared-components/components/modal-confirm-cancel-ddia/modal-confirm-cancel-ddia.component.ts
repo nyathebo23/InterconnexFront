@@ -29,6 +29,8 @@ export class ModalConfirmCancelDDIAComponent implements OnInit {
     })
     .finally(() => {
       this.loading = false;
+      this.modalRef.hide();
+      this.agentSourceService.reloadCurrentRoute();
     });
   }
 }

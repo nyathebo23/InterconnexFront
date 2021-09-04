@@ -65,12 +65,12 @@ export class LocalinfListDDIAReceivedComponent implements OnInit {
 
   reloadDDIAItems(): void {
     this.localInformerService.getDDIAListInWaiting(this.ddiaType,  this.dateOrder, this.page)
-    .then((ddiaActions) => {
+    .subscribe((ddiaActions) => {
       this.ddiaActionsList = ddiaActions.actionsAgent;
       this.pagesNb = Math.ceil(ddiaActions.counts / PAGE_LIST_SIZE);
-    })
-    .catch((err) => {
-
+    }, error => {
+      this.localInformerService.setError(error);
+    }, () => {
     });
   }
 

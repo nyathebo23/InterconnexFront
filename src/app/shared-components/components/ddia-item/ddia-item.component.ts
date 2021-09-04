@@ -23,10 +23,10 @@ export class DDIAItemComponent implements OnInit {
   object: string;
   text: string;
   periodType: string;
-  validityPeriodStart: string;
-  validityPeriodEnd: string;
+  validityPeriodStart: Date;
+  validityPeriodEnd: Date;
   action: string;
-  actionDate: string;
+  actionDate: Date;
   pathToExtend: string;
   @Input() ddiaItem: DemandeSUPPItemList | DemandeAICItemList | DemandeNOTAMItemList;
   constructor(private route: ActivatedRoute) { }
@@ -42,7 +42,7 @@ export class DDIAItemComponent implements OnInit {
       this.text = this.ddiaItem.text;
       this.state = this.ddiaItem.state;
       this.action = 'ddialist.ddiaitem.initiated';
-      this.actionDate = this.ddiaItem.depositDatetime.toLocaleString();
+      this.actionDate = this.ddiaItem.depositDatetime;
       this.url = this.ddiaItem.url;
       if (this.ddiaItem.ddiaType === AIC_TYPE){
         const aicobject = this.ddiaItem as DemandeAICItemList;
@@ -61,8 +61,8 @@ export class DDIAItemComponent implements OnInit {
       }
       if (this.ddiaItem.ddiaType === NOTAM_TYPE || this.ddiaItem.ddiaType === SUPPAIP_TYPE){
         const object = this.ddiaItem as DemandeNOTAMItemList | DemandeSUPPItemList;
-        this.validityPeriodStart = object.startValidityPeriod.toLocaleString();
-        this.validityPeriodEnd = object.endValidityPeriod.toLocaleString();
+        this.validityPeriodStart = object.startValidityPeriod;
+        this.validityPeriodEnd = object.endValidityPeriod;
       }
     }
 

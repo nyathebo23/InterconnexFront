@@ -63,12 +63,12 @@ export class LocalinfListDDIAProcessedComponent implements OnInit {
 
   reloadDDIAItems(): void {
     this.localInformerService.getDDIAListProcessed(this.ddiaType, this.ddiaState, this.dateOrder, this.page)
-    .then((ddiaActions) => {
+    .subscribe((ddiaActions) => {
       this.ddiaActionsList = ddiaActions.actionsAgent;
       this.pagesNb = Math.ceil(ddiaActions.counts / PAGE_LIST_SIZE);
-    })
-    .catch((err) => {
-
+    }, error => {
+      this.localInformerService.setError(error);
+    }, () => {
     });
   }
 }

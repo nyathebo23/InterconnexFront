@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,  HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { Observable , throwError } from 'rxjs';
+import { Observable , Subject, throwError } from 'rxjs';
 import * as URLS from '../../commons/urls-backend';
 import { DemandeNOTAMItemList } from 'src/app/models/demandeNOTAM-item-list.model';
 import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ListDDIA, PaginateDDIAListResp } from 'src/app/interfaces/responses.interface';
 import { CountUnitDDIAI } from 'src/app/interfaces/count-ddia.interface';
 import { CountUnitDDIA } from 'src/app/models/count-ddia.model';
+import { ErrorHandlingService } from './error-handling.service';
 
 interface RespDDIAListSource {
   demandesAIC: DemandeAICItemList[];
@@ -24,7 +25,13 @@ interface RespDDIAListSource {
 export class AgentSourceService {
 
   headers = new HttpHeaders();
-  constructor(private http: HttpClient, private router: Router) {
+  errorsSubject: Subject<string> = new Subject<string>();
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private errorHandlingService: ErrorHandlingService
+  ) {
     this.headers.append('Content-Type', 'multipart/form-data');
   }
 
@@ -92,15 +99,16 @@ export class AgentSourceService {
     );
   }
 
-  getStatsOnDDIAUnit(year: string, allDDIA: string): Promise<CountUnitDDIA> {
+  getStatsOnDDIAUnit(year: string, allDDIA: string): Observable<CountUnitDDIA> {
     return this.http.get<CountUnitDDIAI>(URLS.STATS_SOURCEAGENT, {
       params: {
         year,
         all: allDDIA
       }
     }).pipe(
+      catchError(this.handleError),
       map((res) => CountUnitDDIA.fromJSON(res))
-    ).toPromise();
+    );
   }
 
   reloadCurrentRoute(): void {
@@ -139,22 +147,31 @@ export class AgentSourceService {
     return errors;
   }
 
+  setError(err: string): void {
+    this.errorHandlingService.errorsSubject.next(err);
+  }
+
   handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
+      return throwError('Errors.error');
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.status === 0){
-        // this.error = 'Echec de connexion au serveur distant';
+        return throwError('Errors.serverconnection');
+
+      }
+      else if (error.status === 500){
+        return throwError('Errors.servererror');
       }
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError('Errors.error');
   }
+
 }

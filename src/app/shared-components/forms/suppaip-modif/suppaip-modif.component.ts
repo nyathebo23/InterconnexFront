@@ -63,8 +63,25 @@ export class SUPPAIPModifComponent implements OnInit {
         this.demandeSUPP = demandesupp;
         this.ngxUiLoaderService.stopLoader(this.loaderId);
         this.initForm();
+        this.form.typeSUPPAIP.valueChanges.subscribe(
+          (value) => {
+            if (value === 'SUPP AIP N'){
+               this.form.codeDDIAToReplace.setValue('');
+               this.form.codeDDIAToReplace.disable();
+            }
+            else {
+              this.form.codeDDIAToReplace.enable();
+            }
+          }, error => {
+            this.controlActorService.setError(error);
+          },
+          () => {
+            this.ngxUiLoaderService.stopLoader(this.loaderId);
+          }
+        );
       }
     );
+
   }
 
   initForm(): void {
@@ -77,7 +94,7 @@ export class SUPPAIPModifComponent implements OnInit {
     this.suppaipForm = this.formBuilder.group({
       depositDateTime: [{value: new Date(), disabled: true}],
       typeSUPPAIP: [this.demandeSUPP.typeSUPPAIP],
-      object: [this.demandeSUPP.object],
+      object: [this.demandeSUPP.object, [Validators.required, ValidationService.requiredValidator]],
       codeDDIAToReplace: [this.demandeSUPP.replacedDDIACode],
       // aipTargetSections: [''],
       aipTargetSectForm: new FormArray( this.demandeSUPP.targetSection.split('*-----*')
@@ -144,21 +161,14 @@ export class SUPPAIPModifComponent implements OnInit {
     const formData = new FormData();
     const typeSUPP = this.suppaipForm.controls.typeSUPPAIP.value;
     const codeDDIAReplaced = this.suppaipForm.controls.codeDDIAToReplace.value;
-    if (typeSUPP === 'SUPP AIP N' && codeDDIAReplaced.trim() !== ''){
-      this.errors = ['DDIAFORMS.errors.replacedCodeSUPPAIPN'];
-      return;
-    }
-    else if (typeSUPP !== 'SUPP AIP N' && codeDDIAReplaced.trim() === ''){
-      this.errors = ['DDIAFORMS.errors.replacedCodeSUPPAIPR'];
-      return;
-    }
+
     this.loadingSave = true;
-    formData.append('type_suppaip', this.suppaipForm.controls.typeSUPPAIP.value);
+    formData.append('type_suppaip', typeSUPP);
     formData.append('object', this.suppaipForm.controls.object.value);
     formData.append('descriptive_text', this.suppaipForm.controls.text.value);
     formData.append('start_val_period', this.suppaipForm.controls.validityPeriod.value[0].toISOString());
     formData.append('end_val_period', this.suppaipForm.controls.validityPeriod.value[1].toISOString());
-    formData.append('code_ddia_replaced', this.suppaipForm.controls.codeDDIAToReplace.value);
+    formData.append('code_ddia_replaced', codeDDIAReplaced);
     const aipSectionsNb = this.aipTargetSections.length;
     let aipTargSections = '';
     for (let i = 0; i < aipSectionsNb; i++){
@@ -173,10 +183,10 @@ export class SUPPAIPModifComponent implements OnInit {
     }
 
     this.sourceAgentService.updateSUPPAIP(this.demandeSUPP.id, formData)
-    .then(() => {
+    .then((res) => {
       this.errors = [];
       this.modalService.show(ModalSuccessCreationDDIAComponent,
-        this.modalDisplayService.getModalOptions({typeDDIA: 'SUPP AIP', contentText: 'MODAL.successModifDDIA'}, 'modal-dialog modal-notify modal-success')
+        this.modalDisplayService.getModalOptions({typeDDIA: 'SUPP AIP', contentText: 'MODAL.successModifDDIA', id: res.id}, 'modal-dialog modal-notify modal-success')
       );
     })
     .catch((err) => {

@@ -57,6 +57,10 @@ export class BaseLocalInformerComponent implements OnInit, OnDestroy {
     .subscribe(
       (notifs)  => {
         this.notifiationDisplayService.notifsListSubject.next(notifs);
+      },
+      error => {
+      },
+      () => {
       }
     );
     this.user = this.authService.getUser();

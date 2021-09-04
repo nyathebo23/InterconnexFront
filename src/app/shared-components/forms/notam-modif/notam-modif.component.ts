@@ -63,8 +63,66 @@ export class NOTAMModifComponent implements OnInit {
         this.demandeNOTAM = demandenotam;
         this.ngxUiLoaderService.stopLoader(this.loaderId);
         this.initForm();
+        this.form.validityPeriod.valueChanges.subscribe(
+          value => {
+            if (value[0] == null || value[1] == null){
+              if (this.form.dailyFreqType.enabled){
+                this.setTimeFieldsEmpty();
+                this.disableTimeFields();
+              }
+            }
+            else {
+              if (this.form.dailyFreqType.disabled){
+                this.enableTimeFields();
+              }
+            }
+          }
+        );
+        this.form.typeNOTAM.valueChanges.subscribe(
+          (value) => {
+            if (value === 'NOTAM N'){
+               this.form.notamTargetCode.setValue('');
+               this.form.notamTargetCode.disable();
+               if (this.form.dailyFreqType.disabled){
+                this.enableTimeFields();
+               }
+            }
+            else {
+              this.form.notamTargetCode.enable();
+              if (value === 'NOTAM C'){
+                if (this.form.dailyFreqType.enabled){
+                this.disableTimeFields();
+                }
+              }
+            }
+          }
+        );
+      }, error => {
+        this.controlActorService.setError(error);
+      },
+      () => {
+        this.ngxUiLoaderService.stopLoader(this.loaderId);
       }
     );
+  }
+
+
+  disableTimeFields(): void {
+    this.form.dailyFreqStart.disable();
+    this.form.dailyFreqEnd.disable();
+    this.form.dailyFreqType.disable();
+  }
+
+  enableTimeFields(): void {
+    this.form.dailyFreqStart.enable();
+    this.form.dailyFreqEnd.enable();
+    this.form.dailyFreqType.enable();
+  }
+
+  setTimeFieldsEmpty(): void {
+    this.form.dailyFreqStart.setValue('');
+    this.form.dailyFreqEnd.setValue('');
+    this.form.dailyFreqType.setValue('');
   }
 
   initForm(): void {
@@ -84,13 +142,14 @@ export class NOTAMModifComponent implements OnInit {
       rangeAction: [this.demandeNOTAM.rangeAction],
       typeNOTAM: [this.demandeNOTAM.typeNOTAM],
       text: [this.demandeNOTAM.text],
-      notamTargetCode: [this.demandeNOTAM.replaceorcancelNOTAMCode],
+      notamTargetCode: [{value: this.demandeNOTAM.replaceorcancelNOTAMCode, disabled: this.demandeNOTAM.typeNOTAM === 'NOTAM N' },
+      [Validators.required, ValidationService.requiredValidator]],
       coords: [this.demandeNOTAM.coords],
-      periodType: [periodType],
+      periodType: [periodType, [Validators.required]],
       validityPeriod: [[this.demandeNOTAM.startValidityPeriod, this.demandeNOTAM.endValidityPeriod], [ValidationService.DateValidator]],
-      dailyFreqType: [dailyFreqType],
-      dailyFreqStart: [this.demandeNOTAM.dailyFreqStart],
-      dailyFreqEnd: [this.demandeNOTAM.dailyFreqEnd],
+      dailyFreqType: [{value: dailyFreqType, disabled: this.demandeNOTAM.typeNOTAM === 'NOTAM C'} ],
+      dailyFreqStart: [{value: this.demandeNOTAM.dailyFreqStart, disabled: this.demandeNOTAM.typeNOTAM === 'NOTAM C'}],
+      dailyFreqEnd: [{value: this.demandeNOTAM.dailyFreqEnd, disabled: this.demandeNOTAM.typeNOTAM === 'NOTAM C'}],
       infLimit: [this.demandeNOTAM.lowerVerticalLimit],
       supLimit: [this.demandeNOTAM.upperVerticalLimit],
       filesForm: new FormArray([])
@@ -104,6 +163,7 @@ export class NOTAMModifComponent implements OnInit {
   get files(): FormArray{
     return this.form.filesForm as FormArray;
   }
+
   addFileForm(): void{
     this.files.push(
       this.formBuilder.group({
@@ -145,43 +205,51 @@ export class NOTAMModifComponent implements OnInit {
   validateAgainAndGetFormData(): FormData {
     const formData = new FormData();
     const typeNOTAM = this.notamForm.controls.typeNOTAM.value;
-    const codeNOTAMReplaced: string = this.notamForm.controls.notamTargetCode.value;
-    if (typeNOTAM === 'NOTAM N' && codeNOTAMReplaced.trim() !== ''){
-      this.errors = ['DDIAFORMS.errors.replacedCodeNOTAMN'];
-      return null;
-    }
-    else if (typeNOTAM !== 'NOTAM N' && codeNOTAMReplaced.trim() === ''){
-      this.errors = ['DDIAFORMS.errors.replacedCodeNOTAMRC'];
-      return null;
-    }
+    const codeNOTAMReplaced = this.notamForm.controls.notamTargetCode.value;
+
+    const valPeriod = this.notamForm.controls.validityPeriod.value;
+    const periodType = this.notamForm.controls.periodType.value;
     const dailyFreqStart = this.notamForm.controls.dailyFreqStart.value;
     const dailyFreqEnd = this.notamForm.controls.dailyFreqEnd.value;
-    if (dailyFreqEnd || dailyFreqStart){
-      if (!dailyFreqEnd || !dailyFreqStart){
-        this.errors = ['DDIAFORMS.errors.timeInvalid'];
-        return null;
+    const dailyFreqType = this.notamForm.controls.dailyFreqType.value;
+
+    if (valPeriod[0] && valPeriod[1]){
+
+      formData.append('validity_period_type', periodType === 'planned' ? VALIDITY_PERIOD_PLANNED : VALIDITY_PERIOD_ESTIMATED);
+      formData.append('start_val_period', valPeriod[0].toISOString());
+      formData.append('end_val_period', valPeriod[1].toISOString());
+
+      if (dailyFreqEnd || dailyFreqStart){
+        if (!dailyFreqStart || !dailyFreqEnd){
+          this.errors = ['DDIAFORMS.errors.timeInvalid'];
+          return;
+        }
+        if (this.timeValGreaterThan(dailyFreqStart, dailyFreqEnd)){
+          this.errors = ['DDIAFORMS.errors.timeInvalid'];
+          return;
+        }
+        if (!dailyFreqType){
+          this.errors = ['DDIAFORMS.errors.emptyTypeDailyFreq'];
+        }
       }
-      if (this.timeValGreaterThan(dailyFreqStart, dailyFreqEnd)){
+      else if (dailyFreqType){
         this.errors = ['DDIAFORMS.errors.timeInvalid'];
-        return null;
+        return;
+      }
+      if (dailyFreqType){
+        formData.append('daily_freq_type', dailyFreqType === 'planned' ? DAILY_FREQ_PLANNED : DAILY_FREQ_ESTIMATED);
+        formData.append('daily_freq_start', dailyFreqStart);
+        formData.append('daily_freq_end', dailyFreqEnd);
       }
     }
-    this.loadingSave = true;
-    formData.append('type_notam', this.notamForm.controls.typeNOTAM.value);
+    formData.append('type_notam', typeNOTAM);
     formData.append('descriptive_text', this.notamForm.controls.text.value);
     formData.append('range_action', this.notamForm.controls.rangeAction.value);
     formData.append('coords', this.notamForm.controls.coords.value);
-    formData.append('start_val_period', this.notamForm.controls.validityPeriod.value[0].toISOString());
-    formData.append('end_val_period', this.notamForm.controls.validityPeriod.value[1].toISOString());
-    formData.append('daily_freq_start', dailyFreqStart);
-    formData.append('daily_freq_end', dailyFreqEnd);
+
     formData.append('lower_vertical_limit', this.notamForm.controls.infLimit.value);
     formData.append('upper_vertical_limit', this.notamForm.controls.supLimit.value);
-    const validityPeriod = this.notamForm.controls.periodType.value === 'planned' ? VALIDITY_PERIOD_PLANNED : VALIDITY_PERIOD_ESTIMATED;
-    formData.append('validity_period_type', validityPeriod);
-    const dailyFreqType = this.notamForm.controls.dailyFreqType.value === 'planned' ? DAILY_FREQ_PLANNED : DAILY_FREQ_ESTIMATED;
-    formData.append('daily_freq_type', dailyFreqType);
-    formData.append('code_notam_replaceorcancel', this.notamForm.controls.notamTargetCode.value);
+    formData.append('code_notam_replaceorcancel', codeNOTAMReplaced);
     const nbAttachs = this.files.length;
     for (let i = 0; i < nbAttachs; i++){
       const fileform = this.files.controls[i] as FormGroup;
@@ -197,10 +265,10 @@ export class NOTAMModifComponent implements OnInit {
       return;
     }
     this.sourceAgentService.updateNOTAM(this.demandeNOTAM.id, formData)
-    .then(() => {
+    .then((res) => {
       this.errors = [];
       this.modalService.show(ModalSuccessCreationDDIAComponent,
-        this.modalDisplayService.getModalOptions({typeDDIA: 'NOTAM', contentText: 'MODAL.successModifDDIA'}, 'modal-dialog modal-notify modal-success')
+        this.modalDisplayService.getModalOptions({typeDDIA: 'NOTAM', contentText: 'MODAL.successModifDDIA', id: res.id}, 'modal-dialog modal-notify modal-success')
       );
     })
     .catch((err) => {

@@ -84,7 +84,7 @@ export class ItemHistoryBoxComponent implements OnInit {
           case PENDING_APPROVAL_STATE:
             this.structureName = agent.nationalinformer;
             this.action = 'DDIAHistoryActions.approve';
-            if (modifHist.newValue === PENDING_APPROVAL_STATE){
+            if (modifHist.newValue === PENDING_PUBLICATION_STATE){
               this.decision =  'DDIAHistoryActions.ok';
             }
             else if (modifHist.newValue === NOT_APPROVED_STATE ){

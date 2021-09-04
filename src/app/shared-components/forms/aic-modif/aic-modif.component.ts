@@ -65,8 +65,12 @@ export class AICModifComponent implements OnInit {
         this.isOwner = user.id === demandeaic.history[0].agentObject.user.id;
         this.isCancelled = demandeaic.state === CANCELLED_STATE;
         this.demandeAIC = demandeaic;
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
         this.initForm();
+      }, error => {
+        this.controlActorService.setError(error);
+      },
+      () => {
+        this.ngxUiLoaderService.stopLoader(this.loaderId);
       }
     );
   }
@@ -81,7 +85,7 @@ export class AICModifComponent implements OnInit {
     this.aicForm = this.formBuilder.group({
       depositDateTime: [{value: new Date(), disabled: true}],
       subject: [this.demandeAIC.subject],
-      object: [this.demandeAIC.object],
+      object: [this.demandeAIC.object, [Validators.required, ValidationService.requiredValidator]],
       text: [this.demandeAIC.text],
       filesForm: new FormArray([
         this.formBuilder.group({
@@ -137,10 +141,10 @@ export class AICModifComponent implements OnInit {
     }
 
     this.sourceAgentService.updateAIC(this.demandeAIC.id, formData)
-    .then(() => {
+    .then((res) => {
       this.errors = [];
       this.modalService.show(ModalSuccessCreationDDIAComponent,
-        this.modalDisplayService.getModalOptions({typeDDIA: 'AIC', contentText: 'MODAL.successModifDDIA'}, 'modal-dialog modal-notify modal-success')
+        this.modalDisplayService.getModalOptions({typeDDIA: 'AIC', contentText: 'MODAL.successModifDDIA', id: res.id}, 'modal-dialog modal-notify modal-success')
       );
     })
     .catch((err) => {

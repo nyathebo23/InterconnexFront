@@ -1,0 +1,7 @@
+<div class="jumbotron p-0">
+    <blockquote class="blockquote bq-danger" *ngFor="let referral of referrals">
+        <p class="alert alert-danger"> {{ referral.message }} </p>
+        <footer class="blockquote-footer mb-3"> <cite title="Source Title"> {{ referral.datetime | date : 'dd/MM/yyyy, hh:mm a'}} </cite></footer>
+        <hr>
+    </blockquote>
+</div>

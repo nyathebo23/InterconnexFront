@@ -29,9 +29,9 @@ export class DemandeAIC extends DDIA {
         initiator: UserInfos,
         histor: DDIAHistory[],
         attachments: AttachmentI[],
-        referral: RequestReferral
+        referrals: RequestReferral[]
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referral);
+        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referrals);
         this._subject = subject;
         this._object = object;
         this._text = text;
@@ -67,7 +67,7 @@ export class DemandeAIC extends DDIA {
             historiesData[0].agentObject.user,
             historiesData,
             data.attachments,
-            RequestReferral.fromJSON(data.request_referral)
+            data.request_referrals.map((val) => RequestReferral.fromJSON(val))
         );
     }
 }

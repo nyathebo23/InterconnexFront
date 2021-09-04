@@ -7,6 +7,7 @@ import * as ROLES from '../../../commons/constants-roles';
 import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
 import { NotificationDisplayService } from 'src/app/services/shared/notification-display.service';
 import { Notification } from 'src/app/models/notification.model';
+import { ErrorHandlingService } from 'src/app/services/agent-services/error-handling.service';
 
 @Component({
   selector: 'app-layout',
@@ -22,12 +23,18 @@ export class LayoutComponent implements OnInit, OnChanges {
   @Input() accessibleViews: {label: string, url: string}[];
   notificationsList: Notification[] = [];
   notifsNb: number;
+  errorReqMessage: string;
   constructor(
     private ref: ChangeDetectorRef,
     private authService: AuthManagerService,
-    private notificationDisplayService: NotificationDisplayService
+    private notificationDisplayService: NotificationDisplayService,
+    private errorHandlingService: ErrorHandlingService
   ) {
-
+    this.errorHandlingService.errorsSubject.subscribe(
+      (errorMessage) => {
+        this.errorReqMessage = errorMessage;
+      }
+    );
   }
 
   ngOnInit(): void {

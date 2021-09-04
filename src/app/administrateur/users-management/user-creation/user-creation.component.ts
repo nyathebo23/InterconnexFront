@@ -63,12 +63,18 @@ export class UserCreationComponent implements OnInit {
       this.reinitAll();
       this.aerodromesSubscription = this.adminService.getAerodromesList('True').subscribe((aerodromes: AerodromeExtendI[]) => {
         this.aerodromeList = aerodromes;
+      }, error => {
+        this.adminService.setError(error);
       });
       this.localinfsSubscription =  this.adminService.getLocalInformersList('True').subscribe((localinfs: LocalInformerI[]) => {
         this.localInfExternsList = localinfs.filter((val) => val.unit == null);
+      }, error => {
+        this.adminService.setError(error);
       });
       this.nationalinfsSubscription = this.adminService.getNationalInformersList().subscribe((nationalinfs: NationalInformerI[]) => {
         this.nationalInfList = nationalinfs;
+      }, error => {
+        this.adminService.setError(error);
       });
     });
 

@@ -60,7 +60,7 @@ export class AicWithDatasForSourcestructureComponent implements OnInit {
       (demandeaic) => {
         if (this.isAerodromeConceded && demandeaic.state === PENDING_ADMISSION_STATE){
           this.structureSourceService.getNationalInformerDDIATargeted(AIC_CLASS_NAME, id)
-          .then((nationalinf) => {
+          .subscribe((nationalinf) => {
             if (nationalinf.isAuthority){
               this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetCCAALabel';
               this.modalDatas.approbationAfter = 'no';
@@ -69,9 +69,8 @@ export class AicWithDatasForSourcestructureComponent implements OnInit {
               this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetASECNALabel';
               this.modalDatas.approbationAfter = 'yes';
             }
-          })
-          .catch((err) => {
-
+          }, error => {
+            this.controlActorService.setError(error);
           });
         }
         this.demandeAIC = demandeaic;
@@ -84,7 +83,11 @@ export class AicWithDatasForSourcestructureComponent implements OnInit {
           text: [{value: this.demandeAIC.text, disabled: true}],
         });
         this.dataLoaded = true;
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
+    }, error => {
+      this.controlActorService.setError(error);
+    },
+    () => {
+      this.ngxUiLoaderService.stopLoader(this.loaderId);
     });
 
     this.subjectChoices.push({val: 'Administratif', label: 'DDIAFORMS.aic.subject.admin'});

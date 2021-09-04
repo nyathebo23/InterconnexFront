@@ -46,7 +46,7 @@ export class AICComponent implements OnInit {
     this.aicForm = this.formBuilder.group({
       depositDateTime: [{value: new Date(), disabled: true}],
       subject: ['Administratif'],
-      object: [''],
+      object: ['', [Validators.required, ValidationService.requiredValidator]],
       text: [''],
       filesForm: new FormArray([
         this.formBuilder.group({
@@ -102,10 +102,10 @@ export class AICComponent implements OnInit {
     }
 
     this.sourceAgentService.createAIC(formData)
-    .then(() => {
+    .then((res) => {
       this.errors = [];
       this.modalService.show(ModalSuccessCreationDDIAComponent,
-        this.modalDisplayService.getModalOptions({typeDDIA: 'AIC', contentText: 'MODAL.successCreateDDIA'}, 'modal-dialog modal-notify modal-success')
+        this.modalDisplayService.getModalOptions({typeDDIA: 'AIC', contentText: 'MODAL.successCreateDDIA', id: res.id}, 'modal-dialog modal-notify modal-success')
       );
     })
     .catch((err) => {

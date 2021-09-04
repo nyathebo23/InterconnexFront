@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CollapseComponent } from 'angular-bootstrap-md';
-import { DDIA_CREATION, RECEPTION_SIGNAL_APPROBATION, RECEPTION_SUBMISSION, RECEPTION_VALIDATION, RECEPTION_VALIDATION_SOURCECOMMANDER,
+import { PENDING_APPROVAL_STATE, PENDING_VALIDATION_STATE } from 'src/app/commons/constants';
+import { DDIA_CREATION, DDIA_MUST_BE_PUBLISHED, DDIA_VALIDITY_EXP, RECEPTION_SIGNAL_APPROBATION,
+  RECEPTION_SUBMISSION, RECEPTION_VALIDATION, RECEPTION_VALIDATION_SOURCECOMMANDER,
    RECEPTION_VERIFICATION, RECEPTION_VERIFSUBMISSION } from 'src/app/commons/constants-events-notifs';
 import { Notification } from 'src/app/models/notification.model';
 import { NotificationDisplayService } from 'src/app/services/shared/notification-display.service';
@@ -41,10 +43,23 @@ export class NotificationComponent implements OnInit {
         this.contentText = 'NOTIFICATION.nationalinfReception';
         break;
       case RECEPTION_VALIDATION_SOURCECOMMANDER:
-        this.contentText = 'NOTIFICATION.localinfReception';
+        if (this.notification.newDDIAState === PENDING_APPROVAL_STATE){
+          this.contentText = 'NOTIFICATION.nationalinfReception';
+        }
+        else if (this.notification.newDDIAState === PENDING_VALIDATION_STATE){
+          this.contentText = 'NOTIFICATION.localinfReception';
+        }
         break;
       case RECEPTION_SIGNAL_APPROBATION:
         this.contentText = 'NOTIFICATION.nationalInfApprobation';
+        break;
+      case DDIA_MUST_BE_PUBLISHED:
+        this.contentTitle = 'DDIA MUST BE PUBLISHED';
+        this.contentText = 'NOTIFICATION.ddiaMustBePublished';
+        break;
+      case DDIA_VALIDITY_EXP:
+        this.contentTitle = 'DDIA EXPIRES SOON';
+        this.contentText = 'NOTIFICATION.ddiaNearExpiration';
         break;
     }
   }

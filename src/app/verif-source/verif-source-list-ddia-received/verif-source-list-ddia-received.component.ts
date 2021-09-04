@@ -70,12 +70,13 @@ export class VerifSourceListDDIAReceivedComponent implements OnInit {
 
   reloadDDIAItems(): void {
     this.verifSourceService.getDDIAListInWaiting(this.ddiaType, this.dateOrder, this.page)
-    .then((ddiaActions) => {
+    .subscribe((ddiaActions) => {
       this.ddiaActionsList = ddiaActions.actionsAgent;
       this.pagesNb = Math.ceil(ddiaActions.counts / PAGE_LIST_SIZE);
-    })
-    .catch((err: HttpErrorResponse) => {
-
+    }, error => {
+      this.verifSourceService.setError(error);
+    },
+    () => {
     });
   }
 

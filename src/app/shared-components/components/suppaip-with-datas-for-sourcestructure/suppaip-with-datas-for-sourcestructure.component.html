@@ -2,8 +2,9 @@
 <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column mt-2 mb-3" [formGroup]="suppaipForm" *ngIf="dataLoaded">
     <div class="d-flex flex-column">
         <h1 class="ddia-title">
-            <app-back-to-prec-page></app-back-to-prec-page> {{'DDIAFORMS.suppaip.title' | translate}}
+            <app-back-to-prec-page></app-back-to-prec-page> {{'DDIAFORMS.suppaip.title' | translate}} &nbsp;({{demandeSUPP.identDDIA}})
         </h1>
+
         <div class="container mb-3">
             <app-list-states-box [currentState]="demandeSUPP.state" [historyItems]="demandeSUPP.history"></app-list-states-box>
         </div>
@@ -79,7 +80,20 @@
             </mdb-carousel-item>
         </mdb-carousel>
     </div>
-    <app-history-box [history]="demandeSUPP.history"></app-history-box>
+    <div *ngIf="demandeSUPP.requestReferrals">
+        <app-referral-message [referrals]="demandeSUPP.requestReferrals"></app-referral-message>
+    </div>
+    <div class="container mb-3">
+        <div class="row bg-white">
+            <button mdbBtn color="primary" outline="true" class="waves-light m-auto" type="button" (click)="historyBox.toggle()" mdbWavesEffect>
+                {{'DDIAFORMS.history' | translate}} &nbsp; <mdb-icon fas [icon]="historyBox.isCollapsed ? 'caret-down' : 'caret-up'"></mdb-icon>
+            </button>
+        </div>
+    </div>
+    <div mdbCollapse #historyBox>
+        <app-history-box [history]="demandeSUPP.history"></app-history-box>
+    </div>
+
     <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="demandeSUPP.state === objectDefaultState">
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openRejectModal()">
             {{'DDIAFORMS.buttons.rejectadmitddia' | translate }}

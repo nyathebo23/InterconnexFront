@@ -158,15 +158,19 @@
             "invalidDate": "Entrez des dates valides",
             "invalidFrom": "La date de début doit ne doit pas être antérieure à la date actuelle",
             "invalidTo": "La date de début doit être antérieure à la date de fin",
+            "emptyTypeDailyFreq": "Vous devez choisir le type de fréquence journalière",
+            "emptyValPeriodType": "Vous devez choisir le type de période de validité",
             "replacedCodeNOTAMN": "Le code du NOTAM de remplacement doit uniquement être renseigné lorsqu' il s'agit d'un NOTAM d'annulation ou de remplacement",
-            "replacedCodeNOTAMRC": "Vous devez renseigner le code du NOTAM publié à remplacer !",
+            "replacedCodeNOTAMR": "Vous devez renseigner le code du NOTAM publié à remplacer !",
+            "replacedCodeNOTAMC": "Vous devez renseigner le code du NOTAM publié à annuler !",
             "replacedCodeSUPPAIPN": "Le code de la demande de diffusion de remplacement doit uniquement être renseigné lorsqu'il s' agit d'un SUPP AIP R",
             "replacedCodeSUPPAIPR": "Vous devez renseigner le code de la demande de diffusion publiée à remplacer !",
             "timeInvalid": "Renseignez des horaires de fréquence journalière valides"
         },
         "descText": "Texte descriptif",
         "object": "Objet",
-        "valPeriod": "Période de validité"
+        "valPeriod": "Période de validité",
+        "history": "Historique"
     },
     "SOURCEAGENT": {
         "initddia": "Initiation DDIA",
@@ -308,7 +312,7 @@
         "locationInd": "Indicateur d'emplacement",
         "isconceded": "Est un aéroport concédé",
         "inflocal": "Informateur Local",
-        "labelLocalInf": "Sélectionnez l' informateur local lié à l'aérodrome",
+        "labelLocalInf": "Sélectionnez l' informateur local lié à l'aéroport",
         "submitBtn": "Enregistrer",
         "addunitBtn": "Ajouter Unité source",
         "createsuccess": "Aerodrome créée avec succès"
@@ -324,14 +328,14 @@
         "adress": "Adresse",
         "rsfta": "RSFTA",
         "structuresource": "Aérodrome ou autre structure source",
-        "labelAerodrome": "Sélectionnez l' aérodrome  auquel appartient l'unité",
+        "labelAerodrome": "Sélectionnez l' aéroport  auquel appartient l'unité",
         "submitBtn": "Enregistrer",
         "createsuccess": "Unité source créée avec succès"
     },
     "InformateurLocal": {
         "title": "Informateur local",
         "name": "Nom",
-        "units": "Unités sources de l' aérodrome",
+        "units": "Unités sources de l' aéroport",
         "submitBtn": "Enregistrer",
         "createsuccess": "Informateur local créé avec succès"
     },
@@ -351,7 +355,8 @@
     "Errors": {
         "serverconnection": "Echec de connexion au serveur",
         "servererror": "Une erreure s'est produite dans le serveur",
-        "error": "Une erreur s'est produite et la requête n'a pas pu aboutir"
+        "error": "Une erreur s'est produite et la requête n'a pas pu aboutir",
+        "retry": "Réessayez"
     },
     "MODAL": {
         "submitToVerify": {
@@ -361,7 +366,7 @@
             "helperText": "Voulez vous vraiment soumettre cette demande de diffusion de {{typeDDIA}} ? Si oui après validation par les supérieurs hiérarchique elle sera envoyée à l'informateur national que vous choisirez ci-après."
         },
         "verifyok": {
-            "helperText": "Confirmez-vous bien que cette demande de diffusion de {{typeDDIA}} est conforme ? Si oui, elle sera envoyée aux supérieurs hiérarchiques de l'aérodrome pour validation du contenu."
+            "helperText": "Confirmez-vous bien que cette demande de diffusion de {{typeDDIA}} est conforme ? Si oui, elle sera envoyée aux supérieurs hiérarchiques de l'aéroport pour validation du contenu."
         },
         "admitok": {
             "helperText": "Confirmez-vous bien que cette demande de diffusion de {{typeDDIA}} est conforme ? Si oui, elle sera envoyée dans un service approprié externe à "
@@ -392,9 +397,11 @@
     },
     "NOTIFICATION": {
         "ddiaCreation": "Votre unité a initié une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}}",
+        "ddiaMustBePublished": "La demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} a été envoyé au publicateur depuis plus de 48 heures",
+        "ddiaNearExpiration": "La demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} ne sera plus valide dans moins de 05 jours",
         "verifReception": "Votre unité a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} à vérifier.",
         "publicationDDIA": "La demande de diffusion de {{typeDDIA}}, reference {{refDDIA}} a été publiée.",
-        "sourcestructReception": "Vous avez reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} du bureau d'informateur local de votre aérodrome pour que vous validiez de cette dernière.",
+        "sourcestructReception": "Vous avez reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} du bureau d'informateur local de votre aéroport pour que vous validiez de cette dernière.",
         "localinfReception": "Votre bureau d'informateur local a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} à valider.",
         "nationalinfReception": "Votre bureau d'informateur national a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} pour approbation.",
         "nationalinfApprobation": "Une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} a été approuvée."

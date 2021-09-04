@@ -58,11 +58,11 @@ export class DemandeNOTAM extends DDIA{
         initiator: UserInfos,
         histor: DDIAHistory[],
         attachments: AttachmentI[],
-        referral: RequestReferral,
+        referrals: RequestReferral[],
         replaceorcancelNOTAMCode?: string,
 
     ){
-        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referral);
+        super(id, identDDIA, depositDatetime, locationInd, state, initiator, unit, histor, attachments, referrals);
         this._rangeAction = rangeAction;
         this._typeNOTAM = typeNOTAM;
         this._coords = coords;
@@ -156,7 +156,7 @@ export class DemandeNOTAM extends DDIA{
             historiesData[0].agentObject.user,
             historiesData,
             data.attachments,
-            RequestReferral.fromJSON(data.request_referral),
+            data.request_referrals.map((val) => RequestReferral.fromJSON(val)),
             data.code_notam_replaceorcancel
         );
     }

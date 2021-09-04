@@ -35,6 +35,8 @@ export class ModalPublishDDIAComponent implements OnInit {
     })
     .finally(() => {
       this.loading = false;
+      this.modalRef.hide();
+      this.controlActorService.reloadCurrentRoute();
     });
   }
 

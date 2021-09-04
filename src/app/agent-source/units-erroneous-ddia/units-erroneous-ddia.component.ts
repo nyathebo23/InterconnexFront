@@ -19,6 +19,9 @@ export class UnitsErroneousDDIAComponent implements OnInit {
     this.sourceAgentService.getListDDIAWithErrors().subscribe(
       (ddiaList) => {
         this.ddiaList = ddiaList;
+      }, error => {
+        this.sourceAgentService.setError(error);
+      }, () => {
       }
     );
   }

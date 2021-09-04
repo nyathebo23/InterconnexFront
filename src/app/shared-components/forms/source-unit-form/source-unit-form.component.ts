@@ -76,11 +76,11 @@ export class SourceUnitFormComponent implements OnInit {
           initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
         });
         this.loadingDatas = false;
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
       })
       .catch((err) => {
-        console.log(err);
-      });
+        this.authService.setError(this.authService.displayErrors(err)[0]);
+      })
+      .finally(() =>  this.ngxUiLoaderService.stopLoader(this.loaderId));
     }
   }
 }

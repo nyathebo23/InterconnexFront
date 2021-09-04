@@ -69,17 +69,17 @@ export class StatisticPageSourceStructureComponent implements OnInit {
     .finally(() => this.loadingDatas = false);
 
     this.sourceStructureService.getStatsOnDDIAAerodrome(this.year, this.takeAllDDIA)
-    .then((value) => {
+    .subscribe((value) => {
       this.typesDDIA = ['NOTAM', 'SUPP AIP', 'AIC'];
       this.chartDatasetsAerodrome = [
         { data: [value.countDDIA.countNOTAM, value.countDDIA.countSUPP, value.countDDIA.countAIC],
           label: 'Demandes de diffusion d\'information aéronautique'}
       ];
-    })
-    .catch((err) => {
-
-    })
-    .finally(() => this.loadingDatas = false);
+    }, error => {
+      this.sourceStructureService.setError(error);
+    },
+    () => {
+    });
   }
 
 }

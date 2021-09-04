@@ -62,7 +62,7 @@ export class SUPPAIPWithDatasForSourcestructureComponent implements OnInit {
       (demandesupp) => {
         if (this.isAerodromeConceded){
           this.structureSourceService.getNationalInformerDDIATargeted(SUPPAIP_CLASS_NAME, id)
-          .then((nationalinf) => {
+          .subscribe((nationalinf) => {
             console.log(nationalinf);
             if (nationalinf.isAuthority){
               this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetCCAALabel';
@@ -72,9 +72,8 @@ export class SUPPAIPWithDatasForSourcestructureComponent implements OnInit {
               this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetASECNALabel';
               this.modalDatas.approbationAfter = 'yes';
             }
-          })
-          .catch((err) => {
-
+          }, error => {
+            this.controlActorService.setError(error);
           });
         }
         this.demandeSUPP = demandesupp;
@@ -91,8 +90,11 @@ export class SUPPAIPWithDatasForSourcestructureComponent implements OnInit {
           descriptionText: [{value: this.demandeSUPP.descriptionText, disabled: true}],
         });
         this.dataLoaded = true;
+      }, error => {
+        this.controlActorService.setError(error);
+      },
+      () => {
         this.ngxUiLoaderService.stopLoader(this.loaderId);
-
       }
     );
 
