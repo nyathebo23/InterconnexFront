@@ -58,7 +58,6 @@ export class SUPPAIPComponent implements OnInit {
       typeSUPPAIP: ['SUPP AIP N'],
       object: ['', [Validators.required, ValidationService.requiredValidator]],
       codeDDIAToReplace: [{value: '', disabled: true}],
-      // aipTargetSections: [''],
       aipTargetSectForm: new FormArray([
         new FormControl('', [Validators.required, ValidationService.requiredValidator])
       ]),
@@ -127,7 +126,7 @@ export class SUPPAIPComponent implements OnInit {
     this.loadingSave = true;
     formData.append('type_suppaip', typeSUPP);
     formData.append('object', this.suppaipForm.controls.object.value);
-    formData.append('descriptive_text', this.suppaipForm.controls.text.value);
+    formData.append('descriptive_text', this.suppaipForm.controls.descriptionText.value);
     formData.append('start_val_period', this.suppaipForm.controls.validityPeriod.value[0].toISOString());
     formData.append('end_val_period', this.suppaipForm.controls.validityPeriod.value[1].toISOString());
     formData.append('code_ddia_replaced', codeDDIAReplaced);

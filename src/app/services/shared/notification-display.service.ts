@@ -34,13 +34,7 @@ export class NotificationDisplayService {
     return this.http.get<NotificationI[]>(url)
     .pipe(
       catchError(this.handleError),
-      map((notifs: NotificationI[]) => {
-        const notifications = new Array<Notification>();
-        notifs.forEach((notif) => {
-          notifications.push(Notification.fromJSON(notif));
-        });
-        return notifications;
-      })
+      map((notifs: NotificationI[]) => notifs.map((val) => Notification.fromJSON(val)))
     );
   }
 

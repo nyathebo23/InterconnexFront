@@ -14,6 +14,7 @@ import { DemandeSUPPAIP } from 'src/app/models/demande-suppaip.model';
 import { DemandeAIC } from 'src/app/models/demande-aic.model';
 import { Router } from '@angular/router';
 import { ErrorHandlingService } from './error-handling.service';
+import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -181,6 +182,13 @@ getDDIAListInWaitingForSourceStructure(typeDDIA: string, fromLocalInf: string): 
 
   setError(err: string): void {
     this.errorHandlingService.errorsSubject.next(err);
+  }
+
+  downloadFile(path: string, filename: string): void {
+    this.http.get(path, {responseType: 'blob'})
+    .subscribe(blob => {
+      saveAs(blob, filename);
+    });
   }
 
   getNOTAMDetailsByUrl(url: string): Observable<DemandeNOTAM> {

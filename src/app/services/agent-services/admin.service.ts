@@ -15,6 +15,8 @@ import { AerodromeExtendI } from 'src/app/interfaces/aerodrome-extend.interface'
 import { Aerodrome } from 'src/app/models/aerodrome.model';
 import { Router, RouterLink } from '@angular/router';
 import { ErrorHandlingService } from './error-handling.service';
+import { UserI } from 'src/app/interfaces/user.interface';
+import { User } from 'src/app/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +77,13 @@ export class AdminService {
   getNationalInformersList(): Observable<any[]>{
     return this.http.get<NationalInformerI[]>(URLS.NATIONAL_INFORMER_CRU).pipe(
       catchError(this.handleError),
+    );
+  }
+
+  getUsersList(): Observable<User[]>{
+    return this.http.get<UserI[]>(URLS.USERS_LIST).pipe(
+      catchError(this.handleError),
+      map((users) => users.map((val) => User.fromJSON(val)))
     );
   }
 

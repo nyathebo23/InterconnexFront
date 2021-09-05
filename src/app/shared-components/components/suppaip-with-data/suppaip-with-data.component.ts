@@ -45,6 +45,7 @@ export class SUPPAIPWithDataComponent implements OnInit {
     private modalService: MDBModalService,
     private authService: AuthManagerService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private ngxUiLoaderService: NgxUiLoaderService,
   ) {
     this.toDoAction = activatedRoute.snapshot.data.toDoAction;
@@ -53,40 +54,51 @@ export class SUPPAIPWithDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    try {
+      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.modalDatas = {
+        ddiaClassName: SUPPAIP_CLASS_NAME,
+        ddiaType: SUPPAIP_TYPE,
+        ddiaId: id,
+        action: this.toDoAction
+      };
 
-    this.modalDatas = {
-      ddiaClassName: SUPPAIP_CLASS_NAME,
-      ddiaType: SUPPAIP_TYPE,
-      ddiaId: id,
-      action: this.toDoAction
-    };
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+      this.controlActorService.getSUPPAIPDetailsById(id).subscribe(
+        (demandesupp) => {
+          this.demandeSUPP = demandesupp;
+          const user = demandesupp.initiator;
+          this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
+          this.suppaipForm = this.formBuilder.group({
+            depositDateTime: [{value: this.demandeSUPP.depositDatetime, disabled: true}],
+            typeSUPPAIP: [{value: this.demandeSUPP.typeSUPPAIP, disabled: true}],
+            object: [{value: this.demandeSUPP.object, disabled: true}],
+            codeDDIAToReplace: [{value: this.demandeSUPP.replacedDDIACode, disabled: true}],
+            aipTargetSections: [{value: this.demandeSUPP.targetSection, disabled: true}],
+            // aipTargetSectForm: new FormArray([]),
+            validityPeriod: [{value: [this.demandeSUPP.startValidityPeriod, this.demandeSUPP.endValidityPeriod], disabled: true}],
+            descriptionText: [{value: this.demandeSUPP.descriptionText, disabled: true}],
+          });
+          this.dataLoaded = true;
+        }, error => {
+          this.controlActorService.setError(error);
+        },
+        () => {
+          this.ngxUiLoaderService.stopLoader(this.loaderId);
+        }
+      );
+    }
+    catch (err) {
 
-    this.ngxUiLoaderService.startLoader(this.loaderId);
-    this.controlActorService.getSUPPAIPDetailsById(id).subscribe(
-      (demandesupp) => {
-        this.demandeSUPP = demandesupp;
-        const user = demandesupp.initiator;
-        this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
-        this.suppaipForm = this.formBuilder.group({
-          depositDateTime: [{value: this.demandeSUPP.depositDatetime, disabled: true}],
-          typeSUPPAIP: [{value: this.demandeSUPP.typeSUPPAIP, disabled: true}],
-          object: [{value: this.demandeSUPP.object, disabled: true}],
-          codeDDIAToReplace: [{value: this.demandeSUPP.replacedDDIACode, disabled: true}],
-          aipTargetSections: [{value: this.demandeSUPP.targetSection, disabled: true}],
-          // aipTargetSectForm: new FormArray([]),
-          validityPeriod: [{value: [this.demandeSUPP.startValidityPeriod, this.demandeSUPP.endValidityPeriod], disabled: true}],
-          descriptionText: [{value: this.demandeSUPP.descriptionText, disabled: true}],
-        });
-        this.dataLoaded = true;
-      }, error => {
-        this.controlActorService.setError(error);
-      },
-      () => {
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
-      }
-    );
+    }
+  }
 
+  goToModif(): void {
+    this.router.navigate(['/source/unitsddia-erroneous/present-ddia/suppaip/', btoa(this.demandeSUPP.id)]);
+  }
+
+  downloadFile(url: string, filename: string): void {
+    this.controlActorService.downloadFile(url, filename);
   }
 
   openOKModal(): void {

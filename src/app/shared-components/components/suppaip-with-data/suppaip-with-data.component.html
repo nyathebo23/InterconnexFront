@@ -32,9 +32,6 @@
                         <div class="form-group mb-1">
                             <label for="targetNOTAM" class="custom-label">{{'DDIAFORMS.suppaip.notamRcode' | translate }}</label>
                             <input type="text" id="targetNOTAM" formControlName="codeDDIAToReplace" class="form-control" />
-                            <!-- <select [disabled]="!isReplaceSUPPAIP()" class="form-control" id="targetNOTAM" formControlName="codeDDIAToReplace">
-                                    <option value=""></option>
-                                </select> -->
                         </div>
                         <div class="form-group mb-1">
                             <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }}</label>
@@ -57,15 +54,16 @@
                                 <owl-date-time #dtPicker></owl-date-time>
                                 <app-control-messages [control]="suppaipForm.controls.validityPeriod"></app-control-messages>
                             </div>
-
-                            <div class="form-group">
-                                <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
-                                <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
+                            <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }}</label>
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <app-file-display *ngFor="let attachment of demandeSUPP.attachments" [attachment]="attachment"></app-file-display>
                             </div>
-                            <div class="form-group">
-                                <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }}</label>
-                            </div>
-                            <a rel="stylesheet" *ngFor="let attachment of demandeSUPP.attachments" [href]="attachment.file">{{attachment.file}}</a>
                         </div>
                     </div>
                 </div>
@@ -88,6 +86,9 @@
 
     <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'submittoverify']; ddiaState: demandeSUPP.state; initiatorUserId: demandeSUPP.initiator.id">
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">{{'DDIAFORMS.buttons.cancelddia' | translate }}</button>
+        <button mdbBtn type="button" color="warning" mdbWavesEffect (click)="goToModif()">
+            MODIF
+        </button>
         <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
             {{'DDIAFORMS.buttons.sourcesubmitddia' | translate }}
         </button>

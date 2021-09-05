@@ -34,7 +34,7 @@ export class DDIAItemComponent implements OnInit {
   ngOnInit(): void {
       const startPath = this.route.parent.parent.routeConfig.path;
       const startPath1 = this.route.parent.routeConfig.path;
-      this.id = this.ddiaItem.id;
+      this.id = btoa(this.ddiaItem.id);
       this.reference = this.ddiaItem.identDDIA;
       this.typeDDIA = this.ddiaItem.ddiaType;
       this.airportname = this.ddiaItem.airportName;

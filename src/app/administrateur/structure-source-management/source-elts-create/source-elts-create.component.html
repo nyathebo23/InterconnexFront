@@ -1,7 +1,7 @@
 <div class="d-flex flex-wrap justify-content-between">
     <div class="card-form mb-5">
         <h2 class="titleform">{{'STRUCTURESSOURCES.title' | translate }}</h2>
-        <div class="alert alert-danger" role="alert" *ngFor="let err of unitErrors">
+        <div class="alert alert-danger" role="alert" *ngFor="let err of aerodromeErrors">
             {{err}}
         </div>
         <div class="alert alert-success" role="alert" *ngIf="createAerodromeSuccess">
@@ -68,7 +68,7 @@
     </div>
     <div class="card-form">
         <h2 class="titleform">{{'SOURCEUNIT.title' | translate }}</h2>
-        <div class="alert alert-danger" role="alert" *ngFor="let err of aerodromeErrors">
+        <div class="alert alert-danger" role="alert" *ngFor="let err of unitErrors">
             {{err}}
         </div>
         <div class="alert alert-success" role="alert" *ngIf="createUnitSuccess">

@@ -109,7 +109,6 @@ export class AICComponent implements OnInit {
       );
     })
     .catch((err) => {
-      console.log(err);
       this.errors = this.sourceAgentService.displayErrors(err);
       setTimeout(() => this.errors = [], 100000);
     })

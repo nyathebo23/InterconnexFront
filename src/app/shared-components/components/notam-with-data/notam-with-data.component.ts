@@ -3,7 +3,7 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DAILY_FREQ_ESTIMATED, DAILY_FREQ_PLANNED, NOTAM_CLASS_NAME, NOTAM_TYPE, VALIDITY_PERIOD_ESTIMATED, VALIDITY_PERIOD_PLANNED } from 'src/app/commons/constants';
 import { DemandeNOTAM } from 'src/app/models/demande-notam.model';
 import { User } from 'src/app/models/user.model';
@@ -46,6 +46,7 @@ export class NOTAMWithDataComponent implements OnInit {
     private controlActorService: ControlActorService,
     private authService: AuthManagerService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private ngxUiLoaderService: NgxUiLoaderService,
   ) {
     this.toDoAction = activatedRoute.snapshot.data.toDoAction;
@@ -54,50 +55,64 @@ export class NOTAMWithDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    try {
+      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.modalDatas = {
+        ddiaClassName: NOTAM_CLASS_NAME,
+        ddiaType: NOTAM_TYPE,
+        ddiaId: id,
+        action: this.toDoAction
+      };
 
-    this.modalDatas = {
-      ddiaClassName: NOTAM_CLASS_NAME,
-      ddiaType: NOTAM_TYPE,
-      ddiaId: id,
-      action: this.toDoAction
-    };
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+      this.controlActorService.getNOTAMDetailsById(id).subscribe(
+        (demandenotam) => {
+          this.demandeNOTAM = demandenotam;
+          console.log(demandenotam);
+          const periodType = this.demandeNOTAM.periodType === VALIDITY_PERIOD_PLANNED ? 'planned' :
+          this.demandeNOTAM.periodType === VALIDITY_PERIOD_ESTIMATED ? 'estimated' : '';
+          const dailyFreqType = this.demandeNOTAM.dailyFreqType === DAILY_FREQ_PLANNED ? 'planned' :
+          this.demandeNOTAM.dailyFreqType === DAILY_FREQ_ESTIMATED ? 'estimated' : '';
+          const user = demandenotam.initiator;
+          this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
+          this.notamForm = this.formBuilder.group({
+            depositDateTime: [{value: this.demandeNOTAM.depositDatetime, disabled: true}],
+            rangeAction: [{value: this.demandeNOTAM.rangeAction, disabled: true}],
+            typeNOTAM: [{value: this.demandeNOTAM.typeNOTAM, disabled: true}],
+            text: [{value: this.demandeNOTAM.text, disabled: true}],
+            notamTargetCode: [{value: this.demandeNOTAM.replaceorcancelNOTAMCode, disabled: true}],
+            coords: [{value: this.demandeNOTAM.coords, disabled: true}],
+            periodType: [{value: periodType, disabled: true}],
+            validityPeriod: [{value: [this.demandeNOTAM.startValidityPeriod, this.demandeNOTAM.endValidityPeriod], disabled: true}],
+            dailyFreqStart: [{value: this.demandeNOTAM.dailyFreqStart, disabled: true}],
+            dailyFreqEnd: [{value: this.demandeNOTAM.dailyFreqEnd, disabled: true}],
+            dailyFreqType: [{value: dailyFreqType, disabled: true}],
+            infLimit: [{value: this.demandeNOTAM.lowerVerticalLimit, disabled: true}],
+            supLimit: [{value: this.demandeNOTAM.upperVerticalLimit, disabled: true}],
+          });
+          this.dataLoaded = true;
+        }, error => {
+          this.controlActorService.setError(error);
+        },
+        () => {
+          this.ngxUiLoaderService.stopLoader(this.loaderId);
+        }
+      );
+    }
 
-    this.ngxUiLoaderService.startLoader(this.loaderId);
-    this.controlActorService.getNOTAMDetailsById(id).subscribe(
-      (demandenotam) => {
-        this.demandeNOTAM = demandenotam;
-        const periodType = this.demandeNOTAM.periodType === VALIDITY_PERIOD_PLANNED ? 'planned' :
-        this.demandeNOTAM.periodType === VALIDITY_PERIOD_ESTIMATED ? 'estimated' : '';
-        const dailyFreqType = this.demandeNOTAM.dailyFreqType === DAILY_FREQ_PLANNED ? 'planned' :
-        this.demandeNOTAM.dailyFreqType === DAILY_FREQ_ESTIMATED ? 'estimated' : '';
-        const user = demandenotam.initiator;
-        this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
-        this.notamForm = this.formBuilder.group({
-          depositDateTime: [{value: this.demandeNOTAM.depositDatetime, disabled: true}],
-          rangeAction: [{value: this.demandeNOTAM.rangeAction, disabled: true}],
-          typeNOTAM: [{value: this.demandeNOTAM.typeNOTAM, disabled: true}],
-          text: [{value: this.demandeNOTAM.text, disabled: true}],
-          notamTargetCode: [{value: this.demandeNOTAM.replaceorcancelNOTAMCode, disabled: true}],
-          coords: [{value: this.demandeNOTAM.coords, disabled: true}],
-          periodType: [{value: periodType, disabled: true}],
-          validityPeriod: [{value: [this.demandeNOTAM.startValidityPeriod, this.demandeNOTAM.endValidityPeriod], disabled: true}],
-          dailyFreqStart: [{value: this.demandeNOTAM.dailyFreqStart, disabled: true}],
-          dailyFreqEnd: [{value: this.demandeNOTAM.dailyFreqEnd, disabled: true}],
-          dailyFreqType: [{value: dailyFreqType, disabled: true}],
-          infLimit: [{value: this.demandeNOTAM.lowerVerticalLimit, disabled: true}],
-          supLimit: [{value: this.demandeNOTAM.upperVerticalLimit, disabled: true}],
-        });
-        this.dataLoaded = true;
-      }, error => {
-        this.controlActorService.setError(error);
-      },
-      () => {
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
-      }
-    );
+    catch (err){
 
+    }
   }
+
+  downloadFile(url: string, filename: string): void {
+    this.controlActorService.downloadFile(url, filename);
+  }
+
+  goToModif(): void {
+    this.router.navigate(['/source/unitsddia-erroneous/present-ddia/notam/', btoa(this.demandeNOTAM.id)]);
+  }
+
   openOKModal(): void {
     if (this.isAerodromeConceded && this.user.role === SOURCE_VERIFIER){
       this.modalRef = this.modalService.show(ModalChoiceNationalinfComponent,

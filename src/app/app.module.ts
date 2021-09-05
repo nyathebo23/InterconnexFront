@@ -146,6 +146,7 @@ import { VerifSourceService } from './services/agent-services/verif-source.servi
 import { InformateurLocalService } from './services/agent-services/informateur-local.service';
 import { InformateurNationalService } from './services/agent-services/informateur-national.service';
 import { StructureSourceService } from './services/agent-services/structure-source.service';
+import { FileDisplayComponent } from './shared-components/components/file-display/file-display.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   // console.log(localStorage.getItem('access_token'));
@@ -290,6 +291,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SUPPAIPModifComponent,
     AICModifComponent,
     ReferralMessageComponent,
+    FileDisplayComponent,
   ],
   imports: [
     BrowserModule,

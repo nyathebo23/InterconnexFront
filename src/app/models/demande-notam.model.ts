@@ -71,6 +71,7 @@ export class DemandeNOTAM extends DDIA{
         this._endValidityPeriod = endValidityPeriod;
         this._dailyFreqStart = dailyFreqStart;
         this._dailyFreqEnd = dailyFreqEnd;
+        this._dailyFreqType = dailyFreqType;
         this._lowerVerticalLimit = lowerVerticalLimit;
         this._upperVerticalLimit = upperVerticalLimit;
         this._text = text;

@@ -4,7 +4,7 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AIC_CLASS_NAME, AIC_TYPE } from 'src/app/commons/constants';
@@ -46,6 +46,7 @@ export class AICWithDataComponent implements OnInit {
     private modalDisplayService: ModalDisplayService,
     private authService: AuthManagerService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private ngxUiLoaderService: NgxUiLoaderService,
   ) {
     this.toDoAction = activatedRoute.snapshot.data.toDoAction;
@@ -54,40 +55,53 @@ export class AICWithDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.modalDatas = {
-      ddiaClassName: AIC_CLASS_NAME,
-      ddiaType: AIC_TYPE,
-      ddiaId: id,
-      action: this.toDoAction
-    };
+    try {
+      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.modalDatas = {
+        ddiaClassName: AIC_CLASS_NAME,
+        ddiaType: AIC_TYPE,
+        ddiaId: id,
+        action: this.toDoAction
+      };
 
-    // this.initiatorInfos = this.demandeAIC.c
-    this.ngxUiLoaderService.startLoader(this.loaderId);
-    this.controlActorService.getAICDetailsById(id).subscribe(
-      (demandeaic) => {
-        this.demandeAIC = demandeaic;
-        const user = demandeaic.initiator;
-        this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
-        this.aicForm = this.formBuilder.group({
-          depositDateTime: [{value: this.demandeAIC.depositDatetime, disabled: true}],
-          subject: [{value: this.demandeAIC.subject, disabled: true}],
-          object: [{value: this.demandeAIC.object, disabled: true}],
-          text: [{value: this.demandeAIC.text, disabled: true}],
-        });
-        this.dataLoaded = true;
-    }, error => {
-      this.controlActorService.setError(error);
-    },
-    () => {
-      this.ngxUiLoaderService.stopLoader(this.loaderId);
-    });
+      // this.initiatorInfos = this.demandeAIC.c
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+      this.controlActorService.getAICDetailsById(id).subscribe(
+        (demandeaic) => {
+          this.demandeAIC = demandeaic;
+          const user = demandeaic.initiator;
+          this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
+          this.aicForm = this.formBuilder.group({
+            depositDateTime: [{value: this.demandeAIC.depositDatetime, disabled: true}],
+            subject: [{value: this.demandeAIC.subject, disabled: true}],
+            object: [{value: this.demandeAIC.object, disabled: true}],
+            text: [{value: this.demandeAIC.text, disabled: true}],
+          });
+          this.dataLoaded = true;
+      }, error => {
+        this.controlActorService.setError(error);
+      },
+      () => {
+        this.ngxUiLoaderService.stopLoader(this.loaderId);
+      });
 
+    }
+    catch (err){
+
+    }
     this.subjectChoices.push({val: 'Administratif', label: 'DDIAFORMS.aic.subject.admin'});
     this.subjectChoices.push({val: 'ATC', label: 'DDIAFORMS.aic.subject.atc'});
     this.subjectChoices.push({val: 'Sécurité', label: 'DDIAFORMS.aic.subject.security'});
     this.subjectChoices.push({val: 'Zone à statut particulier', label: 'DDIAFORMS.aic.subject.zone'});
     this.subjectChoices.push({val: 'Carte', label: 'DDIAFORMS.aic.subject.maps'});
+  }
+
+  downloadFile(url: string, filename: string): void {
+    this.controlActorService.downloadFile(url, filename);
+  }
+
+  goToModif(): void {
+    this.router.navigate(['/source/unitsddia-erroneous/present-ddia/aic/', btoa(this.demandeAIC.id)]);
   }
 
   openOKModal(): void {

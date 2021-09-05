@@ -2,7 +2,7 @@
     <mdb-icon class="amber-text" fas icon="exclamation-triangle" size="5x"></mdb-icon>
     <p class="display-4"> {{ contentText | translate }} </p>
     <div>
-        <button type="button" mdbBtn color="warning" class="waves-effect m-auto" mdbWavesEffect *ngIf="contentText === 'Errors.serverconnection'">
+        <button type="button" mdbBtn color="warning" class="waves-effect m-auto" mdbWavesEffect (click)="retry()">
             {{'Errors.retry' | translate }}
         </button>
     </div>

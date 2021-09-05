@@ -81,7 +81,7 @@ export class SourceEltsCreateComponent implements OnInit {
   }
 
   submitUnit(): void {
-
+    this.createUnitSuccess = false;
     this.loadingsu = true;
     const formData = new FormData();
     formData.append('name', this.sourceUnitForm.controls.name.value);
@@ -105,6 +105,7 @@ export class SourceEltsCreateComponent implements OnInit {
 
   submitAerodrome(): void {
       this.loadingss = true;
+      this.createAerodromeSuccess = false;
     // if (this.unitsForms.length === 0){
       const formData = new FormData();
       formData.append('name', this.aerodromeForm.controls.name.value);

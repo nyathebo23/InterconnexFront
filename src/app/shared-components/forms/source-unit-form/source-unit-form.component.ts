@@ -49,38 +49,22 @@ export class SourceUnitFormComponent implements OnInit {
         rsfta: [{value: this.unit ? this.unit.rsfta : '', disabled: true}],
         initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
       });
-      this.loadingDatas = false;
     }
     else {
-      this.ngxUiLoaderService.startLoader(this.loaderId);
-      this.authService.getAgentInfos()
-      .then((data) => {
-        if (data.localinformer){
-          this.unit = UnitSource.fromJSON(data.localinformer.unit) ;
-          this.locationInd = Aerodrome.fromJSON(data.localinformer.aerodrome).locationInd;
-          this.initiatorInfos = data.user.last_name + ' ' + data.user.first_name + ',  ' + data.user.function + ',  ' + data.user.quality;
-        }
-        else{
-          this.unit = UnitSource.fromJSON(data.unit);
-          this.locationInd = Aerodrome.fromJSON(data.aerodrome).locationInd;
-          this.initiatorInfos = data.user.last_name + ' ' + data.user.first_name + ',  ' + data.user.function + ',  ' + data.user.quality;
-        }
-        this.sourceUnitForm = this.formBuilder.group({
-          airportLocationIndicator: [{value: this.locationInd, disabled: true}],
-          name: [{value: this.unit.name, disabled: true}],
-          adress: [{value: this.unit.address, disabled: true}],
-          fax: [{value: this.unit.fax, disabled: true}],
-          telephone: [{value: this.unit.phonenumber, disabled: true}],
-          email: [{value: this.unit.email, disabled: true}],
-          rsfta: [{value: this.unit.rsfta ? this.unit.rsfta : '', disabled: true}],
-          initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
-        });
-        this.loadingDatas = false;
-      })
-      .catch((err) => {
-        this.authService.setError(this.authService.displayErrors(err)[0]);
-      })
-      .finally(() =>  this.ngxUiLoaderService.stopLoader(this.loaderId));
+      this.unit = this.authService.getUnit();
+      this.locationInd = this.authService.getAerodrome().locationInd;
+      const user = this.authService.user;
+      this.initiatorInfos = user.lastname + ' ' + user.firstname + ',  ' + user.function + ',  ' + user.quality;
+      this.sourceUnitForm = this.formBuilder.group({
+        airportLocationIndicator: [{value: this.locationInd, disabled: true}],
+        name: [{value: this.unit.name, disabled: true}],
+        adress: [{value: this.unit.address, disabled: true}],
+        fax: [{value: this.unit.fax, disabled: true}],
+        telephone: [{value: this.unit.phonenumber, disabled: true}],
+        email: [{value: this.unit.email, disabled: true}],
+        rsfta: [{value: this.unit.rsfta ? this.unit.rsfta : '', disabled: true}],
+        initiatorInfos: [{value: this.initiatorInfos, disabled: true}]
+      });
     }
   }
 }

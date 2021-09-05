@@ -48,57 +48,68 @@ export class SUPPAIPWithDatasForSourcestructureComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    try {
+      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
 
-    this.modalDatas = {
-      ddiaClassName: SUPPAIP_CLASS_NAME,
-      ddiaType: SUPPAIP_TYPE,
-      ddiaId: id,
-      action: this.toDoAction
-    };
+      this.modalDatas = {
+        ddiaClassName: SUPPAIP_CLASS_NAME,
+        ddiaType: SUPPAIP_TYPE,
+        ddiaId: id,
+        action: this.toDoAction
+      };
 
-    this.ngxUiLoaderService.startLoader(this.loaderId);
-    this.controlActorService.getSUPPAIPDetailsById(id).subscribe(
-      (demandesupp) => {
-        if (this.isAerodromeConceded){
-          this.structureSourceService.getNationalInformerDDIATargeted(SUPPAIP_CLASS_NAME, id)
-          .subscribe((nationalinf) => {
-            console.log(nationalinf);
-            if (nationalinf.isAuthority){
-              this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetCCAALabel';
-              this.modalDatas.approbationAfter = 'no';
-            }
-            else {
-              this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetASECNALabel';
-              this.modalDatas.approbationAfter = 'yes';
-            }
-          }, error => {
-            this.controlActorService.setError(error);
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+      this.controlActorService.getSUPPAIPDetailsById(id).subscribe(
+        (demandesupp) => {
+          if (this.isAerodromeConceded){
+            this.structureSourceService.getNationalInformerDDIATargeted(SUPPAIP_CLASS_NAME, id)
+            .subscribe((nationalinf) => {
+              console.log(nationalinf);
+              if (nationalinf.isAuthority){
+                this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetCCAALabel';
+                this.modalDatas.approbationAfter = 'no';
+              }
+              else {
+                this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetASECNALabel';
+                this.modalDatas.approbationAfter = 'yes';
+              }
+            }, error => {
+              this.controlActorService.setError(error);
+            });
+          }
+          this.demandeSUPP = demandesupp;
+          const user = demandesupp.initiator;
+          this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
+          this.suppaipForm = this.formBuilder.group({
+            depositDateTime: [{value: this.demandeSUPP.depositDatetime, disabled: true}],
+            typeSUPPAIP: [{value: this.demandeSUPP.typeSUPPAIP, disabled: true}],
+            object: [{value: this.demandeSUPP.object, disabled: true}],
+            codeDDIAToReplace: [{value: this.demandeSUPP.replacedDDIACode, disabled: true}],
+            aipTargetSections: [{value: this.demandeSUPP.targetSection, disabled: true}],
+            // aipTargetSectForm: new FormArray([]),
+            validityPeriod: [{value: [this.demandeSUPP.startValidityPeriod, this.demandeSUPP.endValidityPeriod], disabled: true}],
+            descriptionText: [{value: this.demandeSUPP.descriptionText, disabled: true}],
           });
+          this.dataLoaded = true;
+        }, error => {
+          this.controlActorService.setError(error);
+        },
+        () => {
+          this.ngxUiLoaderService.stopLoader(this.loaderId);
         }
-        this.demandeSUPP = demandesupp;
-        const user = demandesupp.initiator;
-        this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
-        this.suppaipForm = this.formBuilder.group({
-          depositDateTime: [{value: this.demandeSUPP.depositDatetime, disabled: true}],
-          typeSUPPAIP: [{value: this.demandeSUPP.typeSUPPAIP, disabled: true}],
-          object: [{value: this.demandeSUPP.object, disabled: true}],
-          codeDDIAToReplace: [{value: this.demandeSUPP.replacedDDIACode, disabled: true}],
-          aipTargetSections: [{value: this.demandeSUPP.targetSection, disabled: true}],
-          // aipTargetSectForm: new FormArray([]),
-          validityPeriod: [{value: [this.demandeSUPP.startValidityPeriod, this.demandeSUPP.endValidityPeriod], disabled: true}],
-          descriptionText: [{value: this.demandeSUPP.descriptionText, disabled: true}],
-        });
-        this.dataLoaded = true;
-      }, error => {
-        this.controlActorService.setError(error);
-      },
-      () => {
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
-      }
-    );
+      );
+    }
+    catch (err) {
+
+    }
 
   }
+
+
+  downloadFile(url: string, filename: string): void {
+    this.controlActorService.downloadFile(url, filename);
+  }
+
   openOKModal(): void {
     this.modalRef = this.modalService.show(ModalControlDDIAConfirmComponent,
       this.modalDisplayService.getModalOptions(this.modalDatas, 'modal-dialog modal-notify modal-info'));

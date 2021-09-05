@@ -37,6 +37,12 @@
                             <label for="descText" class="custom-label">{{'DDIAFORMS.aic.text' | translate }}</label>
                             <textarea class="form-control" formControlName="text" id="descText" cols="30" rows="5"></textarea>
                         </div>
+                        <div class="d-flex flex-column">
+                            <label class="custom-label">{{'DDIAFORMS.aic.files' | translate }}</label>
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <app-file-display *ngFor="let attachment of demandeAIC.attachments" [attachment]="attachment"></app-file-display>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </mdb-carousel-item>
@@ -60,6 +66,9 @@
     <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'submittoverify']; ddiaState: demandeAIC.state; initiatorUserId: demandeAIC.initiator.id">
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
             {{'DDIAFORMS.buttons.cancelddia' | translate }}
+        </button>
+        <button mdbBtn type="button" color="warning" mdbWavesEffect (click)="goToModif()">
+            MODIF
         </button>
         <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
             {{'DDIAFORMS.buttons.sourcesubmitddia' | translate }}

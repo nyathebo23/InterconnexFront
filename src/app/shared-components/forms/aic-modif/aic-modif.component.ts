@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { MDBModalService } from 'angular-bootstrap-md';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { AIC_CLASS_NAME, AIC_TYPE, CANCELLED_STATE } from 'src/app/commons/constants';
+import { AIC_CLASS_NAME, AIC_TYPE, DRAFT_STATE, NON_CONFORMING_STATE, NOT_ADMITTED_STATE, NOT_APPROVED_STATE, NOT_VALIDATED_STATE } from 'src/app/commons/constants';
 import { DemandeAIC } from 'src/app/models/demande-aic.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
@@ -34,7 +34,7 @@ export class AICModifComponent implements OnInit {
   loadingSave: boolean;
   demandeAIC: DemandeAIC;
   isOwner: boolean;
-  isCancelled: boolean;
+  canModify: boolean;
   initiatorInfos: string;
   modalCancelDatas: any;
   toDoAction: string;
@@ -57,22 +57,29 @@ export class AICModifComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.ngxUiLoaderService.startLoader(this.loaderId);
-    this.controlActorService.getAICDetailsById(id).subscribe(
-      (demandeaic) => {
-        const user = this.authService.getUser();
-        this.isOwner = user.id === demandeaic.history[0].agentObject.user.id;
-        this.isCancelled = demandeaic.state === CANCELLED_STATE;
-        this.demandeAIC = demandeaic;
-        this.initForm();
-      }, error => {
-        this.controlActorService.setError(error);
-      },
-      () => {
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
-      }
-    );
+    try {
+      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+      this.controlActorService.getAICDetailsById(id).subscribe(
+        (demandeaic) => {
+          const user = this.authService.getUser();
+          this.isOwner = user.id === demandeaic.history[0].agentObject.user.id;
+          this.canModify = [DRAFT_STATE, NON_CONFORMING_STATE,
+            NOT_APPROVED_STATE, NOT_VALIDATED_STATE, NOT_ADMITTED_STATE].indexOf(demandeaic.state) !== -1;
+          this.demandeAIC = demandeaic;
+          this.initForm();
+        }, error => {
+          this.controlActorService.setError(error);
+        },
+        () => {
+          this.ngxUiLoaderService.stopLoader(this.loaderId);
+        }
+      );
+    }
+    catch (err) {
+
+    }
+
   }
 
   initForm(): void {

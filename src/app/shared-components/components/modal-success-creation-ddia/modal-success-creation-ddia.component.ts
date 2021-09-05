@@ -31,7 +31,7 @@ export class ModalSuccessCreationDDIAComponent implements OnInit {
         ddiaType = 'suppaip';
         break;
     }
-    this.router.navigate(['/source/unitsddia/present-ddia/' + ddiaType, this.id]);
+    this.router.navigate(['/source/unitsddia/present-ddia/' + ddiaType, btoa(this.id)]);
     this.modalRef.hide();
   }
 

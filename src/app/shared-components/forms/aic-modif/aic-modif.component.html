@@ -38,14 +38,17 @@
                             <label for="descText" class="custom-label">{{'DDIAFORMS.aic.text' | translate }}</label>
                             <textarea class="form-control" formControlName="text" id="descText" cols="30" rows="5"></textarea>
                         </div>
-                        <div formArrayName="filesForm" class="form-group">
-                            <label class="custom-label">{{'DDIAFORMS.notam.files' | translate }}</label>
+                        <div formArrayName="filesForm" class="form-group d-flex flex-column">
+                            <label class="custom-label">{{'DDIAFORMS.aic.files' | translate }}</label>
+                            <div class="d-flex flex-wrap justify-content-between">
+                                <app-file-display *ngFor="let attachment of demandeAIC.attachments" [attachment]="attachment"></app-file-display>
+                            </div>
                             <div *ngFor="let fileForm of files.controls;let index=index;">
                                 <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                     <div>
                                         <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;" (click)="fileUpload.click()"> 
-                                            <input type="file" class="file-input" #fileUpload [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">                       
-                                            <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<mdb-icon fas icon="paperclip" size="lg"></mdb-icon></label>
+                                            <span>{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></span>
+                                            <input type="file" #fileUpload class="file-input" (change)="onFileSelected($event, fileForm)">
                                         </button>
                                     </div>
                                     <div>
@@ -83,7 +86,7 @@
     <div mdbCollapse #historyBox>
         <app-history-box [history]="demandeAIC.history"></app-history-box>
     </div>
-    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="isOwner && !isCancelled">
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="isOwner && canModify">
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
         {{'DDIAFORMS.buttons.cancelddia' | translate }}
         </button>

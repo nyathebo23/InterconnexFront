@@ -10,7 +10,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { MDBModalService } from 'angular-bootstrap-md';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { CANCELLED_STATE, SUPPAIP_CLASS_NAME, SUPPAIP_TYPE } from 'src/app/commons/constants';
+import { DRAFT_STATE, NON_CONFORMING_STATE, NOT_ADMITTED_STATE, NOT_APPROVED_STATE, NOT_VALIDATED_STATE,
+  SUPPAIP_CLASS_NAME, SUPPAIP_TYPE } from 'src/app/commons/constants';
 import { DemandeSUPPAIP } from 'src/app/models/demande-suppaip.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
@@ -36,7 +37,7 @@ export class SUPPAIPModifComponent implements OnInit {
   initiatorInfos: string;
   isOwner: boolean;
   modalCancelDatas: any;
-  isCancelled: boolean;
+  canModify: boolean;
   toDoAction: string;
   loaderId = 'suppaip-loader';
   constructor(
@@ -52,36 +53,40 @@ export class SUPPAIPModifComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.ngxUiLoaderService.startLoader(this.loaderId);
+    try {
+      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.ngxUiLoaderService.startLoader(this.loaderId);
 
-    this.controlActorService.getSUPPAIPDetailsById(id).subscribe(
-      (demandesupp) => {
-        const user = this.authService.getUser();
-        this.isOwner = user.id === demandesupp.history[0].agentObject.user.id;
-        this.isCancelled = demandesupp.state === CANCELLED_STATE;
-        this.demandeSUPP = demandesupp;
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
-        this.initForm();
-        this.form.typeSUPPAIP.valueChanges.subscribe(
-          (value) => {
-            if (value === 'SUPP AIP N'){
-               this.form.codeDDIAToReplace.setValue('');
-               this.form.codeDDIAToReplace.disable();
+      this.controlActorService.getSUPPAIPDetailsById(id).subscribe(
+        (demandesupp) => {
+          const user = this.authService.getUser();
+          this.isOwner = user.id === demandesupp.history[0].agentObject.user.id;
+          this.canModify = [DRAFT_STATE, NON_CONFORMING_STATE,
+            NOT_APPROVED_STATE, NOT_VALIDATED_STATE, NOT_ADMITTED_STATE].indexOf(demandesupp.state) !== -1;
+          this.demandeSUPP = demandesupp;
+          this.initForm();
+          this.form.typeSUPPAIP.valueChanges.subscribe(
+            (value) => {
+              if (value === 'SUPP AIP N'){
+                 this.form.codeDDIAToReplace.setValue('');
+                 this.form.codeDDIAToReplace.disable();
+              }
+              else {
+                this.form.codeDDIAToReplace.enable();
+              }
             }
-            else {
-              this.form.codeDDIAToReplace.enable();
-            }
-          }, error => {
-            this.controlActorService.setError(error);
-          },
-          () => {
-            this.ngxUiLoaderService.stopLoader(this.loaderId);
-          }
-        );
-      }
-    );
+          );
+        }, error => {
+          this.controlActorService.setError(error);
+        },
+        () => {
+          this.ngxUiLoaderService.stopLoader(this.loaderId);
+        }
+      );
+    }
+    catch (err) {
 
+    }
   }
 
   initForm(): void {
@@ -95,9 +100,9 @@ export class SUPPAIPModifComponent implements OnInit {
       depositDateTime: [{value: new Date(), disabled: true}],
       typeSUPPAIP: [this.demandeSUPP.typeSUPPAIP],
       object: [this.demandeSUPP.object, [Validators.required, ValidationService.requiredValidator]],
-      codeDDIAToReplace: [this.demandeSUPP.replacedDDIACode],
+      codeDDIAToReplace: [{value: this.demandeSUPP.replacedDDIACode, disabled: this.demandeSUPP.typeSUPPAIP === 'SUPP AIP N'} ],
       // aipTargetSections: [''],
-      aipTargetSectForm: new FormArray( this.demandeSUPP.targetSection.split('*-----*')
+      aipTargetSectForm: new FormArray( this.demandeSUPP.targetSection.split('*-----*').slice(1)
       .map((val) => new FormControl(val, [Validators.required, ValidationService.requiredValidator ]))
       ),
       validityPeriod: [[this.demandeSUPP.startValidityPeriod, this.demandeSUPP.endValidityPeriod], [ValidationService.DateValidator]],
@@ -165,7 +170,7 @@ export class SUPPAIPModifComponent implements OnInit {
     this.loadingSave = true;
     formData.append('type_suppaip', typeSUPP);
     formData.append('object', this.suppaipForm.controls.object.value);
-    formData.append('descriptive_text', this.suppaipForm.controls.text.value);
+    formData.append('descriptive_text', this.suppaipForm.controls.descriptionText.value);
     formData.append('start_val_period', this.suppaipForm.controls.validityPeriod.value[0].toISOString());
     formData.append('end_val_period', this.suppaipForm.controls.validityPeriod.value[1].toISOString());
     formData.append('code_ddia_replaced', codeDDIAReplaced);

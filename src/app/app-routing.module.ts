@@ -80,8 +80,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'signin' , pathMatch: 'full'},
       { path: 'signin', component: SigninComponent },
-      { path: 'requestpasswordreset', component: PasswordReset1Component, canActivate: [CanActivateAuth] },
-      { path: 'passwordreset', component: PasswordReset2Component, canActivate: [CanActivateAuth] },
+      { path: 'requestpasswordreset', component: PasswordReset1Component },
+      { path: 'passwordreset', component: PasswordReset2Component},
       { path: 'signupverif/:user_id', component: SignupVerifComponent, canActivate: [CanActivateAuth]  },
       { path: 'emailchange', component: ChangeEmailComponent, canActivate: [CanActivateAuth] },
       { path: 'emailchangeconfirm', component: ConfirmChangeEmailComponent, canActivate: [CanActivateAuth] },

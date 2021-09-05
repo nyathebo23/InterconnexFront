@@ -3,6 +3,7 @@ export const LOGIN = HOST_URL + '/auth/user/login/';
 export const SIGNUP = HOST_URL + '/auth/user/signup/';
 export const SIGNUP_ACTIVATE = HOST_URL + '/auth/user/signup/activate/';
 export const SIGNUP_RESEND = HOST_URL + '/auth/user/signup/resend/';
+export const USERS_LIST = HOST_URL + '/aeroinfos/users-list/';
 export const PASSWORD_RESET_REQUEST = HOST_URL + '/auth/user/password/request_change/';
 export const PASSWORD_RESET = HOST_URL + '/auth/user/password/reset/';
 export const PASSWORD_RESET_RESEND = HOST_URL + '/auth/user/password/resend/';

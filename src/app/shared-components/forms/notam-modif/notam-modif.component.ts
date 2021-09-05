@@ -9,8 +9,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { MDBModalService } from 'angular-bootstrap-md';
 import {  NgxUiLoaderService } from 'ngx-ui-loader';
-import { CANCELLED_STATE, DAILY_FREQ_ESTIMATED, DAILY_FREQ_PLANNED, NOTAM_CLASS_NAME,
-  NOTAM_TYPE, VALIDITY_PERIOD_ESTIMATED, VALIDITY_PERIOD_PLANNED } from 'src/app/commons/constants';
+import { DRAFT_STATE, NON_CONFORMING_STATE, NOT_ADMITTED_STATE, NOT_APPROVED_STATE, NOT_VALIDATED_STATE , DAILY_FREQ_ESTIMATED,
+  DAILY_FREQ_PLANNED, NOTAM_CLASS_NAME, NOTAM_TYPE, VALIDITY_PERIOD_ESTIMATED, VALIDITY_PERIOD_PLANNED } from 'src/app/commons/constants';
 import { DemandeNOTAM } from 'src/app/models/demande-notam.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
@@ -35,7 +35,7 @@ export class NOTAMModifComponent implements OnInit {
   initiatorInfos: string;
   toDoAction: string;
   isOwner: boolean;
-  isCancelled: boolean;
+  canModify: boolean;
   modalCancelDatas: any;
   loaderId = 'notam-loader';
   constructor(
@@ -53,57 +53,62 @@ export class NOTAMModifComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.ngxUiLoaderService.startLoader(this.loaderId);
-    this.controlActorService.getNOTAMDetailsById(id).subscribe(
-      (demandenotam) => {
-        const user = this.authService.getUser();
-        this.isOwner = user.id === demandenotam.history[0].agentObject.user.id;
-        this.isCancelled = demandenotam.state === CANCELLED_STATE;
-        this.demandeNOTAM = demandenotam;
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
-        this.initForm();
-        this.form.validityPeriod.valueChanges.subscribe(
-          value => {
-            if (value[0] == null || value[1] == null){
-              if (this.form.dailyFreqType.enabled){
-                this.setTimeFieldsEmpty();
-                this.disableTimeFields();
-              }
-            }
-            else {
-              if (this.form.dailyFreqType.disabled){
-                this.enableTimeFields();
-              }
-            }
-          }
-        );
-        this.form.typeNOTAM.valueChanges.subscribe(
-          (value) => {
-            if (value === 'NOTAM N'){
-               this.form.notamTargetCode.setValue('');
-               this.form.notamTargetCode.disable();
-               if (this.form.dailyFreqType.disabled){
-                this.enableTimeFields();
-               }
-            }
-            else {
-              this.form.notamTargetCode.enable();
-              if (value === 'NOTAM C'){
+    try {
+      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+      this.controlActorService.getNOTAMDetailsById(id).subscribe(
+        (demandenotam) => {
+          const user = this.authService.getUser();
+          this.isOwner = user.id === demandenotam.history[0].agentObject.user.id;
+          this.canModify = [DRAFT_STATE, NON_CONFORMING_STATE,
+            NOT_APPROVED_STATE, NOT_VALIDATED_STATE, NOT_ADMITTED_STATE].indexOf(demandenotam.state) !== -1;
+          this.demandeNOTAM = demandenotam;
+          this.ngxUiLoaderService.stopLoader(this.loaderId);
+          this.initForm();
+          this.form.validityPeriod.valueChanges.subscribe(
+            value => {
+              if (value[0] == null || value[1] == null){
                 if (this.form.dailyFreqType.enabled){
-                this.disableTimeFields();
+                  this.setTimeFieldsEmpty();
+                  this.disableTimeFields();
+                }
+              }
+              else {
+                if (this.form.dailyFreqType.disabled){
+                  this.enableTimeFields();
                 }
               }
             }
-          }
-        );
-      }, error => {
-        this.controlActorService.setError(error);
-      },
-      () => {
-        this.ngxUiLoaderService.stopLoader(this.loaderId);
-      }
-    );
+          );
+          this.form.typeNOTAM.valueChanges.subscribe(
+            (value) => {
+              if (value === 'NOTAM N'){
+                 this.form.notamTargetCode.setValue('');
+                 this.form.notamTargetCode.disable();
+                 if (this.form.dailyFreqType.disabled){
+                  this.enableTimeFields();
+                 }
+              }
+              else {
+                this.form.notamTargetCode.enable();
+                if (value === 'NOTAM C'){
+                  if (this.form.dailyFreqType.enabled){
+                  this.disableTimeFields();
+                  }
+                }
+              }
+            }
+          );
+        }, error => {
+          this.controlActorService.setError(error);
+        },
+        () => {
+          this.ngxUiLoaderService.stopLoader(this.loaderId);
+        }
+      );
+    }
+    catch (err){
+    }
   }
 
 

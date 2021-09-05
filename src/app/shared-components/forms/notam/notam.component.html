@@ -128,8 +128,8 @@
                                 <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                     <div>
                                         <button mdbBtn type="button" color="primary" mdbWavesEffect outline="true" style="height: 43px; overflow: hidden;" (click)="fileUpload.click()"> 
-                                            <input type="file" class="file-input" #fileUpload [id]="'upload'+index" (change)="onFileSelected($event, fileForm)">                       
-                                            <label [for]="'upload'+index">{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<mdb-icon fas icon="paperclip" size="lg"></mdb-icon></label>
+                                            <span>{{'DDIAFORMS.sourceunit.addfile' | translate }}&nbsp;<i class="fas fa-paperclip"></i></span>
+                                            <input type="file" #fileUpload class="file-input" (change)="onFileSelected($event, fileForm)">
                                         </button>
                                     </div>
                                     <div>

@@ -47,48 +47,54 @@ export class AicWithDatasForSourcestructureComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.modalDatas = {
-      ddiaClassName: AIC_CLASS_NAME,
-      ddiaType: AIC_TYPE,
-      ddiaId: id,
-      action: this.toDoAction
-    };
+    try {
+      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.modalDatas = {
+        ddiaClassName: AIC_CLASS_NAME,
+        ddiaType: AIC_TYPE,
+        ddiaId: id,
+        action: this.toDoAction
+      };
 
-    this.ngxUiLoaderService.startLoader(this.loaderId);
-    this.controlActorService.getAICDetailsById(id).subscribe(
-      (demandeaic) => {
-        if (this.isAerodromeConceded && demandeaic.state === PENDING_ADMISSION_STATE){
-          this.structureSourceService.getNationalInformerDDIATargeted(AIC_CLASS_NAME, id)
-          .subscribe((nationalinf) => {
-            if (nationalinf.isAuthority){
-              this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetCCAALabel';
-              this.modalDatas.approbationAfter = 'no';
-            }
-            else {
-              this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetASECNALabel';
-              this.modalDatas.approbationAfter = 'yes';
-            }
-          }, error => {
-            this.controlActorService.setError(error);
+      this.ngxUiLoaderService.startLoader(this.loaderId);
+      this.controlActorService.getAICDetailsById(id).subscribe(
+        (demandeaic) => {
+          if (this.isAerodromeConceded && demandeaic.state === PENDING_ADMISSION_STATE){
+            this.structureSourceService.getNationalInformerDDIATargeted(AIC_CLASS_NAME, id)
+            .subscribe((nationalinf) => {
+              if (nationalinf.isAuthority){
+                this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetCCAALabel';
+                this.modalDatas.approbationAfter = 'no';
+              }
+              else {
+                this.labelTargetNationalInf = 'SOURCESTRUCTURE.targetASECNALabel';
+                this.modalDatas.approbationAfter = 'yes';
+              }
+            }, error => {
+              this.controlActorService.setError(error);
+            });
+          }
+          this.demandeAIC = demandeaic;
+          const user = demandeaic.initiator;
+          this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
+          this.aicForm = this.formBuilder.group({
+            depositDateTime: [{value: this.demandeAIC.depositDatetime, disabled: true}],
+            subject: [{value: this.demandeAIC.subject, disabled: true}],
+            object: [{value: this.demandeAIC.object, disabled: true}],
+            text: [{value: this.demandeAIC.text, disabled: true}],
           });
-        }
-        this.demandeAIC = demandeaic;
-        const user = demandeaic.initiator;
-        this.initiatorInfos = user.lastname + '  ' + user.lastname + ',  ' + user.quality + ',  ' + user.function;
-        this.aicForm = this.formBuilder.group({
-          depositDateTime: [{value: this.demandeAIC.depositDatetime, disabled: true}],
-          subject: [{value: this.demandeAIC.subject, disabled: true}],
-          object: [{value: this.demandeAIC.object, disabled: true}],
-          text: [{value: this.demandeAIC.text, disabled: true}],
-        });
-        this.dataLoaded = true;
-    }, error => {
-      this.controlActorService.setError(error);
-    },
-    () => {
-      this.ngxUiLoaderService.stopLoader(this.loaderId);
-    });
+          this.dataLoaded = true;
+      }, error => {
+        this.controlActorService.setError(error);
+      },
+      () => {
+        this.ngxUiLoaderService.stopLoader(this.loaderId);
+      });
+    }
+    catch (err) {
+
+    }
+
 
     this.subjectChoices.push({val: 'Administratif', label: 'DDIAFORMS.aic.subject.admin'});
     this.subjectChoices.push({val: 'ATC', label: 'DDIAFORMS.aic.subject.atc'});
@@ -96,6 +102,10 @@ export class AicWithDatasForSourcestructureComponent implements OnInit {
     this.subjectChoices.push({val: 'Zone à statut particulier', label: 'DDIAFORMS.aic.subject.zone'});
     this.subjectChoices.push({val: 'Carte', label: 'DDIAFORMS.aic.subject.maps'});
 
+  }
+
+  downloadFile(url: string, filename: string): void {
+    this.controlActorService.downloadFile(url, filename);
   }
 
   openOKModal(): void {
