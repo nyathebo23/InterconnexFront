@@ -197,7 +197,6 @@
             "text": "SUPP AIP Text",
             "files": "Attached files",
             "createsuccess": "SUPP AIP request dissemination successfully created"
-
         },
         "notam": {
             "title": "NOTAM REQUEST DISSEMINATION FORM",
@@ -282,7 +281,11 @@
         "usermanage": {
             "create": "Create",
             "list": "User list"
-        }
+        },
+        "usersManage": "Users management",
+        "informersManage": "Management of local and national informants",
+        "structuresManage": "Management of source units and structures"
+        
     },
     "ddialist": {
         "emptylist": "None request for the dissemination of aeronotical information match search criteria !",
@@ -304,7 +307,6 @@
             "validated": "Validated"
         }
     },
-
     "STRUCTURESSOURCES": {
         "saving": "SAVE",
         "designation": "Aerodromes",
@@ -313,7 +315,7 @@
         "locationInd": "Location Indicator",
         "name": "Name",
         "code": "Code",
-        "isconceded": "Is a conceded airport",
+        "isconceded": "Is conceded airport",
         "inflocal": "Local informer",
         "labelLocalInf": "Select the local informant related to the airport",
         "submitBtn": "Save",
@@ -329,7 +331,7 @@
         "email": "Email",
         "adress": "Address",
         "rsfta": "RSFTA",
-        "structuresource": "Aerodrome or other source structure",
+        "structuresource": "Aerodrome or other structure",
         "labelAerodrome": "Select the airport to which the unit belongs",
         "submitBtn": "Save",
         "createsuccess": "Source unit successfully created"
@@ -337,6 +339,7 @@
     "InformateurLocal": {
         "title": "Local informer",
         "name": "Name",
+        "aerodrome": "Airport",
         "units": "Aerodrome's source units",
         "submitBtn": "Save",
         "createsuccess": "Local informer successfully created"
@@ -357,7 +360,8 @@
         "serverconnection": "Server connection failure",
         "servererror": "An error occurred in the server",
         "error": "An error occurred and the request could not be completed",
-        "retry": "Retry"
+        "retry": "Retry",
+        "back": "Back"
     },
     "MODAL": {
         "submitToVerify": {

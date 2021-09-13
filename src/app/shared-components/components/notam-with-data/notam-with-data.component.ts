@@ -20,6 +20,7 @@ import { ModalRejectDDIAComponent } from '../modal-reject-ddia/modal-reject-ddia
 import { ModalPublishDDIAComponent } from '../modal-publish-ddia/modal-publish-ddia.component';
 import { ModalConfirmRelanceComponent } from '../modal-confirm-relance/modal-confirm-relance.component';
 import { ModalConfirmCancelDDIAComponent } from '../modal-confirm-cancel-ddia/modal-confirm-cancel-ddia.component';
+import { HttpParameterCodec } from '@angular/common/http';
 
 @Component({
   selector: 'app-notam-with-data',
@@ -56,7 +57,8 @@ export class NOTAMWithDataComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      console.log(this.activatedRoute.snapshot.paramMap.get('id'));
+      const id = atob(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id')));
       this.modalDatas = {
         ddiaClassName: NOTAM_CLASS_NAME,
         ddiaType: NOTAM_TYPE,
@@ -68,7 +70,6 @@ export class NOTAMWithDataComponent implements OnInit {
       this.controlActorService.getNOTAMDetailsById(id).subscribe(
         (demandenotam) => {
           this.demandeNOTAM = demandenotam;
-          console.log(demandenotam);
           const periodType = this.demandeNOTAM.periodType === VALIDITY_PERIOD_PLANNED ? 'planned' :
           this.demandeNOTAM.periodType === VALIDITY_PERIOD_ESTIMATED ? 'estimated' : '';
           const dailyFreqType = this.demandeNOTAM.dailyFreqType === DAILY_FREQ_PLANNED ? 'planned' :
@@ -101,7 +102,7 @@ export class NOTAMWithDataComponent implements OnInit {
     }
 
     catch (err){
-
+      console.log(err);
     }
   }
 

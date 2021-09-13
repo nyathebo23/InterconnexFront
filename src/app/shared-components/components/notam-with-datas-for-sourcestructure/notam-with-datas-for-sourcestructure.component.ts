@@ -49,7 +49,8 @@ export class NOTAMWithDatasForSourcestructureComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      console.log(this.activatedRoute.snapshot.paramMap.get('id'));
+      const id = atob(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id')));
 
       this.modalDatas = {
         ddiaClassName: NOTAM_CLASS_NAME,
@@ -108,7 +109,7 @@ export class NOTAMWithDatasForSourcestructureComponent implements OnInit {
       );
     }
     catch (err) {
-
+      console.log(err);
     }
   }
 

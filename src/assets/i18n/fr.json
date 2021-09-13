@@ -280,7 +280,10 @@
         "usermanage": {
             "create": "Création",
             "list": "Liste d'utilisateurs"
-        }
+        },
+        "usersManage": "Gestion des utilisateurs",
+        "informersManage": "Gestion des unités et structures sources",
+        "structuresManage": "Gestion des Informateurs locaux et nationaux"
     },
     "ddialist": {
         "emptylist": "Aucune demande de diffusion d'information aéronautique ne corresond à vos critères de recherche !",
@@ -327,7 +330,7 @@
         "email": "Adresse mail",
         "adress": "Adresse",
         "rsfta": "RSFTA",
-        "structuresource": "Aérodrome ou autre structure source",
+        "structuresource": "Aérodrome ou autre structure",
         "labelAerodrome": "Sélectionnez l' aéroport  auquel appartient l'unité",
         "submitBtn": "Enregistrer",
         "createsuccess": "Unité source créée avec succès"
@@ -335,6 +338,7 @@
     "InformateurLocal": {
         "title": "Informateur local",
         "name": "Nom",
+        "aerodrome": "Aéroport",
         "units": "Unités sources de l' aéroport",
         "submitBtn": "Enregistrer",
         "createsuccess": "Informateur local créé avec succès"
@@ -356,7 +360,9 @@
         "serverconnection": "Echec de connexion au serveur",
         "servererror": "Une erreure s'est produite dans le serveur",
         "error": "Une erreur s'est produite et la requête n'a pas pu aboutir",
-        "retry": "Réessayez"
+        "retry": "Réessayez",
+        "back": "Retour"
+
     },
     "MODAL": {
         "submitToVerify": {

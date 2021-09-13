@@ -44,7 +44,7 @@ export class SigninComponent{
     .catch((err: HttpErrorResponse) => {
       this.errors = this.authService.displayErrors(err);
       this.loading = false;
-      setTimeout(() => this.errors = [], 10000);
+      setTimeout(() => this.errors = [], 30000);
     });
   }
 }

@@ -81,6 +81,15 @@
     <div *ngIf="demandeSUPP.requestReferrals">
         <app-referral-message [referrals]="demandeSUPP.requestReferrals"></app-referral-message>
     </div>
+
+    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="demandeSUPP.state === objectDefaultState">
+        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openRejectModal()">
+            {{'DDIAFORMS.buttons.rejectadmitddia' | translate }}
+        </button>
+        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
+            {{'DDIAFORMS.buttons.admitokddia' | translate }}
+        </button>
+    </div>
     <div class="container mb-3">
         <div class="row bg-white">
             <button mdbBtn color="primary" outline="true" class="waves-light m-auto" type="button" (click)="historyBox.toggle()" mdbWavesEffect>
@@ -92,12 +101,4 @@
         <app-history-box [history]="demandeSUPP.history"></app-history-box>
     </div>
 
-    <div class="d-flex flex-wrap justify-content-around mt-4" *ngIf="demandeSUPP.state === objectDefaultState">
-        <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openRejectModal()">
-            {{'DDIAFORMS.buttons.rejectadmitddia' | translate }}
-        </button>
-        <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openOKModal()">
-            {{'DDIAFORMS.buttons.admitokddia' | translate }}
-        </button>
-    </div>
 </div>

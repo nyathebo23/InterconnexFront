@@ -55,7 +55,7 @@ export class SUPPAIPWithDataComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      const id = atob(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id')));
       this.modalDatas = {
         ddiaClassName: SUPPAIP_CLASS_NAME,
         ddiaType: SUPPAIP_TYPE,

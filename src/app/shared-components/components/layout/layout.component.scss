@@ -78,27 +78,18 @@ a:hover {
 .container-left-box {
     top: 60px;
     font-family: 'Century Gothic';
-    min-width: 200px;
+    min-width: 185px;
     height: 100%;
     background-color: #150734;
     // background-image: conic-gradient(#150734, #4B9FE1, #0F2557, #0099CC);
     font-size: 14px;
 }
 
-@media (min-width: 1000px) {
-    .container-left-box {
-        width: 300px;
-        position: fixed;
-    }
-}
-
-@media (min-width: 1400px) {
-    .container-left-box {
-        width: 360px;
-        position: fixed;
-    }
-}
-
+// @media (min-width: 720px) {
+//     .container-left-box {
+//         position: fixed;
+//     }
+// }
 .oneline {
     white-space: nowrap;
 }

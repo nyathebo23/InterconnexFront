@@ -1,13 +1,13 @@
 <div class="table-responsive">
-    <table mdbTable #tableEl="mdbTable" class="z-depth-1">
+    <table mdbTable #tableEl="mdbTable" striped="true">
         <thead class="pretty-head">
             <tr>
-                <th *ngFor="let head of headUsersElements" class="text-center text-one-line" scope="col">{{head | translate}} </th>
+                <th *ngFor="let head of headUsersElements" class="text-one-line" scope="col">{{head | translate}} </th>
             </tr>
         </thead>
         <tbody>
             <tr mdbTableCol *ngFor="let user of users; let i=index;">
-                <!-- <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{user.username}}</th> -->
+                <!-- <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{user.id}}</th> -->
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{user.email}}</td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{user.firstname}}</td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{user.lastname}}</td>
@@ -16,11 +16,12 @@
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{user.function}}</td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{user.quality}}</td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                    <button mdbBtn type="button" class="roundedbtn" disabled (click)="deleteUser(user)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button>
+                    <mdb-icon size="x" class="red-text" fas icon="trash-alt"></mdb-icon>
+                    <!-- <button mdbBtn type="button" class="roundedbtn" disabled (click)="deleteUser(user)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button> -->
                 </td>
             </tr>
         </tbody>
-        <tfoot class="grey lighten-5 w-100">
+        <tfoot class="w-100">
             <tr>
                 <td colspan="4">
                     <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="users"></mdb-table-pagination>

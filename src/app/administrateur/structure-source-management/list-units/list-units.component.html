@@ -1,6 +1,6 @@
 <div class="table-responsive">
     <ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
-    <table mdbTable #tableEl="mdbTable" class="z-depth-1">
+    <table mdbTable #tableEl="mdbTable" class="z-depth-1" striped="true">
         <thead class="pretty-head">
             <tr>
                 <th *ngFor="let head of headUnitsElements" class="text-center text-one-line" scope="col">{{head | translate}} </th>
@@ -15,11 +15,19 @@
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{unit.phonenumber}}</td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"></td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{unit.aerodromeName}}</td>
-                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"><button mdbBtn type="button" class="roundedbtn" (click)="editUnit(unit)" color="amber" mdbWavesEffect>{{'UpdateDelete.editBtn' | translate}}</button></td>
-                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"><button mdbBtn type="button" class="roundedbtn" disabled (click)="deleteUnit(unit)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button></td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                    <a (click)="editUnit(unit)">
+                        <mdb-icon size="x" class="amber-text" fas icon="edit"></mdb-icon>
+                    </a>
+                </td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                    <a (click)="deleteUnit(unit)">
+                        <mdb-icon size="x" class="red-text" fas icon="trash-alt"></mdb-icon>
+                    </a>
+                </td>
             </tr>
         </tbody>
-        <tfoot class="grey lighten-5 w-100">
+        <tfoot class="w-100">
             <tr>
                 <td colspan="4">
                     <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="units"></mdb-table-pagination>

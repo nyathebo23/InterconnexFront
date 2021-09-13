@@ -82,7 +82,7 @@ const routes: Routes = [
       { path: 'signin', component: SigninComponent },
       { path: 'requestpasswordreset', component: PasswordReset1Component },
       { path: 'passwordreset', component: PasswordReset2Component},
-      { path: 'signupverif/:user_id', component: SignupVerifComponent, canActivate: [CanActivateAuth]  },
+      { path: 'signupverif', component: SignupVerifComponent, canActivate: [CanActivateAuth]  },
       { path: 'emailchange', component: ChangeEmailComponent, canActivate: [CanActivateAuth] },
       { path: 'emailchangeconfirm', component: ConfirmChangeEmailComponent, canActivate: [CanActivateAuth] },
       { path: 'resendcode', component: CodeResendComponent, canActivate: [CanActivateAuth] },

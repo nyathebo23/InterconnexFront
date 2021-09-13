@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -20,11 +21,13 @@ export class PasswordReset2Component  {
   showNewPassword = false;
   showConfNewPassword = false;
   errors: string[] = [];
-
+  userId: string;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthManagerService
+    private authService: AuthManagerService,
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) {
     this.passwordResetForm = this.formBuilder.group({
       code: ['', [ValidationService.requiredValidator]],
@@ -32,6 +35,16 @@ export class PasswordReset2Component  {
       confirmNewPassword: ['', [ValidationService.requiredValidator]]},
        {validators: ValidationService.mustMatch('newPassword', 'confirmNewPassword')}
     );
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation.extras.state) {
+      this.userId = navigation.extras.state.userId;
+      if (!this.userId){
+        this.location.back();
+      }
+    }
+    else {
+      this.location.back();
+    }
   }
 
   toggleNewPasswordVisibility(): void {
@@ -42,13 +55,13 @@ export class PasswordReset2Component  {
   }
   submit(): void{
     this.loading = true;
-    const userId = this.authService.user.id;
     const code = this.passwordResetForm.controls.code.value;
     const password  = this.passwordResetForm.controls.newPassword.value;
-    this.authService.resetPassword(userId, code, password)
+    this.authService.resetPassword(this.userId, code, password)
     .then((resp) => {
       this.loading = false;
-      this.router.navigate(['passwordreset']);
+      alert('success');
+      this.router.navigate(['/auth/signin']);
     })
     .catch((err) => {
       this.errors = this.authService.displayErrors(err);

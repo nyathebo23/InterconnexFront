@@ -86,8 +86,7 @@
             <option *ngFor="let nationalInf of nationalInfList" [value]="nationalInf.id">{{nationalInf.name}}</option>
         </select>
     </div>
-    <button [disabled]="signUpForm.invalid" class="custom-btn m-auto" (click)="submitUserCreate()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            {{'AUTHFORMS.SIGNUP.submitBtn' | translate }}                    
+    <button [disabled]="signUpForm.invalid || loading" class="custom-btn m-auto" (click)="submitUserCreate()" mdbBtn type="button" color="deep-purple" mdbWavesEffect>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>  {{'AUTHFORMS.SIGNUP.submitBtn' | translate }}                    
     </button>
 </div>

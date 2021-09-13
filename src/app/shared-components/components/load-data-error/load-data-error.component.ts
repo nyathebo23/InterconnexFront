@@ -15,6 +15,6 @@ export class LoadDataErrorComponent implements OnInit {
   }
 
   retry(): void {
-    this.controlActorService.reloadCurrentRoute();
+    window.location.reload();
   }
 }

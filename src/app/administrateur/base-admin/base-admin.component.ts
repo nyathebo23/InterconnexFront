@@ -13,9 +13,9 @@ export class BaseAdminComponent implements OnInit {
   accessibleViews: {label: string, url: string}[] = [];
   constructor(private authService: AuthManagerService) {
     this.navLinks = [
-      {name: 'Gestion des utilisateurs', iconClass: 'fas fa-users-cog', url: 'manageusers'},
-      {name: 'Gestion des unités et structures sources', iconClass: 'fas fa-plane-departure', url: 'structsource'},
-      {name: 'Gestion des Informateurs locaux et nationaux', iconClass: 'fas fa-passport', url: 'informers'},
+      {name: 'ADMINISTRATEUR.usersManage', iconClass: 'fas fa-users-cog', url: 'manageusers'},
+      {name: 'ADMINISTRATEUR.structuresManage', iconClass: 'fas fa-plane-departure', url: 'structsource'},
+      {name: 'ADMINISTRATEUR.informersManage', iconClass: 'fas fa-passport', url: 'informers'},
       // {name: 'Gestion des attributs d\'utilisateurs', iconClass: 'fas fa-passport', url: ''},
     ];
    }

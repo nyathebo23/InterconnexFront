@@ -1,4 +1,4 @@
-export const HOST_URL = 'http://127.0.0.1:8000';
+export const HOST_URL = 'http://192.168.43.73:8000';
 export const LOGIN = HOST_URL + '/auth/user/login/';
 export const SIGNUP = HOST_URL + '/auth/user/signup/';
 export const SIGNUP_ACTIVATE = HOST_URL + '/auth/user/signup/activate/';

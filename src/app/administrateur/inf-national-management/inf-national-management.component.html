@@ -36,11 +36,22 @@
             </thead>
             <tbody>
                 <tr mdbTableCol *ngFor="let elt of infnationaux">
-                    <th scope="row">{{elt.id}}</th>
+                    <!-- <th scope="row">{{elt.id}}</th> -->
                     <td>{{elt.name}}</td>
                     <td>{{elt.email}}</td>
-                    <td><button mdbBtn type="button" class="roundedbtn" (click)="edit(elt)" color="amber" mdbWavesEffect>{{'UpdateDelete.editBtn' | translate}}</button></td>
-                    <td><button mdbBtn type="button" class="roundedbtn" disabled (click)="delete(elt.id)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button></td>
+                    <td>
+                        <mdb-checkbox [disabled]="true" [checked]="elt.isAuthority" [default]="true"></mdb-checkbox>
+                    </td>
+                    <td>
+                        <a (click)="edit(elt)">
+                            <mdb-icon size="x" class="amber-text" fas icon="edit"></mdb-icon>
+                        </a>
+                    </td>
+                    <td>
+                        <a (click)="delete(elt.id)">
+                            <mdb-icon size="x" class="red-text" fas icon="trash-alt"></mdb-icon>
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>

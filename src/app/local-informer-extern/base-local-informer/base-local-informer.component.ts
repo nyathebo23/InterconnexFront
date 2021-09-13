@@ -46,7 +46,7 @@ export class BaseLocalInformerComponent implements OnInit, OnDestroy {
           contentText: contenttext,
           typeDDIA: notif.typeDDIA,
           refDDIA: notif.refDDIA,
-          urlDDIADetails: '/localinformer/receivedddia/present-ddia/' + ddiatype + '/' + ddiaId
+          urlDDIADetails: '/localinformer/receivedddia/present-ddia/' + ddiatype + '/' + btoa(ddiaId)
         };
         this.modalService.show(ModalReceiveDDIANotifComponent,
         this.modalDisplayService.getModalOptions(data, 'modal-dialog modal-notify modal-info'));

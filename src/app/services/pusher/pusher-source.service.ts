@@ -29,7 +29,8 @@ export class PusherSourceService {
     const aerodrome = this.authService.getAerodrome();
     this.channel = window.globalThis.pusher.subscribe('unit' + unit.id);
     this.channel.bind( DDIA_CREATION, (data: NotificationResp) => {
-        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.id, user.id]);
+        console.log(data);
+        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.id, data.user_id]);
         this.actionDataSubject.next(DDIAItemList.fromJSON(data.data));
     });
     this.channel.bind( DDIA_MUST_BE_PUBLISHED, (data: NotificationResp) => {

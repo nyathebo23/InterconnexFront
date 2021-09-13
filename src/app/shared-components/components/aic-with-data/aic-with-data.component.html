@@ -52,17 +52,6 @@
         <app-referral-message [referrals]="demandeAIC.requestReferrals"></app-referral-message>
     </div>
 
-    <div class="container mb-3">
-        <div class="row bg-white">
-            <button mdbBtn color="primary" outline="true" class="waves-light m-auto" type="button" (click)="historyBox.toggle()" mdbWavesEffect>
-                {{'DDIAFORMS.history' | translate}} &nbsp; <mdb-icon fas [icon]="historyBox.isCollapsed ? 'caret-down' : 'caret-up'"></mdb-icon>
-            </button>
-        </div>
-    </div>
-    <div mdbCollapse #historyBox>
-        <app-history-box [history]="demandeAIC.history"></app-history-box>
-    </div>
-
     <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'submittoverify']; ddiaState: demandeAIC.state; initiatorUserId: demandeAIC.initiator.id">
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
             {{'DDIAFORMS.buttons.cancelddia' | translate }}
@@ -110,5 +99,14 @@
             {{'DDIAFORMS.buttons.publish' | translate }}
         </button>
     </div>
-
+    <div class="container mb-3">
+        <div class="row bg-white">
+            <button mdbBtn color="primary" outline="true" class="waves-light m-auto" type="button" (click)="historyBox.toggle()" mdbWavesEffect>
+                {{'DDIAFORMS.history' | translate}} &nbsp; <mdb-icon fas [icon]="historyBox.isCollapsed ? 'caret-down' : 'caret-up'"></mdb-icon>
+            </button>
+        </div>
+    </div>
+    <div mdbCollapse #historyBox>
+        <app-history-box [history]="demandeAIC.history"></app-history-box>
+    </div>
 </div>

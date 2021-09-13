@@ -1,6 +1,6 @@
 <div class="table-responsive">
     <ngx-ui-loader [loaderId]="loaderId"></ngx-ui-loader>
-    <table mdbTable #tableEl="mdbTable" class="z-depth-1">
+    <table mdbTable #tableEl="mdbTable" class="z-depth-1" striped="true">
         <thead class="pretty-head">
             <tr>
                 <th *ngFor="let head of headAerodromeElements" class="text-one-line" scope="col">{{head | translate}} </th>
@@ -10,11 +10,22 @@
             <tr mdbTableCol *ngFor="let aerodrome of aerodromes; let i=index;">
                 <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{aerodrome.name}}</th>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{aerodrome.locationInd}}</td>
-                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"><button mdbBtn type="button" class="roundedbtn" (click)="editAerodrome(aerodrome)" color="amber" mdbWavesEffect>{{'UpdateDelete.editBtn' | translate}}</button></td>
-                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"><button mdbBtn type="button" class="roundedbtn" disabled (click)="deleteAerodrome(aerodrome)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button></td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                    <mdb-checkbox [disabled]="true" [checked]="aerodrome.isConceded" [default]="true"></mdb-checkbox>
+                </td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                    <a (click)="editAerodrome(aerodrome)">
+                        <mdb-icon size="x" class="amber-text" fas icon="edit"></mdb-icon>
+                    </a>
+                </td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                    <a (click)="deleteAerodrome(aerodrome)">
+                        <mdb-icon size="x" class="red-text" fas icon="trash-alt"></mdb-icon>
+                    </a>
+                </td>
             </tr>
         </tbody>
-        <tfoot class="grey lighten-5 w-100">
+        <tfoot class="w-100">
             <tr>
                 <td colspan="4">
                     <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="aerodromes"></mdb-table-pagination>

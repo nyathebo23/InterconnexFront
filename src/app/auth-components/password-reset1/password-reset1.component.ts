@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 
@@ -29,9 +29,14 @@ export class PasswordReset1Component {
     this.loading = true;
     const email = this.emailForm.controls.email.value;
     this.authService.requestResetPassword(email)
-    .then(() => {
+    .then((res) => {
       this.loading = false;
-      this.router.navigate(['/auth/passwordreset']);
+      const navigationExtras: NavigationExtras = {
+        state: {
+          userId: res.user_id
+        }
+      };
+      this.router.navigate(['/auth/passwordreset'], navigationExtras);
     })
     .catch((err) => {
       this.errors = this.authService.displayErrors(err);

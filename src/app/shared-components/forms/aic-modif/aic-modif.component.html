@@ -90,7 +90,7 @@
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
         {{'DDIAFORMS.buttons.cancelddia' | translate }}
         </button>
-        <button type="button" [disabled]="notamForm.invalid || loadingSave" mdbBtn color="primary" mdbWavesEffect (click)="save()">
+        <button type="button" [disabled]="aicForm.invalid || loadingSave" mdbBtn color="primary" mdbWavesEffect (click)="save()">
         <span *ngIf="loadingSave" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'DDIAFORMS.buttons.save' | translate }} MODIF
     </button>
     </div>

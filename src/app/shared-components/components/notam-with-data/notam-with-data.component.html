@@ -130,16 +130,6 @@
     <div *ngIf="demandeNOTAM.requestReferrals">
         <app-referral-message [referrals]="demandeNOTAM.requestReferrals"></app-referral-message>
     </div>
-    <div class="container mb-3">
-        <div class="row bg-white">
-            <button mdbBtn color="primary" outline="true" class="waves-light m-auto" type="button" (click)="historyBox.toggle()" mdbWavesEffect>
-                {{'DDIAFORMS.history' | translate}} &nbsp; <mdb-icon fas [icon]="historyBox.isCollapsed ? 'caret-down' : 'caret-up'"></mdb-icon>
-            </button>
-        </div>
-    </div>
-    <div mdbCollapse #historyBox>
-        <app-history-box [history]="demandeNOTAM.history"></app-history-box>
-    </div>
 
     <div class="d-flex flex-wrap justify-content-around mt-4" *accessControl="user; toDoAction: [toDoAction, 'submittoverify']; ddiaState: demandeNOTAM.state; initiatorUserId: demandeNOTAM.initiator.id">
         <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="openCancelConfirmModal()">
@@ -188,5 +178,16 @@
         <button mdbBtn type="button" color="primary" mdbWavesEffect (click)="openPublishSetModal()">
             {{'DDIAFORMS.buttons.publish' | translate }}
         </button>
+    </div>
+
+    <div class="container mb-3">
+        <div class="row bg-white">
+            <button mdbBtn color="primary" outline="true" class="waves-light m-auto" type="button" (click)="historyBox.toggle()" mdbWavesEffect>
+                {{'DDIAFORMS.history' | translate}} &nbsp; <mdb-icon fas [icon]="historyBox.isCollapsed ? 'caret-down' : 'caret-up'"></mdb-icon>
+            </button>
+        </div>
+    </div>
+    <div mdbCollapse #historyBox>
+        <app-history-box [history]="demandeNOTAM.history"></app-history-box>
     </div>
 </div>

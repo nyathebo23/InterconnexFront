@@ -177,16 +177,21 @@ export class AdminService {
     else if (typeof error === 'string'){
       return ['Errors.error'];
     }
-    for (const key of Object.keys(error)) {
-      const value = error[key];
-      if (Array.isArray(value)){
-        for (const elt of value){
-          errors.push(key + ' - ' + elt );
+    try {
+      for (const key of Object.keys(error)) {
+        const value = error[key];
+        if (Array.isArray(value)){
+          for (const elt of value){
+            errors.push(key + ' - ' + elt );
+          }
+        }
+        else{
+          errors.push(key === 'message' ? value : key + ' - ' + value );
         }
       }
-      else{
-        errors.push(key === 'message' ? value : key + ' - ' + value );
-      }
+    }
+    catch (err) {
+        return ['Errors.error'];
     }
     return errors;
   }

@@ -1,9 +1,11 @@
 .filename {
     font-family: 'Roboto';
-    overflow: hidden;
-    text-overflow: clip;
+    overflow: clip;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    max-width: 120px;
 }
 
 .square-box {
-    width: 50px;
+    max-width: 120px;
 }

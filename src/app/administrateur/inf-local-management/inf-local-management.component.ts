@@ -19,7 +19,7 @@ export class InfLocalManagementComponent implements OnInit {
 
   infLocalForm: FormGroup;
   inflocaux: LocalInformer[];
-  headsInfLocal = ['ID', 'InformateurLocal.name', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
+  headsInfLocal = ['InformateurLocal.name', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
   aerodromesList: AerodromeExtendI[] = [];
   unitsList: UnitLite[];
   errors: string[] = [];
@@ -61,6 +61,7 @@ export class InfLocalManagementComponent implements OnInit {
   ngOnInit(): void{
     this.aerodromesSubscription = this.adminService.getAerodromesList('True').subscribe((aerodromes: AerodromeExtendI[]) => {
       this.aerodromesList = aerodromes;
+      console.log(aerodromes);
     }, error => {
       this.adminService.setError(error);
     });
@@ -108,13 +109,13 @@ export class InfLocalManagementComponent implements OnInit {
   }
 
   delete(id: string): void{
-    this.adminService.deleteLocalInformer(id)
-    .then(() => {
-      this.adminService.reloadCurrentRoute();
-    })
-    .catch((err) => {
+    // this.adminService.deleteLocalInformer(id)
+    // .then(() => {
+    //   this.adminService.reloadCurrentRoute();
+    // })
+    // .catch((err) => {
 
-    });
+    // });
   }
 
 }

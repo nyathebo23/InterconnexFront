@@ -44,8 +44,8 @@
 </header>
 
 <div class="container-fluid" style="margin-top: 65px;">
-    <div class="row">
-        <div class="col-xl-3 col-md-3 col-lg-3 col-sm-4 col-12">
+    <div class="row no-gutters">
+        <div class="col-xl-2 col-md-3 col-lg-3 col-sm-4 col-12">
             <div class="container-left-box">
                 <div class="profile-box d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
                     <div class="m-auto">
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-9 col-md-9 col-lg-9 col-sm-8 col-12">
+        <div class="col-xl-10 col-md-9 col-lg-9 col-sm-8 col-12">
             <router-outlet *ngIf="!errorReqMessage"></router-outlet>
             <div *ngIf="errorReqMessage">
                 <app-load-data-error [contentText]="errorReqMessage"></app-load-data-error>

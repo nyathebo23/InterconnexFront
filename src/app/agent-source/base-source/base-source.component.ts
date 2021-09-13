@@ -56,7 +56,7 @@ export class BaseSourceComponent implements OnInit {
             contentText: contenttext,
             typeDDIA: notif.typeDDIA,
             refDDIA: notif.refDDIA,
-            urlDDIADetails: '/source/unitsddia/present-ddia/' + ddiatype + '/' + ddiaId
+            urlDDIADetails: '/source/unitsddia/present-ddia/' + ddiatype + '/' + btoa(ddiaId)
           };
           this.modalService.show(ModalReceiveDDIANotifComponent,
           this.modalDisplayService.getModalOptions(data, 'modal-dialog modal-notify modal-info'));

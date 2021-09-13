@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -19,28 +20,37 @@ export class SignupVerifComponent {
   signupVerifForm: FormGroup;
   loading = false;
   errors: string[] = [];
-
+  userId: string;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthManagerService
+    private authService: AuthManagerService,
+    private location: Location
   ) {
     this.signupVerifForm = this.formBuilder.group({
       code: ['', [Validators.required, ValidationService.requiredValidator]],
     });
-
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation.extras.state) {
+      this.userId = navigation.extras.state.userId;
+      if (!this.userId){
+        this.location.back();
+      }
+    }
+    else {
+      this.location.back();
+    }
   }
 
   submit(): void {
     this.loading = true;
-    const userId = this.activatedRoute.snapshot.paramMap.get('user_id');
     const code = this.signupVerifForm.controls.code.value;
-    this.authService.signUpActivateUser(userId, code)
+    this.authService.signUpActivateUser(this.userId, code)
     .then((resp) => {
-      console.log(resp);
       this.loading = false;
-      this.authService.setTokens(resp.access_token, resp.refresh_token);
+      console.log(resp.access_token, resp.refresh_token, resp);
+      // this.authService.setTokens(resp.access_token, resp.refresh_token);
     })
     .catch((err) => {
       this.errors = this.authService.displayErrors(err);

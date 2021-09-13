@@ -54,7 +54,7 @@ export class NOTAMModifComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      const id = atob(this.activatedRoute.snapshot.paramMap.get('id'));
+      const id = atob(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id')));
       this.ngxUiLoaderService.startLoader(this.loaderId);
       this.controlActorService.getNOTAMDetailsById(id).subscribe(
         (demandenotam) => {

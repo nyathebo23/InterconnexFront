@@ -1,6 +1,6 @@
-<a (click)="downloadFile(attachment.file, attachment.name)">
-    <div class="d-flex flex-column justify-content-center align-items-center mr-2 ml-2">
-        <mdb-icon fas icon="file-download" class="indigo-text" size="4x"></mdb-icon>
+<a (click)="downloadFile(attachment.file, attachment.name)" class="square-box">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <mdb-icon fas icon="file-download" class="indigo-text" size="3x"></mdb-icon>
         <span class="indigo-text filename">{{attachment.name}}</span>
     </div>
 </a>

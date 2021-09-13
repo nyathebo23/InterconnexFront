@@ -15,7 +15,7 @@ import { ModalEditAerodromeComponent } from '../modal-edit-aerodrome/modal-edit-
 export class ListAerodromesComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line:max-line-length
-  headAerodromeElements = ['STRUCTURESSOURCES.name',  'STRUCTURESSOURCES.locationInd', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
+  headAerodromeElements = ['STRUCTURESSOURCES.name',  'STRUCTURESSOURCES.locationInd', 'STRUCTURESSOURCES.isconceded', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
   aerodromes: Aerodrome[] = [];
   prevAerodromes: Aerodrome[] = [];
   loadingDatas = false;

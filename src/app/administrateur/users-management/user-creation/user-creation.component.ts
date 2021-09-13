@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AerodromeExtendI } from 'src/app/interfaces/aerodrome-extend.interface';
 import { LocalInformerI } from 'src/app/interfaces/local-informer.interface';
 import { NationalInformerI } from 'src/app/interfaces/national-informer.interface';
@@ -14,7 +14,6 @@ import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 import * as ROLES from '../../../commons/constants-roles';
-
 
 
 @Component({
@@ -113,13 +112,18 @@ export class UserCreationComponent implements OnInit {
     formData.append('sex', this.signUpForm.controls.sex.value);
 
     if (this.checkExtraFieldsValidity() && this.signUpForm.valid){
-      this.adminService.signUpUser(formData).then((response: SignupResponse) => {
+      this.adminService.signUpUser(formData).then((response) => {
         const userid = response.user_id;
         this.loading = true;
+        const navigationExtras: NavigationExtras = {
+          state: {
+            userId: userid
+          }
+        };
         this.submitAgentCreate(userid)
         .then((res) => {
           console.log(res);
-          this.router.navigate(['/auth/signupverif', userid]);
+          this.router.navigate(['/auth/signupverif'], navigationExtras);
         })
         .catch((err) => {
           this.errors = this.authService.displayErrors(err);
@@ -128,7 +132,6 @@ export class UserCreationComponent implements OnInit {
         });
       })
       .catch((err) => {
-        console.log(err);
         if (err.status === 0){
           const error = 'Errors.serverconnection';
           this.errors = [error];
@@ -198,10 +201,10 @@ export class UserCreationComponent implements OnInit {
   }
 
   changeAerodrome(event): void {
-    console.log(event.target.value);
     const aerodrome = this.aerodromeList.find((elt: AerodromeExtendI) => elt.id.toString() === event.target.value);
     this.aerodrome = aerodrome;
     this.unitList = aerodrome.units;
+    this.unitId = undefined;
   }
 
   reinitAll(): void {
@@ -211,6 +214,7 @@ export class UserCreationComponent implements OnInit {
     this.nationalInfId = undefined;
     this.aerodrome = undefined;
     this.localInfId = undefined;
+    this.unitId = undefined;
   }
   isAerodromeAgent(): boolean{
     const role = this.signUpForm.controls.role.value;

@@ -24,7 +24,7 @@ export class InfNationalManagementComponent implements OnInit  {
 
   infNationalForm: FormGroup;
   infnationaux: NationalInformer[];
-  headsInfNational = ['ID', 'InformateurNational.name', 'InformateurNational.email', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
+  headsInfNational = ['InformateurNational.name', 'InformateurNational.email', 'InformateurNational.isauthority', 'UpdateDelete.editBtn', 'UpdateDelete.deleteBtn'];
   errors: string[] = [];
   createSuccess: boolean;
   loading = false;
@@ -80,12 +80,12 @@ export class InfNationalManagementComponent implements OnInit  {
   }
 
   delete(id: string): void{
-    this.adminService.deleteNationalInformer(id)
-    .then(() => {
-      this.adminService.reloadCurrentRoute();
-    })
-    .catch((err) => {
+    // this.adminService.deleteNationalInformer(id)
+    // .then(() => {
+    //   this.adminService.reloadCurrentRoute();
+    // })
+    // .catch((err) => {
 
-    });
+    // });
   }
 }

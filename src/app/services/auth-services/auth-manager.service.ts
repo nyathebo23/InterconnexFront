@@ -19,6 +19,7 @@ import { AerodromeExtendI } from 'src/app/interfaces/aerodrome-extend.interface'
 import { ErrorHandlingService } from '../agent-services/error-handling.service';
 
 interface ResponseMessage  {
+  user_id?: string;
   message: string;
 }
 
@@ -346,16 +347,22 @@ export class AuthManagerService {
     else if (typeof error === 'string'){
       return ['Errors.error'];
     }
-    for (const key of Object.keys(error)) {
-      const value = error[key];
-      if (Array.isArray(value)){
-        for (const elt of value){
-          errors.push(key + ' - ' + elt );
+    try {
+      for (const key of Object.keys(error)) {
+        const value = error[key];
+        if (Array.isArray(value)){
+          for (const elt of value){
+            errors.push(key + ' - ' + elt );
+          }
+        }
+        else{
+          errors.push(key === 'message' ? value : key + ' - ' + value );
         }
       }
-      else{
-        errors.push(key === 'message' ? value : key + ' - ' + value );
-      }
+    }
+    catch (err) {
+        console.log(errorResp);
+        return ['Errors.error'];
     }
     return errors;
   }

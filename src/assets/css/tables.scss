@@ -1,6 +1,7 @@
 .pretty-head {
     background-color: #0d0520;
     color: white;
+    height: 60px;
 }
 
 .roundedbtn {
@@ -15,6 +16,13 @@
 }
 
 .table-responsive {
-    border: 2px solid #1507341f;
-    background-color: #F1F3F6;
+    background-color: whitesmoke;
+}
+
+.table-responsive td {
+    white-space: nowrap
+}
+
+.table-responsive th {
+    white-space: nowrap
 }

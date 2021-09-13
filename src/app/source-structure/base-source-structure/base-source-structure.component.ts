@@ -47,7 +47,7 @@ export class BaseSourceStructureComponent implements OnInit, OnDestroy {
           contentText: contenttext,
           typeDDIA: notif.typeDDIA,
           refDDIA: notif.refDDIA,
-          urlDDIADetails: '/sourcestructure/receivedddia/present-ddia/' + ddiatype + '/' + ddiaId
+          urlDDIADetails: '/sourcestructure/receivedddia/present-ddia/' + ddiatype + '/' + btoa(ddiaId)
         };
         this.modalService.show(ModalReceiveDDIANotifComponent,
         this.modalDisplayService.getModalOptions(data, 'modal-dialog modal-notify modal-info'));
