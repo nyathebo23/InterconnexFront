@@ -14,6 +14,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MDBModalService } from 'angular-bootstrap-md';
 import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
 import { ModalEditNationalInformerComponent } from '../modals-for-informers/modal-edit-national-informer/modal-edit-national-informer.component';
+import { ModalDeleteConfirmComponent } from 'src/app/shared-components/components/modal-delete-confirm/modal-delete-confirm.component';
 
 @Component({
   selector: 'app-inf-national-management',
@@ -80,12 +81,9 @@ export class InfNationalManagementComponent implements OnInit  {
   }
 
   delete(id: string): void{
-    // this.adminService.deleteNationalInformer(id)
-    // .then(() => {
-    //   this.adminService.reloadCurrentRoute();
-    // })
-    // .catch((err) => {
-
-    // });
+    this.modalService.show(ModalDeleteConfirmComponent,
+      this.modalDisplayService.getModalOptions({
+        id,
+        deleteElementFunc: this.adminService.deleteNationalInformer}, 'modal-dialog modal-notify modal-danger'));
   }
 }

@@ -15,7 +15,7 @@ export class ItemHistoryBoxComponent implements OnInit {
 
   @Input() historyItem: DDIAHistory;
   action: string;
-  actionDate: string;
+  actionDate: Date;
   decision: string;
   userInfos: string;
   structureName: string;
@@ -27,7 +27,7 @@ export class ItemHistoryBoxComponent implements OnInit {
     const agent = this.historyItem.agentObject;
     const user = this.historyItem.agentObject.user;
     this.userInfos = user.firstname + ' ' + user.lastname + ',  ' + user.function + ',  ' + user.quality;
-    this.actionDate = this.historyItem.datetime.toLocaleString();
+    this.actionDate = this.historyItem.datetime;
     switch (this.historyItem.typeAction){
       case CREATE_ACTION:
         this.structureName = agent.unit ? agent.unit : agent.localinformer;

@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { NON_CONFORMING_STATE, PAGE_LIST_SIZE, PENDING_ADMISSION_STATE } from 'src/app/commons/constants';
 import { DDIA_STATE_CHANGE_EVENT } from 'src/app/commons/constants-events-notifs';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
+import { ActionsOnDDIAListService } from 'src/app/services/agent-services/actions-on-ddia-list.service';
 import { VerifSourceService } from 'src/app/services/agent-services/verif-source.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { PusherSourceVerifierService } from 'src/app/services/pusher/pusher-source-verifier.service';
@@ -15,35 +16,37 @@ import { PusherSourceVerifierService } from 'src/app/services/pusher/pusher-sour
 })
 export class VerifSourceListDDIAReceivedComponent implements OnInit {
 
-  dateOrder = 'ascendingDate';
+  dateOrder = 'descendingDate';
   ddiaType = 'all';
-  page = '1';
-  pagesNb: number;
   ddiaActionsList: ActionOnDDIA[];
-  errors: string[];
+
   constructor(
     private verifSourceService: VerifSourceService,
-    private pusherVerifService: PusherSourceVerifierService
+    private pusherVerifService: PusherSourceVerifierService,
+    private actionsOnDDIAService: ActionsOnDDIAListService,
   ) {
     this.pusherVerifService.actionDataSubject.subscribe(
       (actionOnDDIA) => {
-        if (this.ddiaType === actionOnDDIA.ddiaObject.ddiaType || this.ddiaType === 'all'){
-          this.ddiaActionsList.unshift(actionOnDDIA);
+        const typeDDIA = actionOnDDIA.ddiaObject.ddiaType.replace(/\s/g, '').toLowerCase();
+        if (this.ddiaType === 'all' ||  this.ddiaType ===  typeDDIA){
+          if (this.dateOrder === 'descendingDate'){
+            this.ddiaActionsList.unshift(actionOnDDIA);
+          }
+          else {
+            this.ddiaActionsList.push(actionOnDDIA);
+          }
+          this.actionsOnDDIAService.ddiaActionsListSubject.next(this.ddiaActionsList);
         }
       }
     );
+
 
     this.pusherVerifService.notificationStateChange.subscribe(
       (notif) => {
         if (notif.newDDIAState === PENDING_ADMISSION_STATE || notif.newDDIAState === NON_CONFORMING_STATE){
           this.ddiaActionsList = this.ddiaActionsList.filter((action) => action.ddiaObject.identDDIA !== notif.refDDIA);
+          this.actionsOnDDIAService.ddiaActionsListSubject.next(this.ddiaActionsList);
         }
-        // else {
-        //   const action = this.ddiaActionsList.find((actionDDIA) => actionDDIA.ddiaObject.identDDIA === notif.refDDIA);
-        //   if (action){
-        //     action.ddiaObject.state = notif.newDDIAState;
-        //   }
-        // }
       }
     );
   }
@@ -52,14 +55,8 @@ export class VerifSourceListDDIAReceivedComponent implements OnInit {
     this.reloadDDIAItems();
   }
 
-  onPageChange(page: string): void {
-    this.page = page;
-    this.reloadDDIAItems();
-  }
-
   onDDIATypeChange(typeDDIA: string): void {
     this.ddiaType = typeDDIA;
-    this.page = '1';
     this.reloadDDIAItems();
   }
 
@@ -69,10 +66,10 @@ export class VerifSourceListDDIAReceivedComponent implements OnInit {
   }
 
   reloadDDIAItems(): void {
-    this.verifSourceService.getDDIAListInWaiting(this.ddiaType, this.dateOrder, this.page)
+    this.verifSourceService.getDDIAListInWaiting(this.ddiaType, this.dateOrder, '')
     .subscribe((ddiaActions) => {
       this.ddiaActionsList = ddiaActions.actionsAgent;
-      this.pagesNb = Math.ceil(ddiaActions.counts / PAGE_LIST_SIZE);
+      this.actionsOnDDIAService.ddiaActionsListSubject.next(this.ddiaActionsList);
     }, error => {
       this.verifSourceService.setError(error);
     },

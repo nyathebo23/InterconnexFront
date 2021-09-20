@@ -12,10 +12,10 @@
 
         <links>
 
-            <ul class="navbar-nav mr-auto ml-5">
+            <!-- <ul class="navbar-nav mr-auto ml-5">
 
 
-            </ul>
+            </ul> -->
 
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item mr-3">
@@ -34,7 +34,7 @@
                         <span class="mybadge" *ngIf="notifsNb">{{notifsNb > 99 ? '99+' : notifsNb}}</span>
                     </a>
                 </li>
-                <li class="ml-3 mr-2">
+                <li class="mr-3">
                     <button mdbBtn class="roundedbtn" type="button" color="deep-purple" mdbWavesEffect (click)="logout()">{{'navbar.logout' | translate }}</button>
                 </li>
             </ul>

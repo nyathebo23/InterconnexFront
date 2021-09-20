@@ -9,6 +9,9 @@ import { ValidationService } from 'src/app/services/auth-services/validation.ser
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { MDBModalService } from 'angular-bootstrap-md';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalDeleteConfirmComponent } from 'src/app/shared-components/components/modal-delete-confirm/modal-delete-confirm.component';
 
 @Component({
   selector: 'app-inf-local-management',
@@ -31,6 +34,8 @@ export class InfLocalManagementComponent implements OnInit {
     private formBuider: FormBuilder,
     private adminService: AdminService,
     private ngxUiLoaderService: NgxUiLoaderService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService,
     private router: Router
   ) {
     this.infLocalForm = this.formBuider.group({
@@ -109,13 +114,10 @@ export class InfLocalManagementComponent implements OnInit {
   }
 
   delete(id: string): void{
-    // this.adminService.deleteLocalInformer(id)
-    // .then(() => {
-    //   this.adminService.reloadCurrentRoute();
-    // })
-    // .catch((err) => {
-
-    // });
+    this.modalService.show(ModalDeleteConfirmComponent,
+      this.modalDisplayService.getModalOptions({
+        id,
+        deleteElementFunc: this.adminService.deleteLocalInformer}, 'modal-dialog modal-notify modal-danger'));
   }
 
 }

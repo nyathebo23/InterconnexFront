@@ -16,7 +16,6 @@ import { ValidationService } from 'src/app/services/auth-services/validation.ser
 })
 export class SignupVerifComponent {
 
-
   signupVerifForm: FormGroup;
   loading = false;
   errors: string[] = [];
@@ -49,7 +48,8 @@ export class SignupVerifComponent {
     this.authService.signUpActivateUser(this.userId, code)
     .then((resp) => {
       this.loading = false;
-      console.log(resp.access_token, resp.refresh_token, resp);
+      alert(resp.message);
+      this.router.navigate(['admin']);
       // this.authService.setTokens(resp.access_token, resp.refresh_token);
     })
     .catch((err) => {

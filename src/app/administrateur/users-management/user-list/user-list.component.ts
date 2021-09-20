@@ -4,6 +4,8 @@ import { User } from 'src/app/models/user.model';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
+import { NavigationExtras, Router } from '@angular/router';
+import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 
 @Component({
   selector: 'app-user-list',
@@ -13,16 +15,19 @@ import { AdminService } from 'src/app/services/agent-services/admin.service';
 export class UserListComponent implements OnInit, AfterViewInit {
 
   pref = 'AUTHFORMS.SIGNUP.';
-  headUsersElements = ['email', 'firstname', 'lastname', 'sex', 'role', 'function', 'quality'];
+  headUsersElements = ['email', 'firstname', 'lastname', 'sex', 'role', 'function', 'quality', 'isactive'];
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   users: User[] = [];
   prevUsers: User[] = [];
   loaderId = 'users-list';
+  loadActivation = false;
   constructor(
     private cdRef: ChangeDetectorRef,
     private ngxUiLoaderService: NgxUiLoaderService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private authService: AuthManagerService,
+    private router: Router
   ) {
     this.headUsersElements = this.headUsersElements.map((elt) => this.pref + elt);
     this.headUsersElements.push('UpdateDelete.deleteBtn');
@@ -50,7 +55,27 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user: User): void {
-    console.log(user);
+    // console.log(user);
+  }
+
+  activateUser(email: string): void {
+    this.loadActivation = true;
+    this.authService.signUpResendCode(email)
+    .then((resp) => {
+      const userid = resp.user_id;
+      const navigationExtras: NavigationExtras = {
+        state: {
+          userId: userid
+        }
+      };
+      this.router.navigate(['/auth/signupverif'], navigationExtras);
+    })
+    .catch((err) => {
+
+    })
+    .finally(() => {
+      this.loadActivation = false;
+    });
   }
 
 }

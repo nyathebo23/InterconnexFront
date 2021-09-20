@@ -94,10 +94,10 @@ export class NotamComponent implements OnInit {
 
   initForm(): void {
     this.notamForm = this.formBuilder.group({
-      depositDateTime: [{value: new Date(), disabled: true}],
+      depositDateTime: [{value: null, disabled: true}],
       rangeAction: [''],
       typeNOTAM: ['NOTAM N'],
-      text: [''],
+      text: ['', [Validators.required, ValidationService.requiredValidator]],
       notamTargetCode: [{value: '', disabled: true}, [Validators.required, ValidationService.requiredValidator]],
       coords: [''],
       periodType: ['planned', [Validators.required]],

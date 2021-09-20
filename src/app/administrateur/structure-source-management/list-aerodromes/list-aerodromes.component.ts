@@ -6,6 +6,7 @@ import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
 import { ModalEditAerodromeComponent } from '../modal-edit-aerodrome/modal-edit-aerodrome.component';
+import { ModalDeleteConfirmComponent } from 'src/app/shared-components/components/modal-delete-confirm/modal-delete-confirm.component';
 
 @Component({
   selector: 'app-list-aerodromes',
@@ -60,8 +61,11 @@ export class ListAerodromesComponent implements OnInit, AfterViewInit {
     );
   }
 
-  deleteAerodrome(aerodrome: Aerodrome): void{
-
+  deleteAerodrome(id: string): void{
+    this.modalService.show(ModalDeleteConfirmComponent,
+      this.modalDisplayService.getModalOptions({
+        id,
+        deleteElementFunc: this.adminService.deleteAerodrome}, 'modal-dialog modal-notify modal-danger'));
   }
 
 }

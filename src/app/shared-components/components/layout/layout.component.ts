@@ -53,6 +53,13 @@ export class LayoutComponent implements OnInit, OnChanges {
         this.notifsNb = this.notificationsList.filter((val) => !val.read).length;
       }
     );
+    this.notificationDisplayService.notifsNbToAddSubject.subscribe(
+      (numb) => {
+        if (this.notifsNb > 0){
+          this.notifsNb += numb;
+        }
+      }
+    );
   }
 
   ngOnChanges(): void {
@@ -60,9 +67,7 @@ export class LayoutComponent implements OnInit, OnChanges {
   }
 
   notifReadEvent(nb: number): void {
-    if (this.notifsNb > 0){
-      this.notifsNb -= 1;
-    }
+    this.notificationDisplayService.notifsNbToAddSubject.next(-1);
   }
 
   logout(): void {

@@ -72,6 +72,8 @@ import { UnitsErroneousDDIAComponent } from './agent-source/units-erroneous-ddia
 import { NOTAMModifComponent } from './shared-components/forms/notam-modif/notam-modif.component';
 import { SUPPAIPModifComponent } from './shared-components/forms/suppaip-modif/suppaip-modif.component';
 import { AICModifComponent } from './shared-components/forms/aic-modif/aic-modif.component';
+import { ListAerodromesComponent } from './administrateur/structure-source-management/list-aerodromes/list-aerodromes.component';
+import { ListUnitsComponent } from './administrateur/structure-source-management/list-units/list-units.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth' , pathMatch: 'full'},
@@ -142,7 +144,12 @@ const routes: Routes = [
       { path: 'structsource', component: StructSourceManageComponent, children: [
           { path: '', redirectTo: 'sourceeltscreate' , pathMatch: 'full'},
           { path: 'sourceeltscreate', component: SourceEltsCreateComponent},
-          { path: 'sourceeltslist', component: SourceEltsListComponent}
+          { path: 'sourceeltslist', component: SourceEltsListComponent, children: [
+            { path: '', redirectTo: 'aerodromes' , pathMatch: 'full'},
+            { path: 'aerodromes', component: ListAerodromesComponent},
+            { path: 'units', component: ListUnitsComponent},
+            ]
+          }
         ]
       },
       { path: 'informers', component: InfLocauxNationauxManageComponent, children: [

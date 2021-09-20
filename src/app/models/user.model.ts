@@ -21,6 +21,8 @@ export class User{
     private _sex: string;
     // tslint:disable-next-line:variable-name
     private _isStaff: boolean;
+    // tslint:disable-next-line:variable-name
+    private _isActive: boolean;
 
     constructor(
         id: string,
@@ -33,6 +35,7 @@ export class User{
         isStaff: boolean,
         funct?: string,
         quality?: string,
+        isactive?: boolean
     ){
         this._id = id;
         this._username = username;
@@ -44,6 +47,7 @@ export class User{
         this._quality = quality;
         this._sex = sex;
         this._isStaff = isStaff;
+        this._isActive = isactive;
     }
 
     public get id(): string {
@@ -89,6 +93,10 @@ export class User{
         return this._isStaff;
     }
 
+public get isActive(): boolean {
+        return this._isActive;
+    }
+
     public static fromJSON(data: UserI): User{
         return new User(
             data.id,
@@ -101,6 +109,7 @@ export class User{
             data.is_staff,
             data.function,
             data.quality,
+            data.is_active
         );
     }
 

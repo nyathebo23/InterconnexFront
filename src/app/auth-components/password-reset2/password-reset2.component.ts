@@ -18,10 +18,13 @@ export class PasswordReset2Component  {
 
   passwordResetForm: FormGroup;
   loading = false;
+  loadingResend = false;
   showNewPassword = false;
   showConfNewPassword = false;
   errors: string[] = [];
   userId: string;
+  email: string;
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -38,6 +41,7 @@ export class PasswordReset2Component  {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
       this.userId = navigation.extras.state.userId;
+      this.email = navigation.extras.state.email;
       if (!this.userId){
         this.location.back();
       }
@@ -50,23 +54,39 @@ export class PasswordReset2Component  {
   toggleNewPasswordVisibility(): void {
     this.showNewPassword = !this.showNewPassword;
   }
+
   toggleConfNewPasswordVisibility(): void {
     this.showConfNewPassword = !this.showConfNewPassword;
   }
+
   submit(): void{
     this.loading = true;
     const code = this.passwordResetForm.controls.code.value;
     const password  = this.passwordResetForm.controls.newPassword.value;
     this.authService.resetPassword(this.userId, code, password)
     .then((resp) => {
-      this.loading = false;
       alert('success');
       this.router.navigate(['/auth/signin']);
     })
     .catch((err) => {
       this.errors = this.authService.displayErrors(err);
+    })
+    .finally(() => {
       this.loading = false;
-      setTimeout(() => this.errors = [], 10000);
+    });
+  }
+
+  resend(): void {
+    this.loadingResend = true;
+    this.authService.resendCodeChangeEmail(this.email, this.userId)
+    .then((resp) => {
+      // alert('successfully resend');
+    })
+    .catch((err) => {
+      this.errors = this.authService.displayErrors(err);
+    })
+    .finally(() => {
+      this.loadingResend = false;
     });
   }
 }

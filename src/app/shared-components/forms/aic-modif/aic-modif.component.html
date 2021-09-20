@@ -12,7 +12,8 @@
                 <div class="ddia-form">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <input type="text" placeholder="Date and time of deposit" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
+                            <label for="date-time" class="custom-label">{{'DDIAFORMS.depositDateTime' | translate }}</label>
+                            <input type="text" id="date-time" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
                             <owl-date-time #dt1></owl-date-time>
                         </div>
                         <app-source-unit-form [locationInd]="demandeAIC.locationIndicator" [initiatorInfos]="initiatorInfos" [unit]="demandeAIC.sourceUnit"></app-source-unit-form>
@@ -37,6 +38,7 @@
                         <div class="form-group">
                             <label for="descText" class="custom-label">{{'DDIAFORMS.aic.text' | translate }}</label>
                             <textarea class="form-control" formControlName="text" id="descText" cols="30" rows="5"></textarea>
+                            <app-control-messages [control]="aicForm.controls.text"></app-control-messages>
                         </div>
                         <div formArrayName="filesForm" class="form-group d-flex flex-column">
                             <label class="custom-label">{{'DDIAFORMS.aic.files' | translate }}</label>

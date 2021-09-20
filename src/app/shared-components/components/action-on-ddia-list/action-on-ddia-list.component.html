@@ -40,33 +40,6 @@
                             <app-ddia-action-item *ngFor="let ddiaAction of ddiaActionsList" [actionOnDDIA]="ddiaAction"></app-ddia-action-item>
                         </div>
                     </div>
-                    <div class="bg-white scroll-horizontal scrollbar-primary p-t-10" *ngIf="pagesNb && pagesList && pagesNb > 1">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination pagination-circle pg-blue">
-                                <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
-                                    <a class="page-link" mdbWavesEffect (click)="goToPage('first')">First</a>
-                                </li>
-                                <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
-                                    <a class="page-link" aria-label="Previous" mdbWavesEffect (click)="goToPage('prev')">
-                                        <span aria-hidden="true">&laquo;</span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item" *ngFor="let ind of pagesList;" [ngClass]="{'active': currentPage === ind}">
-                                    <a class="page-link" mdbWavesEffect (click)="changePage(ind)">{{ind}}</a>
-                                </li>
-                                <li class="page-item" [ngClass]="{'disabled': currentPage === pagesList.length}">
-                                    <a class="page-link" aria-label="Next" mdbWavesEffect (click)="goToPage('next')">
-                                        <span aria-hidden="true">&raquo;</span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                                <li class="page-item" [ngClass]="{'disabled': currentPage === pagesList.length}">
-                                    <a class="page-link" mdbWavesEffect (click)="goToPage('last')">Last</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
                 </div>
             </div>
         </div>

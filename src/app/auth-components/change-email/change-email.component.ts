@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 
@@ -32,7 +32,12 @@ export class ChangeEmailComponent {
     this.authService.requestEmailChange(userId, email)
     .then((resp) => {
       this.loading = false;
-      this.router.navigate(['emailchangeconfirm', userId]);
+      const navigationExtras: NavigationExtras = {
+        state: {
+          email
+        }
+      };
+      this.router.navigate(['emailchangeconfirm'], navigationExtras);
     })
     .catch((err) => {
       this.errors = this.authService.displayErrors(err);

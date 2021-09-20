@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -15,13 +16,30 @@ import { ValidationService } from 'src/app/services/auth-services/validation.ser
 export class ConfirmChangeEmailComponent {
 
   confirmMailChangeForm: FormGroup;
+  email: string;
   loading = false;
+  loadingResend = false;
   errors: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthManagerService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthManagerService,
+    private location: Location
+  ) {
     this.confirmMailChangeForm = this.formBuilder.group({
       code: ['', [Validators.required, ValidationService.requiredValidator]],
     });
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation.extras.state) {
+      this.email = navigation.extras.state.email;
+      if (!this.email){
+        this.location.back();
+      }
+    }
+    else {
+      this.location.back();
+    }
   }
   submit(): void{
     this.loading = true;
@@ -29,13 +47,30 @@ export class ConfirmChangeEmailComponent {
     const userId = this.authService.user.id;
     this.authService.confirmChangeEmail(userId, code)
     .then((resp) => {
-      this.loading = false;
+
     })
     .catch((err) => {
       this.errors = this.authService.displayErrors(err);
-      this.loading = false;
       setTimeout(() => this.errors = [], 10000);
+    })
+    .finally(() => {
+      this.loading = false;
     });
   }
 
+  resend(): void {
+    this.loadingResend = true;
+    const userId = this.authService.user.id;
+    this.authService.resendCodeChangeEmail(this.email, userId)
+    .then((resp) => {
+      // alert('successfully resend');
+    })
+    .catch((err) => {
+      this.errors = this.authService.displayErrors(err);
+      setTimeout(() => this.errors = [], 10000);
+    })
+    .finally(() => {
+      this.loadingResend = false;
+    });
+  }
 }

@@ -19,7 +19,7 @@
                     </a>
                 </td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                    <a (click)="deleteAerodrome(aerodrome)">
+                    <a (click)="deleteAerodrome(aerodrome.id)">
                         <mdb-icon size="x" class="red-text" fas icon="trash-alt"></mdb-icon>
                     </a>
                 </td>

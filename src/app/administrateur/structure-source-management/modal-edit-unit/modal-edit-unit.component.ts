@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MDBModalRef } from 'angular-bootstrap-md';
 import { Aerodrome } from 'src/app/models/aerodrome.model';
 import { SourceUnit } from 'src/app/models/source-unit.model';
+import { Unit } from 'src/app/models/unit.model';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { ValidationService } from 'src/app/services/auth-services/validation.service';
 
@@ -22,7 +23,7 @@ export class ModalEditUnitComponent implements OnInit {
   errors: string[] = [];
   loading: boolean;
   aerodromes: Aerodrome[];
-  unit: SourceUnit;
+  unit: Unit;
   constructor(
     public modalRef: MDBModalRef,
     private formBuilder: FormBuilder,
@@ -32,12 +33,12 @@ export class ModalEditUnitComponent implements OnInit {
   ngOnInit(): void {
     this.sourceUnitForm = this.formBuilder.group({
       name: [this.unit.name, [Validators.required, ValidationService.requiredValidator]],
-      telephone: [this.unit.telephone, [Validators.required, ValidationService.requiredValidator]],
+      telephone: [this.unit.phonenumber, [Validators.required, ValidationService.requiredValidator]],
       fax: [this.unit.fax, [Validators.required, ValidationService.requiredValidator]],
       email: [this.unit.email, [Validators.required, ValidationService.requiredValidator, ValidationService.emailValidator]],
       rsfta: [this.unit.rsfta],
-      address: [this.unit.adress, [Validators.required, ValidationService.requiredValidator]],
-      aerodrome: [this.unit.aerodrome, [Validators.required]]
+      address: [this.unit.address, [Validators.required, ValidationService.requiredValidator]],
+      aerodrome: [this.unit.aerodromeId, [Validators.required]]
     });
     this.adminService.getAerodromesList().subscribe((aerodromes) => {
       this.aerodromes = aerodromes;

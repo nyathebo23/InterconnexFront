@@ -44,10 +44,10 @@ export class AICComponent implements OnInit {
 
   initForm(): void {
     this.aicForm = this.formBuilder.group({
-      depositDateTime: [{value: new Date(), disabled: true}],
-      subject: ['Administratif'],
+      depositDateTime: [{value: null, disabled: true}],
+      subject: ['Administratif', [Validators.required]],
       object: ['', [Validators.required, ValidationService.requiredValidator]],
-      text: [''],
+      text: ['', [Validators.required, ValidationService.requiredValidator]],
       filesForm: new FormArray([
         this.formBuilder.group({
           file: [null, [Validators.required]],

@@ -21,7 +21,7 @@
                     </a>
                 </td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                    <a (click)="deleteUnit(unit)">
+                    <a (click)="deleteUnit(unit.id)">
                         <mdb-icon size="x" class="red-text" fas icon="trash-alt"></mdb-icon>
                     </a>
                 </td>

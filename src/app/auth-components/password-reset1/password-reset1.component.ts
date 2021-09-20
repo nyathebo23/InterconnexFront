@@ -30,18 +30,19 @@ export class PasswordReset1Component {
     const email = this.emailForm.controls.email.value;
     this.authService.requestResetPassword(email)
     .then((res) => {
-      this.loading = false;
       const navigationExtras: NavigationExtras = {
         state: {
-          userId: res.user_id
+          userId: res.user_id,
+          email
         }
       };
       this.router.navigate(['/auth/passwordreset'], navigationExtras);
     })
     .catch((err) => {
       this.errors = this.authService.displayErrors(err);
+    })
+    .finally(() => {
       this.loading = false;
-      setTimeout(() => this.errors = [], 10000);
     });
   }
 }

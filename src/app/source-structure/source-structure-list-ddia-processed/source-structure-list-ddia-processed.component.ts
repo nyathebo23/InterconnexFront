@@ -14,7 +14,7 @@ import { PusherSourceStructureService } from 'src/app/services/pusher/pusher-sou
 export class SourceStructureListDDIAProcessedComponent implements OnInit {
 
   ddiaState = 'all';
-  dateOrder = 'ascendingDate';
+  dateOrder = 'descendingDate';
   ddiaType = 'all';
   page = '1';
   pagesNb: number;
@@ -28,7 +28,7 @@ export class SourceStructureListDDIAProcessedComponent implements OnInit {
   ];
   constructor(
     private structureSourceService: StructureSourceService,
-    private pusherSourceStructService: PusherSourceStructureService
+    private pusherSourceStructService: PusherSourceStructureService,
   ) {
   }
 

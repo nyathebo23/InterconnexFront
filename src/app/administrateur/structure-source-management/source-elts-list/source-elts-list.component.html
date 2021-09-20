@@ -1,12 +1,9 @@
 <div class="container-fluid">
     <div class="d-flex flex-wrap justify-content-around mb-4">
-        <button (click)="setActive('units')" [ngClass]="{'active': activeElt == 'units'}" class="rounded-pretty-btn">{{'SOURCEUNIT.designation' | translate }}</button>
-        <button (click)="setActive('aerodromes')" [ngClass]="{'active': activeElt == 'aerodromes'}" class="rounded-pretty-btn">{{'STRUCTURESSOURCES.designation' | translate }}</button>
+        <button routerLink="/admin/structsource/sourceeltslist/units" routerLinkActive="active" class="rounded-pretty-btn">{{'SOURCEUNIT.designation' | translate }}</button>
+        <button routerLink="/admin/structsource/sourceeltslist/aerodromes" routerLinkActive="active" class="rounded-pretty-btn">{{'STRUCTURESSOURCES.designation' | translate }}</button>
     </div>
-    <div *ngIf="activeElt == 'aerodromes'">
-        <app-list-aerodromes></app-list-aerodromes>
-    </div>
-    <div *ngIf="activeElt == 'units'">
-        <app-list-units></app-list-units>
+    <div class="container-fluid pt-5 pb-5">
+        <router-outlet></router-outlet>
     </div>
 </div>

@@ -1,0 +1,50 @@
+.scrollbar {
+    width: 100%;
+    overflow-x: scroll;
+    margin-bottom: 25px;
+    margin-top: 15px;
+}
+
+.scroll-horizontal {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.scrollbar-primary::-webkit-scrollbar {
+    width: 10px;
+    background-color: #f3f1f6;
+}
+
+.scrollbar-primary::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #4285F4;
+    scrollbar-width: thin;
+}
+
+.filters-box {
+    padding: 25px;
+    background-color: #f3f1f6;
+    box-shadow: 4px 3px 5px rgba(0, 0, 0, 0.404);
+    min-height: 400px;
+    font-family: 'Roboto Medium';
+    color: #150734;
+    font-size: 16px;
+}
+
+.container-items {
+    // box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.5);
+    margin-right: 10px;
+    border: 1px solid #15073431;
+}
+
+.label-title {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    // font-weight: bold;
+    background: -webkit-linear-gradient(#150734, #0F2557);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    font-family: 'Roboto Medium';
+}

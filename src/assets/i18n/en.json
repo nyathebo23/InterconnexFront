@@ -3,8 +3,9 @@
         "errors": {
             "noemptyfield": "This field must not be empty",
             "invalidmail": "Invalid adress mail",
-            "passwordconstruct": "The password must contain at least 8 characters and at most 100, must contain at least one number and at least one special character",
-            "mustmatchpassword": "The value of this field must be the same as the one above"
+            "passwordconstruct": "The password must contain at least 8 characters and at most 100, must contain upper(s) and lower(s) letter(s), at least one number and at least one special character",
+            "mustmatchpassword": "The value of this field must be the same as the one above",
+            "shouldverif": "This user must be activated"
         },
         "welcome": "Welcome to INTERCONNEX APP !",
         "LOGIN": {
@@ -44,6 +45,7 @@
             "function": "Function",
             "quality": "Quality",
             "sex": "Sex",
+            "isactive": "Is activated",
             "sexmale": "Male",
             "sexfemale": "Female",
             "localInfsExt": "Externs Local informers",
@@ -234,7 +236,8 @@
         "descText": "Descriptive text",
         "object": "Object",
         "valPeriod": "Validity period",
-        "history": "History"
+        "history": "History",
+        "depositDateTime": "Deposit datetime"
     },
     "DDIAHistoryActions": {
         "init": "INITIATION",
@@ -285,7 +288,7 @@
         "usersManage": "Users management",
         "informersManage": "Management of local and national informants",
         "structuresManage": "Management of source units and structures"
-        
+
     },
     "ddialist": {
         "emptylist": "None request for the dissemination of aeronotical information match search criteria !",

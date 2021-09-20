@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NOT_ADMITTED_STATE, PAGE_LIST_SIZE, PENDING_APPROVAL_STATE, PENDING_VALIDATION_STATE } from 'src/app/commons/constants';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
+import { ActionsOnDDIAListService } from 'src/app/services/agent-services/actions-on-ddia-list.service';
 import { StructureSourceService } from 'src/app/services/agent-services/structure-source.service';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { PusherSourceStructureService } from 'src/app/services/pusher/pusher-source-structure.service';
@@ -12,15 +13,15 @@ import { PusherSourceStructureService } from 'src/app/services/pusher/pusher-sou
 })
 export class SourceStructureListDDIAReceivedComponent implements OnInit {
 
-  dateOrder = 'ascendingDate';
+  dateOrder = 'descendingDate';
   ddiaType = 'all';
-  page = '1';
-  pagesNb: number;
   ddiaActionsList: ActionOnDDIA[];
 
   constructor(
     private structureSourceService: StructureSourceService,
-    private pusherSourceStructService: PusherSourceStructureService
+    private pusherSourceStructService: PusherSourceStructureService,
+    private actionsOnDDIAService: ActionsOnDDIAListService,
+
   ) {
 
   }
@@ -28,8 +29,15 @@ export class SourceStructureListDDIAReceivedComponent implements OnInit {
   ngOnInit(): void {
     this.pusherSourceStructService.actionDataSubject.subscribe(
       (actionOnDDIA) => {
-        if (this.ddiaType === actionOnDDIA.ddiaObject.ddiaType || this.ddiaType === 'all'){
-          this.ddiaActionsList.unshift(actionOnDDIA);
+        const typeDDIA = actionOnDDIA.ddiaObject.ddiaType.replace(/\s/g, '').toLowerCase();
+        if (this.ddiaType === 'all' ||  this.ddiaType ===  typeDDIA){
+          if (this.dateOrder === 'descendingDate'){
+            this.ddiaActionsList.unshift(actionOnDDIA);
+          }
+          else {
+            this.ddiaActionsList.push(actionOnDDIA);
+          }
+          this.actionsOnDDIAService.ddiaActionsListSubject.next(this.ddiaActionsList);
         }
       }
     );
@@ -37,6 +45,7 @@ export class SourceStructureListDDIAReceivedComponent implements OnInit {
       (notif) => {
         if ([PENDING_APPROVAL_STATE, PENDING_VALIDATION_STATE, NOT_ADMITTED_STATE].includes(notif.newDDIAState)){
           this.ddiaActionsList = this.ddiaActionsList.filter((action) => action.ddiaObject.identDDIA !== notif.refDDIA);
+          this.actionsOnDDIAService.ddiaActionsListSubject.next(this.ddiaActionsList);
         }
         // else {
         //   const action = this.ddiaActionsList.find((actionDDIA) => actionDDIA.ddiaObject.identDDIA === notif.refDDIA);
@@ -52,7 +61,6 @@ export class SourceStructureListDDIAReceivedComponent implements OnInit {
   onDDIATypeChange(typeDDIA: string): void {
     this.ddiaType = typeDDIA;
     this.reloadDDIAItems();
-    this.page = '1';
   }
 
   onDateOrderChange(dateOrder: string): void {
@@ -60,16 +68,11 @@ export class SourceStructureListDDIAReceivedComponent implements OnInit {
     this.reloadDDIAItems();
   }
 
-  onPageChange(page: string): void {
-    this.page = page;
-    this.reloadDDIAItems();
-  }
-
   reloadDDIAItems(): void {
-    this.structureSourceService.getDDIAListInWaiting(this.ddiaType, this.dateOrder, this.page)
+    this.structureSourceService.getDDIAListInWaiting(this.ddiaType, this.dateOrder, '')
     .subscribe((actions) => {
       this.ddiaActionsList = actions.actionsAgent;
-      this.pagesNb = Math.ceil(actions.counts / PAGE_LIST_SIZE);
+      this.actionsOnDDIAService.ddiaActionsListSubject.next(this.ddiaActionsList);
     }, error => {
       this.structureSourceService.setError(error);
     },

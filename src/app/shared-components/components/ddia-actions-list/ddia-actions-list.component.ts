@@ -4,14 +4,13 @@ import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { DemandeAICItemList } from 'src/app/models/demandeAIC-item-list.model';
 import { DemandeNOTAMItemList } from 'src/app/models/demandeNOTAM-item-list.model';
 import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model';
-import { ChangeDetectionStrategy } from '@angular/core';
+
 
 
 @Component({
   selector: 'app-ddia-actions-list',
   templateUrl: './ddia-actions-list.component.html',
   styleUrls: ['./ddia-actions-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DDIAActionsListComponent implements OnInit, OnChanges {
 

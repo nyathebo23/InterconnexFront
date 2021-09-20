@@ -12,7 +12,8 @@
                 <div class="ddia-form">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <input type="text" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
+                            <label for="date-time" class="custom-label">{{'DDIAFORMS.depositDateTime' | translate }}</label>
+                            <input type="text" id="date-time" class="form-control" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="depositDateTime">
                             <owl-date-time #dt1></owl-date-time>
                         </div>
                         <app-source-unit-form [locationInd]="demandeSUPP.locationIndicator" [initiatorInfos]="initiatorInfos" [unit]="demandeSUPP.sourceUnit"></app-source-unit-form>
@@ -77,6 +78,7 @@
                             <div class="form-group">
                                 <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
                                 <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
+                                <app-control-messages [control]="suppaipForm.controls.descriptionText"></app-control-messages>
                             </div>
 
                         </div>

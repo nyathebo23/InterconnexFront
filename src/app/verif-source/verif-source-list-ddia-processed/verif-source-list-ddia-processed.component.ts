@@ -16,7 +16,7 @@ import { PusherSourceVerifierService } from 'src/app/services/pusher/pusher-sour
 export class VerifSourceListDDIAProcessedComponent implements OnInit {
 
   ddiaState = 'all';
-  dateOrder = 'ascendingDate';
+  dateOrder = 'descendingDate';
   ddiaType = 'all';
   page = '1';
   pagesNb: number;

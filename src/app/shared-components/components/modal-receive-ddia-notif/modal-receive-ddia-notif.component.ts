@@ -30,6 +30,7 @@ export class ModalReceiveDDIANotifComponent implements OnInit {
     this.loading = true;
     this.notificationDisplayService.markAsRead(this.idNotif)
     .then((res) => {
+      this.notificationDisplayService.notifsNbToAddSubject.next(-1);
       this.zone.run(() => {
         this.router.navigateByUrl(this.urlDDIADetails);
         this.modalRef.hide();

@@ -39,12 +39,19 @@ export class SigninComponent{
     formData.append('password', this.loginForm.controls.password.value);
     this.authService.signIn(formData)
     .then((resp: UserResponse) => {
-      this.authService.setUserAndOther(resp);
+      if (resp.should_verify){
+        this.errors = ['AUTHFORMS.errors.shouldverif'];
+      }
+      else {
+        this.authService.setUserAndOther(resp);
+      }
     })
     .catch((err: HttpErrorResponse) => {
       this.errors = this.authService.displayErrors(err);
-      this.loading = false;
-      setTimeout(() => this.errors = [], 30000);
+    })
+    .finally(() => {
+        this.loading = false;
+        setTimeout(() => this.errors = [], 30000);
     });
   }
 }

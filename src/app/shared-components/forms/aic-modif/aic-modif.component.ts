@@ -93,7 +93,7 @@ export class AICModifComponent implements OnInit {
       depositDateTime: [{value: new Date(), disabled: true}],
       subject: [this.demandeAIC.subject],
       object: [this.demandeAIC.object, [Validators.required, ValidationService.requiredValidator]],
-      text: [this.demandeAIC.text],
+      text: [this.demandeAIC.text, [Validators.required, ValidationService.requiredValidator]],
       filesForm: new FormArray([
         this.formBuilder.group({
           file: [null, [Validators.required]],

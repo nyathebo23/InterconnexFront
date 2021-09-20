@@ -3,6 +3,6 @@
     <!-- <ul *ngIf="modifsListDisplayed">
         <li *ngFor="let modif of modifsListDisplayed"> {{modif}} </li>
     </ul> -->
-    <footer class="blockquote-footer mb-3">Date <cite title="Source Title"> {{ actionDate }} </cite></footer>
+    <footer class="blockquote-footer mb-3">Date <cite title="Source Title"> {{ actionDate | date : 'dd/MM/yyyy, hh:mm a' }} </cite></footer>
     <hr>
 </blockquote>

@@ -26,6 +26,7 @@ export class NotificationDisplayService {
   idDDIARemoveSubject = new Subject<string>();
   notifToAddSubject = new Subject<Notification>();
   notifsListSubject = new Subject<Notification[]>();
+  notifsNbToAddSubject = new Subject<number>();
   constructor(
     private http: HttpClient,
   ) {}

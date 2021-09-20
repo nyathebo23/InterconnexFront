@@ -79,9 +79,10 @@ a:hover {
     top: 60px;
     font-family: 'Century Gothic';
     min-width: 185px;
+    // max-width: 250px;
+    min-height: 100vh;
     height: 100%;
     background-color: #150734;
-    // background-image: conic-gradient(#150734, #4B9FE1, #0F2557, #0099CC);
     font-size: 14px;
 }
 

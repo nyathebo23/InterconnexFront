@@ -106,7 +106,7 @@ export class SUPPAIPModifComponent implements OnInit {
       .map((val) => new FormControl(val, [Validators.required, ValidationService.requiredValidator ]))
       ),
       validityPeriod: [[this.demandeSUPP.startValidityPeriod, this.demandeSUPP.endValidityPeriod], [ValidationService.DateValidator]],
-      descriptionText: [this.demandeSUPP.descriptionText],
+      descriptionText: [this.demandeSUPP.descriptionText, [Validators.required, ValidationService.requiredValidator]],
       filesForm: new FormArray([
         this.formBuilder.group({
           file: [null, [Validators.required]],

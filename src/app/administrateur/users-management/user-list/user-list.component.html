@@ -16,6 +16,13 @@
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{user.function}}</td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{user.quality}}</td>
                 <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                    <mdb-icon fas size="x" icon="check" class="green-text" *ngIf="user.isActive"></mdb-icon>
+                    <a (click)="activateUser(user.email)" *ngIf="!user.isActive">
+                        <span *ngIf="loadActivation" class="spinner-border spinner-border-sm"></span>
+                        <mdb-icon *ngIf="!loadActivation" fas size="x" icon="times" class="red-text"> </mdb-icon>
+                    </a>
+                </td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
                     <mdb-icon size="x" class="red-text" fas icon="trash-alt"></mdb-icon>
                     <!-- <button mdbBtn type="button" class="roundedbtn" disabled (click)="deleteUser(user)" color="danger" mdbWavesEffect>{{'UpdateDelete.deleteBtn' | translate}}</button> -->
                 </td>

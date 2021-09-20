@@ -27,8 +27,12 @@ export interface UserResponse{
   access: string;
   refresh: string;
   message?: string;
+  should_verify: boolean;
+  user_id: string;
   user: UserI;
 }
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -251,8 +255,8 @@ export class AuthManagerService {
     }).toPromise();
   }
 
-  signUpResendCode(email: string): Promise<any> {
-    return this.http.get(URLS.SIGNUP_RESEND, {
+  signUpResendCode(email: string): Promise<ResponseMessage> {
+    return this.http.get<ResponseMessage>(URLS.SIGNUP_RESEND, {
       params: {email}
     }).toPromise();
   }

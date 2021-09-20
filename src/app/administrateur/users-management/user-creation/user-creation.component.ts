@@ -113,6 +113,10 @@ export class UserCreationComponent implements OnInit {
 
     if (this.checkExtraFieldsValidity() && this.signUpForm.valid){
       this.adminService.signUpUser(formData).then((response) => {
+        if (response.should_verify){
+          this.errors = ['AUTHFORMS.errors.shouldverif'];
+          return;
+        }
         const userid = response.user_id;
         this.loading = true;
         const navigationExtras: NavigationExtras = {
@@ -128,7 +132,7 @@ export class UserCreationComponent implements OnInit {
         .catch((err) => {
           this.errors = this.authService.displayErrors(err);
           this.adminService.deleteUser(userid);
-          setTimeout(() => this.errors = [], 10000);
+          setTimeout(() => this.errors = [], 20000);
         });
       })
       .catch((err) => {

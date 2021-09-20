@@ -146,7 +146,7 @@ export class NOTAMModifComponent implements OnInit {
       depositDateTime: [{value: new Date(), disabled: true}],
       rangeAction: [this.demandeNOTAM.rangeAction],
       typeNOTAM: [this.demandeNOTAM.typeNOTAM],
-      text: [this.demandeNOTAM.text],
+      text: [this.demandeNOTAM.text, [Validators.required, ValidationService.requiredValidator]],
       notamTargetCode: [{value: this.demandeNOTAM.replaceorcancelNOTAMCode, disabled: this.demandeNOTAM.typeNOTAM === 'NOTAM N' },
       [Validators.required, ValidationService.requiredValidator]],
       coords: [this.demandeNOTAM.coords],

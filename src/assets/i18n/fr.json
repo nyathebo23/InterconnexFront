@@ -3,8 +3,9 @@
         "errors": {
             "noemptyfield": "Ce champ ne doit pas être vide",
             "invalidmail": "Adresse mail invalide",
-            "passwordconstruct": "Le mot de passe doit contenir au moins 8 caractères et au plus 100, doit contenir au moins un chiffre et au moins un caractère spécial",
-            "mustmatchpassword": "La valeur de ce champ doit être la même que celle du champ ci-dessus"
+            "passwordconstruct": "Le mot de passe doit contenir au moins 8 caractères et au plus 100, doit contenir au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre et au moins un caractère spécial",
+            "mustmatchpassword": "La valeur de ce champ doit être la même que celle du champ ci-dessus",
+            "shouldverif": "Cet utilisateur doit être activé"
         },
         "welcome": "Bienvenue dans l'application Interconnex !",
         "LOGIN": {
@@ -42,6 +43,7 @@
             "password": "Mot de passe",
             "function": "Fonction",
             "quality": "Qualité",
+            "isactive": "Est activé",
             "sex": "Sexe",
             "localInfsExt": "Informateurs locaux externes",
             "nationalInfs": "Informateurs nationaux",
@@ -170,7 +172,8 @@
         "descText": "Texte descriptif",
         "object": "Objet",
         "valPeriod": "Période de validité",
-        "history": "Historique"
+        "history": "Historique",
+        "depositDateTime": "Date et heure de dépôt"
     },
     "SOURCEAGENT": {
         "initddia": "Initiation DDIA",

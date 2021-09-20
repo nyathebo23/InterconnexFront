@@ -6,6 +6,7 @@ import { AdminService } from 'src/app/services/agent-services/admin.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
 import { ModalEditUnitComponent } from '../modal-edit-unit/modal-edit-unit.component';
+import { ModalDeleteConfirmComponent } from 'src/app/shared-components/components/modal-delete-confirm/modal-delete-confirm.component';
 
 @Component({
   selector: 'app-list-units',
@@ -63,8 +64,11 @@ export class ListUnitsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  deleteUnit(unit: Unit): void{
-
+  deleteUnit(id: string): void{
+    this.modalService.show(ModalDeleteConfirmComponent,
+      this.modalDisplayService.getModalOptions({
+        id,
+        deleteElementFunc: this.adminService.deleteUnit}, 'modal-dialog modal-notify modal-danger'));
   }
 
 }

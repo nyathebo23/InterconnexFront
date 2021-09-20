@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="pretty-background background-gradient">
-        <app-ddia-actions-list [labelTitle]="'NATIONALINFORMER.ddiareceivedLabel'" (ddiaTypeChange)="onDDIATypeChange($event)" (dateOrderChange)="onDateOrderChange($event)" (pageChange)="onPageChange($event)" [pagesNb]="pagesNb" [ddiaActionsList]="ddiaActionsList">
+        <app-action-on-ddia-list [labelTitle]="'NATIONALINFORMER.ddiareceivedLabel'" (ddiaTypeChange)="onDDIATypeChange($event)" (dateOrderChange)="onDateOrderChange($event)">
 
-        </app-ddia-actions-list>
+        </app-action-on-ddia-list>
     </div>
 </div>

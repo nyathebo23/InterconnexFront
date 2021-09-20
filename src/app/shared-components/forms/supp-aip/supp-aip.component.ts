@@ -54,7 +54,7 @@ export class SUPPAIPComponent implements OnInit {
 
   initForm(): void {
     this.suppaipForm = this.formBuilder.group({
-      depositDateTime: [{value: new Date(), disabled: true}],
+      depositDateTime: [{value: null, disabled: true}],
       typeSUPPAIP: ['SUPP AIP N'],
       object: ['', [Validators.required, ValidationService.requiredValidator]],
       codeDDIAToReplace: [{value: '', disabled: true}],
@@ -62,7 +62,7 @@ export class SUPPAIPComponent implements OnInit {
         new FormControl('', [Validators.required, ValidationService.requiredValidator])
       ]),
       validityPeriod: [[new Date(), new Date()], [ValidationService.DateValidator]],
-      descriptionText: [''],
+      descriptionText: ['', [Validators.required, ValidationService.requiredValidator]],
       filesForm: new FormArray([
         this.formBuilder.group({
           file: [null, [Validators.required]],
