@@ -64,6 +64,7 @@ export class UnitsDDIAListComponent implements OnInit {
       (ddiaList) => {
         this.ddiaList = ddiaList.listDDIA;
         this.pagesNb = Math.ceil(ddiaList.counts / PAGE_LIST_SIZE);
+        console.log(this.pagesNb);
       },
        error => {
         this.sourceAgentService.setError(error);

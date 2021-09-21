@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
-import { CollapseComponent } from 'angular-bootstrap-md';
 import { PENDING_APPROVAL_STATE, PENDING_VALIDATION_STATE } from 'src/app/commons/constants';
 import { DDIA_CREATION, DDIA_MUST_BE_PUBLISHED, DDIA_VALIDITY_EXP, RECEPTION_SIGNAL_APPROBATION,
   RECEPTION_SUBMISSION, RECEPTION_VALIDATION, RECEPTION_VALIDATION_SOURCECOMMANDER,

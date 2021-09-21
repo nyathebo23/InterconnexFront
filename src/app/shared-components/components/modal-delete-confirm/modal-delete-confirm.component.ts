@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MDBModalRef } from 'angular-bootstrap-md';
+import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
 import { AdminService } from 'src/app/services/agent-services/admin.service';
+import { ModalErrorComponent } from '../modal-error/modal-error.component';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
 
 @Component({
   selector: 'app-modal-delete-confirm',
@@ -17,6 +19,8 @@ export class ModalDeleteConfirmComponent implements OnInit {
   constructor(
     public modalRef: MDBModalRef,
     private adminService: AdminService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService,
     private http: HttpClient
   ) { }
 
@@ -32,8 +36,9 @@ export class ModalDeleteConfirmComponent implements OnInit {
       this.adminService.reloadCurrentRoute();
     })
     .catch((err) => {
-      alert('failed');
-    })
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.adminService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
+      })
     .finally(() => {
       this.loading = false;
       this.modalRef.hide();

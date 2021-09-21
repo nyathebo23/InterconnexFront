@@ -64,6 +64,18 @@ export class BaseSourceComponent implements OnInit {
         }
       }
     );
+    this.pusherSourceAgentService.notificationEventOnDDIASubject.subscribe((notif: Notification) => {
+      const contenttext = 'NOTIFICATION.ddiaNearExpiration';
+      const data = {
+        idNotif: notif.id,
+        contentText: contenttext,
+        typeDDIA: notif.typeDDIA,
+        refDDIA: notif.refDDIA,
+      };
+      this.modalService.show(ModalReceiveDDIANotifComponent,
+      this.modalDisplayService.getModalOptions(data, 'modal-dialog modal-notify modal-info'));
+      this.notificationDisplayService.notifToAddSubject.next(notif);
+    });
     this.notificationDisplayService.getNotifications(NOTIFICATIONS_SOURCEUNIT)
     .subscribe(
       (notifs)  => {

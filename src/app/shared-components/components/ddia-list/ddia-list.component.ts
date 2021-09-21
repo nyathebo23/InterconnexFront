@@ -32,7 +32,6 @@ export class DDIAListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-
     if (this.ddiaList !== undefined && this.pagesNb !== undefined){
       this.ngxUiLoaderService.stopLoader(this.loaderId);
       if (!this.pagesList){
@@ -46,6 +45,7 @@ export class DDIAListComponent implements OnInit, OnChanges {
 
   changeState(event): void {
     const state = event.target.value;
+    this.pagesList = undefined;
     this.currentPage = 1;
     this.ddiaStateChange.emit(state);
     this.ngxUiLoaderService.startLoader(this.loaderId);
@@ -53,6 +53,7 @@ export class DDIAListComponent implements OnInit, OnChanges {
 
   changeType(event): void {
     const typeDDIA = event.target.value;
+    this.pagesList = undefined;
     this.ddiaTypeChange.emit(typeDDIA);
     this.currentPage = 1;
     this.ngxUiLoaderService.startLoader(this.loaderId);

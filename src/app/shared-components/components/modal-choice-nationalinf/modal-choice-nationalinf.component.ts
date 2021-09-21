@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MDBModalRef } from 'angular-bootstrap-md';
+import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
 import { ADMISSION, APPROBATION, SUBMIT_TO_VERIFY, VALIDATION, VERIFICATION } from 'src/app/commons/control-actions-on-ddia';
 import { NationalInformer } from 'src/app/models/national-informer.model';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
 import { VerifSourceService } from 'src/app/services/agent-services/verif-source.service';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalErrorComponent } from '../modal-error/modal-error.component';
 
 @Component({
   selector: 'app-modal-choice-nationalinf',
@@ -24,7 +26,9 @@ export class ModalChoiceNationalinfComponent implements OnInit {
   constructor(
     private sourceAgentService: AgentSourceService,
     private verifSourceService: VerifSourceService,
-    public modalRef: MDBModalRef
+    public modalRef: MDBModalRef,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService
   ) {
 
   }
@@ -64,10 +68,11 @@ export class ModalChoiceNationalinfComponent implements OnInit {
     const data = {decision: 'submit', nationalinf_id: this.nationalInfId};
     this.sourceAgentService.submitDDIAToVerif(this.ddiaClassName, this.ddiaId, data)
     .then((res) => {
-      console.log(res);
+      // console.log(res);
     })
     .catch((err) => {
-      alert('');
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.sourceAgentService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
     })
     .finally(() => this.endSubmitAction());
   }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
-import { MDBModalRef } from 'angular-bootstrap-md';
+import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalErrorComponent } from '../modal-error/modal-error.component';
 
 @Component({
   selector: 'app-modal-publish-ddia',
@@ -15,7 +17,12 @@ export class ModalPublishDDIAComponent implements OnInit {
   ddiaType: string;
   ddiaId: string;
 
-  constructor(public modalRef: MDBModalRef, private controlActorService: ControlActorService) { }
+  constructor(
+    public modalRef: MDBModalRef,
+    private controlActorService: ControlActorService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -28,15 +35,14 @@ export class ModalPublishDDIAComponent implements OnInit {
     this.loading = true;
     this.controlActorService.setPublicationCode(this.ddiaClassName, this.ddiaId, this.codeDDIA)
     .then((res) => {
-
-    })
-    .catch((err) => {
-      alert(this.controlActorService.displayErrors(err));
-    })
-    .finally(() => {
       this.loading = false;
       this.modalRef.hide();
       this.controlActorService.reloadCurrentRoute();
+    })
+    .catch((err) => {
+      this.loading = false;
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.controlActorService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
     });
   }
 

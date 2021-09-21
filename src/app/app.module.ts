@@ -148,6 +148,7 @@ import { InformateurNationalService } from './services/agent-services/informateu
 import { StructureSourceService } from './services/agent-services/structure-source.service';
 import { FileDisplayComponent } from './shared-components/components/file-display/file-display.component';
 import { ActionOnDDIAListComponent } from './shared-components/components/action-on-ddia-list/action-on-ddia-list.component';
+import { ModalErrorComponent } from './shared-components/components/modal-error/modal-error.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   // console.log(localStorage.getItem('access_token'));
@@ -294,6 +295,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ReferralMessageComponent,
     FileDisplayComponent,
     ActionOnDDIAListComponent,
+    ModalErrorComponent,
   ],
   imports: [
     BrowserModule,

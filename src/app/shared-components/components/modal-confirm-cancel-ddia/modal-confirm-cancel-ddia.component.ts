@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MDBModalRef } from 'angular-bootstrap-md';
+import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalErrorComponent } from '../modal-error/modal-error.component';
 
 @Component({
   selector: 'app-modal-confirm-cancel-ddia',
@@ -13,7 +15,12 @@ export class ModalConfirmCancelDDIAComponent implements OnInit {
   ddiaClassName: string;
   ddiaId: string;
   ddiaType: string;
-  constructor(public modalRef: MDBModalRef, private agentSourceService: AgentSourceService) { }
+  constructor(
+    public modalRef: MDBModalRef,
+    private agentSourceService: AgentSourceService,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService
+    ) { }
 
   ngOnInit(): void {
   }
@@ -25,8 +32,9 @@ export class ModalConfirmCancelDDIAComponent implements OnInit {
 
     })
     .catch((err) => {
-      alert(this.agentSourceService.displayErrors(err));
-    })
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.agentSourceService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
+      })
     .finally(() => {
       this.loading = false;
       this.modalRef.hide();

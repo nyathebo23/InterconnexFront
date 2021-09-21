@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MDBModalRef } from 'angular-bootstrap-md';
+import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
 import { ADMISSION, APPROBATION, SUBMIT_TO_VERIFY, VALIDATION, VERIFICATION } from 'src/app/commons/control-actions-on-ddia';
 import { AgentSourceService } from 'src/app/services/agent-services/agent-source.service';
 import { ControlActorService } from 'src/app/services/agent-services/control-actor.service';
+import { ModalDisplayService } from 'src/app/services/shared/modal-display.service';
+import { ModalErrorComponent } from '../modal-error/modal-error.component';
 
 @Component({
   selector: 'app-modal-control-ddia-confirm',
@@ -22,7 +24,9 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
 
   constructor(
     private controlActorService: ControlActorService,
-    public modalRef: MDBModalRef
+    public modalRef: MDBModalRef,
+    private modalService: MDBModalService,
+    private modalDisplayService: ModalDisplayService
   ) { }
 
   ngOnInit(): void {
@@ -62,12 +66,13 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'submit'};
     this.controlActorService.submitDDIAToVerif(this.ddiaClassName, this.ddiaId, data)
     .then((res) => {
-
+      this.endSubmitAction();
     })
     .catch((err) => {
-      alert(this.controlActorService.displayErrors(err));
-    })
-    .finally(() => this.endSubmitAction());
+      this.loading = false;
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.controlActorService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
+      });
   }
 
   // cancelDDIA(): void {
@@ -79,12 +84,13 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'accept'};
     this.controlActorService.verifyDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
-
+      this.endSubmitAction();
     })
     .catch((err) => {
-      alert(this.controlActorService.displayErrors(err));
-    })
-    .finally(() => this.endSubmitAction());
+      this.loading = false;
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.controlActorService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
+      });
   }
 
   // rejectVerifyDDIA(): void {
@@ -96,12 +102,13 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'accept', afterapprove: this.approbationAfter ? this.approbationAfter : 'no'};
     this.controlActorService.admitDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
-      console.log(res);
+      this.endSubmitAction();
     })
     .catch((err) => {
-      alert(this.controlActorService.displayErrors(err));
-    })
-    .finally(() => this.endSubmitAction());
+      this.loading = false;
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.controlActorService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
+    });
 
   }
 
@@ -114,12 +121,13 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'accept'};
     this.controlActorService.validateDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
-
+      this.endSubmitAction();
     })
     .catch((err) => {
-      alert(this.controlActorService.displayErrors(err));
-    })
-    .finally(() => this.endSubmitAction());
+      this.loading = false;
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.controlActorService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
+      });
 
   }
 
@@ -129,12 +137,13 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'accept'};
     this.controlActorService.approveDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
-
+      this.endSubmitAction();
     })
     .catch((err) => {
-      alert(this.controlActorService.displayErrors(err));
-    })
-    .finally(() => this.endSubmitAction());
+      this.loading = false;
+      this.modalService.show(ModalErrorComponent, this.modalDisplayService.getModalOptions(
+        {contentText: this.controlActorService.displayErrors(err)[0]}, 'modal-dialog modal-notify modal-danger'));
+      });
 
   }
 
