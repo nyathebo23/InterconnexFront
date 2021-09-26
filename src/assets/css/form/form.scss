@@ -64,7 +64,7 @@
     font-family: 'Comic sans MS';
 }
 
-.form-control.ng-dirty.ng-invalid {
+.form-control.ng-touched.ng-invalid {
     border: 1px rgb(243, 75, 75) solid;
     box-shadow: 2px 2px 5px #ef5350;
 }

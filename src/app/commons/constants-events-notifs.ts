@@ -6,5 +6,6 @@ export const RECEPTION_VALIDATION = 'ddia-reception-validation';
 export const RECEPTION_SIGNAL_APPROBATION = 'ddia-signal-approbation';
 export const DDIA_STATE_CHANGE_EVENT = 'ddia-state-change';
 export const DDIA_CREATION = 'ddia-creation';
+export const DDIA_REJECT = 'ddia-reject';
 export const DDIA_MUST_BE_PUBLISHED = 'ddia-must-be-published';
 export const DDIA_VALIDITY_EXP = 'ddia-validity-exp';

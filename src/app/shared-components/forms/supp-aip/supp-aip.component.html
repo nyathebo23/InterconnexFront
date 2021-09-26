@@ -17,7 +17,7 @@
                         </app-source-unit-form>
                         <div>
                             <div class="form-group">
-                                <label for="typeSUPPAIP" class="custom-label">{{'DDIAFORMS.suppaip.type' | translate}}:</label>
+                                <label for="typeSUPPAIP" class="custom-label">{{'DDIAFORMS.suppaip.type' | translate}} *</label>
                                 <div class="d-flex flex-wrap justify-content-between">
                                     <div class="custom-control custom-radio">
                                         <input id="suppaipN" type="radio" class="custom-control-input" value="SUPP AIP N" formControlName="typeSUPPAIP">
@@ -39,7 +39,7 @@
                                 </select> -->
                             </div>
                             <div class="form-group mb-1">
-                                <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }}</label>
+                                <label for="object" class="custom-label">{{'DDIAFORMS.suppaip.object' | translate }} *</label>
                                 <input type="text" id="object" formControlName="object" class="form-control" />
                                 <app-control-messages [control]="suppaipForm.controls.object"></app-control-messages>
                             </div>
@@ -55,7 +55,7 @@
                     <div class="container-fluid">
                         <div formArrayName="aipTargetSectForm" class="form-group">
                             <div class="d-flex flex-column">
-                                <label class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }}</label>
+                                <label class="custom-label">{{'DDIAFORMS.suppaip.targetSection' | translate }} *</label>
                                 <div class="form-group" *ngFor="let aipTargetSect of aipTargetSections.controls;let i=index;">
                                     <div class="d-flex flex-row justify-content-start align-items-center">
                                         <input type="text" [formControl]="aipTargetSect" class="form-control" [ngClass]="{'red-border' : aipTargetSect.invalid}" />
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="custom-label">{{'DDIAFORMS.suppaip.valPeriod' | translate }}</label>
+                            <label class="custom-label">{{'DDIAFORMS.suppaip.valPeriod' | translate }} *</label>
                             <div class="form-group">
                                 <input type="text" placeholder="Validity period" class="form-control" [owlDateTimeTrigger]="dtPicker" [owlDateTime]="dtPicker" formControlName="validityPeriod" [selectMode]="'range'">
                                 <owl-date-time #dtPicker></owl-date-time>
@@ -81,12 +81,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }}</label>
-                                <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="7"></textarea>
+                                <label for="descText" class="custom-label">{{'DDIAFORMS.suppaip.text' | translate }} *</label>
+                                <textarea class="form-control" formControlName="descriptionText" id="descText" cols="30" rows="5"></textarea>
                                 <app-control-messages [control]="suppaipForm.controls.descriptionText"></app-control-messages>
                             </div>
                             <div formArrayName="filesForm" class="form-group">
-                                <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }}</label>
+                                <label class="custom-label">{{'DDIAFORMS.suppaip.files' | translate }} *</label>
                                 <div *ngFor="let fileForm of files.controls;let index=index;">
                                     <div [formGroupName]="index" class="d-flex flex-wrap justify-content-start align-items-center">
                                         <div>

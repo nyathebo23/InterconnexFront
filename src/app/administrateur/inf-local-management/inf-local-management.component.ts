@@ -66,7 +66,6 @@ export class InfLocalManagementComponent implements OnInit {
   ngOnInit(): void{
     this.aerodromesSubscription = this.adminService.getAerodromesList('True').subscribe((aerodromes: AerodromeExtendI[]) => {
       this.aerodromesList = aerodromes;
-      console.log(aerodromes);
     }, error => {
       this.adminService.setError(error);
     });
@@ -110,7 +109,7 @@ export class InfLocalManagementComponent implements OnInit {
   }
 
   edit(inflocal: LocalInformer): void{
-    console.log(inflocal);
+    // console.log(inflocal);
   }
 
   delete(id: string): void{

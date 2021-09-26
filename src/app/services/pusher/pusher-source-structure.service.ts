@@ -17,21 +17,22 @@ export class PusherSourceStructureService {
   notificationStateChange: Subject<Notification> = new Subject<Notification>();
   actionDataSubject: Subject<ActionOnDDIA> = new Subject<ActionOnDDIA>();
   constructor(private authService: AuthManagerService) {
-    const aerodrome = this.authService.getAerodrome();
-    this.channel = window.globalThis.pusher.subscribe('aerodrome' + aerodrome.locationInd);
-    this.channel.bind( RECEPTION_VERIFSUBMISSION, (data: NotificationResp) => {
-      console.log(data);
-      this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
-      this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
-    });
-    this.channel.bind( RECEPTION_VERIFICATION, (data: NotificationResp) => {
-      this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
-      this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
-    });
-    this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
-      this.notificationStateChange.next(Notification.fromJSON(data.notification));
-    });
-
+    if (window.globalThis.pusher){
+      const aerodrome = this.authService.getAerodrome();
+      this.channel = window.globalThis.pusher.subscribe('aerodrome' + aerodrome.locationInd);
+      this.channel.bind( RECEPTION_VERIFSUBMISSION, (data: NotificationResp) => {
+        console.log(data);
+        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
+        this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
+      });
+      this.channel.bind( RECEPTION_VERIFICATION, (data: NotificationResp) => {
+        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
+        this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
+      });
+      this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
+        this.notificationStateChange.next(Notification.fromJSON(data.notification));
+      });
+    }
   }
 
 }

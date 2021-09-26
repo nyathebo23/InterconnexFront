@@ -15,7 +15,7 @@
                         </div>
                         <app-source-unit-form></app-source-unit-form>
                         <div>
-                            <label for="subject" class="custom-label">{{'DDIAFORMS.aic.subject.label' | translate}}:</label>
+                            <label for="subject" class="custom-label">{{'DDIAFORMS.aic.subject.label' | translate}} *</label>
                             <div class="d-flex flex-wrap justify-content-between">
                                 <div class="custom-control custom-radio" *ngFor="let choice of subjectChoices; let index=index;">
                                     <input [id]="'subjectchoice'+index" class="custom-control-input" type="radio" [value]="choice.val" formControlName="subject">
@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-2">
-                                <label for="object" class="custom-label">{{'DDIAFORMS.aic.object' | translate }}</label>
+                                <label for="object" class="custom-label">{{'DDIAFORMS.aic.object' | translate }} *</label>
                                 <input type="text" id="object" formControlName="object" class="form-control" />
                                 <app-control-messages [control]="aicForm.controls.object"></app-control-messages>
                             </div>
@@ -38,13 +38,13 @@
                     </div>
                     <div class="container-fluid">
                         <div class="form-group">
-                            <label for="descText" class="custom-label">{{'DDIAFORMS.aic.text' | translate }}</label>
+                            <label for="descText" class="custom-label">{{'DDIAFORMS.aic.text' | translate }} *</label>
                             <textarea class="form-control" formControlName="text" id="descText" cols="30" rows="5"></textarea>
                             <app-control-messages [control]="aicForm.controls.text"></app-control-messages>
                         </div>
 
                         <div formArrayName="filesForm" class="form-group">
-                            <label class="custom-label">{{'DDIAFORMS.aic.files' | translate }}</label>
+                            <label class="custom-label">{{'DDIAFORMS.aic.files' | translate }} *</label>
                             <div *ngFor="let fileForm of files.controls;let index=index;">
                                 <div [formGroupName]="index" class="d-flex flex-wrap align-items-center">
                                     <div>

@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
+  ElementRef, ViewChild, AfterViewInit, HostListener, AfterContentChecked, AfterViewChecked } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { AuthManagerService } from 'src/app/services/auth-services/auth-manager.service';
 import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md';
@@ -15,7 +16,7 @@ import { not } from '@angular/compiler/src/output/output_ast';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit, OnChanges {
+export class LayoutComponent implements OnInit,  AfterViewInit {
 
   @Input() navLinks: {name: string, iconClass: string, url: string}[];
   user: User;
@@ -25,6 +26,11 @@ export class LayoutComponent implements OnInit, OnChanges {
   notificationsList: Notification[] = [];
   notifsNb: number;
   errorReqMessage: string;
+  isHamburgerBtnVisible: boolean;
+  backDark = false;
+  @ViewChild('sidenav', { static: false }) sidenav: ElementRef;
+  @ViewChild('main', { static: false }) main: ElementRef;
+
   constructor(
     private ref: ChangeDetectorRef,
     private authService: AuthManagerService,
@@ -36,7 +42,25 @@ export class LayoutComponent implements OnInit, OnChanges {
         this.errorReqMessage = errorMessage;
       }
     );
+    this.setHumburgerBtn();
   }
+
+  @HostListener('window:resize', ['$event'])
+  setHumburgerBtn(event?): void {
+    if (window.innerWidth < 800) {
+      this.isHamburgerBtnVisible = true;
+      if (this.sidenav){
+        this.sidenav.nativeElement.style.width = '0px';
+      }
+    }
+    else {
+      this.isHamburgerBtnVisible = false;
+      if (this.sidenav){
+        this.sidenav.nativeElement.style.width = '265px';
+      }
+    }
+  }
+
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
@@ -62,8 +86,8 @@ export class LayoutComponent implements OnInit, OnChanges {
     );
   }
 
-  ngOnChanges(): void {
 
+  ngAfterViewInit(): void {
   }
 
   notifReadEvent(nb: number): void {
@@ -73,4 +97,15 @@ export class LayoutComponent implements OnInit, OnChanges {
   logout(): void {
     this.authService.logout();
   }
+
+  openNav(): void {
+    this.sidenav.nativeElement.style.width = '265px';
+    this.backDark = true;
+  }
+
+  closeNav(): void {
+    this.sidenav.nativeElement.style.width = '0px';
+    this.backDark = false;
+  }
+
 }

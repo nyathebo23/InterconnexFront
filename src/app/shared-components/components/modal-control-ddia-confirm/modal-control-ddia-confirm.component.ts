@@ -66,6 +66,9 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'submit'};
     this.controlActorService.submitDDIAToVerif(this.ddiaClassName, this.ddiaId, data)
     .then((res) => {
+      if (res.message !== 'Ok'){
+        alert(res.message);
+      }
       this.endSubmitAction();
     })
     .catch((err) => {
@@ -84,6 +87,9 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'accept'};
     this.controlActorService.verifyDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
+      if (res.message !== 'Ok'){
+        alert(res.message);
+      }
       this.endSubmitAction();
     })
     .catch((err) => {
@@ -102,6 +108,9 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'accept', afterapprove: this.approbationAfter ? this.approbationAfter : 'no'};
     this.controlActorService.admitDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
+      if (res.message !== 'Ok'){
+        alert(res.message);
+      }
       this.endSubmitAction();
     })
     .catch((err) => {
@@ -121,6 +130,9 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'accept'};
     this.controlActorService.validateDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
+      if (res.message !== 'Ok'){
+        alert(res.message);
+      }
       this.endSubmitAction();
     })
     .catch((err) => {
@@ -137,6 +149,9 @@ export class ModalControlDDIAConfirmComponent implements OnInit {
     const data = {decision: 'accept'};
     this.controlActorService.approveDDIA(this.ddiaId, this.ddiaClassName, data)
     .then((res) => {
+      if (res.message !== 'Ok'){
+        alert(res.message);
+      }
       this.endSubmitAction();
     })
     .catch((err) => {

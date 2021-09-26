@@ -16,7 +16,7 @@
 
     <!--Footer-->
     <div class="modal-footer justify-content-center" *ngIf="urlDDIADetails">
-        <a mdbBtn color="primary" class="waves-light" mdbWavesEffect (click)="navigateToDetails()">Go to retrieve it</a>
+        <a mdbBtn color="primary" class="waves-light" mdbWavesEffect (click)="navigateToDetails()">{{'MODAL.retrieveDDIA' | translate }}</a>
         <a type="button" mdbBtn color="primary" outline="true" class="waves-light" mdbWavesEffect data-dismiss="modal" (click)="modalRef.hide()">OK</a>
     </div>
 </div>

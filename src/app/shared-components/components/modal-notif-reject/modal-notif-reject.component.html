@@ -1,0 +1,22 @@
+<div class="modal-content text-center">
+    <!--Header-->
+    <div class="modal-header d-flex justify-content-center">
+        <p class="heading">REJECT</p>
+    </div>
+
+    <!--Body-->
+    <div class="modal-body">
+        <mdb-icon fas icon="times" size="4x" class="animated rotateIn"></mdb-icon>
+        <p class="lead" [translateParams]="{typeDDIA: typeDDIA, refDDIA: refDDIA}" translate>MODAL.rejectReception.helperText</p>
+    </div>
+
+    <!--Footer-->
+    <div class="modal-footer justify-content-center">
+        <button [disabled]="loading" mdbBtn color="warning" outline="true" class="waves-effect" mdbWavesEffect (click)="modalRef.hide()">
+            {{'MODAL.cancel' | translate }}
+        </button>
+        <button [disabled]="loading" type="button" mdbBtn color="warning" class="waves-effect" mdbWavesEffect data-dismiss="modal" (click)="navigateToDetails()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> &nbsp;{{'MODAL.retrieveDDIA' | translate }}
+        </button>
+    </div>
+</div>

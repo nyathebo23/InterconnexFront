@@ -17,14 +17,16 @@ export class PusherAuthorityLocalinfService {
   notificationStateChange: Subject<Notification> = new Subject<Notification>();
   actionDataSubject: Subject<ActionOnDDIA> = new Subject<ActionOnDDIA>();
   constructor(private authService: AuthManagerService) {
-    const localinformer = this.authService.getLocalInf();
-    this.channel = window.globalThis.pusher.subscribe('inf-loc' + localinformer.id);
-    this.channel.bind(RECEPTION_VALIDATION_SOURCECOMMANDER, (data: NotificationResp) => {
-      this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
-      this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
-    });
-    this.channel.bind(DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
-      this.notificationStateChange.next(Notification.fromJSON(data.notification));
-    });
+    if (window.globalThis.pusher){
+      const localinformer = this.authService.getLocalInf();
+      this.channel = window.globalThis.pusher.subscribe('inf-loc' + localinformer.id);
+      this.channel.bind(RECEPTION_VALIDATION_SOURCECOMMANDER, (data: NotificationResp) => {
+        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
+        this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
+      });
+      this.channel.bind(DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
+        this.notificationStateChange.next(Notification.fromJSON(data.notification));
+      });
+    }
   }
 }

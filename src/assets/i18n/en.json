@@ -159,7 +159,7 @@
             "rejectapproveddia": "Reject"
         },
         "sourceunit": {
-            "title": "Informations about aeronotical information source unit",
+            "title": "Informations about aeronautical information source unit",
             "locationInd": "Aerodrome location indicator",
             "name": "Name",
             "adress": "Address",
@@ -288,7 +288,6 @@
         "usersManage": "Users management",
         "informersManage": "Management of local and national informants",
         "structuresManage": "Management of source units and structures"
-
     },
     "ddialist": {
         "emptylist": "None request for the dissemination of aeronotical information match search criteria !",
@@ -388,6 +387,9 @@
         "reject": {
             "helperText": "Are you sure you want to reject this {{typeDDIA}} dissemination request ? Please mention in the field below the reason for rejection and possibly some indications for correction."
         },
+        "rejectReception": {
+            "helperText": "The {{typeDDIA}} dissemination request, with reference {{refDDIA}} has been rejected !"
+        },
         "cancelDDIA": {
             "helperText": "Are you sure you want to cancel this {{typeDDIA}} dissemination request ?"
         },
@@ -401,6 +403,7 @@
         "successModifDDIA": "Successfully modified {{typeDDIA}} broadcast request !",
         "deleteConfirmMessage": "Are you sure you want to remove this element? This action is irreversible.",
         "ok": "Yes",
+        "retrieveDDIA": "Go to retrieve it",
         "cancel": "Cancel"
     },
     "NOTIFICATION": {
@@ -412,6 +415,7 @@
         "sourcestructReception": "You have received a broadcast request of {{typeDDIA}}, reference {{refDDIA}} from the local informant office of your airport for you to validate.",
         "localinfReception": "Your local informant office has received a {{typeDDIA}} broadcast request, reference {{refDDIA}} to validate.",
         "nationalinfReception": "Your National Informant Office has received a {{typeDDIA}} broadcast request, reference {{refDDIA}} for approval.",
-        "nationalInfApprobation": "A {{typeDDIA}} dissemination request, reference {{refDDIA}} has been approved."
+        "nationalInfApprobation": "A {{typeDDIA}} dissemination request, reference {{refDDIA}} has been approved.",
+        "ddiaRejectReception": "The {{typeDDIA}} dissemination request, with reference {{refDDIA}} has been rejected !"
     }
 }

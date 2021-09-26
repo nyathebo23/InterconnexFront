@@ -389,6 +389,9 @@
         "reject": {
             "helperText": "Êtes-vous sûr de vouloir rejeter cette demande de diffusion de {{typeDDIA}} ? Mentionnez dans le champ ci-dessous la raison du rejet et éventuellement des indications de correction."
         },
+        "rejectReception": {
+            "helperText": "La demande de diffusion de {{typeDDIA}}, de reférence {{refDDIA}} a été rejetée !"
+        },
         "cancelDDIA": {
             "helperText": "Êtes-vous sûr de vouloir annuler cette demande de diffusion de {{typeDDIA}}?"
         },
@@ -402,6 +405,7 @@
         "successModifDDIA": "Demande de diffusion de {{typeDDIA}} modifiée avec succès !",
         "deleteConfirmMessage": "Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible.",
         "ok": "Oui",
+        "retrieveDDIA": "Consulter",
         "cancel": "Annuler"
     },
     "NOTIFICATION": {
@@ -413,6 +417,7 @@
         "sourcestructReception": "Vous avez reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} du bureau d'informateur local de votre aéroport pour que vous validiez de cette dernière.",
         "localinfReception": "Votre bureau d'informateur local a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} à valider.",
         "nationalinfReception": "Votre bureau d'informateur national a reçu une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} pour approbation.",
-        "nationalinfApprobation": "Une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} a été approuvée."
+        "nationalinfApprobation": "Une demande de diffusion de {{typeDDIA}}, reférence {{refDDIA}} a été approuvée.",
+        "ddiaRejectReception": "La demande de diffusion de {{typeDDIA}}, de reférence {{refDDIA}} a été rejetée !"
     }
 }

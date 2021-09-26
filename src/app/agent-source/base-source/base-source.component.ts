@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MDBModalService } from 'angular-bootstrap-md';
 import { Subscription } from 'rxjs';
 import { SOURCE_VERIFIER } from 'src/app/commons/constants-roles';
@@ -10,6 +10,7 @@ import { ModalDisplayService } from 'src/app/services/shared/modal-display.servi
 import { ModalReceiveDDIANotifComponent } from 'src/app/shared-components/components/modal-receive-ddia-notif/modal-receive-ddia-notif.component';
 import { NotificationDisplayService } from 'src/app/services/shared/notification-display.service';
 import { NOTIFICATIONS_SOURCEUNIT } from 'src/app/commons/urls-backend';
+import { ModalNotifRejectComponent } from 'src/app/shared-components/components/modal-notif-reject/modal-notif-reject.component';
 
 @Component({
   selector: 'app-base-source',
@@ -48,6 +49,7 @@ export class BaseSourceComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.pusherSourceAgentService.notificationSubject.subscribe(
       ([notif, ddiaId, userId]) => {
+        console.log(userId, this.user.id);
         if (userId !== this.user.id){
           const contenttext = 'NOTIFICATION.ddiaCreation';
           const ddiatype = notif.typeDDIA.replace(/\s/g, '').toLowerCase();
@@ -83,6 +85,21 @@ export class BaseSourceComponent implements OnInit {
       },
       error => {
 
+      }
+    );
+
+    this.pusherSourceAgentService.notificationRejectSubject.subscribe(
+      ([notif, ddiaId]) => {
+        const ddiatype = notif.typeDDIA.replace(/\s/g, '').toLowerCase();
+        const data = {
+          idNotif: notif.id,
+          typeDDIA: notif.typeDDIA,
+          refDDIA: notif.refDDIA,
+          urlDDIADetails: '/source/unitsddia-erroneous/present-ddia/' + ddiatype + '/' + btoa(ddiaId)
+        };
+        this.modalService.show(ModalNotifRejectComponent,
+          this.modalDisplayService.getModalOptions(data, 'modal-dialog modal-notify modal-warning'));
+        this.notificationDisplayService.notifToAddSubject.next(notif);
       }
     );
   }

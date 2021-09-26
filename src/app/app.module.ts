@@ -149,6 +149,7 @@ import { StructureSourceService } from './services/agent-services/structure-sour
 import { FileDisplayComponent } from './shared-components/components/file-display/file-display.component';
 import { ActionOnDDIAListComponent } from './shared-components/components/action-on-ddia-list/action-on-ddia-list.component';
 import { ModalErrorComponent } from './shared-components/components/modal-error/modal-error.component';
+import { ModalNotifRejectComponent } from './shared-components/components/modal-notif-reject/modal-notif-reject.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader{
   // console.log(localStorage.getItem('access_token'));
@@ -296,6 +297,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FileDisplayComponent,
     ActionOnDDIAListComponent,
     ModalErrorComponent,
+    ModalNotifRejectComponent,
   ],
   imports: [
     BrowserModule,

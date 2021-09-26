@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { PENDING_APPROVAL_STATE, PENDING_VALIDATION_STATE } from 'src/app/commons/constants';
 import { DDIA_CREATION, DDIA_MUST_BE_PUBLISHED, DDIA_VALIDITY_EXP, RECEPTION_SIGNAL_APPROBATION,
-  RECEPTION_SUBMISSION, RECEPTION_VALIDATION, RECEPTION_VALIDATION_SOURCECOMMANDER,
+  RECEPTION_SUBMISSION, RECEPTION_VALIDATION, RECEPTION_VALIDATION_SOURCECOMMANDER, DDIA_REJECT,
    RECEPTION_VERIFICATION, RECEPTION_VERIFSUBMISSION } from 'src/app/commons/constants-events-notifs';
 import { Notification } from 'src/app/models/notification.model';
 import { NotificationDisplayService } from 'src/app/services/shared/notification-display.service';
@@ -50,6 +50,7 @@ export class NotificationComponent implements OnInit {
         }
         break;
       case RECEPTION_SIGNAL_APPROBATION:
+        this.contentTitle = 'DDIA APPROBATION ASECNA';
         this.contentText = 'NOTIFICATION.nationalInfApprobation';
         break;
       case DDIA_MUST_BE_PUBLISHED:
@@ -60,6 +61,9 @@ export class NotificationComponent implements OnInit {
         this.contentTitle = 'DDIA EXPIRES SOON';
         this.contentText = 'NOTIFICATION.ddiaNearExpiration';
         break;
+      case DDIA_REJECT:
+        this.contentTitle = 'DDIA REJECT';
+        this.contentText = 'NOTIFICATION.ddiaRejectReception';
     }
   }
 

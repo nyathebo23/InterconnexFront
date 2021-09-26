@@ -1,70 +1,59 @@
-<header>
-    <mdb-navbar SideClass="navbar navbar-expand-sm navbar-dark bg-white fixed-top indigo-text" [containerInside]="false" [iconBackground]="'indigo'">
-
-        <mdb-navbar-brand>
-            <a class="navbar-brand" [routerLink]="navLinks[0].url">
-                <div class="d-flex flex-row align-items-center">
-                    <img src="/assets/images/ccaa.png" class="rounded-circle z-depth-0" height="37" alt="CCAA">
-                    <!-- <p class="h3-responsive">CCAA</p> -->
-                </div>
+<div class="sidenav" #sidenav>
+    <div class="profile-box d-flex flex-column">
+        <div class="m-auto">
+            <img src="/assets/images/user.png" style="border-radius: 50%;" height="100" alt="profile">
+        </div>
+        <div class="overflow oneline text-center role-agent mb-1"> <span *ngIf="user.isStaff">Admin</span> </div>
+        <div class="overflow oneline text-center name-agent mb-1">{{user.function}}</div>
+        <div class="overflow oneline text-center name-agent mb-1">{{user.quality}}</div>
+        <div class="overflow oneline text-center name-agent mb-1">{{user.getAllName()}}</div>
+    </div>
+    <div class="d-flex flex-column">
+        <a *ngFor="let navLink of navLinks;" class="d-flex align-items-center left-nav-item" [routerLink]="[navLink.url]" routerLinkActive="active">
+            <div class="mr-3"><i [class]="navLink.iconClass"></i></div>
+            <div class="overflow">{{navLink.name | translate}}</div>
+        </a>
+    </div>
+</div>
+<div class="main" #main>
+    <div class="dark-backgound" *ngIf="backDark" (click)="closeNav()"></div>
+    <div class="d-flex flex-column">
+        <nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-white indigo-text" style="z-index: 100;">
+            <a (click)="openNav()" class="mr-3 hamburger-btn" *ngIf="isHamburgerBtnVisible">
+                <mdb-icon size="2x" fas icon="bars" class="indigo-text"></mdb-icon>
             </a>
-        </mdb-navbar-brand>
-
-        <links>
-
-            <!-- <ul class="navbar-nav mr-auto ml-5">
-
-
-            </ul> -->
-
+            <mdb-navbar-brand>
+                <a class="navbar-brand" [routerLink]="navLinks[0].url">
+                    <div class="d-flex flex-row align-items-center">
+                        <img src="/assets/images/ccaa.png" class="rounded-circle z-depth-0" height="35" alt="CCAA">
+                    </div>
+                </a>
+            </mdb-navbar-brand>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item mr-3">
                     <div class="dropdown" mdbDropdown *ngIf="accessibleViews && accessibleViews.length > 0">
                         <a mdbDropdownToggle style="padding-top: 12px;" color="primary" class="dropdown-toggle waves-light text-uppercase" mdbWavesEffect>
-                            {{'navbar.goTo' | translate }}
-                        </a>
+                                            {{'navbar.goTo' | translate }}
+                                        </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" [routerLink]="accessibleView.url" *ngFor="let accessibleView of accessibleViews;">{{accessibleView.label}}</a>
                         </div>
                     </div>
                 </li>
                 <li class="nav-item mr-3">
-                    <a class="nav-link" aria-expanded="false" style="position: relative;" [mdbPopover]="popContent" placement="bottom" mdbPopoverHeader="Notifications" mdbWavesEffect *ngIf="notificationsList.length !== 0">
-                        <mdb-icon far icon="bell" size="lg" style="padding-top: 10px;" class="indigo-text" aria-hidden="true"></mdb-icon>
-                        <span class="mybadge" *ngIf="notifsNb">{{notifsNb > 99 ? '99+' : notifsNb}}</span>
+                    <a class="nav-link" aria-expanded="false" [mdbPopover]="popContent" placement="bottom" mdbPopoverHeader="Notifications" mdbWavesEffect *ngIf="notificationsList.length !== 0">
+                        <div class="notif">
+                            <mdb-icon far icon="bell" size="lg" style="padding-top: 10px;" class="indigo-text" aria-hidden="true"></mdb-icon>
+                            <span class="mybadge" *ngIf="notifsNb">{{notifsNb > 99 ? '99+' : notifsNb}}</span>
+                        </div>
                     </a>
                 </li>
                 <li class="mr-3">
                     <button mdbBtn class="roundedbtn" type="button" color="deep-purple" mdbWavesEffect (click)="logout()">{{'navbar.logout' | translate }}</button>
                 </li>
             </ul>
-        </links>
-
-    </mdb-navbar>
-</header>
-
-<div class="container-fluid" style="margin-top: 65px;">
-    <div class="row no-gutters">
-        <div class="col-xl-2 col-md-3 col-lg-3 col-sm-4 col-12">
-            <div class="container-left-box">
-                <div class="profile-box d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
-                    <div class="m-auto">
-                        <img src="/assets/images/user.png" style="border-radius: 50%;" height="100" alt="profile">
-                    </div>
-                    <div class="overflow oneline text-center role-agent mb-1"> <span *ngIf="user.isStaff">Admin</span> </div>
-                    <div class="overflow oneline text-center name-agent mb-1">{{user.function}}</div>
-                    <div class="overflow oneline text-center name-agent mb-1">{{user.quality}}</div>
-                    <div class="overflow oneline text-center name-agent mb-1">{{user.getAllName()}}</div>
-                </div>
-                <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-column flex-xl-column">
-                    <a *ngFor="let navLink of navLinks;" class="d-flex align-items-center left-nav-item" [routerLink]="[navLink.url]" routerLinkActive="active">
-                        <div class="mr-3"><i [class]="navLink.iconClass"></i></div>
-                        <div class="overflow">{{navLink.name | translate}}</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-10 col-md-9 col-lg-9 col-sm-8 col-12">
+        </nav>
+        <div>
             <router-outlet *ngIf="!errorReqMessage"></router-outlet>
             <div *ngIf="errorReqMessage">
                 <app-load-data-error [contentText]="errorReqMessage"></app-load-data-error>
@@ -72,6 +61,7 @@
         </div>
     </div>
 </div>
+
 
 <ng-template #popContent>
     <div class="container" style="height: 80vh;">

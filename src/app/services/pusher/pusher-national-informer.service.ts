@@ -18,22 +18,23 @@ export class PusherNationalInformerService {
   actionDataSubject: Subject<ActionOnDDIA> = new Subject<ActionOnDDIA>();
   actionDataApproveSubject: Subject<ActionOnDDIA> = new Subject<ActionOnDDIA>();
   constructor(private authService: AuthManagerService) {
-    const nationalinf = this.authService.getNationalInf();
-    this.channel = window.globalThis.pusher.subscribe('inf-nat' + nationalinf.id);
-    this.channel.bind( RECEPTION_VALIDATION_SOURCECOMMANDER, (data: NotificationResp) => {
-      this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
-      this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
-    });
-    this.channel.bind( RECEPTION_VALIDATION, (data: NotificationResp) => {
-      this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
-      this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
-    });
-    this.channel.bind( RECEPTION_SIGNAL_APPROBATION, (data: NotificationResp) => {
-      this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
-      this.actionDataApproveSubject.next(ActionOnDDIA.fromJSON(data.data));
-    });
-    this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
-      this.notificationStateChange.next(Notification.fromJSON(data.notification));
-    });
-
+    if (window.globalThis.pusher){
+      const nationalinf = this.authService.getNationalInf();
+      this.channel = window.globalThis.pusher.subscribe('inf-nat' + nationalinf.id);
+      this.channel.bind( RECEPTION_VALIDATION_SOURCECOMMANDER, (data: NotificationResp) => {
+        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
+        this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
+      });
+      this.channel.bind( RECEPTION_VALIDATION, (data: NotificationResp) => {
+        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
+        this.actionDataSubject.next(ActionOnDDIA.fromJSON(data.data));
+      });
+      this.channel.bind( RECEPTION_SIGNAL_APPROBATION, (data: NotificationResp) => {
+        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.ddia_object.id]);
+        this.actionDataApproveSubject.next(ActionOnDDIA.fromJSON(data.data));
+      });
+      this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
+        this.notificationStateChange.next(Notification.fromJSON(data.notification));
+      });
+    }
   }}

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthManagerService } from '../auth-services/auth-manager.service';
 import * as URLS from '../../commons/urls-backend';
-import { DDIA_CREATION, DDIA_MUST_BE_PUBLISHED, DDIA_STATE_CHANGE_EVENT, DDIA_VALIDITY_EXP, RECEPTION_SUBMISSION } from 'src/app/commons/constants-events-notifs';
+import { DDIA_CREATION, DDIA_MUST_BE_PUBLISHED, DDIA_REJECT, DDIA_STATE_CHANGE_EVENT, DDIA_VALIDITY_EXP, RECEPTION_SUBMISSION } from 'src/app/commons/constants-events-notifs';
 import { NotificationResp } from 'src/app/interfaces/notification-resp.interface';
 import { ActionOnDDIA } from 'src/app/models/action-on-ddia.model';
 import { Subject } from 'rxjs';
@@ -18,33 +18,38 @@ import { DemandeSUPPItemList } from 'src/app/models/demandeSUPP-item-list.model'
 export class PusherSourceService {
 
   channel: any;
+  notificationRejectSubject: Subject<[Notification, string]> = new Subject();
+  dataRejectSubject: Subject<DemandeAICItemList | DemandeNOTAMItemList | DemandeSUPPItemList> = new Subject();
   notificationSubject: Subject<[Notification, string, string]> = new Subject();
   notificationEventOnDDIASubject: Subject<Notification> = new Subject();
   notificationStateChange: Subject<Notification> = new Subject<Notification>();
   actionDataSubject: Subject<DemandeAICItemList | DemandeNOTAMItemList | DemandeSUPPItemList> = new Subject();
   constructor(private authService: AuthManagerService) {
-    const user = authService.getUser();
-    const unit = this.authService.getUnit() ? this.authService.getUnit() :
-    (this.authService.getLocalInf() ? this.authService.getLocalInf().unit : null);
-    const aerodrome = this.authService.getAerodrome();
-    this.channel = window.globalThis.pusher.subscribe('unit' + unit.id);
-    this.channel.bind( DDIA_CREATION, (data: NotificationResp) => {
-        console.log(data);
-        this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.id, data.user_id]);
-        this.actionDataSubject.next(DDIAItemList.fromJSON(data.data));
-    });
-    this.channel.bind( DDIA_MUST_BE_PUBLISHED, (data: NotificationResp) => {
-      this.notificationEventOnDDIASubject.next(Notification.fromJSON(data.notification));
-    });
-    this.channel.bind( DDIA_VALIDITY_EXP , (data: NotificationResp) => {
-      this.notificationEventOnDDIASubject.next(Notification.fromJSON(data.notification));
-    });
-    this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
-      this.notificationStateChange.next(Notification.fromJSON(data.notification));
-    });
-    this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
-      this.notificationStateChange.next(Notification.fromJSON(data.notification));
-    });
+    if (window.globalThis.pusher){
+      const user = authService.getUser();
+      const unit = this.authService.getUnit() ? this.authService.getUnit() :
+      (this.authService.getLocalInf() ? this.authService.getLocalInf().unit : null);
+      const aerodrome = this.authService.getAerodrome();
+      this.channel = window.globalThis.pusher.subscribe('unit' + unit.id);
+      this.channel.bind( DDIA_CREATION, (data: NotificationResp) => {
+          console.log(data);
+          this.notificationSubject.next([Notification.fromJSON(data.notification), data.data.id, data.user_id]);
+          this.actionDataSubject.next(DDIAItemList.fromJSON(data.data));
+      });
+      this.channel.bind( DDIA_MUST_BE_PUBLISHED, (data: NotificationResp) => {
+        this.notificationEventOnDDIASubject.next(Notification.fromJSON(data.notification));
+      });
+      this.channel.bind( DDIA_VALIDITY_EXP , (data: NotificationResp) => {
+        this.notificationEventOnDDIASubject.next(Notification.fromJSON(data.notification));
+      });
+      this.channel.bind( DDIA_STATE_CHANGE_EVENT, (data: NotificationResp) => {
+        this.notificationStateChange.next(Notification.fromJSON(data.notification));
+      });
+      this.channel.bind( DDIA_REJECT, (data: NotificationResp) => {
+        this.notificationRejectSubject.next([Notification.fromJSON(data.notification), data.data.id]);
+        this.dataRejectSubject.next(DDIAItemList.fromJSON(data.data));
+      });
+    }
   }
 
 
