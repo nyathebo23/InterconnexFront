@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthManagerService } from '../auth-services/auth-manager.service';
 import { NotificationResp } from 'src/app/interfaces/notification-resp.interface';

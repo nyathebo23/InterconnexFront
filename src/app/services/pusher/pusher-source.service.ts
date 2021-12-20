@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthManagerService } from '../auth-services/auth-manager.service';
 import * as URLS from '../../commons/urls-backend';
